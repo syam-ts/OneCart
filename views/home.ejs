@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@325&family=Michroma&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>  
+<style>
+.michroma-regular {
+  font-family: "Michroma", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+</style>
+</head>
+<body>
+    <!-- Navbar Common -->
+<nav class="flex justify-between bg-rose-100 h-14">
+   <span class="text-left p-4 michroma-regular">OneCart</span>
+   <ul class="flex mr-11">
+    <li class="m-4 bg-white border-gray-400 border-2 h-8 w-44 rounded-full"><label for="search"></label></li>
+    <li class="text-gray-600 pl-5 p-4 michroma-regular text-xs"><img src="" alt="">search</li>
+    <li class="text-gray-600 pl-5 p-4 michroma-regular text-xs"><img src="" alt="">cart</li>
+    <li class="text-gray-600 pl-5 p-4 michroma-regular text-xs"><img src="" alt="">wishlist</li>
+    <li class="text-gray-600 pl-5 p-4 michroma-regular text-xs"><img src="" alt="">user</li>
+    <li class="text-gray-600 pl-5 p-4 michroma-regular text-xs"><img src="" alt="">logout</li>
+   </ul>
+</nav>
+
+<main>
+
+<section class="bg-gray-500 h-14 text-center mt-3 p-4">
+    <span class="michroma-regular">NEW ARRIVALS</span>
+</section>
+
+<!-- carousel -->
+<section class="mt-3">
+    <div class="carousel w-full h-600">
+        <div id="item1" class="carousel-item w-full">
+          <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slider-01.jpg?v=1652056793" class="w-full h-600 object-cover" style="height: 600px;" />
+        </div> 
+        <div id="item2" class="hidden carousel-item w-full">
+          <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide3.jpg?v=1682405064&width=2200" class="w-full h-600 object-cover" style="height: 600px;" />
+        </div> 
+        <div id="item3" class="hidden carousel-item w-full">
+          <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide2.jpg?v=1682405064&width=2200" class="w-full h-600 object-cover" style="height: 600px;" />
+        </div> 
+      </div> 
+      <div class="flex justify-center w-full py-2 gap-2">
+        <a href="#item1" class="btn btn-xs" onclick="showItem('item1')">1</a> 
+        <a href="#item2" class="btn btn-xs" onclick="showItem('item2')">2</a> 
+        <a href="#item3" class="btn btn-xs" onclick="showItem('item3')">3</a> 
+      </div>
+</section>
+
+<section class=" h-14 text-center mt-3 p-4">
+    <span class="text-gray-900 michroma-regular">CATEGORIES</span>
+</section>
+
+<section class="w-full mt-3 flex p-16" style="height: 745px;">
+    <a href=""><img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/1_2a9471ff-024d-40f7-a4b3-a15a058ff334_2022-03-24.jpg?v=1652056987&width=700" alt=""  class="object-cover ml-36" style="width: 510px; height:630px"></a>
+    <div class="grid">
+
+        <a href=""><img src="data:image/jpeg;base64,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" alt=""  class="object-cove ml-36" style="height: 250px;width: 554px;"></a>
+        <a href=""><img src="https://www.glashuette-original.com/app/uploads/2020/11/Glashuette_Original-W13613028170-Detail-1-1024x512.jpg" alt=""  class="object-cover ml-36 mt-16"  style="height: 250px;width: 554px;"></a>
+    
+
+    </div>
+  </section>
+
+  <section class=" h-14 text-center mt-3 p-4 justify-center flex">
+    <hr class="w-96">
+    <span class="text-gray-900 michroma-regular">TRENDING</span>
+    <hr class="w-96">
+</section>
+
+<!-- Products -->
+
+
+<section>
+    <div class="bg-white">
+        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <!-- First Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket-2.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Basic Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Black</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$35</p>
+                    </div>
+                </div>
+                <!-- Second Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/ragbo4535819dd2_q1_2-0_8fc35ffb-cb17-4bd0-8dba-1bf9c36588e8.jpg?v=1652168845&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Second Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Blue</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$45</p>
+                    </div>
+                </div>
+                <!-- Third Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Third Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Red</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$55</p>
+                    </div>
+                </div>
+                <!-- Fourth Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/famer2052212158_q1_2-1_26f6b1d8-3197-4c2b-9230-2247b4c15689.jpg?v=1652168784&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Fourth Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Green</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$65</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div>
+        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <!-- First Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Basic Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Black</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$35</p>
+                    </div>
+                </div>
+                <!-- Second Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-02.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Second Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Blue</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$45</p>
+                    </div>
+                </div>
+                <!-- Third Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-03.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Third Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Red</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$55</p>
+                    </div>
+                </div>
+                <!-- Fourth Product -->
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-04.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="#">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    Fourth Tee
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500">Green</p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-900">$65</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="text-center mt-5">
+    <button class="rounded-full text-black font-mono w-32  border-2 border-black text-sm">Load More</button>
+</section>
+<br>
+    <div class="flex justify-center">
+       <hr class="border-gray-600 border-1 w-8/12">
+    </div>
+   
+    <section class="mt-7">
+        <div class="text-center">
+            <span class="michroma-regular text-gray-900">BEST SELLER</span>
+        </div>
+        <div class="bg-white">
+            <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                    <!-- First Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket-2.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Basic Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Black</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$35</p>
+                        </div>
+                    </div>
+                    <!-- Second Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/ragbo4535819dd2_q1_2-0_8fc35ffb-cb17-4bd0-8dba-1bf9c36588e8.jpg?v=1652168845&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Second Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Blue</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$45</p>
+                        </div>
+                    </div>
+                    <!-- Third Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Third Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Red</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$55</p>
+                        </div>
+                    </div>
+                    <!-- Fourth Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/famer2052212158_q1_2-1_26f6b1d8-3197-4c2b-9230-2247b4c15689.jpg?v=1652168784&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Fourth Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Green</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$65</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="bg-white">
+            <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
+                <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                    <!-- First Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket-2.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Basic Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Black</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$35</p>
+                        </div>
+                    </div>
+                    <!-- Second Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/ragbo4535819dd2_q1_2-0_8fc35ffb-cb17-4bd0-8dba-1bf9c36588e8.jpg?v=1652168845&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Second Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Blue</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$45</p>
+                        </div>
+                    </div>
+                    <!-- Third Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Third Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Red</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$55</p>
+                        </div>
+                    </div>
+                    <!-- Fourth Product -->
+                    <div class="group relative">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/famer2052212158_q1_2-1_26f6b1d8-3197-4c2b-9230-2247b4c15689.jpg?v=1652168784&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        </div>
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="#">
+                                        <span aria-hidden="true" class="absolute inset-0"></span>
+                                        Fourth Tee
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500">Green</p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900">$65</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+<section class="text-center mt-5">
+    <button class="rounded-full text-black font-mono w-32  border-2 border-black text-sm">Load More</button>
+</section>
+
+</main>
+
+<footer class="flex ml-56 mt-16">
+    <ul>
+        <li class="font-bold">About</li>
+        <li>About Us</li>
+        <li>Contact Us</li>
+        <li>FAQ1</li>
+        <li>FAQ2</li>
+    </ul>
+    <ul class="pl-56">
+        <li class="font-bold">Category</li>
+        <li>Dress</li>
+        <li>Watches</li>
+        <li>Footware</li>
+    </ul>
+    <ul class="pl-56">
+        <li class="font-bold">Connect with Us</li>
+        <li>Facebook</li>
+        <li>Instagram</li>
+        <li>Twitter</li>
+    </ul>
+    <ul class="pl-56">
+        <li class="font-bold">Terms</li>
+        <li>Terms & conditions</li>
+        <li>Privacy Policy</li>
+        <li>Return & Exchange</li>
+        <li>Shipping & Delivery</li>
+    </ul>
+</footer>
+
+<script>
+    function showItem(itemId) {
+        document.querySelectorAll('.carousel-item').forEach(item => {
+            item.classList.add('hidden');
+        });
+
+        // Show the clicked item
+        document.getElementById(itemId).classList.remove('hidden');
+    }
+</script>
+
+
+</body>
+</html>
