@@ -1,29 +1,28 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
+const db = require('./DB/db');
 
 const PORT = 4000;
 
-const homeRouter = require('./routes/home');
-const loginRouter = require('./routes/login');
-const signupRouter = require('./routes/signup');
-const productRouter = require('./routes/product');
-const adminLoginRouter = require('./routes/admin_login');
-const dashboardRouter = require('./routes/admin_dashboard');
+//Routes
+const userRouter = require('./routes/userRouter');
+const adminRouter = require('./routes/adminRouter');
 
 app.set('view engine', 'ejs');
+app.set("views", [path.join(__dirname, "views/user"), path.join(__dirname, "views/admin")])
 
-app.use('/', homeRouter);
-app.use('/', loginRouter);
-app.use('/', adminLoginRouter);
-app.use('/', signupRouter);
-app.use('/', dashboardRouter);
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/' , (req, res) => {
-    res.render('notFound')
-})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
-app.listen(PORT, (req, res) => {
-    console.log("Okk");
-    console.log(`Server listening on http://localhost:${PORT} `);
-})
+app.use('/', userRouter);
+app.use('/admin', adminRouter);
+ 
 
+app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}/login`);
+});
