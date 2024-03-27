@@ -54,164 +54,39 @@
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 <!-- First Product -->
+                <% products.forEach( product => { %>
                 <div class="group relative">
                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket-2.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
+                        <img src="/product_images/<%= product.productImage %>">
                     </div>
                     <div class="mt-4 flex justify-between">
                         <div>
                             <h3 class="text-sm text-gray-700">
-                                <a href="#">
+                                <a href="/product">
                                     <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Basic Tee
+                                    <%= product.productName %>
                                 </a>
                             </h3>
-                            <p class="mt-1 text-sm text-gray-500">Black</p>
+                            <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
                         </div>
-                        <p class="text-sm font-medium text-gray-900">$35</p>
+                        <p class="text-sm font-medium text-gray-900"><%= product.price %>₹</p>
                     </div>
                 </div>
-                <!-- Second Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/ragbo4535819dd2_q1_2-0_8fc35ffb-cb17-4bd0-8dba-1bf9c36588e8.jpg?v=1652168845&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Second Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Blue</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$45</p>
-                    </div>
-                </div>
-                <!-- Third Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Third Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Red</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$55</p>
-                    </div>
-                </div>
-                <!-- Fourth Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/famer2052212158_q1_2-1_26f6b1d8-3197-4c2b-9230-2247b4c15689.jpg?v=1652168784&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Fourth Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Green</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$65</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section>
-    <div>
-        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
-            <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                <!-- First Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Basic Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Black</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$35</p>
-                    </div>
-                </div>
-                <!-- Second Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-02.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Second Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Blue</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$45</p>
-                    </div>
-                </div>
-                <!-- Third Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-03.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Third Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Red</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$55</p>
-                    </div>
-                </div>
-                <!-- Fourth Product -->
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-04.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    Fourth Tee
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500">Green</p>
-                        </div>
-                        <p class="text-sm font-medium text-gray-900">$65</p>
-                    </div>
-                </div>
+                <% }) %>
+      
             </div>
         </div>
     </div>
 </section>
 
+
+
+
 <section class="text-center mt-5">
-    <button class="rounded-full text-black font-mono w-32  border-2 border-black text-sm hover:bg-cyan-400">Load More</button>
+    <button class="rounded-full h-10 text-red hover:before:bg-redborder-red-500 relative  w-40 overflow-hidden border-2 border-gray-500 bg-white px-3 text-gray-500 font-bold shadow-2xl transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-cyan-500 before:transition-all before:duration-500 hover:border-0 hover:text-white hover:shadow-red-500 hover:before:left-0 hover:before:w-full">
+        <span class="relative z-10">Load More
+        </span>
+    </button>
 </section>
 <br>
     <div class="flex justify-center">
@@ -384,8 +259,13 @@
 </section>
 
 <section class="text-center mt-5">
-    <button class="rounded-full text-black font-mono w-32  border-2 border-black text-sm hover:bg-cyan-400">Load More</button>
+    <button class="rounded-full h-10 text-red hover:before:bg-redborder-red-500 relative  w-40 overflow-hidden border-2 border-gray-500 bg-white px-3 text-gray-500 font-bold shadow-2xl transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-cyan-500 before:transition-all before:duration-500 hover:border-0 hover:text-white hover:shadow-red-500 hover:before:left-0 hover:before:w-full">
+        <span class="relative z-10">Load More
+        </span>
+    </button>
 </section>
+
+
 
 </main>
 

@@ -1,45 +1,27 @@
 <%- include('../partials/adminHeader') %>
 
 <main>
-
-    <section class="w-full h-auto bg-blue-700 overflow-x-auto">
-        <div class="min-w-full">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Profile</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Name</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Email</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Phone</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Gender</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    <% users.forEach(user => { %>
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <button class="text-indigo-600 hover:text-indigo-900">Profile</button>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm"><%= user.name %></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm"><%= user.email %></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm"><%= user.phone %></td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">Male</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <button onclick="isBlock()" class="text-indigo-600 hover:text-indigo-900">Action</button>
-                        </td>
-                    </tr>
-                    <% });%>
-
-                </tbody>
-            </table>
+    <form method="post">
+        <div class="space-y-12 p-20 flex">
+          <div class="border-b border-gray-900/10 pb-12">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-3">
+                <label for="categoryName" class="block text-sm font-medium leading-6 text-gray-900">Category name</label>
+                <div class="mt-2">
+                  <input type="text" name="categoryName" id="categoryName" autocomplete="given-name" class="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
         </div>
-    </section>
-</main>
+        <button type="submit" class="mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium  text-white bg-yellow-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Add Category
+        </button>
+        </div>
+        </div>
+      </form>
+  </main>
 
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/OneCart/controllers/UserMangementConroller.js"></script>
 
 <script>
     // start: Sidebar

@@ -1,247 +1,293 @@
 <%- include('../partials/adminHeader') %>
 
-<main class="border-2 border-gray-400 ml-96 mr-96 mt-16 mb-16">
- 
-    <div class="container mx-auto p-8">
-        <h1 class="text-2xl font-semibold mb-4">Add Product</h1>
-        <form action="#" method="POST" class="space-y-4">
-            <div>
-                <label for="productName" class="block text-sm font-medium text-gray-700 ">Product Name</label>
-                <input type="text" id="productName" name="productName" class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm ">
-            </div>
-            <div>
-                <label for="productImage" class="block text-sm font-medium text-gray-700 ">Product Image</label>
-                <input type="file" id="productImage" name="productImage" accept="image/*" class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm ">
-            </div>
-            <div>
-                <label for="quantity" class="block text-sm font-medium text-gray-700 ">Quantity</label>
-                <input type="number" id="quantity" name="quantity" class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm ">
-            </div> 
-            <div>
-                <label for="description" class="block text-sm font-medium text-gray-700 ">Description</label>
-                <textarea id="description" name="description" rows="3" class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm "></textarea>
-            </div>
-            <div>
-                <label for="company" class="block text-sm font-medium text-gray-700 ">Company</label>
-                <input type="text" id="company" name="company" class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm ">
-            </div>
-            <div>
-                <label for="color" class="block text-sm font-medium text-gray-700 ">Color</label>
-                <input type="text" id="color" name="color" class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm ">
-            </div>
-            <div>
-                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Add Product
-                </button>
-            </div>
-        </form>
-    </div>
-    </main>
+<main>
+    <form method="post" enctype="multipart/form-data">
+        <div class="space-y-12 p-20 flex">
+          <div class="border-b border-gray-900/10 pb-12">
+            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div class="sm:col-span-3">
+                <label for="prodcutName" class="block text-sm font-medium leading-6 text-gray-900">Product name</label>
+                <div class="mt-2">
+                  <input type="text" name="productName" id="prodcutName" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+              <div class="sm:col-span-3">
+                <label for="productImage" class="block text-sm font-medium leading-6 text-gray-900">Prouduct Image</label>
+                <div class="mt-2">
+                  <input type="file" name="productImage" id="productImage" accept="image/*" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div> 
 
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-        // start: Sidebar
-        const sidebarToggle = document.querySelector('.sidebar-toggle')
-        const sidebarOverlay = document.querySelector('.sidebar-overlay')
-        const sidebarMenu = document.querySelector('.sidebar-menu')
-        const main = document.querySelector('.main')
-        sidebarToggle.addEventListener('click', function (e) {
+              <!-- <div class="sm:col-span-3">
+                <label for="productImage" class="block text-sm font-medium text-gray-700">Product Images</label>
+                <input type="file" id="productImage" name="productImage" accept="image/*" multiple class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm">
+            </div>
+            <div> -->
+                
+              <!-- //catergory form for later -->
+      
+              <div class="sm:col-span-3">
+                <label for="productCategory" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
+                <div class="mt-2">
+                  <select id="productCategory" name="productCategory" autocomplete="productCategory-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>Mexico</option>
+                  </select>
+                </div>
+              </div>
+
+      
+              <div class="sm:col-span-4">
+                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                <div class="mt-2">
+                  <input id="description" name="description" type="text" autocomplete="description" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label for="brand" class="block text-sm font-medium leading-6 text-gray-900">Brand</label>
+                <div class="mt-2">
+                  <input id="brand" name="brand" type="text" autocomplete="description" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label for="color" class="block text-sm font-medium leading-6 text-gray-900">Color</label>
+                <div class="mt-2">
+                  <input id="color" name="color" type="text" autocomplete="color" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Price</label>
+                <div class="mt-2">
+                  <input id="price" name="price" type="number" autocomplete="price" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label for="size" class="block text-sm font-medium leading-6 text-gray-900">Size</label>
+                <div class="mt-2">
+                  <input id="size" name="size" type="number" autocomplete="size" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+              <div class="sm:col-span-4">
+                <label for="stock" class="block text-sm font-medium leading-6 text-gray-900">Stock</label>
+                <div class="mt-2">
+                  <input id="stock" name="stock" type="number" autocomplete="stock" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                </div>
+              </div>
+
+        </div>
+        <button type="submit" class="mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Add Product
+        </button>
+        </div>
+        </div>
+      </form>
+  </main>
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // start: Sidebar
+    const sidebarToggle = document.querySelector('.sidebar-toggle')
+    const sidebarOverlay = document.querySelector('.sidebar-overlay')
+    const sidebarMenu = document.querySelector('.sidebar-menu')
+    const main = document.querySelector('.main')
+    sidebarToggle.addEventListener('click', function (e) {
+        e.preventDefault()
+        main.classList.toggle('active')
+        sidebarOverlay.classList.toggle('hidden')
+        sidebarMenu.classList.toggle('-translate-x-full')
+    })
+    sidebarOverlay.addEventListener('click', function (e) {
+        e.preventDefault()
+        main.classList.add('active')
+        sidebarOverlay.classList.add('hidden')
+        sidebarMenu.classList.add('-translate-x-full')
+    })
+    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (item) {
+        item.addEventListener('click', function (e) {
             e.preventDefault()
-            main.classList.toggle('active')
-            sidebarOverlay.classList.toggle('hidden')
-            sidebarMenu.classList.toggle('-translate-x-full')
-        })
-        sidebarOverlay.addEventListener('click', function (e) {
-            e.preventDefault()
-            main.classList.add('active')
-            sidebarOverlay.classList.add('hidden')
-            sidebarMenu.classList.add('-translate-x-full')
-        })
-        document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (item) {
-            item.addEventListener('click', function (e) {
-                e.preventDefault()
-                const parent = item.closest('.group')
-                if (parent.classList.contains('selected')) {
-                    parent.classList.remove('selected')
-                } else {
-                    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (i) {
-                        i.closest('.group').classList.remove('selected')
-                    })
-                    parent.classList.add('selected')
-                }
-            })
-        })
-        // end: Sidebar
-    
-    
-    
-        // start: Popper
-        const popperInstance = {}
-        document.querySelectorAll('.dropdown').forEach(function (item, index) {
-            const popperId = 'popper-' + index
-            const toggle = item.querySelector('.dropdown-toggle')
-            const menu = item.querySelector('.dropdown-menu')
-            menu.dataset.popperId = popperId
-            popperInstance[popperId] = Popper.createPopper(toggle, menu, {
-                modifiers: [
-                    {
-                        name: 'offset',
-                        options: {
-                            offset: [0, 8],
-                        },
-                    },
-                    {
-                        name: 'preventOverflow',
-                        options: {
-                            padding: 24,
-                        },
-                    },
-                ],
-                placement: 'bottom-end'
-            });
-        })
-        document.addEventListener('click', function (e) {
-            const toggle = e.target.closest('.dropdown-toggle')
-            const menu = e.target.closest('.dropdown-menu')
-            if (toggle) {
-                const menuEl = toggle.closest('.dropdown').querySelector('.dropdown-menu')
-                const popperId = menuEl.dataset.popperId
-                if (menuEl.classList.contains('hidden')) {
-                    hideDropdown()
-                    menuEl.classList.remove('hidden')
-                    showPopper(popperId)
-                } else {
-                    menuEl.classList.add('hidden')
-                    hidePopper(popperId)
-                }
-            } else if (!menu) {
-                hideDropdown()
+            const parent = item.closest('.group')
+            if (parent.classList.contains('selected')) {
+                parent.classList.remove('selected')
+            } else {
+                document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (i) {
+                    i.closest('.group').classList.remove('selected')
+                })
+                parent.classList.add('selected')
             }
         })
-    
-        function hideDropdown() {
-            document.querySelectorAll('.dropdown-menu').forEach(function (item) {
-                item.classList.add('hidden')
-            })
+    })
+    // end: Sidebar
+
+
+
+    // start: Popper
+    const popperInstance = {}
+    document.querySelectorAll('.dropdown').forEach(function (item, index) {
+        const popperId = 'popper-' + index
+        const toggle = item.querySelector('.dropdown-toggle')
+        const menu = item.querySelector('.dropdown-menu')
+        menu.dataset.popperId = popperId
+        popperInstance[popperId] = Popper.createPopper(toggle, menu, {
+            modifiers: [
+                {
+                    name: 'offset',
+                    options: {
+                        offset: [0, 8],
+                    },
+                },
+                {
+                    name: 'preventOverflow',
+                    options: {
+                        padding: 24,
+                    },
+                },
+            ],
+            placement: 'bottom-end'
+        });
+    })
+    document.addEventListener('click', function (e) {
+        const toggle = e.target.closest('.dropdown-toggle')
+        const menu = e.target.closest('.dropdown-menu')
+        if (toggle) {
+            const menuEl = toggle.closest('.dropdown').querySelector('.dropdown-menu')
+            const popperId = menuEl.dataset.popperId
+            if (menuEl.classList.contains('hidden')) {
+                hideDropdown()
+                menuEl.classList.remove('hidden')
+                showPopper(popperId)
+            } else {
+                menuEl.classList.add('hidden')
+                hidePopper(popperId)
+            }
+        } else if (!menu) {
+            hideDropdown()
         }
-        function showPopper(popperId) {
-            popperInstance[popperId].setOptions(function (options) {
-                return {
-                    ...options,
-                    modifiers: [
-                        ...options.modifiers,
-                        { name: 'eventListeners', enabled: true },
-                    ],
-                }
-            });
-            popperInstance[popperId].update();
-        }
-        function hidePopper(popperId) {
-            popperInstance[popperId].setOptions(function (options) {
-                return {
-                    ...options,
-                    modifiers: [
-                        ...options.modifiers,
-                        { name: 'eventListeners', enabled: false },
-                    ],
-                }
-            });
-        }
-        // end: Popper
-    
-    
-    
-        // start: Tab
-        document.querySelectorAll('[data-tab]').forEach(function (item) {
-            item.addEventListener('click', function (e) {
-                e.preventDefault()
-                const tab = item.dataset.tab
-                const page = item.dataset.tabPage
-                const target = document.querySelector('[data-tab-for="' + tab + '"][data-page="' + page + '"]')
-                document.querySelectorAll('[data-tab="' + tab + '"]').forEach(function (i) {
-                    i.classList.remove('active')
-                })
-                document.querySelectorAll('[data-tab-for="' + tab + '"]').forEach(function (i) {
-                    i.classList.add('hidden')
-                })
-                item.classList.add('active')
-                target.classList.remove('hidden')
-            })
+    })
+
+    function hideDropdown() {
+        document.querySelectorAll('.dropdown-menu').forEach(function (item) {
+            item.classList.add('hidden')
         })
-        // end: Tab
-    
-    
-    
-        // start: Chart
-        new Chart(document.getElementById('order-chart'), {
-            type: 'line',
-            data: {
-                labels: generateNDays(7),
-                datasets: [
-                    {
-                        label: 'Active',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(59, 130, 246)',
-                        borderColor: 'rgb(59, 130, 246)',
-                        backgroundColor: 'rgb(59 130 246 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Completed',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(16, 185, 129)',
-                        borderColor: 'rgb(16, 185, 129)',
-                        backgroundColor: 'rgb(16 185 129 / .05)',
-                        tension: .2
-                    },
-                    {
-                        label: 'Canceled',
-                        data: generateRandomData(7),
-                        borderWidth: 1,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(244, 63, 94)',
-                        borderColor: 'rgb(244, 63, 94)',
-                        backgroundColor: 'rgb(244 63 94 / .05)',
-                        tension: .2
-                    },
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+    }
+    function showPopper(popperId) {
+        popperInstance[popperId].setOptions(function (options) {
+            return {
+                ...options,
+                modifiers: [
+                    ...options.modifiers,
+                    { name: 'eventListeners', enabled: true },
+                ],
             }
         });
-    
-        function generateNDays(n) {
-            const data = []
-            for(let i=0; i<n; i++) {
-                const date = new Date()
-                date.setDate(date.getDate()-i)
-                data.push(date.toLocaleString('en-US', {
-                    month: 'short',
-                    day: 'numeric'
-                }))
+        popperInstance[popperId].update();
+    }
+    function hidePopper(popperId) {
+        popperInstance[popperId].setOptions(function (options) {
+            return {
+                ...options,
+                modifiers: [
+                    ...options.modifiers,
+                    { name: 'eventListeners', enabled: false },
+                ],
             }
-            return data
-        }
-        function generateRandomData(n) {
-            const data = []
-            for(let i=0; i<n; i++) {
-                data.push(Math.round(Math.random() * 10))
+        });
+    }
+    // end: Popper
+
+
+
+    // start: Tab
+    document.querySelectorAll('[data-tab]').forEach(function (item) {
+        item.addEventListener('click', function (e) {
+            e.preventDefault()
+            const tab = item.dataset.tab
+            const page = item.dataset.tabPage
+            const target = document.querySelector('[data-tab-for="' + tab + '"][data-page="' + page + '"]')
+            document.querySelectorAll('[data-tab="' + tab + '"]').forEach(function (i) {
+                i.classList.remove('active')
+            })
+            document.querySelectorAll('[data-tab-for="' + tab + '"]').forEach(function (i) {
+                i.classList.add('hidden')
+            })
+            item.classList.add('active')
+            target.classList.remove('hidden')
+        })
+    })
+    // end: Tab
+
+
+
+    // start: Chart
+    new Chart(document.getElementById('order-chart'), {
+        type: 'line',
+        data: {
+            labels: generateNDays(7),
+            datasets: [
+                {
+                    label: 'Active',
+                    data: generateRandomData(7),
+                    borderWidth: 1,
+                    fill: true,
+                    pointBackgroundColor: 'rgb(59, 130, 246)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    backgroundColor: 'rgb(59 130 246 / .05)',
+                    tension: .2
+                },
+                {
+                    label: 'Completed',
+                    data: generateRandomData(7),
+                    borderWidth: 1,
+                    fill: true,
+                    pointBackgroundColor: 'rgb(16, 185, 129)',
+                    borderColor: 'rgb(16, 185, 129)',
+                    backgroundColor: 'rgb(16 185 129 / .05)',
+                    tension: .2
+                },
+                {
+                    label: 'Canceled',
+                    data: generateRandomData(7),
+                    borderWidth: 1,
+                    fill: true,
+                    pointBackgroundColor: 'rgb(244, 63, 94)',
+                    borderColor: 'rgb(244, 63, 94)',
+                    backgroundColor: 'rgb(244 63 94 / .05)',
+                    tension: .2
+                },
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
-            return data
         }
-        // end: Chart
+    });
+
+    function generateNDays(n) {
+        const data = []
+        for(let i=0; i<n; i++) {
+            const date = new Date()
+            date.setDate(date.getDate()-i)
+            data.push(date.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric'
+            }))
+        }
+        return data
+    }
+    function generateRandomData(n) {
+        const data = []
+        for(let i=0; i<n; i++) {
+            data.push(Math.round(Math.random() * 10))
+        }
+        return data
+    }
+    // end: Chart
+
     
-        
-    </script>
-    <%- include('../partials/adminFooter') %>
+</script>
+<%- include('../partials/adminFooter') %>

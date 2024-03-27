@@ -1,4 +1,19 @@
-
+<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+<script>
+    const setup = () => {
+        return {
+        isSidebarOpen: false,
+        currentSidebarTab: null,
+        isSettingsPanelOpen: false,
+        isSubHeaderOpen: false,
+        watchScreen() {
+            if (window.innerWidth <= 1024) {
+            this.isSidebarOpen = false
+            }
+        },
+    }
+  }
+</script>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -206,7 +221,7 @@
     
 </script>
 
-<footer class="bg-white ">
+<footer class="bg-white mt-12">
     <div class="mx-auto w-full max-w-screen-xl">
       <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
         <div>
