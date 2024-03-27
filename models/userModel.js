@@ -18,8 +18,8 @@ const userSchema = mongoose.Schema({
             required:true
             },
             isBlock:{
-                type:Boolean,
-                value:false
+            type:Boolean,
+            value:false
             }
             });
 

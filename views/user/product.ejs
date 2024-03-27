@@ -2,11 +2,10 @@
 
 <main class="justify-center">
 
-    <section class="w-10/12 bg-pink-300 h-10 ml-32 mt-16">
+    <section class="w-10/12 bg-pink-200 h-10 ml-32 mt-16">
 
     </section>
     <!-- product -->
-    <% products.forEach( product => { %>
     <section class="py-12 sm:py-16 p-32"> 
         <div class="container mx-auto px-4">
           <nav class="flex">
@@ -42,14 +41,14 @@
               <div class="lg:flex lg:items-start">
                 <div class="lg:order-2 lg:ml-5">
                   <div class="max-w-xl overflow-hidden rounded-lg">
-                    <img class="h-full w-full max-w-full object-cover" src="/product_images/<%= product.productImage %>" alt="big" />
+                    <img class="h-full w-full max-w-full object-cover" src="/product_images/<%- products.productImage %>" alt="big" />
                   </div>
                 </div>
       
                 <div class="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
                   <div class="flex flex-row items-start lg:flex-col">
                     <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
-                      <img class="h-full w-full object-cover" src="/product_images/<%= product.productImage %>" alt="" />
+                      <img class="h-full w-full object-cover" src="/product_images/<%- products.productImage %>" alt="" />
                     </button>
                     <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
                       <img class="h-full w-full object-cover" src="/images/JHxMnVrtPMdcNU1s_7g7f.png" alt="" />
@@ -63,7 +62,7 @@
             </div>
       
             <div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
-              <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl"><%= product.productName %></h1>
+              <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl"> <%- products.productName %> </h1>
       
               <div class="mt-5 flex items-center">
                 <div class="flex items-center">
@@ -89,11 +88,11 @@
       <div class="flex-row">
         <div class="mt-10  flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
-            <h1 class="text-3xl font-bold"><%= product.price %></h1>
+            <h1 class="text-3xl font-bold"><%- products.price %></h1>
           </div>
         <div class="mt-10  flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
-            <h1 class="text-1xl font-bold"><%= product.color %></h1>
+            <h1 class="text-1xl font-bold"><%- products.color %></h1>
           </div>
       </div>
              
@@ -139,7 +138,7 @@
               <div class="border-b border-gray-300">
                 <nav class="flex gap-4">
                   <a href="#" title="" class="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </a>
-      
+                              
                   <a href="#" title="" class="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600">
                     Reviews
                     <span class="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100"> 1,209 </span>
@@ -148,15 +147,13 @@
               </div>
       
               <div class="mt-8 flow-root sm:mt-12">
-                <h1 class="text-3xl font-bold">Delivered To Your Door</h1>
-                <p class="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia accusantium nesciunt fuga.</p>
-              <p><%= product.description %></p>
+                <p class="text-1xl"><%- products.description %></p>
+               
              </div>
             </div>
           </div>
         </div>
       </section>
-      <% }) %>
 <script>
     //to wishlist page
     const toWishlist = () => {

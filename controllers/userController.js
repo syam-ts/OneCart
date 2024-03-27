@@ -1,129 +1,113 @@
 
 const User = require('../models/userModel');
-const express = require('express');
 const bcrypt = require('bcrypt');
-const session = require('express-session');
-
-const app = express();
-const secretKey = process.env.SESSION_SECRET;
-app.use(session({
-  secret: secretKey,
-    resave: false,
-    saveUninitialized: true
-}));
-
+const Product = require('../models/productModel');
 
 //password bcrypt
 const securePassword = async(password) => {
   try {
-    const passwordHash = await bcrypt.hash(password, 10);
-    return passwordHash;
-    
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+        const passwordHash = await bcrypt.hash(password, 10);
+          return passwordHash;
+      } catch (error) {
+        console.log(error.message);
+      }
+  };
 
-//new user 
-const insertUser = async (req, res) => {
-    try {
-        const secPassword = await securePassword(req.body.password);
-       const user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            phone: req.body.phone,
-            password: secPassword,
-            is_admin:0
-        });
-
-        const userData = await user.save();
-        if(userData){
-            res.redirect('/login')
-            console.log('Registration successful'+ userData);
-        }else{
-            res.send('Registration failed')
-        };
-
-
-
-
-
-
-    } catch (error) {
-        res.send(error.message);
-    }
-};
    
  //verify user || login 
    const verifyLogin = async (req, res) => {
     try { 
       const  Email = req.body.email;
       const Password  = req.body.password;
-      const userdata = await User.findOne({email:Email});
-      
-
+      const userdata = await User.findOne({ email: Email});
       if(userdata){
-        const passwordMatch =await bcrypt.compare(Password,userdata.password);
+        const passwordMatch = await bcrypt.compare(Password,userdata.password);
         if(passwordMatch){
-          //session
-          
-         const issession = await userdata.name;
-
-         console.log('The real user',userdata._id);
-         req.session.userId 
-          res.redirect('/home');
-
+            req.session.user = userdata._id;
+            res.redirect('/home');
+            console.log('Session started');
         }else{
-          res.render('login');
-          console.log("Password not matching");
+          res.send('Password not matching');
         }
-
       }else{
-        res.render('login')
-        console.log('Email not matching');
+        res.send('Email not matching')
       }
-      
     } catch (error) {
-      res.render('login')
-      console.log(error.message);
+      res.send(error.message)
     }
    };
 
 
-  const getLogout = (req, res ) => {
-    req.session.destroy(err => {
-      if(err){
-        console.log(err);
-      }else{
-        res.redirect('/login');
-      }
-    })
-  };
+//new user || signup
+const insertUser = async (req, res) => {
+  try {
+      const secPassword = await securePassword(req.body.password);
+        const user = new User({
+              name: req.body.name,
+              email: req.body.email,
+              phone: req.body.phone,
+              password: secPassword,
+              is_admin:0
+          });
+      const userData = await user.save();
+          if(userData){
+              res.redirect('/login')
+              console.log('Registration successful'+ userData);
+              }else{
+                  res.send('Registration failed')
+              };
+          } catch (error) {
+              res.send(error.message);
+          }
+      };
+
 
  //user login 
   const getLogin = (req, res) => {
+    const user = User.findOne({email: req.body.email});
+  if (req.session.user) {
+    console.log(req.session.user);
+   res.redirect('/home');
+   } else {
+      res.render('login');
+ }
+  };
+
+  //Home
+  const getHome = async (req, res) => {
     try {
-        res.render('login');
-        
+      const products = await Product.find();
+      const user = req.session.user;
+      if(user){
+        res.render('home',{products})
+      }else{
+        res.redirect('/login')
+      }
     } catch (error) {
-        res.send(error.message);
+      console.log(error.message);
     }
-  }
+   };
 
-
-  app.get('/logout', (req, res) => {
+ // logout
+ const getLogout = async (req, res) => {
+      try {
     req.session.destroy(err => {
         if (err) {
-            console.log(err);
-        } else {
+        console.log(err.message);
+          } else {
             res.redirect('/login');
-        }
-    });
-});
+            console.log('session destroyed');
+              }
+            });
+            } catch (error) {
+              console.log(error.message);
+            }
+};
 
 module.exports = {
     insertUser,
-    getLogin,
     verifyLogin,
+    getLogin,
+   getHome,
     getLogout
 };

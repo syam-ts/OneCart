@@ -1,18 +1,24 @@
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
-
-dotenv.config({path:'./.env'})
+const nocache = require("nocache");
 const app = express();
 const db = require('./DB/db');
 
 
+app.use(nocache());
+//.dev
+dotenv.config({path:'./.env'})
 
-const PORT = process.env.PORT || 4000;
+const secretKey = process.env.SESSION_SECRET;
 
-//Routes
+//session object
+app.use(session({secret: "Key",cookie: { maxAge: 180000 }}));
+
+//routes
 const userRouter = require('./routes/userRouter');
 const adminRouter = require('./routes/adminRouter');
 
@@ -25,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
-}
+  };
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -33,7 +39,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
-process.env.NODE_ENV = 'development'; 
+const PORT = process.env.PORT || 4000;
+
+
 
 
 app.listen(PORT, () => {

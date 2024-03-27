@@ -7,7 +7,7 @@ const productContoller = require('../controllers/productController');
 const adminController = require('../controllers/adminController');
 const categoryController = require('../controllers/categoryController');
 
-
+//image rendering
 const storage = multer.diskStorage({
     destination:(req, file, cb) => {
         cb(null,'./public/product_images')
@@ -24,10 +24,7 @@ const upload = multer({storage:storage});
 const admin = {
     userName: 'admin123',
     password:'adminPassword123'
-}
-
-
-
+};
 
 //admin-login
 router.get('/admin-login',adminController.getAdmin);
@@ -36,19 +33,24 @@ router.post('/admin-login',adminController.verifyAdmin);
 //dashboard
 router.get('/dashboard',(req, res) => {res.render('dashboard')});
 
-//userManagement
+//userManagement routes
 router.get('/userManagement',userManagementController.getUsers);
+router.get('/user-delete/:id',userManagementController.deleteUser);
 
-//proudut-list
+//proudutManagement routes
 router.get('/product-list',product_listController.getProduct);
-
-//product add
 router.get('/product-add' ,productContoller.loadProduct);
 router.post('/product-add',upload.single('productImage'),productContoller.insertProduct);
+router.get('/product-delete/:id',productContoller.deleteProduct);
+router.get('/product-edit/:id',productContoller.loadProducEdit);
+router.post('/product-edit/:id',productContoller.productUpdate);
 
-// category
+// categoryManagement routes
 router.get('/category-list',categoryController.categoryListing);
 router.get('/category-add',categoryController.categoryAdd);
 router.post('/category-add',categoryController.insertCategory);
+router.get('/category-delete/:id',categoryController.deleteCategory);
+
+
 
 module.exports = router;

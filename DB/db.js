@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/OneCart');
+const connectDB = mongoose.connect('mongodb://127.0.0.1:27017/OneCart');
 
-console.log('Database connected');
+connectDB.then(()=>console.log('Database connected'))
+.catch(()=>{console.log(' Database connection failed')})
