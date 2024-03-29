@@ -1,0 +1,58 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+</head>
+<body>
+    <h1>OTP Verification</h1>
+    <form action="/verify-otp" method="post">
+        <label for="email">Enter Email:</label><br>
+        <input type="text" id="email" name="email" required><br><br>
+        <label for="otp">Enter OTP:</label><br>
+        <input type="text" id="otp" name="otp" required><br><br>
+
+        <button type="submit">Verify OTP</button>
+    </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&display=swap">
+    <script src="toastr.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>otp Verification</title>
+</head>
+<body>
+    
+
+    <div class="max-w-md mx-auto border mt-52 rounded">
+        <form class="shadow-md px-4 py-6" action="/verify-otp" method="post">
+            <div class="flex-row gap-2 mb-6">
+                <input id="email" name="email" class="w-56 h-10 m-2 text-center border border-gray-400 shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" required>
+                <span>Email</span>
+                <input id="otp" name="otp" class="w-56 h-10 m-2 text-center border border-gray-400 shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" required>
+                <span>OTP</span>
+            </div>
+            <div class="flex items-center justify-center">
+                <button type="submit" class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Verify
+                </button>
+                <!-- <a class="inline-block align-baseline font-bold text-sm text-teal-500 hover:text-teal-800 ml-4" href="#">
+                    Resend OTP
+                </a> -->
+            </div>
+        </form>
+    </div>
+</body>
+</html>

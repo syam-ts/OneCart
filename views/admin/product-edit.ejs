@@ -1,13 +1,9 @@
 <%- include('../partials/adminHeader') %>
 
 <main> 
-    <form method="post" enctype="multipart/form-data">
-   
+    <form method="POST" enctype="multipart/form-data" action="/admin/product-edit/<%= products[0] ? products[0]._id : '' %>">
         <div class="space-y-12 p-20 flex">
-         
           <div class="border-b border-gray-900/10 pb-12">
-
-           
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-3">
                 <label for="prodcutName" class="block text-sm font-medium leading-6 text-gray-900">Product Name</label>
@@ -21,14 +17,6 @@
                   <input value="<%= products[0].productImage %>" type="file" name="productImage" id="productImage" accept="image/*" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
               </div> 
-
-              <!-- <div class="sm:col-span-3">
-                <label for="productImage" class="block text-sm font-medium text-gray-700">Product Images</label>
-                <input type="file" id="productImage" name="productImage" accept="image/*" multiple class="mt-1 border-2 border-gray-700 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm">
-            </div>
-            <div> -->
-                
-              <!-- //catergory form for later -->
       
               <div class="sm:col-span-3">
              
@@ -38,7 +26,7 @@
                     
                   <select id="category" name="category" autocomplete="category-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                   <% products[1].forEach(category => { %>
-                    <option class="text-gray-900"><%= category.categoryName %></option>
+                    <option class="text-gray-900" ><%= category.categoryName %></option>
                  
                     <% }) %>
                   </select>
@@ -86,8 +74,8 @@
 
         </div>
       
-        <button type="submit" class="mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Done
+        <button type="submit" class="mt-5 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Update 
         </button>
         </div>
         </div>

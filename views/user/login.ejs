@@ -3,10 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;1,600&display=swap" rel="stylesheet" />
     <title>Loign</title>
     <script src="https://cdn.tailwindcss.com"></script>     
 </head>
 <body>
+
+  <% if (msg.length > 0)  { %>
+    <div id="flashMessage" style="background-color: #e31414c7; padding: 10px; font-family: 'Courier New', Courier, monospace;">
+        <%- msg %>
+    </div>
+    <script>
+     setTimeout(function() {
+          var flashMessage = document.getElementById('flashMessage');
+          flashMessage.style.display = 'none';
+      }, 3000); 
+  </script>
+<% } %>
 
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
 
@@ -36,12 +54,18 @@
           <input id="password" name="password" type="password" autocomplete="current-password" required class="border-2 border-gray-500 h-8 block w-full bpy-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
+     
+
 
       <div class="flex">
         <button type="submit" class="flex w-24 justify-center bg-cyan-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ">Sign in</button>
 
         <a href="/home" class="text-xs italic pl-5 font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
       </div>
+      <!-- googel authentication -->
+      <!-- <div class="flex">
+        <button type="submit" class="flex rounded-full w-11 justify-center bg-green-700 px-3 py-1.5 text-xs font-semibold leading-6 text-white shadow-sm hover:bg-lime-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ">Google</button>
+      </div> -->
     </form>
 
     <p class="mt-5 text-center text-sm text-gray-500">

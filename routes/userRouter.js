@@ -15,6 +15,8 @@ router.get('/signup',(req, res) => {res.render('signup')});
 router.post('/signup',userController.insertUser);
 router.get('/logout' ,(userController.getLogout));
 router.get('/home',userController.getHome);
+router.get('/verify-otp',userController.verifyOtpLoad);
+router.post('/verify-otp',userController.verifyOTP);
 
 //product routes
 router.get('/product/:id',productListing.displayProduct);

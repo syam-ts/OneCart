@@ -1,26 +1,31 @@
 const Category = require('../models/categoryModel');
+const Product = require('../models/productModel');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 
 const insertCategory = async (req, res) => {
-    console.log('This is body', req.body.categoryName);
     try {
         const category = new Category({
             categoryName: req.body.categoryName
         });
         const result = await category.save();
 
-       res.send('Category added successfully: ');
-        
+       res.redirect('./category-list');
     } catch (error) {
        console.error(error);
-        res.status(500).send(error.message);
+        res.status(500);
     }
 };
 
 
 const categoryListing = async(req, res) => {
     try {
-        const categories = await Category.find({deleted:false});
+        const categories = await Category.find({});
         res.render('category-list',{categories})
     } catch (error) {
         console.log(error.message);
@@ -40,26 +45,95 @@ const categoryAdd = async (req, res) => {
 //delete category
 const deleteCategory = async (req, res) => {
     try {
-        const id = req.params;
+        const id = req.params.id;
         const category = await Category.findById(id);
-        console.log(category);
         if (!category) {
             return res.status(404).send('category not found');
         }else{
         category.deleted = true;
         await category.save();
+        res.redirect('/admin/category-list');
+
         }
-        return res.send(category);
+        
     } catch (error) {
-        console.log(error.message);
+        console.log('internal sever');
         return res.status(500).send('Internal server error');
     }
 };
+
+//recover category
+const recoverCategory = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const category = await Category.findById(id);
+        if (!category) {
+            return res.status(404).send('category not found');
+        }else{
+        category.deleted = false;
+        await category.save();
+        res.redirect('/admin/category-list');
+
+        }
+        
+    } catch (error) {
+        console.log('internal sever');
+        return res.status(500).send('Internal server error');
+    }
+};
+
+
+//load category edit
+const loadCategoryEdit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const category = await Category.findById(id);
+        
+        if (!category) {
+           return res.status(404).send("Category not found");
+        }
+
+        res.render('category-edit', { categories: category });
+       } catch (error) {
+        console.log('Error:', error);
+        res.status(500).send("Internal Server Error");
+    }
+};
+
+
+
+// Category edit
+const editCategory = async (req, res) => {
+    try {
+        const { categoryName, otherField1, otherField2 } = req.body;
+
+        const updatedFields = {};
+        if (categoryName) updatedFields.categoryName = categoryName;
+        if (otherField1) updatedFields.otherField1 = otherField1;
+        if (otherField2) updatedFields.otherField2 = otherField2;
+
+        const categoryId = req.params.id; 
+        const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
+
+        if (!category) {
+            return res.send('error');
+        }
+
+        res.redirect('/admin/category-list');
+    } catch (error) {
+        console.log('Error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+};
+
 
 
 module.exports = {
     categoryListing,
     categoryAdd,
     insertCategory,
-    deleteCategory
+    deleteCategory,
+    recoverCategory,
+    loadCategoryEdit,
+     editCategory
 };

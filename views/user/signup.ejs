@@ -19,11 +19,11 @@
   </div>
 
   <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-slate-200">
-    <form class="space-y-6" method="POST">
+    <form class="space-y-6" method="POST" onsubmit="return validateForm()">
       <div>
         <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
         <div class="mt-2">
-          <input id="name" name="name" type="name" autocomplete="name" required class="h-7 block w-full border-2 border-gray-400 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="name" name="name" type="name" autocomplete="name" required class=" h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
@@ -33,7 +33,7 @@
 
         </div>
         <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="current-email" required class="h-7 block w-full border-2 border-gray-400 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="email" name="email" type="email" autocomplete="current-email" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
       <div>
@@ -42,16 +42,18 @@
 
         </div>
         <div class="mt-2">
-          <input id="phone" name="phone" type="phone" autocomplete="current-phone" required class="h-7 block w-full border-2 border-gray-400 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="phone" name="phone" type="phone" autocomplete="current-phone" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
       <div>
+
+
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
 
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="password" autocomplete="current-password" required class="h-7 h-7 block w-full border-2 border-gray-400  border-2 border-gray-400 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="password" name="password" type="password" autocomplete="current-password" required class="h-7 block w-full  border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
       <div>
@@ -60,12 +62,14 @@
 
         </div>
         <div class="mt-2">
-          <input id="rePassword" name="rePassword" type="rePassword" autocomplete="current-rePassword" required class="h-7 block w-full border-2 border-gray-400 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="rePassword" name="rePassword" type="Password" autocomplete="current-rePassword" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
+
+
       <div class="flex">
-        <button type="submit" class="flex w-24 justify-center bg-green-300 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
+        <button type="submit" class="flex w-24 justify-center bg-green-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
       </div>
     </form>
 <div class="flex-row ">
@@ -79,7 +83,50 @@
 
    </main>
    
-   
-   
+   <script>
+    function validateForm() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value;
+      const password = document.getElementById('password').value;
+      const rePassword = document.getElementById('rePassword').value;
+  
+      if (name.trim() === '') {
+        alert('Please enter your name.');
+        return false;
+      }
+  
+      if (!isValidEmail(email)) {
+        alert('Please enter a valid email address without leading or trailing spaces.');
+        return false;
+      }
+  
+      if (phone.trim() === '' || !isValidPhone(phone)) {
+        alert('Please enter a valid phone number.');
+        return false;
+      }
+  
+      if (password.trim() === '' || password !== rePassword) {
+        alert('Passwords do not match or are empty.');
+        return false;
+      }
+      return true;
+    }
+  
+    function isValidEmail(email) {
+      email = email.trim();
+  
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+      return emailRegex.test(email);
+    }
+  
+    function isValidPhone(phone) {
+      const phoneRegex = /^[1-9]\d{9}$/;
+      return phoneRegex.test(phone);
+    }
+  </script>
+  
+
 </body>
 </html>

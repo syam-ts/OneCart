@@ -20,7 +20,10 @@ const userSchema = mongoose.Schema({
             isBlock:{
             type:Boolean,
             value:false
-            }
+            }, 
+            otp: {
+            type: String
+            },
             });
 
 

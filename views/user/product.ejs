@@ -20,15 +20,6 @@
                 <div class="flex items-center">
                   <span class="mx-2 text-gray-400">/</span>
                   <div class="-m-1">
-                    <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"> Watch </a>
-                  </div>
-                </div>
-              </li>
-      
-              <li class="text-left">
-                <div class="flex items-center">
-                  <span class="mx-2 text-gray-400">/</span>
-                  <div class="-m-1">
                     <a href="#" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page"> Rolex </a>
                   </div>
                 </div>
@@ -40,6 +31,13 @@
             <div class="lg:col-span-3 lg:row-end-1">
               <div class="lg:flex lg:items-start">
                 <div class="lg:order-2 lg:ml-5">
+
+
+
+
+
+
+                  
                   <div class="max-w-xl overflow-hidden rounded-lg">
                     <img class="h-full w-full max-w-full object-cover" src="/product_images/<%- products.productImage %>" alt="big" />
                   </div>
@@ -50,12 +48,12 @@
                     <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
                       <img class="h-full w-full object-cover" src="/product_images/<%- products.productImage %>" alt="" />
                     </button>
-                    <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
+                    <!-- <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
                       <img class="h-full w-full object-cover" src="/images/JHxMnVrtPMdcNU1s_7g7f.png" alt="" />
                     </button>
                     <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
                       <img class="h-full w-full object-cover" src="/images/JHxMnVrtPMdcNU1s_7g7f.png" alt="" />
-                    </button>
+                    </button> -->
                   </div>
                 </div>
               </div>
@@ -86,17 +84,24 @@
               </div>
       
       <div class="flex-row">
-        <div class="mt-10  flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
+        <div class="mt-10  flex-col items-center justify-between space-y-4 border-t  py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
-            <h1 class="text-3xl font-bold"><%- products.price %></h1>
+            <h1 class="text-3xl font-sans"><%- products.brand %></h1>
           </div>
-        <div class="mt-10  flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
+         </div>   
+        <div class="mt-2  flex-col items-center justify-between space-y-4  border-b py-4 sm:flex-row sm:space-y-0">
+   
+      
+     
+        <div class="mt-0 flex-col items-center justify-between space-y-4 border-t  py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
-            <h1 class="text-1xl font-bold"><%- products.color %></h1>
+            <h1 class="text-1xl font-medium"><%- products.color %></h1>
           </div>
-      </div>
-             
-                
+         </div>    
+
+              </div>
+              <div class=" items-end mt-3">
+                <h1 class="text-1xl font-medium">₹<%- products.price %>.00</h1>
               </div>
               </div>
               <ul class="mt-8 space-y-2">
@@ -147,7 +152,7 @@
               </div>
       
               <div class="mt-8 flow-root sm:mt-12">
-                <p class="text-1xl"><%- products.description %></p>
+                <p class="text-1xl font-thin"><%- products.description %></p>
                
              </div>
             </div>
