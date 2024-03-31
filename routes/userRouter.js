@@ -6,6 +6,7 @@ const userController = require('../controllers/userController');
 const categoryController = require('../controllers/cartController');
 const cartController = require('../controllers/cartController');
 const wishlistController = require('../controllers/wishlistController');
+const addressController = require('../controllers/addressConroller');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -26,6 +27,9 @@ router.get('/search', userController.searchProduct);
 
 //userProfile
 router.get('/userProfile',(req, res) => {res.render('userProfile')});
+router.get('/userAddress',addressController.getUserAddress);
+router.get('/addAddress',addressController.getAddAddress);
+router.post('/addAddress',addressController.insertAddress);
 
 //wishlist routes
 router.get('/wishlist',wishlistController.getwishlist);

@@ -1,0 +1,61 @@
+<%- include('../partials/header') %>
+
+<main class="flex justify-start">
+    <section class="justify-start">
+        <%- include('../partials/userProfile') %>
+    </section>
+    
+    <section class="w-64">
+        <a href="/addAddress" class="px-8 py-0.5 font-light text-sm border border-black dark:border-gray-950  text-neutarl-700  ">
+            Add New
+          </a>
+    </section>
+    
+    <section class="justify-start border border-gray-800 h-full w-full m-28 ">
+      <div class="p-10">
+          <div class="px-4 sm:px-0">
+              <p class="mt-1 font-bold max-w-2xl text-sm leading-6 text-gray-800">Personal Address</p>
+          </div>
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <% address.forEach( add => { %>
+              <div class="border-t border-gray-100 bg-white rounded-md shadow-md overflow-hidden">
+                  <dl class="divide-y divide-gray-100">
+                      <div class="px-4 py-6">
+                          <dt class="text-sm font-medium leading-6 text-gray-900">Name</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700"><%= add.name %></dd>
+                      </div>
+                      <div class="px-4 py-6">
+                          <dt class="text-sm font-medium leading-6 text-gray-900">Mobile No</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700"><%= add.mobile %></dd>
+                      </div>
+                      <div class="px-4 py-6">
+                          <dt class="text-sm font-medium leading-6 text-gray-900">Address</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700"><%= add.address %></dd>
+                          <dt class="text-sm font-medium leading-6 text-gray-900">Pincode</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700"><%= add.pincode %></dd>
+                          <dt class="text-sm font-medium leading-6 text-gray-900">City</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700"><%= add.city %></dd>
+                          <dt class="text-sm font-medium leading-6 text-gray-900">State</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700"><%= add.state %></dd>
+                      </div>
+                      <div class="px-4 py-6">
+                          <dt class="text-sm font-medium leading-6 text-gray-900">Address Type</dt>
+                          <dd class="mt-1 text-sm leading-6 text-gray-700">Degfault</dd>
+                          <a href="/userAddress/<%= address._id %>" class="mt-1 text-sm leading-6 text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                              <path d="m2.695 14.762-1.262 3.155a.5.5 0 0 0 .65.65l3.155-1.262a4 4 0 0 0 1.343-.886L17.5 5.501a2.121 2.121 0 0 0-3-3L3.58 13.419a4 4 0 0 0-.885 1.343Z" />
+                            </svg>
+                          </a>
+                      </div>
+                  </dl>
+              </div>
+              <% }) %>
+          </div>
+      </div>
+  </section>
+  
+
+
+</main>
+
+<%- include('../partials/footer') %>

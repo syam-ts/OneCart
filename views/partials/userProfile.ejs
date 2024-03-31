@@ -97,69 +97,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
               </svg>
             </button>
-            <!-- Messages button -->
-            <button
-              @click="(isSidebarOpen && currentSidebarTab == 'messagesTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'messagesTab'"
-              class="p-2 transition-colors rounded-lg shadow-md hover:bg-indigo-800 hover:text-white focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2"
-              :class="(isSidebarOpen && currentSidebarTab == 'messagesTab') ? 'text-white bg-indigo-600' : 'text-gray-500 bg-white'"
-            >
-              <span class="sr-only">Toggle message panel</span>
-          
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                />
-              </svg>
-            </button>
-            <!-- Notifications button -->
-            <button
-              @click="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? isSidebarOpen = false : isSidebarOpen = true; currentSidebarTab = 'notificationsTab'"
-              class="p-2 transition-colors rounded-lg shadow-md hover:bg-indigo-800 hover:text-white focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2"
-              :class="(isSidebarOpen && currentSidebarTab == 'notificationsTab') ? 'text-white bg-indigo-600' : 'text-gray-500 bg-white'"
-            >
-              <span class="sr-only">Toggle notifications panel</span>
-          
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                />
-              </svg>
-            </button>
-          </div>
+    
 
-          <!-- User avatar -->
-          <div class="relative flex items-center flex-shrink-0 p-2" x-data="{ isOpen: false }">
-            <button
-              @click="isOpen = !isOpen; $nextTick(() => {isOpen ? $refs.userMenu.focus() : null})"
-              class="transition-opacity rounded-lg opacity-80 hover:opacity-100 focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-offset-white focus:ring-offset-2"
-            >
-         
-              <span class="sr-only">User menu</span>
-            </button>
-            <div
-              x-show="isOpen"
-              @click.away="isOpen = false"
-              @keydown.escape="isOpen = false"
-              x-ref="userMenu"
-              tabindex="-1"
-              class="absolute w-48 py-1 mt-2 origin-bottom-left bg-white rounded-md shadow-lg left-10 bottom-14 focus:outline-none"
-              role="menu"
-              aria-orientation="vertical"
-              aria-label="user menu"
-            >
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem"
-                >Your Profile</a
-              >
-
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
-
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
-            </div>
-          </div>
         </nav>
 
         <div
@@ -194,9 +133,20 @@
             </div>
 
             <!-- Links -->
-            <div class="flex-1 px-4 space-y-2 overflow-hidden hover:overflow-auto">
-              <a href="#" class="flex items-center w-full space-x-2 text-white bg-indigo-600 rounded-lg">
-                <span aria-hidden="true" class="p-2 bg-indigo-700 rounded-lg">
+            <div class="flex-1 px-4 space-y-2 overflow-hidden hover:overflow-auto ">
+              
+
+<div class="w-full max-w-sm bg-white rounded-lg shadow dark:bg-violet-700 dark:border-gray-700">
+  <div class="flex flex-col items-center pb-10">
+      <img class="w-12 h-12 mb-3 mt-6   rounded-full shadow-lg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLMI5YxZE03Vnj-s-sth2_JxlPd30Zy7yEGg&usqp=CAU" alt="Bonnie image"/>
+      <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">Bonnie Green</h5>
+      <span class="text-sm text-gray-500 dark:text-gray-400">Visual Designer</span>
+
+  </div>
+</div>
+
+              <a href="/userProfile" class="flex items-center w-full space-x-2 text-indigo-600 rounded-lg hover:bg-indigo-600 hover:text-white">
+                <span aria-hidden="true" class="p-2  rounded-lg">
                   <svg
                     class="w-6 h-6"
                     xmlns="http://www.w3.org/2000/svg"
@@ -215,8 +165,31 @@
                 <span>Account Overview</span>
               </a>
               <a
-                href="#"
-                class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
+              href="/userAddress"
+              class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
+            >
+              <span
+                aria-hidden="true"
+                class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white"
+              >
+                <svg
+                  class="w-6 h-6"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+              </span>
+              <span>My Address</span>
+            </a>
+              <a href="#" class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
               >
                 <span
                   aria-hidden="true"
@@ -239,34 +212,8 @@
                 </span>
                 <span>My Orders</span>
               </a>
-              <a
-                href="#"
-                class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
-              >
-                <span
-                  aria-hidden="true"
-                  class="p-2 transition-colors rounded-lg group-hover:bg-indigo-700 group-hover:text-white"
-                >
-                  <svg
-                    class="w-6 h-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                    />
-                  </svg>
-                </span>
-                <span>Address</span>
-              </a>
-              <a
-                href="#"
-                class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
+     
+              <a href="#" class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
               >
                 <span
                   aria-hidden="true"
@@ -289,9 +236,7 @@
                 </span>
                 <span>Wallet</span>
               </a>
-              <a
-                href="#"
-                class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
+              <a href="#" class="flex items-center space-x-2 text-indigo-600 transition-colors rounded-lg group hover:bg-indigo-600 hover:text-white"
               >
                 <span
                   aria-hidden="true"
@@ -513,16 +458,8 @@
     </a>
     </div>
 </div>
-  </div>
-
-
-
+  
    </section>
   
-   <section>
-    <h1>Account Overview</h1>
-
-   </section>
-
 
 

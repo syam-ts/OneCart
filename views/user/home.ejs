@@ -10,7 +10,7 @@
          setTimeout(function() {
               var flashMessage = document.getElementById('flashMessage');
               flashMessage.style.display = 'none';
-          }, 3000); 
+          }, 2000); 
       </script>
     <% } %>
     
@@ -20,23 +20,25 @@
 
 <!-- carousel -->
 <section class="mt-3">
-    <div class="carousel w-full h-600">
-        <div id="item1" class="carousel-item w-full">
-          <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slider-01.jpg?v=1652056793" class="w-full h-600 object-cover" style="height: 600px;" />
-        </div> 
-        <div id="item2" class="hidden carousel-item w-full">
-          <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide3.jpg?v=1682405064&width=2200" class="w-full h-600 object-cover" style="height: 600px;" />
-        </div> 
-        <div id="item3" class="hidden carousel-item w-full">
-          <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide2.jpg?v=1682405064&width=2200" class="w-full h-600 object-cover" style="height: 600px;" />
-        </div> 
+  <div class="carousel w-full h-600">
+      <div id="item1" class="carousel-item w-full">
+        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slider-01.jpg?v=1652056793" class="w-full h-600 object-cover" style="height: 600px;" />
       </div> 
-      <div class="flex justify-center w-full py-2 gap-2">
-        <a href="#item1" class="btn btn-xs" onclick="showItem('item1')">1</a> 
-        <a href="#item2" class="btn btn-xs" onclick="showItem('item2')">2</a> 
-        <a href="#item3" class="btn btn-xs" onclick="showItem('item3')">3</a> 
-      </div>
+      <div id="item2" class="hidden carousel-item w-full">
+        <img src="/images/image-tourist-checking-out-something-cool-takeoff-sunglasses-say-wow-looking-aside-impressed.jpg" class="w-full h-600 object-cover" style="height: 600px;" />
+      </div> 
+      <div id="item3" class="hidden carousel-item w-full">
+        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide2.jpg?v=1682405064&width=2200" class="w-full h-600 object-cover" style="height: 600px;" />
+      </div> 
+  </div> 
+  <div class="flex justify-center w-full py-2 gap-2 mt-4">
+      <a href="#item1" class="btn btn-xs" onclick="showItem('item1')"><div class="w-3 h-3 rounded-full animate-pulse bg-gray-600"></div></a> 
+      <a href="#item2" class="btn btn-xs" onclick="showItem('item2')"><div class="w-3 h-3 rounded-full animate-pulse bg-gray-600"></div></a> 
+      <a href="#item3" class="btn btn-xs" onclick="showItem('item3')"><div class="w-3 h-3 rounded-full animate-pulse bg-gray-600"></div></a> 
+  </div>
 </section>
+
+
 
 <section class=" h-14 text-center mt-3 p-4">
     <span class="text-gray-900 michroma-regular">CATEGORIES</span>
@@ -437,7 +439,37 @@
 </section>
 
 
+<script>
+  // Function to show a specific item
+  function showItem(itemId) {
+    // Hide all items
+    var items = document.querySelectorAll('.carousel-item');
+    items.forEach(function(item) {
+      item.classList.add('hidden');
+    });
+    // Show the selected item
+    document.getElementById(itemId).classList.remove('hidden');
+  }
 
+  // Automatically switch between carousel items
+  var currentItem = 1;
+  var totalItems = 3;
+
+  function autoSlide() {
+    // Hide all items
+    var items = document.querySelectorAll('.carousel-item');
+    items.forEach(function(item) {
+      item.classList.add('hidden');
+    });
+    // Show the next item
+    document.getElementById('item' + currentItem).classList.remove('hidden');
+    // Increment currentItem
+    currentItem = (currentItem % totalItems) + 1;
+  }
+
+  // Set interval to call autoSlide function every 3 seconds (adjust as needed)
+  setInterval(autoSlide, 3000);
+</script>
 </main>
 
 

@@ -180,6 +180,8 @@ const verifyOtpLoad = async(req, res) => {
     }
    };
 
+ 
+
    //dispaly individual product
    const displayProduct = async(req, res) => {
     try {

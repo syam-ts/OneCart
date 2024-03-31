@@ -15,6 +15,7 @@ const insertCategory = async (req, res) => {
         const isCat = await Category.findOne({categoryName:cat});
         console.log('CAT: ', isCat);
         if(isCat){
+            // req.flash('msg','Successfully logged in ');
             res.send('already added');
         }else{
             const category = new Category({
