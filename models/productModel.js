@@ -40,7 +40,13 @@ const productSchema = mongoose.Schema({
             deleted: {
             type: Boolean,
             default: false,
-              }
+              },
+              cartSchema:[
+                {
+                  productId: String
+
+                } 
+            ]
         });
 
 

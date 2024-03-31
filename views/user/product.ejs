@@ -39,14 +39,14 @@
 
                   
                   <div class="max-w-xl overflow-hidden rounded-lg">
-                    <img class="h-full w-full max-w-full object-cover" src="/product_images/<%- products.productImage %>" alt="big" />
+                    <img class="h-full w-full max-w-full object-cover" src="/product_images/<%- datas[0].productImage %>" alt="big" />
                   </div>
                 </div>
       
                 <div class="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
                   <div class="flex flex-row items-start lg:flex-col">
                     <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
-                      <img class="h-full w-full object-cover" src="/product_images/<%- products.productImage %>" alt="" />
+                      <img class="h-full w-full object-cover" src="/product_images/<%- datas[0].productImage %>" alt="" />
                     </button>
                     <!-- <button type="button" class="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
                       <img class="h-full w-full object-cover" src="/images/JHxMnVrtPMdcNU1s_7g7f.png" alt="" />
@@ -60,7 +60,7 @@
             </div>
       
             <div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
-              <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl"> <%- products.productName %> </h1>
+              <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl"> <%- datas[0].productName %> </h1>
       
               <div class="mt-5 flex items-center">
                 <div class="flex items-center">
@@ -86,7 +86,7 @@
       <div class="flex-row">
         <div class="mt-10  flex-col items-center justify-between space-y-4 border-t  py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
-            <h1 class="text-3xl font-sans"><%- products.brand %></h1>
+            <h1 class="text-3xl font-sans"><%- datas[0].brand %></h1>
           </div>
          </div>   
         <div class="mt-2  flex-col items-center justify-between space-y-4  border-b py-4 sm:flex-row sm:space-y-0">
@@ -95,13 +95,13 @@
      
         <div class="mt-0 flex-col items-center justify-between space-y-4 border-t  py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
-            <h1 class="text-1xl font-medium"><%- products.color %></h1>
+            <h1 class="text-1xl font-medium"><%- datas[0].color %></h1>
           </div>
          </div>    
 
               </div>
               <div class=" items-end mt-3">
-                <h1 class="text-1xl font-medium">₹<%- products.price %>.00</h1>
+                <h1 class="text-1xl font-medium">₹<%- datas[0].price %>.00</h1>
               </div>
               </div>
               <ul class="mt-8 space-y-2">
@@ -120,14 +120,14 @@
                 </li>
               </ul>
       <div class="flex-row mt-16">
-        <button type="button" onclick="toCart()" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
+        <button type="button" onclick="toCart('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
             <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             <span class="text-xs">Add to cart</span>
        
           </button>
-          <button type="button" onclick="toWishlist()" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
+          <button type="button" onclick="toWishlist('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
             <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
@@ -152,7 +152,7 @@
               </div>
       
               <div class="mt-8 flow-root sm:mt-12">
-                <p class="text-1xl font-thin"><%- products.description %></p>
+                <p class="text-1xl font-thin"><%- datas[0].description %></p>
                
              </div>
             </div>
@@ -162,15 +162,52 @@
 <script>
     //to wishlist page
     const toWishlist = () => {
-        let wishlistUrl = '/wishlist';
-        window.location.href = wishlistUrl;
-    }
+     
+        const data = {
+            productId: productId,
+            userId: userId
+        };
 
-    //to cart page
-    const toCart = () => {
-        let cartUrl = '/cart';
-        window.location.href = cartUrl;
+        // Send data to server using AJAX
+        fetch('/addToWishlist'), {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
     }
+     //to cart page
+
+    const toCart =  (productId, userId) => {
+      const quantity = 1;
+        const data = {
+            productId: productId,
+            userId: userId,
+            quantity: quantity
+        };
+
+        // Send data to server using AJAX
+        fetch('/addTocart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+      }
 </script>      
     
 </main>

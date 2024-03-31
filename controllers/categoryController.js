@@ -10,12 +10,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const insertCategory = async (req, res) => {
     try {
-        const category = new Category({
-            categoryName: req.body.categoryName
-        });
-        const result = await category.save();
-
-       res.redirect('./category-list');
+        const cat = req.body.categoryName;
+        console.log('CAR NMAME:',cat);
+        const isCat = await Category.findOne({categoryName:cat});
+        console.log('CAT: ', isCat);
+        if(isCat){
+            res.send('already added');
+        }else{
+            const category = new Category({
+                categoryName: req.body.categoryName
+            });
+            const result = await category.save();
+    
+           res.redirect('./category-list');
+        }
+        
     } catch (error) {
        console.error(error);
         res.status(500);
@@ -101,16 +110,12 @@ const loadCategoryEdit = async (req, res) => {
 };
 
 
-
 // Category edit
 const editCategory = async (req, res) => {
     try {
-        const { categoryName, otherField1, otherField2 } = req.body;
-
+        const { categoryName } = req.body;
         const updatedFields = {};
         if (categoryName) updatedFields.categoryName = categoryName;
-        if (otherField1) updatedFields.otherField1 = otherField1;
-        if (otherField2) updatedFields.otherField2 = otherField2;
 
         const categoryId = req.params.id; 
         const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
@@ -118,7 +123,6 @@ const editCategory = async (req, res) => {
         if (!category) {
             return res.send('error');
         }
-
         res.redirect('/admin/category-list');
     } catch (error) {
         console.log('Error:', error);

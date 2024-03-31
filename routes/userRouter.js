@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const bodyParser = require('body-parser');
-const productListing = require('../controllers/productListingController');
 const userController = require('../controllers/userController');
+const categoryController = require('../controllers/cartController');
+const cartController = require('../controllers/cartController');
+const wishlistController = require('../controllers/wishlistController');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -19,17 +21,19 @@ router.get('/verify-otp',userController.verifyOtpLoad);
 router.post('/verify-otp',userController.verifyOTP);
 
 //product routes
-router.get('/product/:id',productListing.displayProduct);
-router.get('/search', productListing.searchProduct);
+router.get('/product/:id',userController.displayProduct);
+router.get('/search', userController.searchProduct);
 
 //userProfile
 router.get('/userProfile',(req, res) => {res.render('userProfile')});
 
 //wishlist routes
-router.get('/wishlist',(req, res) => {res.render('wishlist')});
+router.get('/wishlist',wishlistController.getwishlist);
+router.post('/wishlist',wishlistController.addToWishlist);
 
 //cart routes
-router.get('/cart',(req, res) => {res.render('cart')});
+router.get('/cart',cartController.getCart);
+router.post('/addToCart',cartController.addToCart);
  
 
 

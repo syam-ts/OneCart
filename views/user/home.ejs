@@ -3,7 +3,7 @@
 <main>
 
     <% if (chart[1] && chart[1].msg && chart[1].msg.length > 0)  { %>
-        <div id="flashMessage" style="background-color: #d4edda; padding: 10px; font-family: 'Courier New', Courier, monospace;">
+        <div id="flashMessage" style="background-color: #d4edda; text-align: center; padding: 10px; font-family: 'Courier New', Courier, monospace;">
             <%- chart[1].msg %>
         </div>
         <script>
@@ -13,7 +13,7 @@
           }, 3000); 
       </script>
     <% } %>
-
+    
 <section class=" h-14 text-center mt-3 p-4">
     <span class="michroma-regular">NEW ARRIVALS</span>
 </section>

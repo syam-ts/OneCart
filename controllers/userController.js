@@ -1,9 +1,15 @@
 
 const User = require('../models/userModel');
+const express = require('express');
 const bcrypt = require('bcrypt');
 const Product = require('../models/productModel');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
+const app = express();
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 //.dev
 dotenv.config({path:'./.env'})
@@ -43,7 +49,7 @@ const securePassword = async(password) => {
     try { 
       const  Email = req.body.email;
       const Password  = req.body.password;
-      const userdata = await User.findOne({ email: Email });
+      const userdata = await User.findOne({ $and:[{email: Email},{isBlock: false}]});
       if(userdata){
         const passwordMatch = await bcrypt.compare(Password,userdata.password);
         if(passwordMatch){
@@ -156,19 +162,56 @@ const verifyOtpLoad = async(req, res) => {
   //Home
   const getHome = async (req, res) => {
     try {
-      const products = await Product.find({deleted:false});
       const user = req.session.user;
-      if(user){
+      const isUser = await User.find({$and:[{_id:user},{isBlock: false}]});
+      if(isUser.length == 1 && user){
+      const products = await Product.find({deleted:false});
         res.render('home',{
           chart:[ products , {msg: req.flash('msg')} ]
-        })
+        });
       }else{
-        res.redirect('/login')
+         req.session.destroy();
+        res.redirect('/login');
+        console.log('User not found');
       }
-    } catch (error) {
+     }
+     catch (error) {
       console.log(error.message);
     }
    };
+
+   //dispaly individual product
+   const displayProduct = async(req, res) => {
+    try {
+    const productId = req.params.id;
+       const products = await Product.findById(productId);
+       const user = req.session.user;
+       res.render('product',{
+        datas:[
+          products,
+          user
+        ]
+       });
+    } catch (error) {
+       console.log(error);
+       res.status(500).send('Server internal Error');
+    }   
+   };
+ 
+ const searchProduct = async(req, res) => {
+    try {
+       const products = await Product.find();
+       res.render('search',{products})
+    } catch (error) {
+       console.log(error);
+       res.status(500).send('Server internal Error');
+    }   
+   };
+ 
+
+
+
+
 
  // logout
  const getLogout = async (req, res) => {
@@ -191,6 +234,8 @@ module.exports = {
     verifyLogin,
     getLogin,
    getHome,
+   displayProduct,
+   searchProduct,
     getLogout,
     verifyOtpLoad,
     verifyOTP

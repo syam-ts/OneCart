@@ -14,8 +14,10 @@ const sessionMiddleware = session({
 const getAdmin = (req, res) => {
     try {
         if (req.session.admin) {
-            res.redirect('/dashboard');
+          
+            res.redirect('./dashboard');
           } else {
+            console.log('SESSION; ',req.session.admin);
             res.render('admin-login');
         }
     } catch (error) {
@@ -23,6 +25,7 @@ const getAdmin = (req, res) => {
         res.send('An error occurred');
     }
 };
+
 //admin authentication
 const admin = {
     UserName: "adminMain",
@@ -34,17 +37,16 @@ const verifyAdmin = async (req, res) => {
     try {
         if (req.body.userName == admin.UserName && req.body.password == admin.Password) {
             req.session.admin = true; 
-            console.log('Admin logged in successfully');
-
-            // Wait for database queries to complete before rendering dashboard
             const [usersCount, brandCount, categoryCount] = await Promise.all([
                 User.find({ isBlock: false }).count(),
                 Product.find({ deleted: false }).count(),
                 Category.find({ deleted: false }).count()
             ]); 
-            res.render('dashboard', { chart: [usersCount, brandCount, categoryCount] });
+            // Redirect to the dashboard after successful login
+            res.redirect('/admin/dashboard');
         } else {
-            res.send('Username or password incorrect');
+            // If login fails, stay on the same page and display an error message
+            res.render('admin-login');
             console.log('Admin login failed');
         }
     } catch (error) {
@@ -52,14 +54,37 @@ const verifyAdmin = async (req, res) => {
     }
 };
 
+
 //dashboard
-const requireAdminAuth = (req, res, next) => {
-    if (req.session.admin) {
-        next(); // Continue to the next middleware/route if admin is authenticated
-    } else {
-        res.redirect('./admin-login'); // Redirect to admin login page if not authenticated
+const getDashboard =  async (req, res) => {
+    try {
+        const users = await User.find({ isBlock: false }).count();
+        const brand = await Product.find({ deleted: false }).count();
+        const category = await Category.find({ deleted: false }).count();
+        const admin = req.session.admin;
+        if(!admin){
+            res.redirect('./admin-login')
+
+        }else{
+            res.render('dashboard',{
+                chart:[users,brand,category]
+            })
+        }
+        res.render('dashboard');
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        res.status(500).send('Internal Server Error');
     }
 };
+
+//dashboard
+// const requireAdminAuth = (req, res, next) => {
+//     if (req.session.admin) {
+//         next(); // Continue to the next middleware/route if admin is authenticated
+//     } else {
+//         res.redirect('./dahsboard'); 
+//     }
+// };
 
 // Admin logout
 const logoutAdmin = (req, res) => {
@@ -81,7 +106,7 @@ const logoutAdmin = (req, res) => {
 
 module.exports = {
     getAdmin,
+    getDashboard,
     verifyAdmin,
-    logoutAdmin,
-    requireAdminAuth
+    logoutAdmin
 };

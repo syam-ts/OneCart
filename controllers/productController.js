@@ -10,15 +10,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-const maxCount = 5;
-const storage = multer.memoryStorage();
+//image rendering
+const storage = multer.diskStorage({
+    destination:(req, file, cb) => {
+        cb(null,'./public/product_images')
+    },
+    filename:(req, file, cb) => {
+        const name = Date.now()+''+file.originalname;
+        cb(null, name);
+    }
+});
 const upload = multer({ storage });
-app.use(upload.array('productImage',maxCount));
 
 //product list
 const getProduct = async(req, res) => {
     try {
-       const products = await Product.find({deleted:false});
+       const products = await Product.find();
        res.render('product-list',{products})
     } catch (error) {
        console.log(error);
@@ -103,11 +110,10 @@ const loadProductEdit = async (req, res) => {
 // product edit
 const editProduct = async (req, res) => {
     try {
-        console.log('body: ',req.body);
-        const { prouductName, brand, stock, color, productImage } = req.body;
-
+        console.log('body: ', req.body);
+        const { productName, productImage, category, description, brand, color, price, size, stock } = req.body;
         const updatedFields = {};
-        if (prouductName) updatedFields.prouductName = prouductName;
+        if (productName) updatedFields.productName = productName;
         if (brand) updatedFields.brand = brand;
         if (stock) updatedFields.stock = stock;
         if (color) updatedFields.color = color;
@@ -117,14 +123,16 @@ const editProduct = async (req, res) => {
         const product = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
 
         if (!product) {
-             res.send('error');
+             return res.send('error');
         }
 
-        res.redirect('/admin/product-list');
+        return res.redirect('/admin/product-list');
     } catch (error) {
         console.log('Error:', error);
+        return res.status(500).send('Internal Server Error');
     }
 };
+
 
  
 

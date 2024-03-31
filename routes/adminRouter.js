@@ -26,36 +26,20 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage});
 
-//admin auth
-const admin = {
-    userName: 'admin123',
-    password:'adminPassword123'
-};
+
 
 //admin-login
 router.get('/admin-login',adminController.getAdmin);
 router.post('/admin-login',adminController.verifyAdmin);
 router.get('/admin-logout',adminController.logoutAdmin);
 
-//dashboard
-router.get('/dashboard',adminController.requireAdminAuth, async (req, res) => {
-    try {
-        const users = await User.find({ isBlock: false }).count();
-        const brand = await Product.find({ deleted: false }).count();
-        const category = await Category.find({ deleted: false }).count();
-
-        // Pass the chart data as an object to the dashboard template
-        res.render('dashboard', { chart: [users, brand, category] });
-    } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-        res.status(500).send('Internal Server Error');
-    }
-});
+router.get('/dashboard',adminController.getDashboard);
 
 
 //userManagement routes
 router.get('/userManagement',userManagementController.getUsers);
-router.get('/user-delete/:id',userManagementController.deleteUser);
+router.get('/user-block/:id',userManagementController.blcokUser);
+router.get('/user-unblock/:id',userManagementController.unBlcokUser);
 
 //proudutManagement routes
 router.get('/product-list',productContoller.getProduct);

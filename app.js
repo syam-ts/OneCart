@@ -22,7 +22,7 @@ dotenv.config({path:'./.env'})
 const secretKey = process.env.SESSION_SECRET;
 
 //session object
-app.use(session({secret: secretKey ,cookie: { maxAge: null  }}));
+app.use(session({secret: secretKey}));
 
 app.use(flash());
 // Custom middleware to modify flash messages
