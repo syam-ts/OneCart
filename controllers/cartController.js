@@ -1,5 +1,6 @@
 const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
+const Address = require('../models/addressModel');
 
 const getCart = async (req, res) => {
     try{
@@ -19,6 +20,7 @@ const addToCart = async (req, res) => {
     try {
         const productId = req.body.productId;
         const userId = req.body.userId;
+        console.log('THE REAL USER :', userId);
         const existingItem = await Cart.findOne({
                 productId: productId,
                 userId: userId
@@ -55,8 +57,25 @@ const addToCart = async (req, res) => {
       }
    };
 
+//load checkout page
+const getCheckout = async (req, res) => {
+    try {
+   
+       
+        const address = await Address.findOne();
+
+        console.log('USER: ',address);
+      res.render('checkout',{address})
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
+
 module.exports = {
     getCart,
     addToCart,
-    removeCart
+    removeCart,
+    getCheckout
 };

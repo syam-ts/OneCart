@@ -7,6 +7,14 @@ const getUserAddress = async(req, res) => {
     res.render('userAddress',{ address })
    };
 
+  const getUserProfile = async = (req,res ) => {
+    try {
+      res.render('userProfile')
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
 // laoding address adding page 
    const getAddAddress = async(req, res) => {
     const addressId = req.params;
@@ -85,6 +93,7 @@ const deleteAddress = async (req, res) => {
 };
 
    module.exports = {
+    getUserProfile,
     getUserAddress,
     getAddAddress,
     insertAddress,

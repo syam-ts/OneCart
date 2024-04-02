@@ -126,12 +126,14 @@ const editProduct = async (req, res) => {
     try {
         console.log('body: ', req.body);
         const { productName, productImage, category, description, brand, color, price, size, stock } = req.body;
-        const updatedFields = {};
-        if (productName) updatedFields.productName = productName;
-        if (brand) updatedFields.brand = brand;
-        if (stock) updatedFields.stock = stock;
-        if (color) updatedFields.color = color;
-        if (productImage) updatedFields.productImage = productImage;
+        const updatedFields = {
+       productName : productName,
+       category: category,
+       description: description,
+       brand : brand,
+       stock : stock,
+       color : color,
+       productImage : productImage};
 
         const productId = req.params.id; 
         const product = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });

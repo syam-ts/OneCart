@@ -3,7 +3,6 @@ const app = express();
 const router = express.Router();
 const bodyParser = require('body-parser');
 const userController = require('../controllers/userController');
-const categoryController = require('../controllers/cartController');
 const cartController = require('../controllers/cartController');
 const wishlistController = require('../controllers/wishlistController');
 const addressController = require('../controllers/addressConroller');
@@ -14,7 +13,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 //user actions
 router.get('/login' ,userController.getLogin);
 router.post('/login',userController.verifyLogin);
-router.get('/signup',(req, res) => {res.render('signup')});
+router.get('/signup',userController.getSignup);
 router.post('/signup',userController.insertUser);
 router.get('/logout' ,(userController.getLogout));
 router.get('/home',userController.getHome);
@@ -26,7 +25,7 @@ router.get('/product/:id',userController.displayProduct);
 router.get('/search', userController.searchProduct);
 
 //userProfile
-router.get('/userProfile',(req, res) => {res.render('userProfile')});
+router.get('/userProfile',addressController.getUserProfile);
 router.get('/userAddress',addressController.getUserAddress);
 router.get('/addAddress',addressController.getAddAddress);
 router.post('/addAddress',addressController.insertAddress);
@@ -41,7 +40,8 @@ router.post('/wishlist',wishlistController.addToWishlist);
 //cart routes
 router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
-router.get('/removeCart/:id',cartController.removeCart);
+router.get('/removeCart',cartController.removeCart);
+router.get('/checkout',cartController.getCheckout);
  
 
 

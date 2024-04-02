@@ -1,10 +1,15 @@
 
 <%- include('../partials/header') %>
 
+<main>
+
+
 <section class="h-14 text-center mt-7 p-4">
     <span class="michroma-regular text-2xl ">YOUR CART</span>
     <p class="mt-5  border-b border-gray-950"></p>
 </section>
+<div class="flex">
+    
 <section class="mt-16">
     <div class="bg-white flex">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
@@ -31,34 +36,66 @@
                 
                         <div class="justify-center items-center text-center ">
                             <div class="flex gap-2">
-                                <a href="/removeCart/<%= product._id %>" class=" items-center justify-center h-4 w-32 mt-4 hover:bg-gray-700 text-gray-700 hover:text-white text-xs border border-gray-700 hover:border-transparent">
-                                    <span>Remove <%= items.cart.ObjectId %> </span> 
-                                </a>
-                                <a href="/userAddress" class="flex items-center justify-center h-4 w-32 mt-4 bg-transparent hover:bg-gray-700 text-gray-700 hover:text-white text-xs border border-gray-700 hover:border-transparent">
-                                    <span>Update</span> 
-                                </a>
+                              
+                              
+                              
+
+
                                 <!-- Print quantity -->
-                                <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()); %>
-                                <% if (cartItem) { %>
-                                    <a href="/userAddress" class="flex items-center justify-center h-4 w-32 mt-4 bg-transparent hover:bg-yellow-200 text-gray-700 hover:text-white text-xs border border-gray-700 hover:border-transparent">
-                                        <span><%= cartItem.quantity %></span> 
-                                    </a>
-                                <% } else { %>
-                                    <span>No Quantity</span>
-                                <% } %>
+                              
+                             <img id="removeCart" src="/images/x-letter.svg" class="h-5 w-5 ml-12" alt="">
+                                
+
+
+                                <select id="quantitySelect" class="w-24 ml-12 block appearance-none bg-transparent border border-gray-300 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                    <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()); %>
+                                    <% for (let i = 1; i <= cartItem.quantity; i++) { %>
+                                      <option class="text-gray-950" value="2"> <%= i %> / <%= cartItem.quantity %> </option>
+                                  <% } %>
+                                  </select>
+
                             </div>
-                            <button class="mt-5 w-48 h-8 rounded-full bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-4 border border-gray-700 hover:border-transparent ">
-                                Place order
-                            </button>
+                  
                         </div>
                     </div>
                 <% }) %>
-                
-      
+         <section class="flex-row">
+            <% const cartItem = items.cart.find(item => item.productId.toString()); %>
+                  <% let totalQuantity = 0; %>
+                            <% items.products.forEach(item => { %>
+                                <% totalQuantity += item.price; %>
+                            <% }); %>
+            <span class="font-bold"> Total: <%= totalQuantity %>   </span><br><br>
+       <a href="/checkout/<%= %>" class="m-20 cursor-pointer text-center w-48 h-8 rounded-full bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-4 border border-gray-700 hover:border-transparent ">
+         Place order
+        </a>
+         </section>
+             
     </div>
 </section>
 
+    
 
 
+</div>
+</main>
+<script>
+
+const removeButton = document.getElementById('removeCart');
+removeButton.addEventListener('click', removeCart);
+const removeCart = () => {
+    fetch("localhost:4000/removeCart", {
+        method:'GET',
+        headers:{
+            "Content-Type":"application/json"  
+        },
+        body: JSON.stringify()
+    })
+
+    }
+
+
+
+</script>
 
 <%- include('../partials/footer') %>

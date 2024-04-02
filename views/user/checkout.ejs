@@ -1,0 +1,121 @@
+<%- include('../partials/header') %>
+
+<main class="flex justify-start">
+    <section class="justify-start">
+        <%- include('../partials/userProfile') %>
+    </section>
+    
+ 
+    <div>
+
+
+    <section class="justify-start  w-96 m-4  h-96 text-center">
+        <div>
+            <div class="px-4 sm:px-0">
+                <p class="mt-1  font-bold max-w-2xl text-sm leading-6 text-gray-800">Personal Address</p>
+            </div>
+            <div class="overflow-x-auto ">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm font-medium text-gray-900">Name</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-700"><%= address.name %></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm font-medium text-gray-900">Mobile No</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-700"><%= address.mobile %></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm font-medium text-gray-900">Address</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-700"><%= address.address %></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm font-medium text-gray-900">Pincode</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-700"><%= address.pincode %></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm font-medium text-gray-900">City</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-700"><%= address.city %></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm font-medium text-gray-900">State</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="text-sm text-gray-700"><%= address.state %></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="w-64">
+        <a href="/addAddress" class="ml-4 px-8 py-0.5 font-light text-sm border border-black dark:border-gray-950  text-neutarl-700  ">
+            Change
+          </a>
+    </section>
+
+<section class="mt-5">
+
+    <table class="min-w-full divide-y divide-gray-200">
+        <tbody class="bg-white divide-y divide-gray-200">
+            
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-sm font-medium text-gray-900">Name</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-sm text-gray-700">sdfs</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-sm font-medium text-gray-900">Email</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="text-sm text-gray-700">sdfs</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="w-52 h-20 border border-gray-950 text-center py-5 font-bold text-lg">
+    <span>COD</span>
+</section>
+
+<section class="bg-gray-950">
+    <input
+    type="search"
+    class="peer mt-5 block min-h-[auto] w-96 font-bold h-7 bg-gray-950 text-gray-100  border border-gray-500 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none  dark:placeholder:text-gray-100 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-100"
+    placeholder="Checkout"
+    aria-label="Search"
+    id="exampleFormControlInput"
+    aria-describedby="basic-addon1" />
+</section>
+</div>
+</main>
+
+<%- include('../partials/footer') %>
