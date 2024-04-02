@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Loign</title>
     <script src="https://cdn.tailwindcss.com"></script>     
 </head>
 <body>
+
+
+
 
 <div class="flex min-h-full flex-col justify-center px-6 lg:px-8">
 
@@ -18,7 +22,7 @@
     <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Register</h2>
   </div>
 
-  <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-slate-200">
+  <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-200 ">
     <form class="space-y-6" method="POST" onsubmit="return validateForm()">
       <div>
         <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
@@ -92,22 +96,22 @@
       const rePassword = document.getElementById('rePassword').value;
   
       if (name.trim() === '') {
-        alert('Please enter your name.');
+        req.flash('msg', 'Please enter your name.')();
         return false;
       }
   
       if (!isValidEmail(email)) {
-        alert('Please enter a valid email address without leading or trailing spaces.');
+        req.flash('msg', 'Please enter a valid email address without leading or trailing spaces.')();
         return false;
       }
   
       if (phone.trim() === '' || !isValidPhone(phone)) {
-        alert('Please enter a valid phone number.');
+        req.flash('msg', 'Please enter a valid phone number.')
         return false;
       }
   
       if (password.trim() === '' || password !== rePassword) {
-        alert('Passwords do not match or are empty.');
+        req.flash('msg', 'Passwords do not match or are empty.');
         return false;
       }
       return true;

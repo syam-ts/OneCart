@@ -47,19 +47,33 @@ const loadProduct = async(req, res) => {
 //adding products
 const insertProduct = async (req, res) => {
     try {
-        const product = new Product({
-            productName: req.body.productName,
-            productImage: req.file.filename,
-            category: req.body.category,
-            description: req.body.description,
-            brand: req.body.brand,
-            color: req.body.color,
-            price: req.body.price,
-            size: req.body.size,
-            stock: req.body.stock
-        });
-        const result = await product.save();
-       res.redirect('/admin/product-list');
+        const productName = req.body.productName;
+        const existingProduct = await Product.find({ productName : productName });
+
+
+
+        if( !existingProduct ){
+            const product = new Product({
+                productName: req.body.productName,
+                productImage: req.file.filename,
+                category: req.body.category,
+                description: req.body.description,
+                brand: req.body.brand,
+                color: req.body.color,
+                price: req.body.price,
+                size: req.body.size,
+                stock: req.body.stock
+            });
+            const result = await product.save();
+           res.redirect('/admin/product-list');
+
+        }else{
+            console.log('already exists');
+            console.log('PRINT THIS TOO');
+            res.redirect('/admin/product-list');
+        };
+
+   
        //add flash messages
     } catch (error) {
        console.error(error);

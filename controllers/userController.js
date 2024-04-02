@@ -188,16 +188,11 @@ const verifyOtpLoad = async(req, res) => {
     const productId = req.params.id;
        const products = await Product.findById(productId);
        const user = req.session.user;
-       res.render('product',{
-        datas:[
-          products,
-          user
-        ]
-       });
-    } catch (error) {
-       console.log(error);
-       res.status(500).send('Server internal Error');
-    }   
+       res.render('product',{ datas:[ products, user ]});
+          } catch (error) {
+            console.log(error);
+            res.status(500).send('Server internal Error');
+          }   
    };
  
  const searchProduct = async(req, res) => {

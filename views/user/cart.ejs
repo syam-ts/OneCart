@@ -10,33 +10,55 @@
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 <!-- First Product -->
-                <% products.forEach( x => { %>
-                   
-                <div class="group relative">
-                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="./product_images/<%= x.productImage %>">
-                    </div>
-                    <div class="mt-4 flex justify-between">
-                        <div>
-                            <h3 class="text-sm text-gray-700">
-                                <a href="#">
-                                    <span aria-hidden="true" class="absolute inset-0"></span>
-                                    <%= x.productName %>
-                                </a>
-                            </h3>
-                            <p class="mt-1 text-sm text-gray-500"><%= x.color %></p>
+                <% items.products.forEach(product => { %>
+                    <div class="">
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                            <img src="./product_images/<%= product.productImage %>">
                         </div>
-                        <p class="text-sm font-medium text-gray-900"><%= x.price %></p>
-                       
-            </div>
-          
-
-
-        </div>
-    
-        <% }) %>
+                                    
+                        <div class="mt-4 flex justify-between">
+                            <div>
+                                <h3 class="text-sm text-gray-700">
+                                    <a href="/product/<%= product._id %>">
+                                        <span aria-hidden="true" class=""></span>
+                                        <%= product.productName %>
+                                    </a>
+                                </h3>
+                                <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
+                            </div>
+                            <p class="text-sm font-medium text-gray-900"><%= product.price %></p>    
+                        </div>
+                
+                        <div class="justify-center items-center text-center ">
+                            <div class="flex gap-2">
+                                <a href="/removeCart/<%= product._id %>" class=" items-center justify-center h-4 w-32 mt-4 hover:bg-gray-700 text-gray-700 hover:text-white text-xs border border-gray-700 hover:border-transparent">
+                                    <span>Remove <%= items.cart.ObjectId %> </span> 
+                                </a>
+                                <a href="/userAddress" class="flex items-center justify-center h-4 w-32 mt-4 bg-transparent hover:bg-gray-700 text-gray-700 hover:text-white text-xs border border-gray-700 hover:border-transparent">
+                                    <span>Update</span> 
+                                </a>
+                                <!-- Print quantity -->
+                                <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()); %>
+                                <% if (cartItem) { %>
+                                    <a href="/userAddress" class="flex items-center justify-center h-4 w-32 mt-4 bg-transparent hover:bg-yellow-200 text-gray-700 hover:text-white text-xs border border-gray-700 hover:border-transparent">
+                                        <span><%= cartItem.quantity %></span> 
+                                    </a>
+                                <% } else { %>
+                                    <span>No Quantity</span>
+                                <% } %>
+                            </div>
+                            <button class="mt-5 w-48 h-8 rounded-full bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-4 border border-gray-700 hover:border-transparent ">
+                                Place order
+                            </button>
+                        </div>
+                    </div>
+                <% }) %>
+                
+      
     </div>
 </section>
+
+
 
 
 <%- include('../partials/footer') %>

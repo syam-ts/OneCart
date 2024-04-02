@@ -31,13 +31,6 @@
             <div class="lg:col-span-3 lg:row-end-1">
               <div class="lg:flex lg:items-start">
                 <div class="lg:order-2 lg:ml-5">
-
-
-
-
-
-
-                  
                   <div class="max-w-xl overflow-hidden rounded-lg">
                     <img class="h-full w-full max-w-full object-cover" src="/product_images/<%- datas[0].productImage %>" alt="big" />
                   </div>
@@ -119,14 +112,18 @@
                   Cancel Anytime
                 </li>
               </ul>
-      <div class="flex-row mt-16">
-        <button type="button" onclick="toCart('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
-            <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
+      <div class="flex-row mt-12">
+        <select id="quantitySelect" class="block appearance-none bg-transparent border border-gray-300 px-2 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+          <% for (let i = 1; i <= datas[0].stock; i++) { %>
+            <option class="text-gray-950" value="<%= i %>"> <%= i %> </option>
+        <% } %>
+        </select>
+
+        <button type="button" onclick="addToCartWithQuantity('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
+     
             <span class="text-xs">Add to cart</span>
-       
           </button>
+
           <button type="button" onclick="toWishlist('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
             <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -183,31 +180,48 @@
             return response.json();
         })
     }
+
+
      //to cart page
 
-    const toCart =  (productId, userId) => {
-      const quantity = 1;
-        const data = {
-            productId: productId,
-            userId: userId,
-            quantity: quantity
-        };
 
-        // Send data to server using AJAX
-        fetch('/addTocart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-      }
+const toCart = (productId, userId, quantity) => {
+
+    const data = {
+        productId: productId,
+        userId: userId,
+        quantity: parseInt(quantity)
+    };
+
+    // Send data to server using AJAX
+    fetch('/addTocart', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+};
+
+const addToCartWithQuantity = (productId, userId) => {
+    const quantitySelect = document.getElementById('quantitySelect');
+  
+    const selectedQuantity = parseInt(quantitySelect.value);
+    console.log('QUTY: ',selectedQuantity); 
+    if (!isNaN(selectedQuantity)) { 
+      console.log('SJUT');
+        toCart(productId, userId, selectedQuantity);
+    } else {
+        console.log('Invalid quantity selected');
+    }
+};
+
 </script>      
     
 </main>

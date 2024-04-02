@@ -30,6 +30,9 @@ router.get('/userProfile',(req, res) => {res.render('userProfile')});
 router.get('/userAddress',addressController.getUserAddress);
 router.get('/addAddress',addressController.getAddAddress);
 router.post('/addAddress',addressController.insertAddress);
+router.get('/editAddress/:id',addressController.getEditAddress);
+router.post('/editAddress/:id',addressController.editAddress);
+router.get('/deleteAddress/:id',addressController.deleteAddress);
 
 //wishlist routes
 router.get('/wishlist',wishlistController.getwishlist);
@@ -38,6 +41,7 @@ router.post('/wishlist',wishlistController.addToWishlist);
 //cart routes
 router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
+router.get('/removeCart/:id',cartController.removeCart);
  
 
 

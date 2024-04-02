@@ -1,0 +1,108 @@
+<%- include('../partials/header') %>
+
+
+
+<main class="flex justify-start">
+<section class="justify-start">
+    <%- include('../partials/userProfile') %>
+</section>
+
+    <section class="p-12"> 
+<form method="post" action="/editAddress/<%= address._id %>">
+    <div class="space-y-12">
+      <div class="border-b border-gray-900/10 pb-12">
+
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+        <p class="mt-1 text-sm leading-6 text-gray-600">Use a permanent address where you can receive mail.</p>
+  
+        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div class="sm:col-span-3">
+            <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
+            <div class="mt-2">
+              <input type="text" name="name" id="name" value="<%= address.name %>" autocomplete="given-name" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+          <div class="sm:col-span-4">
+            <label for="mobile" class="block text-sm font-medium leading-6 text-gray-900">Mobile No</label>
+            <div class="mt-2">
+              <input id="mobile" name="mobile" value="<%= address.mobile %>" type="number" autocomplete="mobile" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+          <div class="sm:col-span-4">
+            <label for="country" class="block text-sm font-medium leading-6 text-gray-900">country</label>
+            <div class="mt-2">
+              <input id="country" name="country" type="text" value="<%= address.country %>" autocomplete="country" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+          
+  
+          <div class="col-span-full">
+            <label for="address" class="block text-sm font-medium leading-6 text-gray-900">Street address</label>
+            <div class="mt-2">
+              <input type="text" name="address" id="address" value="<%= address.address %>" autocomplete="address" class="block w-full border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+          <div class="sm:col-span-2 sm:col-start-1">
+            <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+            <div class="mt-2">
+              <input type="text" name="city" id="city" value="<%= address.city %>" autocomplete="address-level2" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+          <div class="sm:col-span-2">
+            <label for="state" class="block text-sm font-medium leading-6 text-gray-900">State</label>
+            <div class="mt-2">
+              <input type="text" name="state" id="state" value="<%= address.state %>" autocomplete="address-level1" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+    <!-- if (address.addressType == home) { %>  -->
+                <div class="mb-[0.125rem] block min-h-[1.5rem] ps-[1.5rem]">
+            <input
+              class="relative float-left -ms-[1.5rem] me-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-secondary-500 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] rtl:float-right dark:border-neutral-400 dark:checked:border-primary"
+              type="radio"
+              name="addressType"
+              value=""
+              id="home" />
+            <label
+              class="mt-px inline-block ps-[0.15rem] hover:cursor-pointer"
+              for="home">
+              Home
+            </label>
+          </div>
+          <!-- <} else { -->
+             <div class="mb-[0.125rem] block min-h-[1.5rem] ps-[1.5rem]">
+             <input
+               class="relative float-left -ms-[1.5rem] me-1 mt-0.5 h-5 w-5 appearance-none rounded-full border-2 border-solid border-secondary-500 before:pointer-events-none before:absolute before:h-4 before:w-4 before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-checkbox before:shadow-transparent before:content-[''] after:absolute after:z-[1] after:block after:h-4 after:w-4 after:rounded-full after:content-[''] checked:border-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:left-1/2 checked:after:top-1/2 checked:after:h-[0.625rem] checked:after:w-[0.625rem] checked:after:rounded-full checked:after:border-primary checked:after:bg-primary checked:after:content-[''] checked:after:[transform:translate(-50%,-50%)] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-black/60 focus:shadow-none focus:outline-none focus:ring-0 focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-black/60 focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:border-primary checked:focus:before:scale-100 checked:focus:before:shadow-checkbox checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] rtl:float-right dark:border-neutral-400 dark:checked:border-primary"
+               type="radio"
+               name="addressType"
+               id="work"
+               value="=  %>"
+               checked />
+             <label
+               class="mt-px inline-block ps-[0.15rem] hover:cursor-pointer"
+               for="radioDefault02">
+               Work
+             </label>
+           </div>
+        <!-- } -->
+      
+        
+           
+    <div class="flex w-32 items-center justify-center gap-x-6 bg-red-500">
+     
+      <button type="submit" class=" bg-ind border-gray-950o-600 px-3 py-2 text-sm font-semibold text-gray-100 shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add</button>
+    </div>
+  </form>
+  
+    </section>
+</main>
+      
+
+
+<%- include('../partials/footer') %>
