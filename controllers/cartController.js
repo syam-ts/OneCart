@@ -1,42 +1,41 @@
 const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
 const Address = require('../models/addressModel');
+const User = require('../models/userModel');
 
 const getCart = async (req, res) => {
     try{
-        const cart = await Cart.find();
+        const userId = req.session.user;
+        const cart = await Cart.find({userId : userId});
         const proId = await Cart.distinct("productId");
-        const products = await Product.find({ _id: { $in: proId } }); 
-        const qt = await Cart.distinct('quantity');
-        console.log('CART: ');
-        res.render('cart', { items: { products, cart} });
-    }catch(error){
-        console.log(error.message);
-    }
-};
+        const products = await Product.find({ _id: { $in: proId } });
+        res.render('cart', { items: { products, cart} }); 
+            }catch(error){
+                console.log(error.message);
+            }
+        };
 
 //adding prodcuts to cart
 const addToCart = async (req, res) => {
     try {
         const productId = req.body.productId;
         const userId = req.body.userId;
-        console.log('THE REAL USER :', userId);
         const existingItem = await Cart.findOne({
                 productId: productId,
                 userId: userId
             });
             if (!existingItem) {
                 const cart = new Cart({
-                    userId: req.body.userId,
+                    userId,
                     productId: req.body.productId,
                     quantity: req.body.quantity
                 });
                 await cart.save();
                 res.redirect('/home');
             } else {
-                existingItem.quantity += req.body.quantity;
+                existingItem.quantity += req.body.qd;
                 await existingItem.save();
-                console.log('FINAL ITEM : ',existingItem);
+             
                 res.redirect('/home');
             }
                 } catch (error) {
@@ -47,11 +46,11 @@ const addToCart = async (req, res) => {
   //remove from cart
   const removeCart = async (req, res ) => {
     try {
-        const { id: cartId } = req.params;
+        const cartId = req.params.id;
+        console.log('REQ.PARAM : ',cartId);
         await Cart.findByIdAndDelete(cartId);
-        console.log('CART: ',req.params);
         res.redirect('/cart');
-
+console.log('Successfully Removed ');
         } catch (error) {
         console.log(error.message);
       }
@@ -61,11 +60,12 @@ const addToCart = async (req, res) => {
 const getCheckout = async (req, res) => {
     try {
    
-       
+       const user = req.session.user
+       const getUser = await User.findById(user);
         const address = await Address.findOne();
 
-        console.log('USER: ',address);
-      res.render('checkout',{address})
+     
+      res.render('checkout',{address ,getUser})
     } catch (error) {
       console.log(error.message);
     }

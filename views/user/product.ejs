@@ -1,10 +1,6 @@
 <%- include('../partials/header') %>
 
 <main class="justify-center">
-
-    <section class="w-10/12 bg-pink-200 h-10 ml-32 mt-16">
-
-    </section>
     <!-- product -->
     <section class="py-12 sm:py-16 p-32"> 
         <div class="container mx-auto px-4">
@@ -15,7 +11,6 @@
                   <a href="/home" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"> Home </a>
                 </div>
               </li>
-      
               <li class="text-left">
                 <div class="flex items-center">
                   <span class="mx-2 text-gray-400">/</span>
@@ -54,7 +49,6 @@
       
             <div class="lg:col-span-2 lg:row-span-2 lg:row-end-2">
               <h1 class="sm: text-2xl font-bold text-gray-900 sm:text-3xl"> <%- datas[0].productName %> </h1>
-      
               <div class="mt-5 flex items-center">
                 <div class="flex items-center">
                   <svg class="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -83,18 +77,15 @@
           </div>
          </div>   
         <div class="mt-2  flex-col items-center justify-between space-y-4  border-b py-4 sm:flex-row sm:space-y-0">
-   
-      
      
         <div class="mt-0 flex-col items-center justify-between space-y-4 border-t  py-4 sm:flex-row sm:space-y-0">
           <div class=" items-end">
             <h1 class="text-1xl font-medium"><%- datas[0].color %></h1>
           </div>
-         </div>    
-
-              </div>
-              <div class=" items-end mt-3">
-                <h1 class="text-1xl font-medium">₹<%- datas[0].price %>.00</h1>
+         </div>   
+       </div>
+        <div class=" items-end mt-3">
+             <h1 class="text-1xl font-medium">₹<%- datas[0].price %>.00</h1>
               </div>
               </div>
               <ul class="mt-8 space-y-2">
@@ -104,7 +95,6 @@
                   </svg>
                   Free shipping worldwide
                 </li>
-      
                 <li class="flex items-center text-left text-sm font-medium text-gray-600">
                   <svg class="mr-2 block h-5 w-5 align-middle text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" class=""></path>
@@ -120,46 +110,38 @@
         </select>
 
         <button type="button" onclick="addToCartWithQuantity('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
-     
             <span class="text-xs">Add to cart</span>
           </button>
 
           <button type="button" onclick="toWishlist('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
             <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-            <span class="text-xs">Add to wishlist</span>
-          </button>
-      </div>
-                
-      
-              
-            </div>
-      
-            <div class="lg:col-span-3 mt-56">
-              <div class="border-b border-gray-300">
+                 </svg>
+             <span class="text-xs">Add to wishlist</span>
+           </button>
+        </div>
+      </div>  
+         <div class="lg:col-span-3 mt-56">
+             <div class="border-b border-gray-300">
                 <nav class="flex gap-4">
-                  <a href="#" title="" class="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </a>
-                              
+                  <a href="#" title="" class="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </a>         
                   <a href="#" title="" class="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600">
                     Reviews
                     <span class="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100"> 1,209 </span>
                   </a>
                 </nav>
               </div>
-      
               <div class="mt-8 flow-root sm:mt-12">
                 <p class="text-1xl font-thin"><%- datas[0].description %></p>
-               
              </div>
             </div>
           </div>
         </div>
       </section>
-<script>
-    //to wishlist page
-    const toWishlist = () => {
-     
+
+   <script>
+      //to wishlist page
+      const toWishlist = () => {
         const data = {
             productId: productId,
             userId: userId
@@ -172,7 +154,7 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
-        }
+          }
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -181,12 +163,8 @@
         })
     }
 
-
      //to cart page
-
-
 const toCart = (productId, userId, quantity) => {
-
     const data = {
         productId: productId,
         userId: userId,
@@ -211,7 +189,6 @@ const toCart = (productId, userId, quantity) => {
 
 const addToCartWithQuantity = (productId, userId) => {
     const quantitySelect = document.getElementById('quantitySelect');
-  
     const selectedQuantity = parseInt(quantitySelect.value);
     console.log('QUTY: ',selectedQuantity); 
     if (!isNaN(selectedQuantity)) { 
@@ -223,7 +200,7 @@ const addToCartWithQuantity = (productId, userId) => {
 };
 
 </script>      
-    
+
 </main>
 
 <%- include('../partials/footer') %>

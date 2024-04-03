@@ -34,68 +34,65 @@
                             <p class="text-sm font-medium text-gray-900"><%= product.price %></p>    
                         </div>
                 
-                        <div class="justify-center items-center text-center ">
+                        <div class="justify-center items-center text-center mt-6">
                             <div class="flex gap-2">
                               
-                              
-                              
-
-
-                                <!-- Print quantity -->
-                              
-                             <img id="removeCart" src="/images/x-letter.svg" class="h-5 w-5 ml-12" alt="">
+                                <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()) %>
+                                <% if (cartItem) { %>
+                                    <img onclick="removeCart('<%= cartItem._id %>')" src="/images/x-letter.svg" class="h-4 w-4 ml-12" alt="Remove">
+                                <% } %>
                                 
-
-
-                                <select id="quantitySelect" class="w-24 ml-12 block appearance-none bg-transparent border border-gray-300 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-                                    <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()); %>
+                             <select id="quantitySelect" class="w-16 text-center ml-12 block appearance-none bg-transparent border border-gray-300 px-2 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                                <% if (cartItem) { %>
                                     <% for (let i = 1; i <= cartItem.quantity; i++) { %>
-                                      <option class="text-gray-950" value="2"> <%= i %> / <%= cartItem.quantity %> </option>
-                                  <% } %>
-                                  </select>
-
+                                        <option class="text-gray-950" value="2"> <%= i %> </option>
+                                        <% } %>
+                                <% } else { %>
+                                    <option class="text-gray-950" value="0"> Out of stock </option>
+                                <% } %>
+                            </select>
                             </div>
-                  
                         </div>
                     </div>
                 <% }) %>
-         <section class="flex-row">
-            <% const cartItem = items.cart.find(item => item.productId.toString()); %>
-                  <% let totalQuantity = 0; %>
-                            <% items.products.forEach(item => { %>
-                                <% totalQuantity += item.price; %>
-                            <% }); %>
-            <span class="font-bold"> Total: <%= totalQuantity %>   </span><br><br>
-       <a href="/checkout/<%= %>" class="m-20 cursor-pointer text-center w-48 h-8 rounded-full bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-4 border border-gray-700 hover:border-transparent ">
-         Place order
-        </a>
-         </section>
-             
+                <section class="flex-row">
+                    <% const cartItem = items.cart.find(item => item.productId.toString()); %>
+                    <% let totalQuantity = 0; %> 
+                    <% items.products.forEach(item => { %>
+                        <% totalQuantity += item.price; %> 
+                    <% }); %>
+                    <span class="font-bold"> Total: <%= totalQuantity %> </span><br><br> 
+                    <a href="/checkout" class="m-20 cursor-pointer text-center w-48 h-8 rounded-full bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-4 border border-gray-700 hover:border-transparent">
+                        Place order
+                    </a>
+                </section>
+                
     </div>
 </section>
-
-    
-
-
 </div>
 </main>
 <script>
 
-const removeButton = document.getElementById('removeCart');
-removeButton.addEventListener('click', removeCart);
-const removeCart = () => {
-    fetch("localhost:4000/removeCart", {
-        method:'GET',
-        headers:{
-            "Content-Type":"application/json"  
-        },
-        body: JSON.stringify()
+const removeCart = (itemId) => {
+    const url = `http://localhost:4000/removeCart/${itemId}`;
+    fetch(url, {
+        method: 'GET'
     })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+        console.log("THE JSOn: ",response.json());
+    })
+    .then(data => {
+        console.log("Item removed successfully:", data);
+    })
+    .catch(error => {
+        console.error('Error removing item:', error);
+    });
+};
 
-    }
-
-
-
-</script>
+    </script>
 
 <%- include('../partials/footer') %>

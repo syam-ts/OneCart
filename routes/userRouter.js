@@ -6,6 +6,7 @@ const userController = require('../controllers/userController');
 const cartController = require('../controllers/cartController');
 const wishlistController = require('../controllers/wishlistController');
 const addressController = require('../controllers/addressConroller');
+const orderController = require('../controllers/orderController');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -40,9 +41,10 @@ router.post('/wishlist',wishlistController.addToWishlist);
 //cart routes
 router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
-router.get('/removeCart',cartController.removeCart);
+router.get('/removeCart/:id',cartController.removeCart);
 router.get('/checkout',cartController.getCheckout);
  
-
+//order routes
+router.get('/getOrderHistory',orderController.getOrderHistory);
 
 module.exports = router;

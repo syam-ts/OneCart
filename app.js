@@ -10,44 +10,37 @@ const connectDB = require('./DB/db');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
 
-
+app.use(nocache());
 app.use(methodOverride('_method'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-app.use(nocache());
+
 //.dev
 dotenv.config({path:'./.env'})
 
 const secretKey = process.env.SESSION_SECRET;
-
 //session object
-app.use(session({secret: secretKey,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }}));
+app.use(session({
+    secret: secretKey,
+    resave:false,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+}));
+
 
 app.use(flash());
-// Custom middleware to modify flash messages
 app.use((req, res, next) => {
-    // Store original flash function
     const _flash = res.flash;
-
-    // Override flash function to modify messages
     res.flash = function(type, message) {
-        // Check if message is a string or an array of strings
         if (typeof message === 'string') {
-            // Modify flash message to include background color
             message = `<div style="background-color: #d4edda; padding: 10px;">${message}</div>`;
         } else if (Array.isArray(message)) {
             message = message.map(msg => {
-                // Modify each flash message to include background color
                 return `<div style="background-color: #d4edda; padding: 10px;">${msg}</div>`;
             });
         }
-
-        // Call original flash function with modified message
         _flash.call(this, type, message);
     };
-
     next();
 });
 

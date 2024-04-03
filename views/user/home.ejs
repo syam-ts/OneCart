@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 
 <main>
-
+  <!-- flash configuration -->
     <% if (chart[1] && chart[1].msg && chart[1].msg.length > 0)  { %>
         <div id="flashMessage" style="background-color: #d4edda; text-align: center; padding: 10px; font-family: 'Courier New', Courier, monospace;">
             <%- chart[1].msg %>
@@ -38,8 +38,6 @@
   </div>
 </section>
 
-
-
 <section class=" h-14 text-center mt-3 p-4">
     <span class="text-gray-900 michroma-regular">CATEGORIES</span>
 </section>
@@ -47,25 +45,18 @@
 <section class="w-full mt-3 flex p-16" style="height: 745px;">
     <a href=""><img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/1_2a9471ff-024d-40f7-a4b3-a15a058ff334_2022-03-24.jpg?v=1652056987&width=700" alt=""  class="object-cover ml-36" style="width: 510px; height:630px"></a>
     <div class="grid">
-
         <a href=""><img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/04_720x_e9fa28ca-2048-4d27-82bf-695916dc2c8b.jpg?v=1652661868&width=600" alt=""  class="object-cove ml-36" style="height: 250px;width: 554px;"></a>
         <a href=""><img src="https://www.lip.fr/c/22-category_default/panoramic.jpg" alt=""  class="object-cover ml-36 mt-32"  style="height: 250px;width: 554px;"></a>
-    
-
     </div>
-  </section>
+  </section> 
 
-  
-
-  <section class=" h-14 text-center mt-3 p-4 justify-center flex">
+  <section class=" h-14 text-center mt-16 p-4 justify-center flex">
     <hr class="w-96">
     <span class="text-gray-900 michroma-regular">TRENDING</span>
     <hr class="w-96">
 </section>
 
 <!-- Products -->
-
-
 <section class="ml-20">
     <div class="bg-white ">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
@@ -273,7 +264,7 @@
     </div>
 
 
-    <section class="w-full h-80  flex justify-center items-center mt-12">
+    <section class="w-full h-80  flex justify-center items-center mt-48">
 
       <div class="relative flex bg-clip-border  bg-white text-gray-700 shadow-md w-full max-w-[48rem] flex-row">
         <div
@@ -309,14 +300,13 @@
       
     </section>
 
-
-    <section class="mt-12 w-full h-72 bg-slate-100 text-center py-28">
+    <section class="mt-48 w-full h-72 bg-stone-200 text-center py-28">
       <% chart[0].forEach((product) => { %>
   <span class="text-xl font-bold px-32">  <%= product.brand %></span>
   <% }) %>
     </section>
 
-    <section class="mt-12">
+    <section class="mt-24">
         <div class="text-center">
             <span class="michroma-regular text-gray-900">BEST SELLER</span>
         </div>
@@ -325,7 +315,7 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     <!-- First Product -->
                     <div class="group relative">
-                        <div class="group-hover:scale-110 transition-all duration-300 aspect-h-1 aspect-w-1 group-hover:scale-110 transition-all duration-300 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <div class="group-hover:scale-110 transition-all duration-300 aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                             <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/361349-125-2.jpg?v=1652080344&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                         </div>
                         <div class="mt-4 flex justify-between">
@@ -405,7 +395,7 @@
                 <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                     <!-- First Product -->
                     <div class="group relative">
-                        <div class="aspect-h-1 aspect-w-1 group-hover:scale-110 transition-all duration-300 group-hover:scale-110 transition-all duration-300 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <div class="aspect-h-1 aspect-w-1 group-hover:scale-110 transition-all duration-300  w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                             <img src="https://cdn.shopify.com/s/files/1/0616/9480/4174/products/pink-jacket-2.jpg?v=1652079727&width=600" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                         </div>
                         <div class="mt-4 flex justify-between">
@@ -490,34 +480,24 @@
 
 
 <script>
-  // Function to show a specific item
   function showItem(itemId) {
-    // Hide all items
     var items = document.querySelectorAll('.carousel-item');
     items.forEach(function(item) {
       item.classList.add('hidden');
     });
-    // Show the selected item
     document.getElementById(itemId).classList.remove('hidden');
   }
-
-  // Automatically switch between carousel items
   var currentItem = 1;
   var totalItems = 3;
 
   function autoSlide() {
-    // Hide all items
     var items = document.querySelectorAll('.carousel-item');
     items.forEach(function(item) {
       item.classList.add('hidden');
     });
-    // Show the next item
     document.getElementById('item' + currentItem).classList.remove('hidden');
-    // Increment currentItem
     currentItem = (currentItem % totalItems) + 1;
   }
-
-  // Set interval to call autoSlide function every 3 seconds (adjust as needed)
   setInterval(autoSlide, 3000);
 </script>
 </main>

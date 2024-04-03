@@ -9,11 +9,7 @@
 </head>
 <body>
 
-
-
-
 <div class="flex min-h-full flex-col justify-center px-6 lg:px-8">
-
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <!-- Logo if wanted -->
     <!-- <div class="text-center font-mono text-3xl font-bold">
@@ -51,10 +47,8 @@
       </div>
       <div>
 
-
         <div class="flex items-center justify-between">
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-
         </div>
         <div class="mt-2">
           <input id="password" name="password" type="password" autocomplete="current-password" required class="h-7 block w-full  border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -70,8 +64,6 @@
         </div>
       </div>
 
-
-
       <div class="flex">
         <button type="submit" class="flex w-24 justify-center bg-green-400 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Register</button>
       </div>
@@ -82,9 +74,7 @@
     <a href="/login" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Login to Account</a>
   </p>
 </div>
-
   </div>
-
    </main>
    
    <script>
@@ -94,7 +84,6 @@
       const phone = document.getElementById('phone').value;
       const password = document.getElementById('password').value;
       const rePassword = document.getElementById('rePassword').value;
-  
       if (name.trim() === '') {
         req.flash('msg', 'Please enter your name.')();
         return false;
@@ -119,9 +108,7 @@
   
     function isValidEmail(email) {
       email = email.trim();
-  
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
       return emailRegex.test(email);
     }
   
@@ -131,6 +118,5 @@
     }
   </script>
   
-
 </body>
 </html>

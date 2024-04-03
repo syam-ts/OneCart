@@ -87,7 +87,7 @@
                     <span class="text-sm font-medium text-gray-900">Name</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-sm text-gray-700">sdfs</span>
+                    <span class="text-sm text-gray-700"><%= getUser.name %></span>
                 </td>
             </tr>
             <tr>
@@ -95,25 +95,19 @@
                     <span class="text-sm font-medium text-gray-900">Email</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-sm text-gray-700">sdfs</span>
+                    <span class="text-sm text-gray-700"><%= getUser.email %></span>
                 </td>
             </tr>
         </tbody>
     </table>
 </section>
 
-<section class="w-52 h-20 border border-gray-950 text-center py-5 font-bold text-lg">
+<section class="w-52 h-20 border border-gray-950 text-center py-5 font-bold text-lg mt-16">
     <span>COD</span>
 </section>
 
-<section class="bg-gray-950">
-    <input
-    type="search"
-    class="peer mt-5 block min-h-[auto] w-96 font-bold h-7 bg-gray-950 text-gray-100  border border-gray-500 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none  dark:placeholder:text-gray-100 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-100"
-    placeholder="Checkout"
-    aria-label="Search"
-    id="exampleFormControlInput"
-    aria-describedby="basic-addon1" />
+<section class="bg-gray-950 mt-12 text-gray-50">
+  <a href="/getOrderDetails">checkout</a>
 </section>
 </div>
 </main>
