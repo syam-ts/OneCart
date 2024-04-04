@@ -7,9 +7,16 @@ const getCart = async (req, res) => {
     try{
         const userId = req.session.user;
         const cart = await Cart.find({userId : userId});
-        const proId = await Cart.distinct("productId");
-        const products = await Product.find({ _id: { $in: proId } });
-        res.render('cart', { items: { products, cart} }); 
+        const productIds = cart.map(item => item.productId);
+        const products = await Product.find({ _id: { $in: productIds } });
+       
+
+
+        if(products.length != 0){
+            res.render('cart', { items: { products, cart} }); 
+        }else{
+            res.send('no product to display')
+        };
             }catch(error){
                 console.log(error.message);
             }
@@ -59,19 +66,16 @@ console.log('Successfully Removed ');
 //load checkout page
 const getCheckout = async (req, res) => {
     try {
-   
        const user = req.session.user
        const getUser = await User.findById(user);
         const address = await Address.findOne();
-
-     
-      res.render('checkout',{address ,getUser})
+        const cartId = req.params.id;
+        const cart = await Cart.findById(cartId)
+      res.render('checkout',{address ,getUser,cart})
     } catch (error) {
       console.log(error.message);
     }
   };
-
-
 
 module.exports = {
     getCart,

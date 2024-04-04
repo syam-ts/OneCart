@@ -66,6 +66,7 @@ initTWE({ Dropdown, Ripple });
           </div>
         </div>
 
+
         <!-- Search bar -->
         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div class="hidden sm:ml-6 sm:block">
@@ -79,13 +80,13 @@ initTWE({ Dropdown, Ripple });
           class="peer mt-5 block min-h-[auto] w-96 h-7  border border-gray-500 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[twe-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-gray-950 dark:placeholder:text-gray-900 dark:autofill:shadow-autofill dark:peer-focus:text-primary [&:not([data-twe-input-placeholder-active])]:placeholder:opacity-0"
           placeholder="Search"
           aria-label="Search"
-          id="exampleFormControlInput"
+          id="searchInput"
           aria-describedby="basic-addon1" />
 
-        <button
-          class="my-5 mr-12 ml-2 w-16 h-7  border border-gray-500 relative z-[2] -ms-0.5 flex items-center  bg-black px-5  text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+          <button
+          class="my-5 mr-12 ml-2 w-16 h-7 border border-gray-500 relative z-[2] -ms-0.5 flex items-center bg-black px-5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
           type="button"
-          id="button-addon1"
+          id="searchButton"
           data-twe-ripple-init
           data-twe-ripple-color="light">
           <span class="[&>svg]:h-3 [&>svg]:w-3">
@@ -102,7 +103,9 @@ initTWE({ Dropdown, Ripple });
             </svg>
           </span>
         </button>
+        
              </div>
+             
                   <a href="#" class="text-gray-800 hover:text-cyan-300 line px-3 py-2 text-sm my-5 font-sans">Latest</a>
                   <a href="/wishlist" class="text-gray-800 hover:text-cyan-300 line px-3 py-2 text-sm my-5 font-sans">Wishlist</a>
                   <a href="/cart" class="text-gray-800 hover:text-cyan-300 px-3 py-2 text-sm my-5 font-sans">Cart</a>
@@ -153,4 +156,31 @@ initTWE({ Dropdown, Ripple });
       </div>
     </div>
 </header>
+
+<script>
+  document.getElementById('searchButton').addEventListener('click', () => {
+    console.log('Button Clicked');
+    const theInput = document.getElementById('searchInput').value;
+  
+    fetch(`http://localhost:4000/search?input=${encodeURIComponent(theInput)}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'text/html'
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.text();
+    })
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+  });
+  </script>
+  
 

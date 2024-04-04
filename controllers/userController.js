@@ -191,19 +191,6 @@ const verifyOtpLoad = async(req, res) => {
       };
 
 
- 
- const searchProduct = async(req, res) => {
-    try {
-       const products = await Product.find();
-       res.render('search',{products})
-    } catch (error) {
-       console.log(error);
-       res.status(500).send('Server internal Error');
-    }   
- };
- 
-
-
  // logout
  const getLogout = async (req, res) => {
       try {
@@ -229,7 +216,6 @@ module.exports = {
     getSignup,
     getHome,
     displayProduct,
-    searchProduct,
     getLogout,
     verifyOtpLoad,
     verifyOTP

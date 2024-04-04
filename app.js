@@ -23,9 +23,10 @@ const secretKey = process.env.SESSION_SECRET;
 //session object
 app.use(session({
     secret: secretKey,
-    resave:false,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 }
+    resave: false,
+    cookie: { maxAge: 3600000 }, 
 }));
+
 
 
 app.use(flash());

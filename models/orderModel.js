@@ -16,25 +16,21 @@ const orderSchema = mongoose.Schema({
                 },
                 quantity:{
                     type:Number
-                },
-                total:{
-                    type:Number
                 }
                 }],
+                total:{
+                    type:Number
+                },
                 paymetMethod:{
                     type:String,
-                    required:true
+                    
                 },
                 status:{
                     type:String
                 },
                 createdate:{
                     type:Date,
-                    default:Date.now()
-                },
-                orderid:{
-                    type:Number,
-                    required:true
+                    default:Date.now
                 }
         });
 

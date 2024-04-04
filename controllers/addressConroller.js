@@ -3,7 +3,10 @@ const countries = require('../public/countries');
 
 //user address page
 const getUserAddress = async(req, res) => {
-  const address = await Address.find();
+  const userId = req.session.user;
+  const address = await Address.find({userId:{ $in : userId}});
+
+  console.log('THE COMPLETE ADDRESS : ',address);
     res.render('userAddress',{ address })
    };
 
@@ -22,11 +25,14 @@ const getUserAddress = async(req, res) => {
     res.render('addressAdd',{ countries });
    };
 
+
    //adding new address
   const insertAddress = async(req, res) => {
   try {
+    const userId = req.session.user;
     const { name, mobile, address, pincode, city, state, country } = req.body; 
     const newAddress = new Address({
+            userId:userId,
             name: name,
             mobile: mobile,
             address: address,

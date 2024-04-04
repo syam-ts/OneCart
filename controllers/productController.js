@@ -2,7 +2,6 @@ const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
 const multer = require('multer');
 const express = require('express');
-const router = express.Router();
 const app = express();
 const bodyParser = require('body-parser');
 
@@ -120,7 +119,24 @@ const loadProductEdit = async (req, res) => {
     }
 };
 
+//search product
+const searchProduct = async(req, res) => {
+    try {
+       const input = req.query.input;
+       const products = await Product.find({category: input});
+       console.log(products);
+       res.render('search');
 
+       
+    } catch (error) {
+       console.log(error);
+       res.status(500).send('Server internal Error');
+    }   
+ };
+
+
+
+ 
 // product edit
 const editProduct = async (req, res) => {
     try {
@@ -157,6 +173,7 @@ module.exports = {
     loadProduct,
     insertProduct,
     deleteProduct,
+    searchProduct,
     loadProductEdit,
     editProduct
 };

@@ -7,6 +7,7 @@ const cartController = require('../controllers/cartController');
 const wishlistController = require('../controllers/wishlistController');
 const addressController = require('../controllers/addressConroller');
 const orderController = require('../controllers/orderController');
+const productController = require('../controllers/productController');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -23,7 +24,7 @@ router.post('/verify-otp',userController.verifyOTP);
 
 //product routes
 router.get('/product/:id',userController.displayProduct);
-router.get('/search', userController.searchProduct);
+router.get('/search',productController.searchProduct);
 
 //userProfile
 router.get('/userProfile',addressController.getUserProfile);
@@ -42,9 +43,9 @@ router.post('/wishlist',wishlistController.addToWishlist);
 router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
 router.get('/removeCart/:id',cartController.removeCart);
-router.get('/checkout',cartController.getCheckout);
+router.get('/checkout/:id',cartController.getCheckout);
  
 //order routes
-router.get('/getOrderHistory',orderController.getOrderHistory);
+router.get('/getOrderHistory/:cart/:user/:address',orderController.getOrderHistory);
 
 module.exports = router;

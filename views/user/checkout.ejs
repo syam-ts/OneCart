@@ -6,10 +6,10 @@
     </section>
     
  
-    <div>
+    <div class="ml-80">
 
 
-    <section class="justify-start  w-96 m-4  h-96 text-center">
+    <section class="justify-start  w-full m-4  h-96 text-center">
         <div>
             <div class="px-4 sm:px-0">
                 <p class="mt-1  font-bold max-w-2xl text-sm leading-6 text-gray-800">Personal Address</p>
@@ -107,9 +107,10 @@
 </section>
 
 <section class="bg-gray-950 mt-12 text-gray-50">
-  <a href="/getOrderDetails">checkout</a>
+    <a href="/getOrderHistory/<%= encodeURIComponent(cart) %>/<%= encodeURIComponent(getUser) %>/<%= encodeURIComponent(address) %>/<%= totalPrice %>">checkout</a>
+
 </section>
-</div>
+</div> 
 </main>
 
 <%- include('../partials/footer') %>
