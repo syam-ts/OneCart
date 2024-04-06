@@ -16,6 +16,9 @@ const orderSchema = mongoose.Schema({
                 },
                 quantity:{
                     type:Number
+                },
+                total:{
+                    type:Number
                 }
                 }],
                 total:{
@@ -23,7 +26,6 @@ const orderSchema = mongoose.Schema({
                 },
                 paymetMethod:{
                     type:String,
-                    
                 },
                 status:{
                     type:String

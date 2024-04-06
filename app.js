@@ -24,7 +24,8 @@ const secretKey = process.env.SESSION_SECRET;
 app.use(session({
     secret: secretKey,
     resave: false,
-    cookie: { maxAge: 3600000 }, 
+    saveUninitialized: false,
+    cookie: { maxAge: 36000000 }, 
 }));
 
 

@@ -123,8 +123,9 @@ const loadProductEdit = async (req, res) => {
 const searchProduct = async(req, res) => {
     try {
        const input = req.query.input;
-       const products = await Product.find({category: input});
-       console.log(products);
+       console.log('THE INPUT FROM THE SEARCH: ',input)
+       const products = await Product.find({category:{$id: input}});
+       console.log('THE PRODUCTS: ', products);
        res.render('search');
 
        

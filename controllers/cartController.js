@@ -2,6 +2,7 @@ const Product = require('../models/productModel');
 const Cart = require('../models/cartModel');
 const Address = require('../models/addressModel');
 const User = require('../models/userModel');
+const Order = require('../models/orderModel');
 
 const getCart = async (req, res) => {
     try{
@@ -10,8 +11,6 @@ const getCart = async (req, res) => {
         const productIds = cart.map(item => item.productId);
         const products = await Product.find({ _id: { $in: productIds } });
        
-
-
         if(products.length != 0){
             res.render('cart', { items: { products, cart} }); 
         }else{
@@ -26,7 +25,7 @@ const getCart = async (req, res) => {
 const addToCart = async (req, res) => {
     try {
         const productId = req.body.productId;
-        const userId = req.body.userId;
+        const userId = req.session.user;
         const existingItem = await Cart.findOne({
                 productId: productId,
                 userId: userId
@@ -38,12 +37,9 @@ const addToCart = async (req, res) => {
                     quantity: req.body.quantity
                 });
                 await cart.save();
-                res.redirect('/home');
             } else {
-                existingItem.quantity += req.body.qd;
+                existingItem.quantity += req.body.quantity;
                 await existingItem.save();
-             
-                res.redirect('/home');
             }
                 } catch (error) {
                     console.log(error.message);
@@ -54,7 +50,6 @@ const addToCart = async (req, res) => {
   const removeCart = async (req, res ) => {
     try {
         const cartId = req.params.id;
-        console.log('REQ.PARAM : ',cartId);
         await Cart.findByIdAndDelete(cartId);
         res.redirect('/cart');
 console.log('Successfully Removed ');
@@ -66,16 +61,22 @@ console.log('Successfully Removed ');
 //load checkout page
 const getCheckout = async (req, res) => {
     try {
-       const user = req.session.user
-       const getUser = await User.findById(user);
+        // {addressType:{$eq : 'Permanant'}}
+        const userId = req.session.user;
+        const getUser = await User.findById(userId)
+        const cart = await Cart.find({userId : userId});
+        const productIds = cart.map(item => item.productId);
+        const products = await Product.find({ _id: { $in: productIds } });
         const address = await Address.findOne();
-        const cartId = req.params.id;
-        const cart = await Cart.findById(cartId)
-      res.render('checkout',{address ,getUser,cart})
-    } catch (error) {
-      console.log(error.message);
+        const totalPrice = req.params.id;
+    
+res.render('checkout',{address, getUser,products,totalPrice, cart});
+
+    }catch(error){
+    console.log(error.message);
     }
-  };
+}
+
 
 module.exports = {
     getCart,

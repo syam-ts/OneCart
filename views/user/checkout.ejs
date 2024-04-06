@@ -1,116 +1,209 @@
 <%- include('../partials/header') %>
 
-<main class="flex justify-start">
-    <section class="justify-start">
-        <%- include('../partials/userProfile') %>
-    </section>
-    
- 
-    <div class="ml-80">
+<main>
 
 
-    <section class="justify-start  w-full m-4  h-96 text-center">
-        <div>
-            <div class="px-4 sm:px-0">
-                <p class="mt-1  font-bold max-w-2xl text-sm leading-6 text-gray-800">Personal Address</p>
+    <div class="font-[sans-serif] bg-gray-200">
+        <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-4 h-full">
+          <div class="bg-stone-300 lg:h-screen lg:sticky lg:top-0">
+            <div class="relative h-full">
+              <div class="p-8 lg:overflow-auto lg:h-[calc(100vh-60px)]">
+                <h2 class="text-2xl font-bold text-white">Order Summary</h2>
+                <div class="space-y-6 mt-10">
+
+                    <% products.forEach( item => { %>
+
+                  <div class="grid sm:grid-cols-2 items-start gap-6">
+                    <div class="  shrink-0 bg-gray-50 ">
+                      <img src='/product_images/<%= item.productImage %>' class="w-full object-contain" />
+                    </div>
+                    <div>
+                      <h3 class="text-base text-white"><%= item.productName %></h3>
+                      <ul class="text-xs text-white space-y-3 mt-4">
+                        <li class="flex flex-wrap gap-4">Size<span class="ml-auto"><%= item.size %> </span></li>
+                        <li class="flex flex-wrap gap-4">Quantity <span class="ml-auto"><%= cart.quantity %> </span></li>
+                       
+                        <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto"><%=  item.price %></span></li>
+                      </ul>
+                    </div>
+                  </div>
+                     <% }) %>
+
+                </div>
+              </div>
+              <div class="absolute left-0 bottom-0 bg-[#444] w-full p-4">
+                <h4 class="flex flex-wrap gap-4 text-base text-white">Total <span class="ml-auto"><%= totalPrice %></span></h4>
+              </div>
             </div>
-            <div class="overflow-x-auto ">
-                <table class="min-w-full divide-y divide-gray-200">
+          </div>
+
+
+          <div class="xl:col-span-2 h-max rounded-md p-8 sticky top-0">
+            <h2 class="text-2xl font-bold text-[#333]">Complete your order</h2>
+            <h1 class="text-1xl font-bold text-[#333] mt-5">Personal Details </h1>
+                <table class="min-w-full divide-y divide-gray-200 mt-5">
                     <tbody class="bg-white divide-y divide-gray-200">
+                        
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="text-sm font-medium text-gray-900">Name</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= address.name %></span>
+                                <span class="text-sm text-gray-700"><%= getUser.name %></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">Mobile No</span>
+                                <span class="text-sm font-medium text-gray-900">Email</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= address.mobile %></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">Address</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= address.address %></span>
+                                <span class="text-sm text-gray-700"><%= getUser.email %></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">Pincode</span>
+                                <span class="text-sm font-medium text-gray-900">Mobile</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= address.pincode %></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">City</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= address.city %></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">State</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= address.state %></span>
+                                <span class="text-sm text-gray-700"><%= getUser.phone %></span>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </section>
 
-    <section class="w-64">
-        <a href="/addAddress" class="ml-4 px-8 py-0.5 font-light text-sm border border-black dark:border-gray-950  text-neutarl-700  ">
-            Change
-          </a>
-    </section>
+<section>
 
-<section class="mt-5">
 
-    <table class="min-w-full divide-y divide-gray-200">
-        <tbody class="bg-white divide-y divide-gray-200">
+
+              <div>
+                <h3 class="text-lg font-bold text-[#333] mb-6 mt-5">Shipping Address</h3>
             
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-sm font-medium text-gray-900">Name</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-sm text-gray-700"><%= getUser.name %></span>
-                </td>
-            </tr>
-            <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-sm font-medium text-gray-900">Email</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-sm text-gray-700"><%= getUser.email %></span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
+                
+                <div class="overflow-x-auto ">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">Name</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.name %></span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">Mobile No</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.mobile %></span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">Address</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.address %></span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">Pincode</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.pincode %></span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">City</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.city %></span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">State</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.state %></span>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm font-medium text-gray-900">Country</span>
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <span class="text-sm text-gray-700"><%= address.country %></span>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              </div>
 
-<section class="w-52 h-20 border border-gray-950 text-center py-5 font-bold text-lg mt-16">
-    <span>COD</span>
-</section>
+            </section>
 
-<section class="bg-gray-950 mt-12 text-gray-50">
-    <a href="/getOrderHistory/<%= encodeURIComponent(cart) %>/<%= encodeURIComponent(getUser) %>/<%= encodeURIComponent(address) %>/<%= totalPrice %>">checkout</a>
 
-</section>
-</div> 
+    <section>
+
+
+
+              <div class="mt-6 flex-auto">
+                <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
+                <div class="grid sm:grid-cols-2 gap-6 text-center">
+                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">Cash on Delivery</a>
+                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">Credit Card</a>
+                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">UPI</a>
+                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">Net Banking</a>
+                </div>
+                <div class="flex gap-6 max-sm:flex-col mt-10">
+                  <button type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
+                  <button onclick="placeOrder('<%= address._id %>', '<%= totalPrice %>')" type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-[#333] text-white hover:bg-[#222]">
+                    Complete Purchase
+                </button>
+                </div>
+              </div>
+            </section>  
+
+            </form>
+          </div>
+        </div>
+      </div>
 </main>
+
+<script>
+const placeOrder = (addressId, totalPrice) => {
+    const data = {
+        addressId: addressId,
+        totalPrice: totalPrice
+    };
+
+    console.log('USER CLICKED ONE TIME');
+
+    fetch('/placeOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Handle successful response data here if needed
+        console.log('Order placed successfully:', data);
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
+
+</script>
 
 <%- include('../partials/footer') %>

@@ -44,8 +44,15 @@ router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
 router.get('/removeCart/:id',cartController.removeCart);
 router.get('/checkout/:id',cartController.getCheckout);
+router.get('/checkout1/new',(req, res) =>{
+res.render('chekout1')
+});
  
 //order routes
-router.get('/getOrderHistory/:cart/:user/:address',orderController.getOrderHistory);
+router.get('/orderHistory',(req, res) => {
+    res.render('orderHistory')
+});
+router.post('/placeOrder',orderController.insetOrder);
+
 
 module.exports = router;

@@ -65,10 +65,11 @@
                         <% } %>
                     <% }); %>
                     
-                    <span class="font-bold"> Total: <%= totalPrice %>  </span><br><br>  
-                    <a href="/checkout/<%= cartItem._id %>/<%= totalPrice %>" class="m-20 cursor-pointer text-center w-48 h-8 rounded-full bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-4 border border-gray-700 hover:border-transparent">
+                    <span class="font-bold"> Total: <%= totalPrice %></span><br><br>  
+                    <a href="/checkout/<%= totalPrice %>" class="ext-center h-8 w-44 bg-transparent hover:bg-cyan-400 text-gray-700 font-semibold hover:text-white text-xs py-2 px-32 bg-orange-500 border border-gray-700 hover:border-transparent">
                         Checkout
                     </a>
+                    
                 </section>
                 
     </div>

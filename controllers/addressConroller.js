@@ -30,7 +30,7 @@ const getUserAddress = async(req, res) => {
   const insertAddress = async(req, res) => {
   try {
     const userId = req.session.user;
-    const { name, mobile, address, pincode, city, state, country } = req.body; 
+    const { name, mobile, address, pincode, city, state, country,addressType } = req.body; 
     const newAddress = new Address({
             userId:userId,
             name: name,
@@ -39,7 +39,8 @@ const getUserAddress = async(req, res) => {
             pincode: pincode,
             city: city,
             state: state,
-            country: country
+            country: country,
+            addressType:addressType
        });
     const result = await newAddress.save();
     res.redirect('/userAddress')
@@ -63,12 +64,9 @@ const getEditAddress = async (req, res ) => {
   const editAddress = async (req, res) => {
     try {
       const { id: addressId } = req.params;
-      const { name, mobile, address, pincode, city, state, country } = req.body;
-  
-      // Find the address by ID
+      const { name, mobile, address, pincode, city, state, country, addressType } = req.body;
       const addressToUpdate = await Address.findById(addressId);
   
-      // Update the fields
       addressToUpdate.name = name;
       addressToUpdate.mobile = mobile;
       addressToUpdate.address = address;
@@ -76,10 +74,9 @@ const getEditAddress = async (req, res ) => {
       addressToUpdate.city = city;
       addressToUpdate.state = state;
       addressToUpdate.country = country;
+      addressToUpdate.addressType = addressType;
   
-      // Save the updated address
       const updatedAddress = await addressToUpdate.save();
-  
       res.redirect('/userAddress');
     } catch (error) {
       console.log(error.message);
