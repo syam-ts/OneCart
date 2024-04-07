@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
         cb(null, name);
     }
 });
-const upload = multer({ storage });
+const upload = multer({ storage }).array('productImage');
 
 //product list
 const getProduct = async(req, res) => {
@@ -43,42 +43,46 @@ const loadProduct = async(req, res) => {
     }
 };
 
+
 //adding products
 const insertProduct = async (req, res) => {
     try {
         const productName = req.body.productName;
-        const existingProduct = await Product.find({ productName : productName });
+        const existingProduct = await Product.find({ productName: productName });
+        console.log('THE EXIT: ',existingProduct.length)
 
+        if (existingProduct.length == 0) {
+        
+                const productImages = req.files.map(file => file.filename);
+     
+                
+                const product = new Product({
+                    productName: req.body.productName,
+                    productImage: productImages,
+                    category: req.body.category,
+                    description: req.body.description,
+                    brand: req.body.brand,
+                    color: req.body.color,
+                    price: req.body.price,
+                    size: req.body.size,
+                    stock: req.body.stock
+                });
 
-
-        if( !existingProduct ){
-            const product = new Product({
-                productName: req.body.productName,
-                productImage: req.file.filename,
-                category: req.body.category,
-                description: req.body.description,
-                brand: req.body.brand,
-                color: req.body.color,
-                price: req.body.price,
-                size: req.body.size,
-                stock: req.body.stock
-            });
-            const result = await product.save();
-           res.redirect('/admin/product-list');
-
-        }else{
-            console.log('already exists');
-            console.log('PRINT THIS TOO');
+                await product.save();
+                res.redirect('/admin/product-list');
+          
+        } else {
+            console.log('Product already exists');
             res.redirect('/admin/product-list');
-        };
+        }
 
-   
-       //add flash messages
+        // Add flash messages if needed
     } catch (error) {
-       console.error(error);
+        console.error(error);
         res.status(500).send(error.message);
     }
 };
+
 
 
 //delete product
@@ -124,19 +128,12 @@ const searchProduct = async(req, res) => {
     try {
        const input = req.query.searchTerm;
        const products = await Product.find({ category: input });
-    res.render('search', { products })
+       res.render('search', { products }); 
     } catch (error) {
        console.log(error);
        res.status(500).send('Server internal Error');
     }   
  };
-
- 
-// app.get('/search', (req, res) => {
-    
-//     const matchingProducts = productData.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
-//     res.render('search', { products: matchingProducts });
-//   });
 
 
 
@@ -145,8 +142,10 @@ const searchProduct = async(req, res) => {
 // product edit
 const editProduct = async (req, res) => {
     try {
-        console.log('body: ', req.body);
-        const { productName, productImage, category, description, brand, color, price, size, stock } = req.body;
+      
+        const productImages = req.files.map(file => file.filename);
+
+        const { productName, category, description, brand, color, price, size, stock } = req.body;
         const updatedFields = {
        productName : productName,
        category: category,
@@ -154,7 +153,9 @@ const editProduct = async (req, res) => {
        brand : brand,
        stock : stock,
        color : color,
-       productImage : productImage};
+       price : price,
+       size : size,
+       productImage : productImages};
 
         const productId = req.params.id; 
         const product = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });

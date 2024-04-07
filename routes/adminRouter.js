@@ -21,8 +21,8 @@ const storage = multer.diskStorage({
         cb(null, name);
     }
 });
+const upload = multer({ storage });
 
-const upload = multer({storage:storage});
 
 
 //admin-login
@@ -39,10 +39,10 @@ router.get('/user-unblock/:id',userManagementController.unBlcokUser);
 //proudutManagement routes
 router.get('/product-list',productContoller.getProduct);
 router.get('/product-add' ,productContoller.loadProduct);
-router.post('/product-add',upload.single('productImage'),productContoller.insertProduct);
+router.post('/product-add',upload.array('productImage'),productContoller.insertProduct);
 router.get('/product-delete/:id',productContoller.deleteProduct);
 router.get('/product-edit/:id',productContoller.loadProductEdit);
-router.post('/product-edit/:id',upload.single('ProductImage'),productContoller.editProduct);
+router.post('/product-edit/:id',upload.array('productImage'),productContoller.editProduct);
 
 
 // categoryManagement routes

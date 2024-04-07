@@ -18,7 +18,7 @@
                 <% products.forEach(product => { %>
                 <tr class="bg-white border-b dark:border-gray-400 hover:bg-gray-50">
                     <th scope="row" class="flex items-center px-4 md:px-6 py-2 md:py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                        <img class="w-5 h-10 md:w-12 md:h-16" src="/product_images/<%= product.productImage %>" alt="Product Image">
+                        <img class="w-5 h-10 md:w-12 md:h-16" src="/product_images/<%= product.productImage[0] %>" alt="Product Image">
                         <div class="ps-3">
                             <a href="#" class="font-medium font-sans text-gray-950 hover:underline"><%= product.productName %></a>
                         </div>

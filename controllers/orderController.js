@@ -6,13 +6,18 @@ const Cart = require('../models/cartModel');
 
 const getOrderHistory = async (req, res) => {
     try {
-       const products = await Product.find();
-       const address = await Address.find()
+      
+   
 
        const order = await Order.find()
-       console.log('THE ORDER HISTORY', order.address);
+       const addressId = order.map(item => item.address);
+       const productId = order.map(item => item.products);
+       
+       
+       const address = await Address.findById(addressId);
+       console.log('THE ADDRSSS; : ',address);
 
-        res.render('orderHistory', { order });
+        res.render('orderHistory', { order, address  });
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Internal Server Error');

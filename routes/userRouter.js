@@ -44,9 +44,6 @@ router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
 router.get('/removeCart/:id',cartController.removeCart);
 router.get('/checkout/:id',cartController.getCheckout);
-router.get('/checkout1/new',(req, res) =>{
-res.render('chekout1')
-});
  
 //order routes
 router.get('/orderHistory',orderController.getOrderHistory);

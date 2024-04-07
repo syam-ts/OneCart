@@ -7,6 +7,7 @@ const orderSchema = mongoose.Schema({
             },
             address:{
             type: Object,
+            required:true,
             default: true
             },
             products:[{
@@ -22,10 +23,12 @@ const orderSchema = mongoose.Schema({
                 }
                 }],
                 total:{
-                    type:Number
+                    type:Number,
+                    required:true
                 },
                 paymentMethod:{
                     type:String,
+                    required:true
                 },
                 status:{
                     type:String
