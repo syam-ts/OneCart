@@ -1,10 +1,46 @@
 
 <%- include('../partials/header') %>
 
+<main>
+
 <section class="h-14 text-center mt-7 p-4">
     <span class="michroma-regular">SEARCH</span>
 </section>
 
+
+<section class="flex justify-end items-end">
+
+
+    <div class="relative">
+      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-44 rounded-full border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
+        <span class="flex items-center font-bold">Sort items</span>
+        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+      </button>
+  
+      <!-- Dropdown menu -->
+      <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price: low to high</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price: high to low</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">New arrivals</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetically, A-Z</a>
+          </li>
+          <li>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetically, Z-A</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+  </section>
 
 <section class="mt-5">
     <div class="bg-white flex">
@@ -36,4 +72,13 @@
 </section>
 
 
+
+</main>
+
+<script>
+    function toggleDropdown() {
+      var dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('hidden');
+    }
+  </script>
 <%- include('../partials/footer') %>

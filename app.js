@@ -11,7 +11,6 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override');
 
 app.use(nocache());
-app.use(methodOverride('_method'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -47,6 +46,7 @@ app.use((req, res, next) => {
 });
 
 
+
 //routes
 const userRouter = require('./routes/userRouter');
 const adminRouter = require('./routes/adminRouter');
@@ -66,7 +66,7 @@ if(process.env.NODE_ENV === 'development'){
 app.use('/', userRouter);
 app.use('/admin', adminRouter);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Start the server
 const server = app.listen(PORT, () => {

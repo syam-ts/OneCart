@@ -122,18 +122,22 @@ const loadProductEdit = async (req, res) => {
 //search product
 const searchProduct = async(req, res) => {
     try {
-       const input = req.query.input;
-       console.log('THE INPUT FROM THE SEARCH: ',input)
-       const products = await Product.find({category:{$id: input}});
-       console.log('THE PRODUCTS: ', products);
-       res.render('search');
-
-       
+       const input = req.query.searchTerm;
+       const products = await Product.find({ category: input });
+    res.render('search', { products })
     } catch (error) {
        console.log(error);
        res.status(500).send('Server internal Error');
     }   
  };
+
+ 
+// app.get('/search', (req, res) => {
+    
+//     const matchingProducts = productData.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+//     res.render('search', { products: matchingProducts });
+//   });
+
 
 
 

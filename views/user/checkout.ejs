@@ -174,35 +174,25 @@
 </main>
 
 <script>
-const placeOrder = (addressId, totalPrice) => {
-    const data = {
-        addressId: addressId,
-        totalPrice: totalPrice
-    };
 
-    console.log('USER CLICKED ONE TIME');
-
-    fetch('/placeOrder', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Handle successful response data here if needed
-        console.log('Order placed successfully:', data);
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
+const placeOrder = async(addressId, totalPrice) => {
+ await fetch('/placeOrder', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ addressId, totalPrice })
+  })
+  .then(response => {
+    if(response){
+        window.location.href = `/orderSuccess`
+    }
+  })
+  console.log('REACHED HERE SO FAR')
+  .catch(error => console.error(error));
 }
+
+
 
 </script>
 

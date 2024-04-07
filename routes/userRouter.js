@@ -49,10 +49,11 @@ res.render('chekout1')
 });
  
 //order routes
-router.get('/orderHistory',(req, res) => {
-    res.render('orderHistory')
-});
-router.post('/placeOrder',orderController.insetOrder);
+router.get('/orderHistory',orderController.getOrderHistory);
+router.post('/placeOrder',orderController.insertOrder);
 
+router.get('/orderSuccess',(req, res) => {
+    res.render('orderSuccess');
+})
 
 module.exports = router;

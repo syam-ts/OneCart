@@ -39,7 +39,7 @@ initTWE({ Dropdown, Ripple });
 @import url('https://fonts.googleapis.com/css2?family=Didact+Gothic&display=swap');
 </style>
 </head>
-<script src="/public/countries.js"></script>
+
 <body>
 
 <header class="justify-between bg-gray-100">
@@ -156,31 +156,16 @@ initTWE({ Dropdown, Ripple });
       </div>
     </div>
 </header>
-
+<!-- Assuming you have a search input field with id "searchInput" and a search button with id "searchButton" -->
 <script>
-  document.getElementById('searchButton').addEventListener('click', () => {
-    console.log('Button Clicked');
-    const theInput = document.getElementById('searchInput').value;
-  
-    fetch(`http://localhost:4000/search?input=${encodeURIComponent(theInput)}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'text/html'
-      }
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.text();
-    })
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('There was a problem with the fetch operation:', error);
-    });
-  });
-  </script>
-  
 
+const searchButton = document.getElementById('searchButton');
+searchButton.addEventListener('click', () => {
+  const searchInput = document.getElementById('searchInput');
+  const searchTerm = searchInput.value.trim();
+  if (searchTerm) {
+    window.location.href = `/search?searchTerm=${encodeURIComponent(searchTerm)}`;
+  }
+});
+
+</script>

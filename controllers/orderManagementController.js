@@ -1,9 +1,12 @@
 const Order = require('../models/orderModel');
-const { route } = require('../routes/adminRouter');
+
 
 const getOrderManagement = async (req, res ) => {
     try {
-        res.render('orderManagement');
+        const orders = await Order.find();
+        console.log('THE ORDERS: ',orders);                                                 
+        
+        res.render('orderManagement',{ orders })
     } catch (error) {
         console.log(error.message);
     }

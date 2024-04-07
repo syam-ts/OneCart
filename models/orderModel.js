@@ -24,7 +24,7 @@ const orderSchema = mongoose.Schema({
                 total:{
                     type:Number
                 },
-                paymetMethod:{
+                paymentMethod:{
                     type:String,
                 },
                 status:{
