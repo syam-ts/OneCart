@@ -37,6 +37,7 @@ const addToCart = async (req, res) => {
                     quantity: req.body.quantity
                 });
                 await cart.save();
+                res.redirect('/cart');
             } else {
                 existingItem.quantity += req.body.quantity;
                 await existingItem.save();

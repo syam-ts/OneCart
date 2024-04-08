@@ -1,5 +1,6 @@
 <%- include('../partials/header') %>
 
+
 <main class="justify-center">
     <!-- product -->
     <section class="py-12 sm:py-16 p-32"> 
@@ -182,8 +183,11 @@ const toCart = (productId, userId, quantity) => {
     .then(response => {
         if (!response.ok) {
             throw new Error('Network response was not ok');
+        }else{
+          window.location.href = `/cart`
         }
-        return response.json();
+       
+       
     })
 };
 

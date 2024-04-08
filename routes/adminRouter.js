@@ -7,6 +7,7 @@ const productContoller = require('../controllers/productController');
 const adminController = require('../controllers/adminController');
 const categoryController = require('../controllers/categoryController');
 const orderManagement = require('../controllers/orderManagementController');
+const Order = require('../models/orderModel');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -40,7 +41,7 @@ router.get('/user-unblock/:id',userManagementController.unBlcokUser);
 router.get('/product-list',productContoller.getProduct);
 router.get('/product-add' ,productContoller.loadProduct);
 router.post('/product-add',upload.array('productImage'),productContoller.insertProduct);
-router.get('/product-delete/:id',productContoller.deleteProduct);
+router.get('/product-block/:id',productContoller.deleteProduct);
 router.get('/product-edit/:id',productContoller.loadProductEdit);
 router.post('/product-edit/:id',upload.array('productImage'),productContoller.editProduct);
 
@@ -56,5 +57,19 @@ router.post('/category-edit/:id',categoryController.editCategory);
 
 // orderManagementroutes
 router.get('/orderManagement',orderManagement.getOrderManagement);
+router.get('/orderStatus-edit/:id', async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        const order = await Order.findByIdAndUpdate(orderId, { status: 'cancel' }, { new: true });
+
+        console.log('Updated order: ', order);
+        res.send('Order status updated');
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 
 module.exports = router;

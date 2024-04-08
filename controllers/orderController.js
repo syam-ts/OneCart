@@ -7,11 +7,10 @@ const Cart = require('../models/cartModel');
 const getOrderHistory = async (req, res) => {
     try {
       
-   
-
        const order = await Order.find()
        const addressId = order.map(item => item.address);
        const productId = order.map(item => item.products);
+       
        
        
        const address = await Address.findById(addressId);

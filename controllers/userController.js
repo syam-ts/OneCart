@@ -45,7 +45,6 @@ const securePassword = async(password) => {
     const getLogin = (req, res) => {
       const user = User.findOne({email: req.body.email});
     if (req.session.user) {
-      console.log(req.session.user);
      res.redirect('/home');
      } else {
         res.render('login',{msg: req.flash('msg')});

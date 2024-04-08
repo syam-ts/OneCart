@@ -31,8 +31,6 @@ const getProduct = async(req, res) => {
        res.status(500).send('Server internal Error');
     }   
    };
-   
-
 
 const loadProduct = async(req, res) => {
     const categories = await Category.find({deleted: false})
@@ -90,15 +88,22 @@ const deleteProduct = async (req, res) => {
     try {
         const id = req.params.id;
         const product = await Product.findById(id);
-        console.log(product);
-        if (!product) {
-            res.redirect('/admin/product-list')
-            req.flash('msg','Product Not found');
-        }else{
+        console.log('THE PROD: ',id);
+     if(product.deleted == false){
+
         product.deleted = true;
         await product.save();
-        }
         return res.redirect('/admin/product-list');
+     }
+     else if(product.deleted == true) {
+        product.deleted = false;
+        await product.save();
+        return res.redirect('/admin/product-list');
+     }else{
+        return res.status(404).send('prouduct not found');
+     }
+
+
     } catch (error) {
         console.log(error.message);
         return res.status(500).send('Internal server error');

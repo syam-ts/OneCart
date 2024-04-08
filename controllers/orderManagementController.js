@@ -3,8 +3,7 @@ const Order = require('../models/orderModel');
 
 const getOrderManagement = async (req, res ) => {
     try {
-        const orders = await Order.find();
-        console.log('THE ORDERS: ',orders);                                                 
+        const orders = await Order.find();                                                
         
         res.render('orderManagement',{ orders })
     } catch (error) {

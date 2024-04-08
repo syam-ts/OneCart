@@ -28,9 +28,9 @@
                         <td class="px-6 py-4">
                             <a href="./user-block/<%= user._id %>" class="font-medium text-red-950  hover:underline">
                                 <% if (user.isBlock == false) { %>
-                                    Block
+                                  <span class="text-green-500">Block</span>
                                 <% } else { %>
-                                    Unblock
+                                  <span class="text-red-500">Unblock</span>
                                 <% } %>    
                             </td>
              
