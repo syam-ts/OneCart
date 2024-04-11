@@ -16,13 +16,16 @@
     </div> -->
     <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Register</h2>
   </div>
-
+<div id="error">
+  
+</div>
   <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-200 ">
-    <form class="space-y-6" method="POST" onsubmit="return validateForm()">
+    <form id="form" class="space-y-6" method="post" action="/signup" >
+
       <div>
         <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
         <div class="mt-2">
-          <input id="name" name="name" type="name" autocomplete="name" required class=" h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input minlength="4" maxlength="16" id="name" name="name" type="name" autocomplete="name" required class=" h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
@@ -32,7 +35,7 @@
 
         </div>
         <div class="mt-2">
-          <input id="email" name="email" type="email" autocomplete="current-email" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input minlength="8" id="email" name="email" type="email" autocomplete="current-email" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
       <div>
@@ -41,13 +44,13 @@
 
         </div>
         <div class="mt-2">
-          <input id="phone" name="phone" type="phone" autocomplete="current-phone" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input minlength="10" id="phone" name="phone" type="tel"  autocomplete="current-phone" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
       <div>
 
         <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+          <label minlength="8" for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         </div>
         <div class="mt-2">
           <input id="password" name="password" type="password" autocomplete="current-password" required class="h-7 block w-full  border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -55,11 +58,11 @@
       </div>
       <div>
         <div class="flex items-center justify-between">
-          <label for="rePassword" class="block text-sm font-medium leading-6 text-gray-900">Repeat Password</label>
+          <label minlength="8" for="confirmPassword" class="block text-sm font-medium leading-6 text-gray-900">Repeat Password</label>
 
         </div>
         <div class="mt-2">
-          <input id="rePassword" name="rePassword" type="Password" autocomplete="current-rePassword" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="current-confirmPassword" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
         </div>
       </div>
 
@@ -75,61 +78,60 @@
 </div>
   </div>
    </main>
-   
+
+
+
+
    <script>
-    function validateForm() {
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value;
-      const password = document.getElementById('password').value;
-      const rePassword = document.getElementById('rePassword').value;
-      if (name.trim() === '') {
-        req.flash('msg', 'Please enter your name.')();
-        return false;
+    const name = document.getElementById('name');
+    const email = document.getElementById('email');
+    const phone = document.getElementById('phone');
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    
+    const form = document.getElementById('form');
+    const errorElement = document.getElementById('error');
+    
+    form.addEventListener('submit',(e) => {
+      let messages = [];
+    
+      // Name validation
+      if(name.value === '' || name.value == null){
+        messages.push('Name is required');
       }
-  
-      if (!isValidEmail(email)) {
-        req.flash('msg', 'Please enter a valid email address without leading or trailing spaces.')();
-        return false;
+    
+      // Email validation (basic check)
+      if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+        messages.push('Invalid email address');
       }
-  
-      if (phone.trim() === '' || !isValidPhone(phone)) {
-        req.flash('msg', 'Please enter a valid phone number.')
-        return false;
+    
+      // Phone number validation (Indian country code)
+      if (!/^91\d{10}$/.test(phone.value)) {
+        messages.push('Phone number must start with Indian country code (91)');
       }
-  
-      if (password.trim() === '') {
-    req.flash('msg', 'Password cannot be empty.')
-    return false;
-  }
-
-  if (password !== rePassword) {
-    req.flash('msg', 'Passwords do not match.')
-    return false;
-  }
-
-  if (!isValidPassword(password)) {
-    req.flash('msg', 'Password should be between 8 and 12 characters.')
-    return false;
-  }
-  
-    function isValidEmail(email) {
-      email = email.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-  
-    function isValidPhone(phone) {
-      const phoneRegex = /^[1-9]\d{9}$/;
-      return phoneRegex.test(phone);
-    }
-
-    function isValidPassword(password) {
-  const passwordRegex = /^.{8,12}$/;
-  return passwordRegex.test(password);
-}
-    }
-  </script>
+    
+      // Password validation (should contain symbols and be at least 6 characters long)
+      if (!/(?=.*[!@#$%^&*])/.test(password.value) || password.value.length < 6 || password.value.toLowerCase() === 'password') {
+        messages.push('Password should contain symbols and be at least 6 characters long, and cannot be "password"');
+      }
+    
+      // Confirm password validation
+      if (password.value !== confirmPassword.value) {
+        messages.push('Passwords do not match');
+      }
+    
+      // Display error messages or submit form
+      if(messages.length > 0){
+        e.preventDefault();
+        errorElement.innerText = messages.join(', ');
+      } else {
+        // No errors, allow form submission
+        errorElement.innerText = ''; // Clear any previous error messages
+      }
+    });
+    </script>
+    
+    
   
 </body>
 </html>

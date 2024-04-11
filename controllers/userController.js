@@ -89,8 +89,21 @@ const securePassword = async(password) => {
 
 // Insert user || signup
 const insertUser = async(req, res) => {
-  try {
+  const {name ,email ,phone, password, confirmPassword}  = req.body;
+  try { 
+    if(password !== confirmPassword){
+      return res.status(404).send({error: "Password doesn't match , Please enter again"})
+    }
+ 
+    const existingUser = await User.findOne({email});
+    if(existingUser){
+      console.log('User already exist');
+      return res.render('login');
+    }
+
+
       const OTP = generateOTP();
+      //Nodemailer configuration
       const mailOptions = {
           from: 'syamnandhu3@gmail.com',
           to: req.body.email,
@@ -116,18 +129,16 @@ const insertUser = async(req, res) => {
 // Verify OTP
 const verifyOTP = async(req, res) => {
   try {
-      const { email, otp } = req.body;
+      const {  otp } = req.body;
+      console.log('THE FIRST OTP : ',otp)
       const userData = req.session.userData;
+      console.log('THE SECOND OTP : ',userData)
 
-      if (!userData || userData.email !== email || userData.otp !== otp) {
-          console.log('Invalid data or OTP');
+      if (  userData.otp !== otp) {
+          console.log('Invalid data or OTP',otp);
           return res.send('Invalid data or OTP');
       }
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-          console.log('User already exists');
-          return res.send('User already exists');
-      }
+    
       const secPassword = await securePassword(userData.password);
       const user = new User({
           name: userData.name,

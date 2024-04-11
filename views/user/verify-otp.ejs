@@ -17,11 +17,11 @@
     <div class="max-w-md mx-auto border mt-52 rounded">
         <form class="shadow-md px-4 py-6" action="/verify-otp" method="post">
             <div class="flex-row gap-2 mb-6">
-                <input id="email" name="email" class="w-56 h-10 m-2 text-center border border-gray-400 shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" required>
-                <span>Email</span>
                 <input id="otp" name="otp" class="w-56 h-10 m-2 text-center border border-gray-400 shadow-sm focus:border-teal-500 focus:ring-teal-500" type="text" required>
                 <span>OTP</span>
             </div>
+            <!------------ otp timer ---------->
+            <div id="otp-timer" class="text-center text-gray-600 mb-4"></div>
             <div class="flex items-center justify-center">
                 <button type="submit" class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                     Verify
@@ -35,4 +35,29 @@
 </main>
 
 </body>
+
+
+    <script>
+// Set the OTP timer duration in seconds
+const otpTimerDuration = 60;
+let otpTimer = otpTimerDuration;
+
+// Function to update the OTP timer display
+function updateOTPTimer() {
+    const timerDisplay = document.getElementById('otp-timer');
+    timerDisplay.textContent = `Resend OTP in ${otpTimer} seconds`;
+    otpTimer--;
+
+    // If timer reaches 0, enable the Verify button and reset the timer
+    if (otpTimer < 0) {
+        clearInterval(timerInterval);
+        timerDisplay.textContent = '';
+        document.getElementById('verify-btn').disabled = false;
+        otpTimer = otpTimerDuration;
+    }
+}
+
+// Start the OTP timer countdown
+const timerInterval = setInterval(updateOTPTimer, 1000);
+</script>
 </html>

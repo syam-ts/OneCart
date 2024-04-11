@@ -146,17 +146,57 @@ const loadProductEdit = async (req, res) => {
     }
 };
 
-//search product
+//<------------ search products -------------->
 const searchProduct = async(req, res) => {
     try {
+
        const input = req.query.searchTerm;
        const products = await Product.find({ category: input });
-       res.render('search', { products }); 
+       res.render('search', { products });
+
     } catch (error) {
        console.log(error);
        res.status(500).send('Server internal Error');
     }   
  };
+
+//<------------ advanced search  -------------->
+const getLowToHigh = async (req, res) => {
+    try {
+        const products = await Product.find().sort({price : 1});
+        res.render('search', { products }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+const getHighToLow = async (req, res) => {
+    try {
+        const products = await Product.find().sort({price : -1});
+        res.render('search', { products }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+const getAtoZ = async (req, res) => {
+    try {
+        const products = await Product.find().sort({productName : 1});
+        res.render('search', { products }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+const getZtoA = async (req, res) => {
+    try {
+        const products = await Product.find().sort({productName : -1});
+        res.render('search', { products }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 
 
 
@@ -203,6 +243,10 @@ module.exports = {
     insertProduct,
     deleteProduct,
     searchProduct,
+    getLowToHigh,
+    getHighToLow,
+    getAtoZ,
+    getZtoA,
     loadProductEdit,
     editProduct
 };

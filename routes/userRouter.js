@@ -24,7 +24,14 @@ router.post('/verify-otp',userController.verifyOTP);
 
 //product routes
 router.get('/product/:id',userController.displayProduct);
+
+//seatch routes
 router.get('/search',productController.searchProduct);
+router.get('/lowToHigh',productController.getLowToHigh);
+ router.get('/HighToLow',productController.getHighToLow);
+// router.get('/newArrivals',productController.getnewArrivals);
+ router.get('/AtoZ',productController.getAtoZ);
+ router.get('/ZtoA',productController.getZtoA);
 
 //userProfile
 router.get('/userProfile',addressController.getUserProfile);
