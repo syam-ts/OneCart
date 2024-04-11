@@ -40,7 +40,6 @@ const securePassword = async(password) => {
       }
   };
 
-
     //user login 
     const getLogin = (req, res) => {
       const user = User.findOne({email: req.body.email});
@@ -69,9 +68,9 @@ const securePassword = async(password) => {
           res.redirect('/login');
         }
       }else{
-        req.flash('msg', 'Email not matching')
-        res.redirect('/login');
-      }
+      req.flash('msg', 'Email not matching')
+      res.redirect('/login');
+    }
     } catch (error) {
       res.send(error.message)
     }
@@ -99,6 +98,7 @@ const insertUser = async(req, res) => {
           text: `Your OTP is: ${OTP}`
       };
       await transporter.sendMail(mailOptions);
+
       req.session.userData = {
           name: req.body.name,
           email: req.body.email,

@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <title>Loign</title>
+    <title>Signup</title>
     <script src="https://cdn.tailwindcss.com"></script>     
 </head>
 <body>
-
 <div class="flex min-h-full flex-col justify-center px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <!-- Logo if wanted -->
@@ -99,12 +98,20 @@
         return false;
       }
   
-      if (password.trim() === '' || password !== rePassword) {
-        req.flash('msg', 'Passwords do not match or are empty.');
-        return false;
-      }
-      return true;
-    }
+      if (password.trim() === '') {
+    req.flash('msg', 'Password cannot be empty.')
+    return false;
+  }
+
+  if (password !== rePassword) {
+    req.flash('msg', 'Passwords do not match.')
+    return false;
+  }
+
+  if (!isValidPassword(password)) {
+    req.flash('msg', 'Password should be between 8 and 12 characters.')
+    return false;
+  }
   
     function isValidEmail(email) {
       email = email.trim();
@@ -116,7 +123,14 @@
       const phoneRegex = /^[1-9]\d{9}$/;
       return phoneRegex.test(phone);
     }
+
+    function isValidPassword(password) {
+  const passwordRegex = /^.{8,12}$/;
+  return passwordRegex.test(password);
+}
+    }
   </script>
   
 </body>
 </html>
+    

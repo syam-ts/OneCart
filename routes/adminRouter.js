@@ -57,16 +57,20 @@ router.post('/category-edit/:id',categoryController.editCategory);
 
 // orderManagementroutes
 router.get('/orderManagement',orderManagement.getOrderManagement);
-router.get('/orderStatus-edit/:id', async (req, res) => {
+
+
+router.put('/update-order-status/:id', async (req, res) => {
     try {
         const orderId = req.params.id;
-        const order = await Order.findByIdAndUpdate(orderId, { status: 'cancel' }, { new: true });
+        const { status } = req.body;
+        console.log('teh statusJ: ',status)
 
-        console.log('Updated order: ', order);
-        res.send('Order status updated');
+        await Order.findByIdAndUpdate(orderId, { status: status });
+
+        res.status(200).json({ message: 'Order status updated successfully' });
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send('Internal Server Error');
+        console.error('Error updating order status:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 

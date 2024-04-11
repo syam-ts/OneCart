@@ -45,37 +45,55 @@ const loadProduct = async(req, res) => {
 //adding products
 const insertProduct = async (req, res) => {
     try {
-        const productName = req.body.productName;
-        const existingProduct = await Product.find({ productName: productName });
-        console.log('THE EXIT: ',existingProduct.length)
-
-        if (existingProduct.length == 0) {
         
-                const productImages = req.files.map(file => file.filename);
-     
-                
-                const product = new Product({
-                    productName: req.body.productName,
-                    productImage: productImages,
-                    category: req.body.category,
-                    description: req.body.description,
-                    brand: req.body.brand,
-                    color: req.body.color,
-                    price: req.body.price,
-                    size: req.body.size,
-                    stock: req.body.stock
-                });
+        const { price, size, stock, } = req.body;
 
-                await product.save();
+
+        // if (price < 0 && size < 0 && stock < 0){
+
+            console.log('PRINT THIS')
+            const productName = req.body.productName;
+            console.log('THE NAME:',productName)
+
+            const existingProduct = await Product.find({ productName: productName });
+            if (existingProduct.length == 0) {
+                    const productImages = req.files.map(file => file.filename);
+                    const product = new Product({
+                        productName: req.body.productName,
+                        productImage: productImages,
+                        category: req.body.category,
+                        description: req.body.description,
+                        brand: req.body.brand,
+                        color: req.body.color,
+                        price: req.body.price,
+                        size: req.body.size,
+                        stock: req.body.stock
+                    });
+    
+                    await product.save();
+                    res.redirect('/admin/product-list');
+              
+            } else {
+                console.log('Product already exists');
                 res.redirect('/admin/product-list');
-          
-        } else {
-            console.log('Product already exists');
-            res.redirect('/admin/product-list');
+            }
+
+        // }else{
+        //     if(price < 0){
+        //   console.log(`PRICE IS CAN'T BE NEGATIVE`);
+        //   res.redirect('/admin/product-add');
+        //     }else if(size < 0){
+        //         console.log(`SIZE IS CAN'T BE NEGATIVE`);
+        //         res.redirect('/admin/product-add');
+        //     }else if(stock < 0){
+        //         console.log(`STOCK IS CAN'T BE NEGATIVE`);
+        //         res.redirect('/admin/product-add');
+        //     }
         }
+       
 
         // Add flash messages if needed
-    } catch (error) {
+    catch (error) {
         console.error(error);
         res.status(500).send(error.message);
     }

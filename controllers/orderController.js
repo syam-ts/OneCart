@@ -6,15 +6,15 @@ const Cart = require('../models/cartModel');
 
 const getOrderHistory = async (req, res) => {
     try {
-      
-       const order = await Order.find()
+       const userId = req.session.user;
+       const order = await Order.find({ userId: { $in: userId } });
+       console.log('THE ORDERS:',order)
        const addressId = order.map(item => item.address);
        const productId = order.map(item => item.products);
        
        
        
        const address = await Address.findById(addressId);
-       console.log('THE ADDRSSS; : ',address);
 
         res.render('orderHistory', { order, address  });
     } catch (error) {
@@ -30,7 +30,7 @@ const getOrderHistory = async (req, res) => {
 const insertOrder = async (req, res) => {
     try {
         const userId = req.session.user;
-        const address = req.body.addressId;
+        const address = await Address.findOne({ userId:{ $in : userId } });
         const total = req.body.totalPrice;
         const paymentMethod = 'COD';
         const status = 'Pending';

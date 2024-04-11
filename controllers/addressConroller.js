@@ -5,8 +5,6 @@ const countries = require('../public/countries');
 const getUserAddress = async(req, res) => {
   const userId = req.session.user;
   const address = await Address.find({userId:{ $in : userId}});
-
-  console.log('THE COMPLETE ADDRESS : ',address);
     res.render('userAddress',{ address })
    };
 
@@ -21,7 +19,6 @@ const getUserAddress = async(req, res) => {
 // laoding address adding page 
    const getAddAddress = async(req, res) => {
     const addressId = req.params;
-    console.log('ADDRESS: ',addressId);
     res.render('addressAdd',{ countries });
    };
 

@@ -68,10 +68,9 @@ const getCheckout = async (req, res) => {
         const cart = await Cart.find({userId : userId});
         const productIds = cart.map(item => item.productId);
         const products = await Product.find({ _id: { $in: productIds } });
-        const address = await Address.findOne();
+        const address = await Address.findOne({ userId:{ $in : userId } });
         const totalPrice = req.params.id;
-    
-res.render('checkout',{address, getUser,products,totalPrice, cart});
+        res.render('checkout',{address, getUser,products,totalPrice, cart});
 
     }catch(error){
     console.log(error.message);
