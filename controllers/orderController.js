@@ -6,17 +6,28 @@ const Cart = require('../models/cartModel');
 
 const getOrderHistory = async (req, res) => {
     try {
-       const userId = req.session.user;
-       const order = await Order.find({ userId: { $in: userId } });
-       console.log('THE ORDERS:',order)
-       const addressId = order.map(item => item.address);
-       const productId = order.map(item => item.products);
-       
-       
-       
-       const address = await Address.findById(addressId);
+        const userId = req.session.user;
+        
+        // Fetch orders for the current user
+        const orders = await Order.find({ userId });
 
-        res.render('orderHistory', { order, address  });
+        // Array to hold order details with products
+        const orderDetails = [];
+
+        // Iterate over each order
+        for (const order of orders) {
+            const address = await Address.findById(order.address);
+            
+            // Fetch products for the current order
+            const productIds = order.products.map(product => product._id);
+            const products = await Product.find({ _id: { $in: productIds } });
+            
+            // Add order details along with products to orderDetails array
+            orderDetails.push({ order, products, address });
+        }
+        console.log('THE ORDERS : ', orderDetails)
+
+        res.render('orderHistory', { orderDetails  });
     } catch (error) {
         console.log(error.message);
         res.status(500).send('Internal Server Error');

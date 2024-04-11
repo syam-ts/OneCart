@@ -4,8 +4,16 @@
 
  <!-- component -->
 <div class="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
-    <!--- more free and premium Tailwind CSS components at https://tailwinduikit.com/ --->
-    <% order.forEach(item => { %>
+ 
+    <% orderDetails.forEach(orderDetail => { %>
+      <% const order = orderDetail.order; %>
+      <% const products = orderDetail.products; %>
+      <% const address = orderDetail.address; %> 
+      <p class="text-base dark:text-red-500 font-medium leading-6 text-gray-600"><%= products %></p>
+
+
+      <% products.forEach(item => { %>
+        
     <div class="flex justify-start item-start space-y-2 flex-col  pt-12">
       <h1 class="text-1xl dark:text-gray-950 lg:text-1xl font-semibold leading-7 lg:leading-9 text-green-200">Order id: <%= item._id %></h1>
       <p class="text-base dark:text-red-500 font-medium leading-6 text-gray-600"><%= item.createdate %></p>
@@ -125,6 +133,7 @@
         </div>
       </div>
     </div>
+    <% }) %>
     <% }) %>
   </div>
     
