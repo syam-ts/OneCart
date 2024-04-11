@@ -179,6 +179,16 @@ const getHighToLow = async (req, res) => {
         console.log(error.message);
     }
 };
+const getnewArrivals = async (req, res) => {
+    try {
+        const products = await Product.find({extras: "newArrivals"});
+        res.render('search', { products }); 
+        console.log('THE PRO: ', products)
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 const getAtoZ = async (req, res) => {
     try {
         const products = await Product.find().sort({productName : 1});
@@ -208,7 +218,7 @@ const editProduct = async (req, res) => {
       
         const productImages = req.files.map(file => file.filename);
 
-        const { productName, category, description, brand, color, price, size, stock } = req.body;
+        const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
         const updatedFields = {
        productName : productName,
        category: category,
@@ -218,6 +228,7 @@ const editProduct = async (req, res) => {
        color : color,
        price : price,
        size : size,
+       extras : extras,
        productImage : productImages};
 
         const productId = req.params.id; 
@@ -245,6 +256,7 @@ module.exports = {
     searchProduct,
     getLowToHigh,
     getHighToLow,
+    getnewArrivals,
     getAtoZ,
     getZtoA,
     loadProductEdit,

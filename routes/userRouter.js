@@ -29,7 +29,7 @@ router.get('/product/:id',userController.displayProduct);
 router.get('/search',productController.searchProduct);
 router.get('/lowToHigh',productController.getLowToHigh);
  router.get('/HighToLow',productController.getHighToLow);
-// router.get('/newArrivals',productController.getnewArrivals);
+ router.get('/newArrivals',productController.getnewArrivals);
  router.get('/AtoZ',productController.getAtoZ);
  router.get('/ZtoA',productController.getZtoA);
 

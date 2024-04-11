@@ -4,7 +4,9 @@ const countries = require('../public/countries');
 //user address page
 const getUserAddress = async(req, res) => {
   const userId = req.session.user;
+  console.log('THE SESSION USER; ',userId)
   const address = await Address.find({userId:{ $in : userId}});
+  console.log('THE ADDRESS ; ',address)
     res.render('userAddress',{ address })
    };
 

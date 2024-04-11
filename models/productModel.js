@@ -37,6 +37,9 @@ const productSchema = mongoose.Schema({
             type:Number,
             required:true
             },
+            extras:{
+            type:String
+            },
             deleted: {
             type: Boolean,
             default: false,
