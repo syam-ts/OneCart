@@ -27,11 +27,11 @@ router.get('/product/:id',userController.displayProduct);
 
 //seatch routes
 router.get('/search',productController.searchProduct);
-router.get('/lowToHigh',productController.getLowToHigh);
- router.get('/HighToLow',productController.getHighToLow);
- router.get('/newArrivals',productController.getnewArrivals);
- router.get('/AtoZ',productController.getAtoZ);
- router.get('/ZtoA',productController.getZtoA);
+router.get('/lowToHigh/:id',productController.getLowToHigh);
+ router.get('/HighToLow/:id',productController.getHighToLow);
+ router.get('/newArrivals/:id',productController.getnewArrivals);
+ router.get('/AtoZ/:id',productController.getAtoZ);
+ router.get('/ZtoA/:id',productController.getZtoA);
 
 //userProfile
 router.get('/userProfile',addressController.getUserProfile);
@@ -58,6 +58,6 @@ router.post('/placeOrder',orderController.insertOrder);
 
 router.get('/orderSuccess',(req, res) => {
     res.render('orderSuccess');
-})
+});
 
 module.exports = router;

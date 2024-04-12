@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-//image rendering
+//<------------ imgage rendering -------------->
 const storage = multer.diskStorage({
     destination:(req, file, cb) => {
         cb(null,'./public/product_images')
@@ -21,10 +21,10 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage }).array('productImage');
 
-//product list
+//<------------ admin product listing -------------->
 const getProduct = async(req, res) => {
     try {
-       const products = await Product.find();
+       const products = await Product.find({ category: input });
        res.render('product-list',{products})
     } catch (error) {
        console.log(error);
@@ -32,6 +32,7 @@ const getProduct = async(req, res) => {
     }   
    };
 
+   //<------------ admin proudct add page load -------------->
 const loadProduct = async(req, res) => {
     const categories = await Category.find({deleted: false})
     try {
@@ -42,15 +43,11 @@ const loadProduct = async(req, res) => {
 };
 
 
-//adding products
+//<------------ admin post add prouduct -------------->
 const insertProduct = async (req, res) => {
     try {
-        
         const { price, size, stock, } = req.body;
-
-
         // if (price < 0 && size < 0 && stock < 0){
-
             console.log('PRINT THIS')
             const productName = req.body.productName;
             console.log('THE NAME:',productName)
@@ -101,7 +98,7 @@ const insertProduct = async (req, res) => {
 
 
 
-//delete product
+//<------------ admin  delete product  -------------->
 const deleteProduct = async (req, res) => {
     try {
         const id = req.params.id;
@@ -128,7 +125,7 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-//load product edit
+//<------------ admin load product edit -------------->
 const loadProductEdit = async (req, res) => {
     try {
     const id = req.params.id;
@@ -146,98 +143,28 @@ const loadProductEdit = async (req, res) => {
     }
 };
 
-//<------------ search products -------------->
-const searchProduct = async(req, res) => {
-    try {
-
-       const input = req.query.searchTerm;
-       const products = await Product.find({ category: input });
-       res.render('search', { products });
-
-    } catch (error) {
-       console.log(error);
-       res.status(500).send('Server internal Error');
-    }   
- };
-
-//<------------ advanced search  -------------->
-const getLowToHigh = async (req, res) => {
-    try {
-        const products = await Product.find().sort({price : 1});
-        res.render('search', { products }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-const getHighToLow = async (req, res) => {
-    try {
-        const products = await Product.find().sort({price : -1});
-        res.render('search', { products }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-const getnewArrivals = async (req, res) => {
-    try {
-        const products = await Product.find({extras: "newArrivals"});
-        res.render('search', { products }); 
-        console.log('THE PRO: ', products)
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-const getAtoZ = async (req, res) => {
-    try {
-        const products = await Product.find().sort({productName : 1});
-        res.render('search', { products }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-const getZtoA = async (req, res) => {
-    try {
-        const products = await Product.find().sort({productName : -1});
-        res.render('search', { products }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-
-
-
  
-// product edit
+//<------------ admin product edit -------------->
 const editProduct = async (req, res) => {
     try {
-      
         const productImages = req.files.map(file => file.filename);
-
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
         const updatedFields = {
-       productName : productName,
-       category: category,
-       description: description,
-       brand : brand,
-       stock : stock,
-       color : color,
-       price : price,
-       size : size,
-       extras : extras,
-       productImage : productImages};
-
+            productName : productName,
+            category: category,
+            description: description,
+            brand : brand,
+            stock : stock,
+            color : color,
+            price : price,
+            size : size,
+            extras : extras,
+            productImage : productImages};
         const productId = req.params.id; 
         const product = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
-
         if (!product) {
              return res.send('error');
         }
-
         return res.redirect('/admin/product-list');
     } catch (error) {
         console.log('Error:', error);
@@ -245,7 +172,87 @@ const editProduct = async (req, res) => {
     }
 };
 
+//<------------ search products -------------->
+const searchProduct = async(req, res) => {
+    try {
 
+       const input = req.query.searchTerm;
+       const products = await Product.find({ category: input });
+       const category = await Product.findOne({category : input});
+      
+       res.render('search', { products , category:category.category});
+
+    } catch (error) {
+       console.log(error);
+       res.status(500).send('Server internal Error');
+    }   
+ };
+
+
+//<------------ advanced search  -------------->
+const getLowToHigh = async (req, res) => {
+    try {
+       
+        const input = req.params.id;
+        const category = await Product.findOne({category : input});
+        const products = await Product.find({ category: input }).sort({price : 1});
+        res.render('search', { products, category :category.category }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+const getHighToLow = async (req, res) => {
+    try {
+          const input = req.params.id;
+
+        const category = await Product.findOne({category : input});
+        console.log('THE CART: ',category);
+        const products = await Product.find({ category: input }).sort({price : -1});
+    res.render('search', { products, category :category.category }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+const getnewArrivals = async (req, res) => {
+    try {
+          const input = req.params.id;
+        const category = await Product.findOne({category : input});
+        const products = await Product.find({extras: "newArrivals"});
+    res.render('search', { products, category :category.category }); 
+        console.log('THE PRO: ', products)
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+const getAtoZ = async (req, res) => {
+    try {
+          const input = req.params.id;
+        const category = await Product.findOne({category : input});
+        const products = await Product.find({ category: input }).sort({productName : 1});
+    res.render('search', { products, category :category.category }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+const getZtoA = async (req, res) => {
+    try {
+          const input = req.params.id;
+        const category = await Product.findOne({category : input});
+        const products = await Product.find({ category: input }).sort({productName : -1});
+    res.render('search', { products, category :category.category }); 
+     
+    } catch (error) {
+        console.log(error.message);
+    }
+};
  
 
 module.exports = {
@@ -254,11 +261,11 @@ module.exports = {
     insertProduct,
     deleteProduct,
     searchProduct,
+    loadProductEdit,
+    editProduct,
     getLowToHigh,
     getHighToLow,
     getnewArrivals,
     getAtoZ,
     getZtoA,
-    loadProductEdit,
-    editProduct
 };
