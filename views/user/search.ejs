@@ -38,8 +38,6 @@
         </ul>
       </div>
     </div>
-
-
   </section>
 
 <section class="mt-5">
@@ -70,7 +68,17 @@
     </div>
 </section>
 
+<section class="justify-center items-center ml-80">
+  <div class="">
 
+   <% for(let i = 1; i < totalProduct + 1; i++){ %>
+
+   <a href="/pagination/<%= i %>/<%= category %>"> <%= i %> </a>
+
+
+   <% } %>
+  </div>
+</section>
 
 </main>
 

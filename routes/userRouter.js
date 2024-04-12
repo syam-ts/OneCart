@@ -33,6 +33,10 @@ router.get('/lowToHigh/:id',productController.getLowToHigh);
  router.get('/AtoZ/:id',productController.getAtoZ);
  router.get('/ZtoA/:id',productController.getZtoA);
 
+//<------------ pagintation ------------>
+router.get('/pagination/:id/:cat', productController.getPagination);
+
+
 //userProfile
 router.get('/userProfile',addressController.getUserProfile);
 router.get('/userAddress',addressController.getUserAddress);

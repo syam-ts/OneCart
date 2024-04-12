@@ -24,7 +24,7 @@ const upload = multer({ storage }).array('productImage');
 //<------------ admin product listing -------------->
 const getProduct = async(req, res) => {
     try {
-       const products = await Product.find({ category: input });
+       const products = await Product.find();
        res.render('product-list',{products})
     } catch (error) {
        console.log(error);
@@ -175,12 +175,19 @@ const editProduct = async (req, res) => {
 //<------------ search products -------------->
 const searchProduct = async(req, res) => {
     try {
-
+       const limit = 4;
        const input = req.query.searchTerm;
-       const products = await Product.find({ category: input });
+       const products = await Product.find({ category: input }).limit(limit);
+       const total = await Product.find({ category: input }).count();
        const category = await Product.findOne({category : input});
+
       
-       res.render('search', { products , category:category.category});
+       const totalProduct = total / 4;
+      
+
+
+       
+       res.render('search', { products , category:category.category , totalProduct});
 
     } catch (error) {
        console.log(error);
@@ -192,11 +199,13 @@ const searchProduct = async(req, res) => {
 //<------------ advanced search  -------------->
 const getLowToHigh = async (req, res) => {
     try {
-       
+       const limit = 4;
         const input = req.params.id;
         const category = await Product.findOne({category : input});
-        const products = await Product.find({ category: input }).sort({price : 1});
-        res.render('search', { products, category :category.category }); 
+            const total = await Product.find({category : input}).count();
+          const totalProduct = total / 4;
+            const products = await Product.find({ category: input }).sort({price : 1}).limit(limit);
+        res.render('search', { products, category :category.category, totalProduct }); 
      
     } catch (error) {
         console.log(error.message);
@@ -205,12 +214,15 @@ const getLowToHigh = async (req, res) => {
 
 const getHighToLow = async (req, res) => {
     try {
+        const limit = 4;
           const input = req.params.id;
 
         const category = await Product.findOne({category : input});
-        console.log('THE CART: ',category);
-        const products = await Product.find({ category: input }).sort({price : -1});
-    res.render('search', { products, category :category.category }); 
+            const total = await Product.find({category : input}).count();
+    const totalProduct = total / 4;
+            
+        const products = await Product.find({ category: input }).sort({price : -1}).limit(limit);
+    res.render('search', { products, category :category.category, totalProduct }); 
      
     } catch (error) {
         console.log(error.message);
@@ -219,11 +231,14 @@ const getHighToLow = async (req, res) => {
 
 const getnewArrivals = async (req, res) => {
     try {
+        const limit = 4;
           const input = req.params.id;
         const category = await Product.findOne({category : input});
-        const products = await Product.find({extras: "newArrivals"});
-    res.render('search', { products, category :category.category }); 
-        console.log('THE PRO: ', products)
+            const total = await Product.find({category : input}).count();
+          const totalProduct = total / 4;
+            const products = await Product.find({extras: "newArrivals"}).limit(limit);
+    res.render('search', { products, category :category.category, totalProduct }); 
+  
      
     } catch (error) {
         console.log(error.message);
@@ -232,10 +247,13 @@ const getnewArrivals = async (req, res) => {
 
 const getAtoZ = async (req, res) => {
     try {
+        const limit = 4;
           const input = req.params.id;
         const category = await Product.findOne({category : input});
-        const products = await Product.find({ category: input }).sort({productName : 1});
-    res.render('search', { products, category :category.category }); 
+            const total = await Product.find({category : input}).count();
+          const totalProduct = total / 4;
+            const products = await Product.find({ category: input }).sort({productName : 1}).limit(limit);
+    res.render('search', { products, category :category.category, totalProduct }); 
      
     } catch (error) {
         console.log(error.message);
@@ -244,15 +262,44 @@ const getAtoZ = async (req, res) => {
 
 const getZtoA = async (req, res) => {
     try {
+        const limit = 4;
           const input = req.params.id;
         const category = await Product.findOne({category : input});
-        const products = await Product.find({ category: input }).sort({productName : -1});
-    res.render('search', { products, category :category.category }); 
+        const total = await Product.find({category : input}).count();
+      const totalProduct = total / 4;
+        const products = await Product.find({ category: input }).sort({productName : -1}).limit(limit);
+    res.render('search', { products, category :category.category, totalProduct }); 
      
     } catch (error) {
         console.log(error.message);
     }
 };
+
+//<------------ pagination -------------->
+const getPagination = async (req, res) =>  {
+    try {
+       
+    
+         const page = req.params.id;
+       const cat = req.params.cat;
+        
+        limit = 4;
+        const products = await Product.find({category : cat})
+        .skip((page - 1) * limit).limit(limit) 
+         
+        
+        const total = await Product.find().count();
+        const category = await Product.findOne({category : cat});
+
+        const totalProduct = total / 4;
+       
+        res.render('search', { products , category:category.category , totalProduct});
+        console.log('THE PRODUCT : ',products)
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
  
 
 module.exports = {
@@ -268,4 +315,5 @@ module.exports = {
     getnewArrivals,
     getAtoZ,
     getZtoA,
+    getPagination
 };
