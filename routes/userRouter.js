@@ -12,7 +12,7 @@ const productController = require('../controllers/productController');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-//user actions
+   //<------------ user routes -------------->
 router.get('/login' ,userController.getLogin);
 router.post('/login',userController.verifyLogin);
 router.get('/signup',userController.getSignup);
@@ -22,10 +22,10 @@ router.get('/home',userController.getHome);
 router.get('/verify-otp',userController.verifyOtpLoad);
 router.post('/verify-otp',userController.verifyOTP);
 
-//product routes
+   //<------------ product routes -------------->
 router.get('/product/:id',userController.displayProduct);
 
-//seatch routes
+   //<------------ search routes -------------->
 router.get('/search',productController.searchProduct);
 router.get('/lowToHigh/:id',productController.getLowToHigh);
  router.get('/HighToLow/:id',productController.getHighToLow);
@@ -33,11 +33,11 @@ router.get('/lowToHigh/:id',productController.getLowToHigh);
  router.get('/AtoZ/:id',productController.getAtoZ);
  router.get('/ZtoA/:id',productController.getZtoA);
 
-//<------------ pagintation ------------>
+   //<------------ pagintation -------------->
 router.get('/pagination/:id/:cat', productController.getPagination);
 
 
-//userProfile
+   //<------------ userProfile -------------->
 router.get('/userProfile',addressController.getUserProfile);
 router.get('/userAddress',addressController.getUserAddress);
 router.get('/addAddress',addressController.getAddAddress);
@@ -46,17 +46,17 @@ router.get('/editAddress/:id',addressController.getEditAddress);
 router.post('/editAddress/:id',addressController.editAddress);
 router.get('/deleteAddress/:id',addressController.deleteAddress);
 
-//wishlist routes
+   //<------------ wishlist routes -------------->
 router.get('/wishlist',wishlistController.getwishlist);
 router.post('/wishlist',wishlistController.addToWishlist);
 
-//cart routes
+   //<------------ cart routes -------------->
 router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
 router.get('/removeCart/:id',cartController.removeCart);
 router.get('/checkout/:id',cartController.getCheckout);
  
-//order routes
+   //<------------ order routes -------------->
 router.get('/orderHistory',orderController.getOrderHistory);
 router.post('/placeOrder',orderController.insertOrder);
 

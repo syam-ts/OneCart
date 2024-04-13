@@ -10,15 +10,25 @@
 <body>
 <div class="flex min-h-full flex-col justify-center px-6 lg:px-8">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-    <!-- Logo if wanted -->
+    <!-- Logo for later -->
     <!-- <div class="text-center font-mono text-3xl font-bold">
         <span class="mx-auto h-10 w-auto">OneCart</span>
     </div> -->
     <h2 class="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Register</h2>
   </div>
-<div id="error">
   
-</div>
+   <!------------ flash comfiguration -------------->
+ 
+    <div id="error" style="background-color: #f8d7da; text-align: center;  padding: 10px; font-family: 'Courier New', Courier, monospace;" class="mt-1 text-gray-950">
+       
+    </div>
+    <script>
+          var flashMessage = document.getElementById('error');
+          flashMessage.style.display = 'none';
+  </script>
+<div id="errossr"></div>
+
+
   <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-200 ">
     <form id="form" class="space-y-6" method="post" action="/signup" >
 
@@ -80,8 +90,6 @@
    </main>
 
 
-
-
    <script>
     const name = document.getElementById('name');
     const email = document.getElementById('email');
@@ -95,42 +103,57 @@
     form.addEventListener('submit',(e) => {
       let messages = [];
     
-      // Name validation
-      if(name.value === '' || name.value == null){
-        messages.push('Name is required');
+   //<------------ name -------------->
+      if (name.value.trim() === '') {
+          messages.push('Name is required');
+      } else if (name.value.trim().length < 2 || name.value.trim().length > 12) {
+          messages.push('Name must be between 2 and 50 characters');
       }
     
-      // Email validation (basic check)
-      if (!/^\S+@\S+\.\S+$/.test(email.value)) {
-        messages.push('Invalid email address');
+         
+   //<------------ email  -------------->
+      if (email.value.trim() === '') {
+          messages.push('Email is required');
+      } else if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+          messages.push('Invalid email address');
+      }
+          
+    
+   //<------------ phone -------------->
+      if (phone.value.trim() === '') {
+          messages.push('Phone number is required');
+      } else if (!/^\+?\d{10,}$/g.test(phone.value)) {
+          messages.push('Invalid phone number');
       }
     
-      // Phone number validation (Indian country code)
-      if (!/^91\d{10}$/.test(phone.value)) {
-        messages.push('Phone number must start with Indian country code (91)');
+      
+   //<------------ password -------------->
+      if (password.value.trim() === '') {
+            messages.push('Password is required');
+        } else if (!/(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}/.test(password.value)) {
+            messages.push('Password should contain symbols, numbers, and be at least 8 characters long');
+        }
+    
+ 
+   //<------------ confirm password -------------->
+      if (confirmPassword.value.trim() === '') {
+          messages.push('Please confirm your password');
+      } else if (password.value !== confirmPassword.value) {
+          messages.push('Passwords do not match');
       }
     
-      // Password validation (should contain symbols and be at least 6 characters long)
-      if (!/(?=.*[!@#$%^&*])/.test(password.value) || password.value.length < 6 || password.value.toLowerCase() === 'password') {
-        messages.push('Password should contain symbols and be at least 6 characters long, and cannot be "password"');
-      }
-    
-      // Confirm password validation
-      if (password.value !== confirmPassword.value) {
-        messages.push('Passwords do not match');
-      }
-    
-      // Display error messages or submit form
+      
+   //<------- error messages -------->
       if(messages.length > 0){
         e.preventDefault();
+        flashMessage.style.display = 'inline';
         errorElement.innerText = messages.join(', ');
       } else {
         // No errors, allow form submission
-        errorElement.innerText = ''; // Clear any previous error messages
+        errorElement.innerText = ''; 
       }
     });
     </script>
-    
     
   
 </body>

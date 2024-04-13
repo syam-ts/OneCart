@@ -97,8 +97,9 @@ const insertUser = async(req, res) => {
  
     const existingUser = await User.findOne({email});
     if(existingUser){
+      req.flash('msg','User already exist');
       console.log('User already exist');
-      return res.render('login');
+      return res.redirect('/login');
     }
 
 

@@ -52,7 +52,7 @@
                     <div class="mt-4 flex justify-between">
                         <div>
                             <h3 class="text-sm text-gray-700">
-                                <a href="#">
+                                <a href="/product/<%= product._id %>">
                                     <span aria-hidden="true" class="absolute inset-0"></span>
                                     <%= product.productName %>
                                 </a>
@@ -68,15 +68,16 @@
     </div>
 </section>
 
-<section class="justify-center items-center ml-80">
+<section class="flex justify-center mt-8">
   <div class="">
-
+    <button class="font-thin  hover:bg-gray-300 px-3 py-1 rounded-r"> < </button>
    <% for(let i = 1; i < totalProduct + 1; i++){ %>
 
    <a href="/pagination/<%= i %>/<%= category %>"> <%= i %> </a>
 
 
    <% } %>
+   <button class="font-thin  hover:bg-gray-300 px-3 py-1 rounded-r"> > </button>
   </div>
 </section>
 

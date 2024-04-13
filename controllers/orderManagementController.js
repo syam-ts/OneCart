@@ -11,6 +11,45 @@ const getOrderManagement = async (req, res ) => {
     }
 };
 
+
+//<------------ load editOrderStatus -------------->
+const getEditOrderStatus = async (req, res) => {
+    try {
+        
+     
+        const currentOrderStatus = req.params.id;
+        res.render('orderStatus' ,{ currentOrderStatus });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+
+const postEditOrderStatus = async (req, res) => {
+    try {
+        const currentOrderStatus = req.params.id;
+        const updatedStatus = req.body.orderStatus;
+
+
+      const updatedFields = {
+        status:updatedStatus
+      };
+
+      const order = await Order.findByIdAndUpdate( currentOrderStatus, updatedFields, { new: true });
+      if (!order) {
+        return res.send('error');
+   }
+   return res.redirect('/admin/orderManagement');
+
+
+
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 module.exports = {
-    getOrderManagement
+    getOrderManagement,
+    getEditOrderStatus,
+    postEditOrderStatus
 };

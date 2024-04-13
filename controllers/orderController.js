@@ -3,35 +3,26 @@ const Product = require('../models/productModel');
 const Address = require('../models/addressModel');
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModel');
+const User = require('../models/userModel');
 
 const getOrderHistory = async (req, res) => {
+    const userId = req.session.user;
     try {
-        const userId = req.session.user;
-        
-        // Fetch orders for the current user
+        const user = await User.findOne({ _id: userId });
         const orders = await Order.find({ userId });
-
-        // Array to hold order details with products
-        const orderDetails = [];
-
-        // Iterate over each order
-        for (const order of orders) {
-            const address = await Address.findById(order.address);
-            
-            // Fetch products for the current order
-            const productIds = order.products.map(product => product._id);
-            const products = await Product.find({ _id: { $in: productIds } });
-            
-            // Add order details along with products to orderDetails array
-            orderDetails.push({ order, products, address });
-        }
-        console.log('THE ORDERS : ', orderDetails)
-
-        res.render('orderHistory', { orderDetails  });
+        const address = orders.length > 0 ? orders[0].address : null;
+        
+        const products = orders.flatMap(order => order.products.map(product => product._id));
+       
+        const product = await Product.find({ _id: { $in: products } });
+       const total = orders.map( x => x.total);
+      
+        res.render('orderHistory', {  address, product, user ,total, orders});
     } catch (error) {
-        console.log(error.message);
+        console.error('Error occurred:', error);
         res.status(500).send('Internal Server Error');
     }
+    
 };
 
 
@@ -48,10 +39,12 @@ const insertOrder = async (req, res) => {
         const cart = await Cart.find();
         const productIds = cart.map(item => item.productId);
 
+        const productss = await Product.find({ _id: { $in: productIds } });
+
         const order = new Order({
             userId: userId,
             address: address,
-            products: productIds,
+            products: productss,
             total: total,
             paymentMethod: paymentMethod,
             status: status

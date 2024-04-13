@@ -39,6 +39,7 @@
                                 <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()) %>
                                 <% if (cartItem) { %>
                                     <img onclick="removeCart('<%= cartItem._id %>')" src="/images/x-letter.svg" class="h-6 w-6 ml-5 border-2 border-gray-950 rounded-full" alt="Remove">
+                                   
                                 <% } %>
                                 
                            
