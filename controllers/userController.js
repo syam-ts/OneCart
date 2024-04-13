@@ -218,7 +218,13 @@ const verifyOtpLoad = async(req, res) => {
        }
 };
 
-
+const getForgotPassword = async (req, res) => {
+  try {
+    res.render('forgotPassword')
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 module.exports = {
     insertUser,
@@ -229,5 +235,6 @@ module.exports = {
     displayProduct,
     getLogout,
     verifyOtpLoad,
-    verifyOTP
+    verifyOTP,
+    getForgotPassword
 };
