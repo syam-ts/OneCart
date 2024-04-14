@@ -29,6 +29,11 @@ const orderSchema = mongoose.Schema({
                 createdate:{
                     type:Date,
                     default:Date.now
+                },
+                carts: {
+                    type: Object,
+                required:true,
+                default: true
                 }
         });
 

@@ -27,8 +27,6 @@ const getOrderHistory = async (req, res) => {
 
 
 
-       
-
 const insertOrder = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -47,7 +45,8 @@ const insertOrder = async (req, res) => {
             products: productss,
             total: total,
             paymentMethod: paymentMethod,
-            status: status
+            status: status,
+            carts: cart
         });
         await order.save();
         await Cart.deleteMany();

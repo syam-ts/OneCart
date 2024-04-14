@@ -60,7 +60,7 @@ router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
 
 
 router.get('/orderStatus/:id',orderManagementCtrl.getEditOrderStatus);
-router.post('/orderStatus/:id',orderManagementCtrl.postEditOrderStatus);
+router.post('/orderStatus/:orderId',orderManagementCtrl.postEditOrderStatus);
 
 
 
