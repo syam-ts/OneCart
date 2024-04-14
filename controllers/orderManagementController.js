@@ -3,7 +3,9 @@ const Order = require('../models/orderModel');
 
 const getOrderManagement = async (req, res ) => {
     try {
-        const orders = await Order.find();                                                
+        const orders = await Order.find(); 
+        const userId = orders.address;
+        console.log('THE USER IS: ',orders)                                               
         
         res.render('orderManagement',{ orders })
     } catch (error) {

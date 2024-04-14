@@ -30,17 +30,48 @@ const getCart = async (req, res) => {
                     productId: productId,
                     userId: userId
                 });
+
+
                 if (!existingItem) {
-                    const cart = new Cart({
-                        userId,
-                        productId: req.body.productId,
-                        quantity: req.body.quantity
-                    });
-                    await cart.save();
-                    res.redirect('/cart');
+               
+                    if(req.body.quantity > 5){
+                        console.log('Cannot add more than 5 quantity')
+                        res.send('Cannot add more than 5 quantity');
+                    }else{
+                        
+                        const cart = new Cart({
+                            userId,
+                            productId: req.body.productId,
+                            quantity: req.body.quantity
+                        });
+                        await cart.save();
+                        const product = await Product.findById(productId); 
+                           
+                        product.stock -= req.body.quantity;
+                        await product.save();
+                        res.redirect('/cart');
+                    }
+                  
                 } else {
-                    existingItem.quantity += req.body.quantity;
-                    await existingItem.save();
+
+                    if(req.body.quantity > 5){
+                        console.log('Cannot add more than 5 quantity')
+                        res.send('Cannot add more than 5 quantity');
+                    }else{
+
+                        if(existingItem.quantity + req.body.quantity > 5){
+                            console.log('Cannot add more than 5 quantity from the existing item')
+                            res.send('Cannot add more than 5 quantity');
+                        }else{
+                            existingItem.quantity += req.body.quantity;
+                            await existingItem.save();
+                            const product = await Product.findById(productId); 
+                           
+                                product.stock -= req.body.quantity;
+                                await product.save();
+                        }
+                    }
+
                 }
                     } catch (error) {
                         console.log(error.message);
@@ -51,9 +82,21 @@ const getCart = async (req, res) => {
         const removeCart = async (req, res ) => {
             try {
                 const cartId = req.params.id;
+                const cart = await Cart.findById(cartId);
+
+                const productId = cart.productId;
+                const product = await Product.findById(productId)
+               
+                
+              
+                product.stock += cart.quantity
+                await product.save();
                 await Cart.findByIdAndDelete(cartId);
+               
                 res.redirect('/cart');
-        console.log('Successfully Removed ');
+                console.log('Successfully Removed from cart');
+
+
                 } catch (error) {
                 console.log(error.message);
             }

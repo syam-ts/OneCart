@@ -11,7 +11,12 @@ const cartSchema = mongoose.Schema({
                 },
                 quantity: {
                     type: Number,
-                    default: 1 
+                    default: 1,
+                    validate: {
+                        validator: function(value) {
+                            return value >= 1 && value <= 5;
+                        },
+                    }
                 },
                 total: {
                     type: Number,
