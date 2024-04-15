@@ -18,7 +18,21 @@ const getEditOrderStatus = async (req, res) => {
     try {
         const orderId = req.params.id;
      const order = await Order.findById(orderId);
+     const status = order.status;
+     if(status == 'Cancelled'){
+        res.redirect('/admin/orderManagement');
+        console.log('Cannot edit cancelled order')
+     }else{
+        if(status == 'Delivered'){
+            res.redirect('/admin/orderManagement');
+            console.log('Cannot edit Delevered order')
+  } else{
         res.render('orderStatus' ,{ order });
+     }
+     }
+       
+    
+       
     } catch (error) {
         console.log(error.message);
     }

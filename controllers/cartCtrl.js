@@ -99,7 +99,8 @@ const getCart = async (req, res) => {
                 const products = await Product.find({ _id: { $in: productIds } });
                 const address = await Address.findOne({ userId:{ $in : userId } });
                 if(!address) {
-                    res.send('No address found')
+                    const message = 'No address found'; 
+                    res.render('error',{ message : message})
                 }else{
                     const totalPrice = req.params.id;
                     res.render('checkout',{address, getUser,products,totalPrice, cart});
