@@ -51,8 +51,11 @@ router.get('/ordre',productContoller.loadProductEdit);
 router.get('/category-list',categoryController.categoryListing);
 router.get('/category-add',categoryController.categoryAdd);
 router.post('/category-add',categoryController.insertCategory);
+router.get('/category-block/:id',categoryController.deleteCategory);
+
+
 router.get('/category-delete/:id',categoryController.deleteCategory);
-router.get('/category-recover/:id',categoryController.recoverCategory);
+
 router.get('/category-edit/:id',categoryController.loadCategoryEdit);
 router.post('/category-edit/:id',categoryController.editCategory);
 

@@ -53,41 +53,28 @@ const categoryAdd = async (req, res) => {
 };
 
 //delete category
-const deleteCategory = async (req, res) => {
+ const deleteCategory = async (req, res) => {
     try {
         const id = req.params.id;
         const category = await Category.findById(id);
-        if (!category) {
-            return res.status(404).send('category not found');
-        }else{
+        console.log('THE PROD: ',id);
+     if(category.deleted == false){
+
         category.deleted = true;
         await category.save();
-        res.redirect('/admin/category-list');
-
-        }
-        
-    } catch (error) {
-        console.log('internal sever');
-        return res.status(500).send('Internal server error');
-    }
-};
-
-//recover category
-const recoverCategory = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const category = await Category.findById(id);
-        if (!category) {
-            return res.status(404).send('category not found');
-        }else{
+        return res.redirect('/admin/category-list');
+     }
+     else if(category.deleted == true) {
         category.deleted = false;
         await category.save();
-        res.redirect('/admin/category-list');
+        return res.redirect('/admin/category-list');
+     }else{
+        return res.status(404).send('categrory not found');
+     }
 
-        }
-        
+
     } catch (error) {
-        console.log('internal sever');
+        console.log(error.message);
         return res.status(500).send('Internal server error');
     }
 };
@@ -138,7 +125,6 @@ module.exports = {
     categoryAdd,
     insertCategory,
     deleteCategory,
-    recoverCategory,
     loadCategoryEdit,
      editCategory
 };

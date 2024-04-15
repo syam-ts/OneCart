@@ -26,11 +26,17 @@
                         <td class="px-6 py-4 whitespace-nowrap font-medium font-sans"><%= user.phone %></td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium font-sans">Male</td>
                         <td class="px-6 py-4">
-                            <a href="./user-block/<%= user._id %>" class="font-medium text-red-950  hover:underline">
+                            <a href="/admin/user-block/<%= user._id %>" class="font-medium text-red-950  hover:underline">
                                 <% if (user.isBlock == false) { %>
-                                  <span class="text-green-500">Block</span>
+                                    <span class="relative flex h-3 w-3">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 pl-3">Block</span>
+                                      </span>
                                 <% } else { %>
-                                  <span class="text-red-500">Unblock</span>
+                                    <span class="relative flex h-3 w-3">
+                                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
+                                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 pl-3">Unblock</span>
+                                      </span>
                                 <% } %>    
                             </td>
              

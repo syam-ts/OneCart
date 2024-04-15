@@ -38,18 +38,24 @@
 
 
                     <td class="px-6 py-4">
-                        <a href="./product-block/<%= product._id %>" class="font-medium text-red-950  hover:underline">
+                        <a href="/admin/product-block/<%= product._id %>" class="font-medium text-red-950  hover:underline">
                             <% if (product.deleted == false) { %>
-                               <span class="text-green-600">Block</span>
+                                <span class="relative flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 pl-3">Block</span>
+                                  </span>
                             <% } else { %>
-                                <span class="text-red-600">Unblock</span>
+                                <span class="relative flex h-3 w-3">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
+                                    <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 pl-3">Unblock</span>
+                                  </span>
                             <% } %>    
                         </td>
          
 
 
                     <td class="px-4 md:px-6 py-4">
-                        <a href="./product-edit/<%= product._id %>" class="font-medium font-sans text-gray-950 hover:underline">
+                        <a href="/admin/product-edit/<%= product._id %>" class="font-medium font-sans text-gray-950 hover:underline">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                             </svg>

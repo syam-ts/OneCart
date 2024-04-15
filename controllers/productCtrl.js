@@ -154,30 +154,42 @@ const loadProductEdit = async (req, res) => {
 //<------------ admin product edit -------------->
 const editProduct = async (req, res) => {
     try {
-        const productImages = req.files.map(file => file.filename);
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
-        const updatedFields = {
-            productName : productName,
-            category: category,
-            description: description,
-            brand : brand,
-            stock : stock,
-            color : color,
-            price : price,
-            size : size,
-            extras : extras,
-            productImage : productImages};
         const productId = req.params.id; 
-        const product = await Product.findByIdAndUpdate(productId, updatedFields, { new: true });
+
+        // Retrieve existing product details
+        let product = await Product.findById(productId);
         if (!product) {
-             return res.send('error');
+            return res.send('Product not found');
         }
+
+        // Update fields other than product images
+        product.productName = productName;
+        product.category = category;
+        product.description = description;
+        product.brand = brand;
+        product.stock = stock;
+        product.color = color;
+        product.price = price;
+        product.size = size;
+        product.extras = extras;
+
+        // Handle file uploads separately
+        if (req.files && req.files.length > 0) {
+            const productImages = req.files.map(file => file.filename);
+            product.productImage = productImages;
+        }
+
+        // Save the updated product
+        product = await product.save();
+
         return res.redirect('/admin/product-list');
     } catch (error) {
         console.log('Error:', error);
         return res.status(500).send('Internal Server Error');
     }
 };
+
 
 //<------------ search products -------------->
 const searchProduct = async(req, res) => {
