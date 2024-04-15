@@ -186,15 +186,13 @@ const searchProduct = async(req, res) => {
 
       
        const totalProduct = total / 4;
-      
-
-
-       
        res.render('search', { products , category:category.category , totalProduct});
 
     } catch (error) {
        console.log(error);
-       res.status(500).send('Server internal Error');
+       
+        res.render('error')
+   
     }   
  };
 

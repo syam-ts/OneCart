@@ -5,13 +5,14 @@ const wishlist = require('../models/wishlistModel');
 const getwishlist = async (req, res) => {
     try{
         // const wishlists = await wishlist.find();
-        const wishlist = await wishlist.find();
-        const proId = await wishlist.distinct("productId")
-        console.log('PRO ID: ',proId);
-        const products = await Product.find({ _id: { $in: proId } }); 
-        res.render('wishlist',{
-           products
-        });
+        // const wishlist = await wishlist.find();
+        // const proId = await wishlist.distinct("productId")
+        // console.log('PRO ID: ',proId);
+        // const products = await Product.find({ _id: { $in: proId } }); 
+        // res.render('wishlist',{
+        //    products
+        // });
+        res.render('error')
 
     }catch(error){
         console.log(error.message);

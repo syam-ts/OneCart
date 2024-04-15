@@ -12,6 +12,8 @@ const productController = require('../controllers/productController');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
+
+
    //<------------ user routes -------------->
 router.get('/login' ,userController.getLogin);
 router.post('/login',userController.verifyLogin);

@@ -62,6 +62,8 @@ router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
 router.get('/orderStatus/:id',orderManagementCtrl.getEditOrderStatus);
 router.post('/orderStatus/:orderId',orderManagementCtrl.postEditOrderStatus);
 
-
+router.get('/error',(req, res) => {
+   res.render('error')
+})
 
 module.exports = router;
