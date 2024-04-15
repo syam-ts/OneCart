@@ -47,45 +47,48 @@ const loadProduct = async(req, res) => {
 const insertProduct = async (req, res) => {
     try {
         const { price, size, stock, } = req.body;
-        // if (price < 0 && size < 0 && stock < 0){
-            console.log('PRINT THIS')
+          
             const productName = req.body.productName;
-            console.log('THE NAME:',productName)
-
-            const existingProduct = await Product.find({ productName: productName });
-            if (existingProduct.length == 0) {
-                    const productImages = req.files.map(file => file.filename);
-                    const product = new Product({
-                        productName: req.body.productName,
-                        productImage: productImages,
-                        category: req.body.category,
-                        description: req.body.description,
-                        brand: req.body.brand,
-                        color: req.body.color,
-                        price: req.body.price,
-                        size: req.body.size,
-                        stock: req.body.stock
-                    });
-    
-                    await product.save();
-                    res.redirect('/admin/product-list');
-              
-            } else {
+          if(price < 0){
+            console.log('The price should be positive');
+            res.redirect('/admin/product-add');
+             
+            }else if(size < 0){
+                console.log(`SIZE IS CAN'T BE NEGATIVE`);
+                res.redirect('/admin/product-add');
+            }else if(stock < 0){
+                console.log(`STOCK IS CAN'T BE NEGATIVE`);
+                res.redirect('/admin/product-add');
+            }else{
+                const existingProduct = await Product.find({ productName: productName });
+                if (existingProduct.length == 0) {
+                        const productImages = req.files.map(file => file.filename);
+                        const product = new Product({
+                            productName: req.body.productName,
+                            productImage: productImages,
+                            category: req.body.category,
+                            description: req.body.description,
+                            brand: req.body.brand,
+                            color: req.body.color,
+                            price: req.body.price,
+                            size: req.body.size,
+                            stock: req.body.stock
+                        });
+        
+                        await product.save();
+                        res.redirect('/admin/product-list');
+                  
+            }
+        
+             else {
                 console.log('Product already exists');
                 res.redirect('/admin/product-list');
             }
+          }
 
-        // }else{
-        //     if(price < 0){
-        //   console.log(`PRICE IS CAN'T BE NEGATIVE`);
-        //   res.redirect('/admin/product-add');
-        //     }else if(size < 0){
-        //         console.log(`SIZE IS CAN'T BE NEGATIVE`);
-        //         res.redirect('/admin/product-add');
-        //     }else if(stock < 0){
-        //         console.log(`STOCK IS CAN'T BE NEGATIVE`);
-        //         res.redirect('/admin/product-add');
-        //     }
+          
+
+      
         }
        
 

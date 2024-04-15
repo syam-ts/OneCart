@@ -63,9 +63,23 @@
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 <% chart[0].forEach((product) => { %>
                 <div class="group relative">
-                    <div class="group-hover:scale-110 transition-all duration-300  aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-transparent lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="/product_images/<%= product.productImage[0] %>">
+
+
+                  <div class="relative h-[350px] sm:h-[450px]">
+                    <img
+                    src="/product_images/<%= product.productImage[0] %>"
+                    alt=""
+                    class="absolute inset-0 w-full object-cover rounded-md h-96 opacity-100 group-hover:opacity-0"
+                    />
+                    
+                    <img
+                    src="/product_images/<%= product.productImage[1] %>"
+                    alt=""
+                    class="absolute inset-0 w-full object-cover rounded-md h-96 opacity-0 group-hover:opacity-100"
+                    />
                     </div>
+
+
                     
                     <div class="mt-4 flex justify-between">
                         <div>

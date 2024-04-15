@@ -22,53 +22,53 @@ const getCart = async (req, res) => {
         };
 
    //<------------ adding prodcuts to cart --------------> 
-    const addToCart = async (req, res) => {
-        try {
-            const productId = req.body.productId;
-            const userId = req.session.user;
-            const existingItem = await Cart.findOne({
-                productId: productId,
-                userId: userId
-                   });
-                if (!existingItem) {
-                    if(req.body.quantity > 5){
-                        console.error('Cannot add more than 5 quantity')
-                        res.send('Cannot add more than 5 quantity');
-                    }else{
-                        const cart = new Cart({
-                            userId,
-                            productId: req.body.productId,
-                            quantity: req.body.quantity
-                        });
-                        await cart.save();
-                        const product = await Product.findById(productId); 
-                        product.stock -= req.body.quantity;
-                        await product.save();
-                        res.redirect('/cart');
-                    }
+   const addToCart = async (req, res) => {
+    try {
+        const productId = req.body.productId;
+        const userId = req.session.user;
+        const existingItem = await Cart.findOne({
+            productId: productId,
+            userId: userId
+        });
+        if (!existingItem) {
+            if(req.body.quantity > 5){
+                console.error('Cannot add more than 5 quantity');
+                res.status(400).json({ error: 'Cannot add more than 5 quantity' });
+            } else {
+                const cart = new Cart({
+                    userId,
+                    productId: req.body.productId,
+                    quantity: req.body.quantity
+                });
+                await cart.save();
+                const product = await Product.findById(productId); 
+                product.stock -= req.body.quantity;
+                await product.save();
+                res.status(200).json({ message: 'Product added to cart successfully' });
+            }
+        } else {
+            if(req.body.quantity > 5){
+                console.log('Cannot add more than 5 quantity');
+                res.status(400).json({ error: 'Cannot add more than 5 quantity' });
+            } else {
+                if(existingItem.quantity + req.body.quantity > 5){
+                    console.log('Cannot add more than 5 quantity from the existing item');
+                    res.status(400).json({ error: 'Cannot add more than 5 quantity from the existing item' });
                 } else {
-                    if(req.body.quantity > 5){
-                        console.log('Cannot add more than 5 quantity')
-                        res.send('Cannot add more than 5 quantity');
-                    }else{
-
-                        if(existingItem.quantity + req.body.quantity > 5){
-                            console.log('Cannot add more than 5 quantity from the existing item')
-                            res.send('Cannot add more than 5 quantity');
-                        }else{
-                            existingItem.quantity += req.body.quantity;
-                            await existingItem.save();
-                            const product = await Product.findById(productId); 
-                            product.stock -= req.body.quantity;
-                            await product.save();
-                            }
-                         }
-
-                      }
-                    } catch (error) {
-                      console.log(error.message);
-              }
-         };
+                    existingItem.quantity += req.body.quantity;
+                    await existingItem.save();
+                    const product = await Product.findById(productId); 
+                    product.stock -= req.body.quantity;
+                    await product.save();
+                    res.status(200).json({ message: 'Product added to cart successfully' });
+                }
+            }
+        }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
      //<------------ remove from cart -------------->
