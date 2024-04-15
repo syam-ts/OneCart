@@ -1,5 +1,7 @@
 <%- include('../partials/header') %>
 
+  <!-- flash comfiguration -->
+
 
 <main class="justify-center">
     <section class="py-12 sm:py-16 p-32"> 
@@ -106,9 +108,13 @@
               </ul>
       <div class="flex-row mt-12">
         <select id="quantitySelect" class="block appearance-none bg-transparent border border-gray-300 px-2 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+          <% if(datas[0].stock > 0) { %>
           <% for (let i = 1; i <= datas[0].stock; i++) { %>
             <option class="text-gray-950" value="<%= i %>"> <%= i %> </option>
         <% } %>
+        <% }else { %>
+          <option class="text-gray-950" value="">Out of stock  </option>
+          <% } %>
         </select>
 
         <button type="button" onclick="addToCartWithQuantity('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
@@ -142,27 +148,7 @@
       </section>
 
    <script>
-      //<------------ to wishlist page -------------->
-      const toWishlist = () => {
-        const data = {
-            productId: productId,
-            userId: userId
-        };
-
-        fetch('/addToWishlist'), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          }
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-    }
+ 
 
       //<------------ to cart page -------------->
 const toCart = (productId, userId, quantity) => {
@@ -224,5 +210,9 @@ container.addEventListener('mouseleave', () => {
 </script>      
 
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 
 <%- include('../partials/footer') %>

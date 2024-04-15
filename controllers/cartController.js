@@ -27,18 +27,14 @@ const getCart = async (req, res) => {
             const productId = req.body.productId;
             const userId = req.session.user;
             const existingItem = await Cart.findOne({
-                    productId: productId,
-                    userId: userId
-                });
-
-
+                productId: productId,
+                userId: userId
+                   });
                 if (!existingItem) {
-               
                     if(req.body.quantity > 5){
-                        console.log('Cannot add more than 5 quantity')
+                        console.error('Cannot add more than 5 quantity')
                         res.send('Cannot add more than 5 quantity');
                     }else{
-                        
                         const cart = new Cart({
                             userId,
                             productId: req.body.productId,
@@ -46,14 +42,11 @@ const getCart = async (req, res) => {
                         });
                         await cart.save();
                         const product = await Product.findById(productId); 
-                           
                         product.stock -= req.body.quantity;
                         await product.save();
                         res.redirect('/cart');
                     }
-                  
                 } else {
-
                     if(req.body.quantity > 5){
                         console.log('Cannot add more than 5 quantity')
                         res.send('Cannot add more than 5 quantity');
@@ -66,37 +59,30 @@ const getCart = async (req, res) => {
                             existingItem.quantity += req.body.quantity;
                             await existingItem.save();
                             const product = await Product.findById(productId); 
-                           
-                                product.stock -= req.body.quantity;
-                                await product.save();
-                        }
-                    }
+                            product.stock -= req.body.quantity;
+                            await product.save();
+                            }
+                         }
 
-                }
+                      }
                     } catch (error) {
-                        console.log(error.message);
-                 }
-            };
+                      console.log(error.message);
+              }
+         };
 
-        //<------------ remove from cart -------------->
+
+     //<------------ remove from cart -------------->
         const removeCart = async (req, res ) => {
             try {
                 const cartId = req.params.id;
                 const cart = await Cart.findById(cartId);
-
                 const productId = cart.productId;
-                const product = await Product.findById(productId)
-               
-                
-              
+                const product = await Product.findById(productId);
                 product.stock += cart.quantity
                 await product.save();
                 await Cart.findByIdAndDelete(cartId);
-               
                 res.redirect('/cart');
                 console.log('Successfully Removed from cart');
-
-
                 } catch (error) {
                 console.log(error.message);
             }

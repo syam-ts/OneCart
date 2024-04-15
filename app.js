@@ -9,6 +9,7 @@ const app = express();
 const connectDB = require('./DB/db');
 const flash = require('connect-flash');
 const methodOverride = require('method-override');
+const swal = require('sweetalert');
 
 app.use(nocache());
 app.use(bodyParser.json());
