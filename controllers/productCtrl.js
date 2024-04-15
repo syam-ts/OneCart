@@ -24,8 +24,12 @@ const upload = multer({ storage }).array('productImage');
 //<------------ admin product listing -------------->
 const getProduct = async(req, res) => {
     try {
-       const products = await Product.find();
-       res.render('product-list',{products})
+        const limit = 4;
+       const products = await Product.find().limit(limit);
+       const total = await Product.find().count();
+       const totalProduct = total / 4;
+
+       res.render('product-list',{products ,totalProduct})
     } catch (error) {
        console.log(error);
        res.status(500).send('Server internal Error');
@@ -181,7 +185,7 @@ const searchProduct = async(req, res) => {
        const limit = 4;
        const input = req.query.searchTerm;
        const products = await Product.find({ category: input }).limit(limit);
-       const total = await Product.find({ category: input }).count();
+       const total = await Product.find().count();
        const category = await Product.findOne({category : input});
 
       
@@ -279,29 +283,49 @@ const getZtoA = async (req, res) => {
 //<------------ pagination -------------->
 const getPagination = async (req, res) =>  {
     try {
-       
-    
-         const page = req.params.id;
+       const limit = 4;
+       const page = req.params.id;
        const cat = req.params.cat;
+       const products = await Product.find({category : cat})
+       .skip((page - 1) * limit).limit(limit) 
+       const total = await Product.find().count();
+       const category = await Product.findOne({category : cat});
+
+       const number = total / 4
+       const totalProduct = Math.floor(number);
+       res.render('search', { products , category:category.category , totalProduct});
+       
+   } catch (error) {
+       console.log(error.message);
+   }       
+};
+ 
+
+const getAdminPagination = async (req, res) =>  {
+    try {
+       
+         const page = req.params.id;
         
-        limit = 4;
-        const products = await Product.find({category : cat})
+        const limit = 4;
+        const products = await Product.find()
         .skip((page - 1) * limit).limit(limit) 
          
         
         const total = await Product.find().count();
-        const category = await Product.findOne({category : cat});
+        const category = await Product.findOne();
 
-        const totalProduct = total / 4;
+        const number = total / 4
+        const totalProduct = Math.floor(number);
+
+        console.log('THE TOAL PRODUC : ',totalProduct)
        
-        res.render('search', { products , category:category.category , totalProduct});
-        console.log('THE PRODUCT : ',products)
+        res.render('product-list', { products ,  totalProduct});
         
     } catch (error) {
         console.log(error.message);
     }
 }
- 
+
 
 module.exports = {
     getProduct,
@@ -316,5 +340,6 @@ module.exports = {
     getnewArrivals,
     getAtoZ,
     getZtoA,
-    getPagination
+    getPagination,
+    getAdminPagination
 };
