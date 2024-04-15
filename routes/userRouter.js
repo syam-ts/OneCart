@@ -2,12 +2,12 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const bodyParser = require('body-parser');
-const userController = require('../controllers/userController');
-const cartController = require('../controllers/cartController');
-const wishlistController = require('../controllers/wishlistController');
-const addressController = require('../controllers/addressConroller');
-const orderController = require('../controllers/orderController');
-const productController = require('../controllers/productController');
+const userController = require('../controllers/userCtrl');
+const cartController = require('../controllers/cartCtrl');
+const wishlistController = require('../controllers/wishlistCtrl');
+const addressController = require('../controllers/addressCtrl');
+const orderController = require('../controllers/orderCtrl');
+const productController = require('../controllers/productCtrl');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

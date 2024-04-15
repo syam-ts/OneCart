@@ -2,11 +2,11 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const multer = require('multer');
-const userManagementController = require('../controllers/UserMangementConroller');
-const productContoller = require('../controllers/productController');
-const adminController = require('../controllers/adminController');
-const categoryController = require('../controllers/categoryController');
-const orderManagementCtrl = require('../controllers/orderManagementController');
+const userManagementController = require('../controllers/UserMangementCtrl');
+const productContoller = require('../controllers/productCtrl');
+const adminController = require('../controllers/adminCtrl');
+const categoryController = require('../controllers/categoryCtrl');
+const orderManagementCtrl = require('../controllers/orderManagementCtrl');
 const Order = require('../models/orderModel');
 
 const bodyParser = require('body-parser');
