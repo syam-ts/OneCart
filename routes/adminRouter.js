@@ -40,12 +40,11 @@ router.get('/user-unblock/:id',userManagementController.unBlcokUser);
 
    //<------------ proudutManagement routes -------------->
 router.get('/product-list',productContoller.productList);
-router.get('/product-add' ,productContoller.loadProductAdd);
+router.get('/product-add' ,productContoller.ProductAdd);
 router.post('/product-add',upload.array('productImage'),productContoller.insertProduct);
 router.get('/product-block/:id',productContoller.deleteProduct);
-router.get('/product-edit/:id',productContoller.loadProductEdit);
-router.post('/product-edit/:id',upload.array('productImage'),productContoller.editProduct);
-router.get('/ordre',productContoller.loadProductEdit);
+router.get('/product-edit/:id',productContoller.getProductEdit);
+router.post('/product-edit/:id',upload.array('productImage'),productContoller.postProductEdit);
 
    //<------------ categoryManagement routes -------------->
 router.get('/category-list',categoryController.categoryListing);

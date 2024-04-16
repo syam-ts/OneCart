@@ -2,9 +2,9 @@
 
 <main>
   <!-- flash configuration -->
-    <% if (chart[1] && chart[1].msg && chart[1].msg.length > 0)  { %>
+    <% if (msg.length > 0)  { %>
         <div id="flashMessage" style="background-color: #d4edda; text-align: center; padding: 10px; font-family: 'Courier New', Courier, monospace;">
-            <%- chart[1].msg %>
+            <%- msg %>
         </div>
         <script>
          setTimeout(function() {
@@ -15,7 +15,7 @@
     <% } %>
     
 <section class=" h-14 text-center mt-3 p-4">
-    <span class="michroma-regular">NEW ARRIVALS</span>
+    <span class="michroma-regular">LATEST ARRIVALS</span>
 </section>
 
 <!-- carousel -->
@@ -52,16 +52,17 @@
 
   <section class=" h-14 text-center mt-16 p-4 justify-center flex">
     <hr class="w-96">
-    <span class="text-gray-900 michroma-regular">TRENDING</span>
+    <span class="text-gray-900 michroma-regular">NEW ARRIVALS</span>
     <hr class="w-96">
-</section>
+</section>  
 
 <!-- Products -->
 <section class="ml-20">
     <div class="bg-white ">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                <% chart[0].forEach((product) => { %>
+                <% products.forEach((product) => { %>
+                  <% if (product.extras == 'New Arrivals') { %>
                 <div class="group relative">
 
 
@@ -94,6 +95,7 @@
                         <p class="text-sm font-medium text-gray-900"><%= product.price %>₹</p>
                     </div>
                 </div>
+                <% } %>
                 <% }) %>
       
             </div>
@@ -112,6 +114,10 @@
        <hr class="border-gray-600 border-1 w-8/12">
     </div>
 
+
+
+
+    
 
     <section class="w-full h-80  flex justify-center items-center mt-48">
 
@@ -133,7 +139,7 @@
         
           <p class="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
             The immersive collection of different brands ,which are :
-            <% chart[0].forEach((product) => { %>
+            <% products.forEach((product) => { %>
             <%= product.brand %>
           </p>
           <% }) %>
@@ -149,45 +155,122 @@
       
     </section>
 
-    <section class="mt-48 w-full h-72 bg-stone-200 text-center py-28">
-      <% chart[0].forEach((product) => { %>
-  <span class="text-xl font-bold px-32">  <%= product.brand %></span>
-  <% }) %>
-    </section>
-
-    <section class="mt-24">
-        <div class="text-center">
-            <span class="michroma-regular text-gray-900">BEST SELLER</span>
-        </div>
-      
-          <div class="bg-white ">
-              <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                  <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                      <% chart[0].forEach((product) => { %>
-                        <% if (product.extras == 'newArrivals') { %>
-                      <div class="group relative">
-                          <div class="group-hover:scale-110 transition-all duration-300  aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-transparent lg:aspect-none group-hover:opacity-75 lg:h-80">
-                              <img src="/product_images/<%= product.productImage[0] %>">
-                          </div>
-                          <div class="mt-4 flex justify-between">
-                              <div>
-                                  <h3 class="text-sm text-gray-700">
-                                      <a href="/product/<%= product._id %>">
-                                          <span aria-hidden="true" class="absolute inset-0"></span>
-                                          <%= product.productName %>
-                                      </a>
-                                  </h3>
-                                  <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
-                              </div>
-                              <p class="text-sm font-medium text-gray-900"><%= product.price %>₹</p>
-                          </div>
+    <section class=" h-14 text-center mt-16 p-4 justify-center flex">
+      <hr class="w-96">
+      <span class="text-gray-900 michroma-regular">TRENDING</span>
+      <hr class="w-96">
+  </section>  
+  
+  <!-- Products -->
+  <section class="ml-20">
+      <div class="bg-white ">
+          <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+              <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                  <% products.forEach((product) => { %>
+                    <% if (product.extras == 'Trending') { %>
+                  <div class="group relative">
+  
+  
+                    <div class="relative aspect-h-1 h-[350px] sm:h-[450px] overflow-hidden">
+                      <img
+                      src="/product_images/<%= product.productImage[0] %>"
+                      alt=""
+                      class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"
+                      />
+                      
+                      <img
+                      src="/product_images/<%= product.productImage[1] %>"
+                      alt=""
+                      class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"
+                      />
                       </div>
-                     <% } %>
-                  <% }) %>
+  
+  
+                      
+                      <div class=" flex justify-between">
+                          <div>
+                              <h3 class="text-sm text-gray-700">
+                                  <a href="/product/<%= product._id %>">
+                                      <span aria-hidden="true" class="absolute inset-0"></span>
+                                      <%= product.productName %>
+                                  </a>
+                              </h3>
+                              <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
+                          </div>
+                          <p class="text-sm font-medium text-gray-900"><%= product.price %>₹</p>
+                      </div>
                   </div>
+                  <% } %>
+                  <% }) %>
+        
               </div>
           </div>
+      </div>
+  </section>
+
+
+
+<section class="mt-48 w-full h-72 bg-stone-200 text-center py-28">
+  <% products.forEach((product) => { %>
+<span class="text-xl font-bold px-32">  <%= product.brand %></span>
+<% }) %>
 </section>
+<section class=" h-14 text-center mt-16 p-4 justify-center flex">
+  <hr class="w-96">
+  <span class="text-gray-900 michroma-regular">BEST SELLER </span>
+  <hr class="w-96">
+</section>  
+
+<!-- Products -->
+<section class="ml-20">
+  <div class="bg-white ">
+      <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+              <% products.forEach((product) => { %>
+                <% if (product.extras == 'Best Seller') { %>
+              <div class="group relative">
+
+
+                <div class="relative aspect-h-1 h-[350px] sm:h-[450px] overflow-hidden">
+                  <img
+                  src="/product_images/<%= product.productImage[0] %>"
+                  alt=""
+                  class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"
+                  />
+                  
+                  <img
+                  src="/product_images/<%= product.productImage[1] %>"
+                  alt=""
+                  class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"
+                  />
+                  </div>
+
+
+                  
+                  <div class=" flex justify-between">
+                      <div>
+                          <h3 class="text-sm text-gray-700">
+                              <a href="/product/<%= product._id %>">
+                                  <span aria-hidden="true" class="absolute inset-0"></span>
+                                  <%= product.productName %>
+                              </a>
+                          </h3>
+                          <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
+                      </div>
+                      <p class="text-sm font-medium text-gray-900"><%= product.price %>₹</p>
+                  </div>
+              </div>
+              <% } %>
+              <% }) %>
+    
+          </div>
+      </div>
+  </div>
+</section>
+
+
+
+
  <!-- Pagination setup 
 <section>
 
