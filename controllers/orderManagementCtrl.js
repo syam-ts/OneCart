@@ -1,5 +1,6 @@
 const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
+const User = require('../models/userModel');
 
 const getOrderManagement = async (req, res ) => {
     try {
@@ -83,18 +84,19 @@ const postEditOrderStatus = async (req, res) => {
 const orderDetailsAdmin = async (req, res) => {
     try {
         const orderId = req.params.id;
-        console.log('THE ORDERID : ',orderId)
         const orders = await Order.findById( orderId );
 
-        const address = orders.length > 0 ? orders[0].address : null;
-        
+        const address = orders.address;
+        const userId = orders.userId;
+        const user = await User.findById(userId);
+
         const products = orders.products.map(product => product._id);
         const product = await Product.find({ _id: { $in: products } });
 
-        console.log('THE PROUDCT IDS : ',product)
 
 
-        res.render('orderDetailsAdmin', {  address, product, orders})
+
+        res.render('orderDetailsAdmin', {  address , product , orders , user })
     } catch (error) {
         console.log(error.message);
     }

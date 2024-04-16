@@ -1340,7 +1340,7 @@ video {
 <body class="text-gray-800 font-inter">
     <!--sidenav -->
     <div class="fixed left-0 top-0 w-64 h-full bg-white p-4 z-50 sidebar-menu transition-transform">
-        <a href="./dashboard" class="flex items-center pb-4 border-b border-b-gray-800">
+        <a href="/admin/dashboard" class="flex items-center pb-4 border-b border-b-gray-800">
 
             <span class="text-1xl michroma-regular">OneCart</span>
         </a>
@@ -1352,28 +1352,28 @@ video {
                 </a>
             </li>
             <li class="mb-5 group  border-b border-gray-300">
-                <a href="./userManagement" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                <a href="/admin/userManagement" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                    
                     <span class="text-sm font-normal">Users</span>
                 </a>
             </li>
     
             <li class="mb-5 group  border-b border-gray-300">
-                <a href="./product-list" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                <a href="/admin/product-list" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                    
                     <span class="text-sm font-normal">Products</span>
                 </a>
             </li>
     
             <li class="mb-5 group  border-b border-gray-300">
-                <a href="./category-list" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                <a href="/admin/category-list" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                    
                     <span class="text-sm font-normal">Categories</span>
                 </a>
             </li>
     
             <li class="mb-5 group  border-b border-gray-300 ">
-                <a href="./orderManagement" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                <a href="/admin/orderManagement" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                    
                     <span class="text-sm font-normal">Orders</span>
                 </a>
@@ -1386,7 +1386,7 @@ video {
                 </a>
             </li>
             <li class="mb-5 group  border-b border-gray-300">
-                <a href="./admin-logout" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+                <a href="/admin/admin-logout" class="flex font-semibold items-center py-2 px-4 text-gray-900 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
                
                     <span class="text-sm font-normal">Logout</span>
                 </a>
@@ -1490,8 +1490,8 @@ video {
                             <a href="#" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50">Settings</a>
                         </li> -->
                         <li>
-                            <form method="POST" action="./admin-login" >
-                                <a href="./admin-login" role="menuitem" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50 cursor-pointer"
+                            <form method="POST" action="/admin/admin-login" >
+                                <a href="/admin/admin-login" role="menuitem" class="flex items-center text-[13px] py-1.5 px-4 text-gray-600 hover:text-[#f84525] hover:bg-gray-50 cursor-pointer"
                                     onclick="event.preventDefault();
                                     this.closest('form').submit();">
                                     Log Out
