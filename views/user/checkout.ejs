@@ -5,24 +5,22 @@
 
     <div class="font-[sans-serif] bg-gray-200">
         <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-4 h-full">
-          <div class="bg-stone-300 lg:h-screen lg:sticky lg:top-0">
+          <div class="bg-stone-600 lg:h-screen lg:sticky lg:top-0">
             <div class="relative h-full">
               <div class="p-8 lg:overflow-auto lg:h-[calc(100vh-60px)]">
                 <h2 class="text-2xl font-bold text-white">Order Summary</h2>
                 <div class="space-y-6 mt-10">
 
                     <% products.forEach( item => { %>
-
                   <div class="grid sm:grid-cols-2 items-start gap-6">
-                    <div class="  shrink-0 bg-gray-50 ">
-                      <img src='/product_images/<%= item.productImage[0] %>' class="w-full object-contain" />
+                    <div class="shrink-0 bg-gray-50 rounded-lg h-56">
+                      <img src='/product_images/<%= item.productImage[0] %>' class="w-full object-contain rounded-lg h-56" />
                     </div>
                     <div>
                       <h3 class="text-base text-white"><%= item.productName %></h3>
                       <ul class="text-xs text-white space-y-3 mt-4">
                         <li class="flex flex-wrap gap-4">Size<span class="ml-auto"><%= item.size %> </span></li>
                         <li class="flex flex-wrap gap-4">Quantity <span class="ml-auto"><%= cart.quantity %> </span></li>
-                       
                         <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto"><%=  item.price %></span></li>
                       </ul>
                     </div>
@@ -149,15 +147,22 @@
     <section>
 
 
-
               <div class="mt-6 flex-auto">
                 <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
-                <div class="grid sm:grid-cols-2 gap-6 text-center">
-                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">Cash on Delivery</a>
-                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">Credit Card</a>
-                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">UPI</a>
-                 <a href="#" class="border-2 border-gray-950 bg-gray-300 h-10 w-72 py-2 font-extrabold text-1xl">Net Banking</a>
+
+
+
+                <div class="flex items-center mb-4">
+                    <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <label  for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
                 </div>
+                <div class="flex items-center">
+                    <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
+                </div>
+
+
+
                 <div class="flex gap-6 max-sm:flex-col mt-10">
                   <button type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
                   <button onclick="placeOrder('<%= address._id %>', '<%= totalPrice %>')" type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-[#333] text-white hover:bg-[#222]">
