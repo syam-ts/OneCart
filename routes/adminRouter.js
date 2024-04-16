@@ -9,6 +9,24 @@ const categoryController = require('../controllers/categoryCtrl');
 const orderManagementCtrl = require('../controllers/orderManagementCtrl');
 const Order = require('../models/orderModel');
 
+app.post('/orderManagement', function(req, res) {
+   var orderId = req.body.orderId;
+   var newStatus = req.body.newStatus;
+
+   // Update order status in your database
+   Order.findByIdAndUpdate(orderId, { status: newStatus }, function(err, updatedOrder) {
+       if (err) {
+           console.error('Error updating order status:', err);
+           res.status(500).send('Error updating order status');
+       } else {
+           res.status(200).send('Order status updated successfully');
+       }
+   });
+});
+
+
+
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -64,6 +82,9 @@ router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
 
 router.get('/orderStatus/:id',orderManagementCtrl.getEditOrderStatus);
 router.post('/orderStatus/:orderId',orderManagementCtrl.postEditOrderStatus);
+
+router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
+
 
 router.get('/error',(req, res) => {
    res.render('error')

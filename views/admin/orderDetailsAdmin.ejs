@@ -1,0 +1,82 @@
+<%- include('../partials/adminHeader') %>
+
+
+
+<section class="py-24 relative">
+    <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
+        <h2 class="font-manrope font-bold text-4xl leading-10 text-black text-center">
+            Order Details
+        </h2>
+     
+        
+   
+                    <% product.forEach( item => { %>
+                   
+                        <div class="flex flex-col lg:flex-col items-center py-6 gap-6 w-full">
+                    <div class="flex flex-row img-box max-lg:w-full">
+                        <img src="/product_images/<%= item.productImage[0] %>" alt="product image" 
+                            class="aspect-square w-full lg:max-w-[140px] mx-8 rounded-s-xl">
+                    
+                    <div class="flex  items-center w-full ">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 w-full">
+                            <div class="flex items-center">
+                                <div class="">
+                                    <h2 class="font-semibold text-xl leading-8 text-black mb-3 ">
+                                       <%= item.productName %></h2>
+                                    <p class="font-normal text-lg leading-8 text-gray-500 mb-3">
+                                        Diamond Dials</p>
+                                    <div class="flex items-center  ">
+                                        <p
+                                            class="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
+                                            Size: <span class="text-gray-500"> <%= item.Size %></span></p>
+                                        <p class="font-medium text-base leading-7 text-black ">Qty: <span
+                                                class="text-gray-500"> <%= item.stock %></span></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="grid grid-cols-5">
+                                <div class="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
+                                    <div class="flex gap-3 lg:block">
+                                        <p class="font-medium text-sm leading-7 text-black">price</p>
+                                        <p class="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">$100</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3 ">
+                                    <div class="flex gap-3 lg:block">
+                                        <p class="font-medium text-sm leading-7 text-black">Status
+                                        </p>
+                                        <p
+                                            class="font-medium text-sm leading-6 py-0.5 px-3 whitespace-nowrap rounded-full lg:mt-3 bg-indigo-50 text-indigo-600">
+                                            Dispatched</p>
+                                    </div>
+
+                                </div>
+                                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
+                                    <div class="flex gap-3 lg:block">
+                                        <p class="font-medium text-sm whitespace-nowrap leading-6 text-black">
+                                            Expected Delivery Time</p>
+                                        <p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
+                                            23rd March 2021</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                   
+                </div>
+            </div>
+                <% }) %>
+
+            </div>
+       
+
+</section>
+                                        
+
+
+
+<%- include('../partials/adminFooter') %>

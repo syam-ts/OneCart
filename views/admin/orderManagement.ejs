@@ -46,6 +46,7 @@
                 <th scope="col" class="px-6 py-3">Payment Method</th>
                 <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-6 py-3">Create date</th>
+                <th scope="col" class="px-6 py-3">Details</th>
             </tr>
         </thead>
         <tbody>
@@ -81,14 +82,15 @@
 
 
                  <td>
-                    <select id="category" name="category" autocomplete="category-name" class="block w-36 h-7 border-0  text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                    <option  value="<%= order.status %>"><%= order.status %> </option>
-                    <option value="<%= order.status %>"> Shipped</option>
-                    <option  value="<%= order.status %>">Delevered </option>
-                    <option value="<%= order.status %>"> Cancelled</option>
-                    <option  value="<%= order.status %>">Returned </option>
+                    <select class="category block w-36 h-7 border-0 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans" data-orderid="<%= order._id %>">
+                        <option value="Shipped">Shipped</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Returned">Returned</option>
                     </select>
-                 </td>
+                </td>
+                
+                
      
                 <td class="px-6 py-4">
                   <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"> <%
@@ -98,6 +100,11 @@
                     %>
                     <p><%= date %> &nbsp;<%= time %></p>
                   </a>
+                </td>
+                <td>
+                    <a href="/admin/orderDetailsAdmin/<%= order.id %>">
+                        <img class="h-3.5 w-3.5 ml-9" src="/images/resume.png" alt="order details">
+                    </a>
                 </td>
      
             </tr>
@@ -111,39 +118,30 @@
   
 </main>
 <script>
-    function toggleDropdown() {
-      var dropdown = document.getElementById('dropdown');
-      dropdown.classList.toggle('hidden');
-    };
 
 
-
-// Add event listener to each dropdown item
-document.querySelectorAll('.status-dropdown-item').forEach(item => {
-    item.addEventListener('click', async (event) => {
-        const orderId = event.target.dataset.orderId;
-        const newStatus = event.target.dataset.status;
-
-        try {
-            const response = await fetch(`/update-order-status/${orderId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ status: newStatus })
-            });
-
-            if (response.ok) {
-                // Update UI or show a success message
-            } else {
-                // Handle error response
-            }
-        } catch (error) {
-            console.error('Error updating order status:', error);
-            // Handle network or other errors
-        }
+    $(document).ready(function() {
+        $('.category').change(function() {
+            var newStatus = $(this).val();
+            var orderId = $(this).data('orderid');
+            updateOrderStatus(orderId, newStatus);
+        });
     });
-});
+
+    function updateOrderStatus(orderId, newStatus) {
+        $.ajax({
+            url: '/orderManagement', 
+            type: 'POST',
+            data: { orderId: orderId, newStatus: newStatus },
+            success: function(response) {
+                console.log('Order status updated successfully');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error updating order status:', error);
+            }
+        });
+    }
+</script>
 
 
   </script>

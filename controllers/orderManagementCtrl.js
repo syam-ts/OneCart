@@ -6,7 +6,7 @@ const getOrderManagement = async (req, res ) => {
         const orders = await Order.find(); 
         const userId = orders.address;                                             
         
-        res.render('orderManagement',{ orders })
+        res.render('orderManagement',{ orders : orders })
     } catch (error) {
         console.log(error.message);
     }
@@ -79,8 +79,30 @@ const postEditOrderStatus = async (req, res) => {
     }
 };
 
+
+const orderDetailsAdmin = async (req, res) => {
+    try {
+        const orderId = req.params.id;
+        console.log('THE ORDERID : ',orderId)
+        const orders = await Order.findById( orderId );
+
+        const address = orders.length > 0 ? orders[0].address : null;
+        
+        const products = orders.products.map(product => product._id);
+        const product = await Product.find({ _id: { $in: products } });
+
+        console.log('THE PROUDCT IDS : ',product)
+
+
+        res.render('orderDetailsAdmin', {  address, product, orders})
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 module.exports = {
     getOrderManagement,
     getEditOrderStatus,
-    postEditOrderStatus
+    postEditOrderStatus,
+    orderDetailsAdmin
 };
