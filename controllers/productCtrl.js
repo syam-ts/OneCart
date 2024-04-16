@@ -21,8 +21,30 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage }).array('productImage');
 
+
+
+
+//<------------ product details -------------->
+  const productDetails = async(req, res) => {
+    try {
+    const productId = req.params.id;
+       const products = await Product.findById(productId);
+       const user = req.session.user;
+       const category = products.category;
+
+       const relatedProducts = await Product.find({category: {$in : category}})
+       res.render('product',{ datas:[ products, user ,relatedProducts]});
+          } catch (error) {
+            console.log(error);
+            res.status(500).send('Server internal Error');
+          }   
+      };
+
+
+
+
 //<------------ admin product listing -------------->
-const getProduct = async(req, res) => {
+const productList = async(req, res) => {
     try {
         const limit = 4;
        const products = await Product.find().limit(limit);
@@ -37,12 +59,22 @@ const getProduct = async(req, res) => {
    };
 
    //<------------ admin proudct add page load -------------->
-const loadProduct = async(req, res) => {
+const loadProductAdd = async(req, res) => {
     const categories = await Category.find({deleted: false})
     try {
         res.render('product-add',{categories})
     } catch (error) {
         res.send(error.message);
+    }
+};
+
+//<------------ shopping page -------------->
+const getShopping = async (req, res) => {
+    try {
+        const products = await Product.find({deleted : false });
+        res.render('shopping',{ products });
+    } catch (error) {
+        console.log(error.message);
     }
 };
 
@@ -340,9 +372,11 @@ const getAdminPagination = async (req, res) =>  {
 
 
 module.exports = {
-    getProduct,
-    loadProduct,
+    productDetails,
+    productList,
+    loadProductAdd,
     insertProduct,
+    getShopping,
     deleteProduct,
     searchProduct,
     loadProductEdit,

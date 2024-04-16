@@ -12,8 +12,6 @@ const productController = require('../controllers/productCtrl');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-
-
    //<------------ user routes -------------->
 router.get('/login' ,userController.getLogin);
 router.post('/login',userController.verifyLogin);
@@ -25,8 +23,10 @@ router.get('/verify-otp',userController.verifyOtpLoad);
 router.post('/verify-otp',userController.verifyOTP);
 router.get('/forgotPassword', userController.getForgotPassword);
 
+
    //<------------ product routes -------------->
-router.get('/product/:id',userController.displayProduct);
+router.get('/product/:id',productController.productDetails);
+router.get('/shopping', productController.getShopping);
 
    //<------------ search routes -------------->
 router.get('/search',productController.searchProduct);

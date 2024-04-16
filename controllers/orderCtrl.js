@@ -34,7 +34,7 @@ const insertOrder = async (req, res) => {
         const total = req.body.totalPrice;
         const paymentMethod = 'COD';
         const status = 'Pending';
-        const cart = await Cart.find();
+        const cart = await Cart.find({userId : userId});
         const productIds = cart.map(item => item.productId);
 
         const productss = await Product.find({ _id: { $in: productIds } });

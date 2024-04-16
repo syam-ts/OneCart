@@ -39,8 +39,8 @@ router.get('/user-block/:id',userManagementController.blcokUser);
 router.get('/user-unblock/:id',userManagementController.unBlcokUser);
 
    //<------------ proudutManagement routes -------------->
-router.get('/product-list',productContoller.getProduct);
-router.get('/product-add' ,productContoller.loadProduct);
+router.get('/product-list',productContoller.productList);
+router.get('/product-add' ,productContoller.loadProductAdd);
 router.post('/product-add',upload.array('productImage'),productContoller.insertProduct);
 router.get('/product-block/:id',productContoller.deleteProduct);
 router.get('/product-edit/:id',productContoller.loadProductEdit);

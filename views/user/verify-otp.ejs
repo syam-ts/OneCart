@@ -26,9 +26,8 @@
                 <button type="submit" class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                     Verify
                 </button>
-                <!-- <a class="inline-block align-baseline font-bold text-sm text-teal-500 hover:text-teal-800 ml-4" href="#">
-                    Resend OTP
-                </a> -->
+                <!-- <a id="resendOTP" class="inline-block align-baseline font-bold text-sm text-teal-500 hover:text-teal-800 ml-4" href="#">Resend OTP</a> -->
+
             </div>
         </form>
     </div>
@@ -60,4 +59,31 @@ function updateOTPTimer() {
 // Start the OTP timer countdown
 const timerInterval = setInterval(updateOTPTimer, 1000);
 </script>
+<script>
+    document.getElementById('resendOTP').addEventListener('click', function(event) {
+        event.preventDefault();
+        
+        // Send an AJAX request to resend OTP
+        fetch('/resend-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // You can include any additional data if needed
+        })
+        .then(response => {
+            if (response.ok) {
+                // If OTP is resent successfully, display a success message to the user
+                alert('New OTP sent successfully');
+            } else {
+                // If there's an error, display an error message to the user
+                alert('Error resending OTP');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
+    });
+    </script>
 </html>

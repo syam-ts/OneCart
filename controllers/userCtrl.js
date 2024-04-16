@@ -165,6 +165,10 @@ const verifyOtpLoad = async(req, res) => {
 };
 
 
+
+
+
+
   //load Home
   const getHome = async (req, res) => {
     try {
@@ -186,23 +190,8 @@ const verifyOtpLoad = async(req, res) => {
     }
    };
 
+
  
-
-   //dispaly individual product
-   const displayProduct = async(req, res) => {
-    try {
-    const productId = req.params.id;
-       const products = await Product.findById(productId);
-       const user = req.session.user;
-       const category = products.category;
-
-       const relatedProducts = await Product.find({category: {$in : category}})
-       res.render('product',{ datas:[ products, user ,relatedProducts]});
-          } catch (error) {
-            console.log(error);
-            res.status(500).send('Server internal Error');
-          }   
-      };
 
 
  // logout
@@ -235,7 +224,6 @@ module.exports = {
     getLogin,
     getSignup,
     getHome,
-    displayProduct,
     getLogout,
     verifyOtpLoad,
     verifyOTP,
