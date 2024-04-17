@@ -8,19 +8,20 @@
           <div class="bg-stone-600 lg:h-screen lg:sticky lg:top-0">
             <div class="relative h-full">
               <div class="p-8 lg:overflow-auto lg:h-[calc(100vh-60px)]">
+            
                 <h2 class="text-2xl font-bold text-white">Order Summary</h2>
                 <div class="space-y-6 mt-10">
 
                     <% products.forEach( item => { %>
                   <div class="grid sm:grid-cols-2 items-start gap-6">
-                    <div class="shrink-0 bg-gray-50 rounded-lg h-56">
+                    <div class="shrink-0 bg-gray-50 rounded-lg h-56 w-40">
                       <img src='/product_images/<%= item.productImage[0] %>' class="w-full object-contain rounded-lg h-56" />
                     </div>
                     <div>
                       <h3 class="text-base text-white"><%= item.productName %></h3>
                       <ul class="text-xs text-white space-y-3 mt-4">
                         <li class="flex flex-wrap gap-4">Size<span class="ml-auto"><%= item.size %> </span></li>
-                        <li class="flex flex-wrap gap-4">Quantity <span class="ml-auto"><%= cart.quantity %> </span></li>
+                        <li class="flex flex-wrap gap-4">Quantity <span class="ml-auto"><%= quantity %> </span></li>
                         <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto"><%=  item.price %></span></li>
                       </ul>
                     </div>

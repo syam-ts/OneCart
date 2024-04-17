@@ -96,14 +96,16 @@ const getCart = async (req, res) => {
                 const getUser = await User.findById(userId)
                 const cart = await Cart.find({userId : userId});
                 const productIds = cart.map(item => item.productId);
+                const quantity = cart.map(item => item.quantity);
                 const products = await Product.find({ _id: { $in: productIds } });
                 const address = await Address.findOne({ userId:{ $in : userId } });
+                console.log('THE CART : ',quantity)
                 if(!address) {
                     const message = 'No address found'; 
                     res.render('error',{ message : message})
                 }else{
                     const totalPrice = req.params.id;
-                    res.render('checkout',{address, getUser,products,totalPrice, cart});
+                    res.render('checkout',{address, getUser,products,totalPrice, quantity});
                 }
               
             }catch(error){
