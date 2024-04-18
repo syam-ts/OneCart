@@ -152,17 +152,15 @@
                 <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
 
 
-
                 <div class="flex items-center mb-4">
-                    <input id="default-radio-1" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <input id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                     <label  for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
                 </div>
                 <div class="flex items-center">
-                    <input checked id="default-radio-2" type="radio" value="" name="default-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <input checked id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                     <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
                 </div>
-
-
+                
 
                 <div class="flex gap-6 max-sm:flex-col mt-10">
                   <button type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
@@ -182,21 +180,31 @@
 <script>
 
 const placeOrder = async(addressId, totalPrice) => {
- await fetch('/placeOrder', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ addressId, totalPrice })
-  })
-  .then(response => {
-    if(response){
-        window.location.href = `/orderSuccess`
+    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+    const requestData = {
+        addressId,
+        totalPrice,
+        paymentMethod: selectedPaymentMethod };
+
+    try {
+        const response = await fetch('/placeOrder', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestData)
+        });
+
+        if (response.ok) {
+            window.location.href = '/orderSuccess';
+        } else {
+            console.error('Failed to place order:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error placing order:', error);
     }
-  })
-  console.log('REACHED HERE SO FAR')
-  .catch(error => console.error(error));
-}
+};
 
 
 

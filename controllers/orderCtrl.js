@@ -32,7 +32,8 @@ const insertOrder = async (req, res) => {
         const userId = req.session.user;
         const address = await Address.findOne({ userId:{ $in : userId } });
         const total = req.body.totalPrice;
-        const paymentMethod = 'COD';
+        const paymentMethod = req.body.paymentMethod;
+        console.log('THE REQ.BOSY : ',req.body)
         const status = 'Pending';
         const cart = await Cart.find({userId : userId});
         const productIds = cart.map(item => item.productId);
