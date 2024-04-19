@@ -31,7 +31,7 @@
                 </div>
               </div>
               <div class="absolute left-0 bottom-0 bg-[#444] w-full p-4">
-                <h4 class="flex flex-wrap gap-4 text-base text-white">Total <span class="ml-auto"><%= totalPrice %></span></h4>
+                <h4 class="flex flex-wrap gap-4 text-base text-white">Total <span id="totalPrice" class="ml-auto"><%= totalPrice %></span></h4>
               </div>
             </div>
           </div>
@@ -153,18 +153,21 @@
 
 
                 <div class="flex items-center mb-4">
-                    <input id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                    <label  for="default-radio-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
-                </div>
-                <div class="flex items-center">
-                    <input checked id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                    <label for="default-radio-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
+                  
+                    
+                    <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
+         
+                    <input id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
+
+                   
                 </div>
                 
 
                 <div class="flex gap-6 max-sm:flex-col mt-10">
                   <button type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
-                  <button onclick="placeOrder('<%= address._id %>', '<%= totalPrice %>')" type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-[#333] text-white hover:bg-[#222]">
+                  <button id="placeOrder" type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-[#333] text-white hover:bg-[#222]">
                     Complete Purchase
                 </button>
                 </div>
@@ -177,34 +180,120 @@
       </div>
 </main>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 
-const placeOrder = async(addressId, totalPrice) => {
-    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-    const requestData = {
-        addressId,
-        totalPrice,
-        paymentMethod: selectedPaymentMethod };
 
-    try {
-        const response = await fetch('/placeOrder', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(requestData)
-        });
 
-        if (response.ok) {
-            window.location.href = '/orderSuccess';
-        } else {
-            console.error('Failed to place order:', response.statusText);
+document.addEventListener("DOMContentLoaded", function() {
+    const placeOrderButton = document.getElementById('placeOrder');
+  
+
+    placeOrderButton.addEventListener('click', function() {
+        const paymentMethod = document.getElementsByName('paymentMethod');
+    let selectedValue = "";
+
+    paymentMethod.forEach(radio => {
+        if (radio.checked) {
+            selectedValue = radio.value;
         }
-    } catch (error) {
-        console.error('Error placing order:', error);
+    });
+      if(paymentMethod == "Cash on Delivery"){
+        return json('Order Success')
+      }else{
+       
+     
+        
+        const amount = document.getElementById('totalPrice');
+var options = {
+    "key": "rzp_test_3aIOQlQc4egRLE", // Enter the Key ID generated from the Dashboard
+    "amount": totalPrice.value, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Acme Corp", //your business name
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": "order_O0YFKVx6uHHGmA", 
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature)
+    },
+    "prefill": { 
+        "name": "Gaurav Kumar", //your customer's name
+        "email": "gaurav.kumar@example.com", 
+        "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
     }
 };
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+});
+document.getElementById('placeOrder').onclick = function(e){
+    rzp1.open();
+    e.preventDefault();
+}
+
+        
+      }
+    
+})
+
+
+      })
+     
+      
+  
+
+
+
+
+
+
+
+
+
+
+
+
+// const placeOrder = async(addressId, totalPrice) => {
+//     const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+//     const requestData = {
+//         addressId,
+//         totalPrice,
+//         paymentMethod: selectedPaymentMethod };
+
+//     try {
+//         const response = await fetch('/placeOrder', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(requestData)
+//         });
+
+//         if (response.ok) {
+//             window.location.href = '/orderSuccess';
+//         } else {
+//             console.error('Failed to place order:', response.statusText);
+//         }
+//     } catch (error) {
+//         console.error('Error placing order:', error);
+//     }
+// };
 
 
 

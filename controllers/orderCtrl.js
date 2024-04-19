@@ -4,6 +4,8 @@ const Address = require('../models/addressModel');
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
+const Razorpay = require('razorpay');
+const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
@@ -25,39 +27,75 @@ const getOrderHistory = async (req, res) => {
     
 };
 
-
+const razorpayInstance = new Razorpay({
+    key_id: RAZORPAY_ID_KEY,
+    key_secret: RAZORPAY_SECRET_KEY
+});
 
 const insertOrder = async (req, res) => {
     try {
-        const userId = req.session.user;
-        const address = await Address.findOne({ userId:{ $in : userId } });
-        const total = req.body.totalPrice;
-        const paymentMethod = req.body.paymentMethod;
-        console.log('THE REQ.BOSY : ',req.body)
-        const status = 'Pending';
-        const cart = await Cart.find({userId : userId});
-        const productIds = cart.map(item => item.productId);
+        const amount = req.body.amount*100
+        const options = {
+            amount: amount,
+            currency: 'INR',
+            receipt: 'razorUser@gmail.com'
+        }
 
-        const productss = await Product.find({ _id: { $in: productIds } });
+        razorpayInstance.orders.create(options, 
+            (err, order)=>{
+                if(!err){
+                    res.status(200).send({
+                        success:true,
+                        msg:'Order Created',
+                        order_id:order.id,
+                        amount:amount,
+                        key_id:RAZORPAY_ID_KEY,
+                        product_name:req.body.name,
+                        description:req.body.description,
+                        contact:"8567345632",
+                        name: "Sandeep Sharma",
+                        email: "sandeep@gmail.com"
+                    });
+                }
+                else{
+                    res.status(400).send({success:false,msg:'Something went wrong!'});
+                }
+            }
+        );
+        
+        
 
-        const order = new Order({
-            userId: userId,
-            address: address,
-            products: productss,
-            total: total,
-            paymentMethod: paymentMethod,
-            status: status,
-            carts: cart
-        });
-        await order.save();
-        await Cart.deleteMany();
-        console.log('Order saved successfully:');
-        res.redirect('/orderSuccess');
+        // const userId = req.session.user;
+        // const address = await Address.findOne({ userId });
+        // const total = req.body.totalPrice;
+        // const paymentMethod = req.body.paymentMethod;
+        // const status = 'Pending';
+        // const cart = await Cart.find({ userId });
+        // const productIds = cart.map(item => item.productId);
+
+
+        // const products = await Product.find({ _id: { $in: productIds } });
+
+        //     const order = new Order({
+        //         userId: userId,
+        //         address: address,
+        //         products: products,
+        //         total: total,
+        //         paymentMethod: paymentMethod,
+        //         status: status,
+        //         carts: cart
+        //     });
+        //     await order.save();
+        //     await Cart.deleteMany({ userId });
+        //     console.log('Order saved successfully:', order);
+        //     res.redirect('/orderSuccess');
+        
     } catch (error) {
         console.error('Error inserting order:', error);
         res.status(500).send('Error inserting order');
     }
 };
+
 
 
 module.exports = {
