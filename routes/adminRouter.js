@@ -7,7 +7,10 @@ const productContoller = require('../controllers/productCtrl');
 const adminController = require('../controllers/adminCtrl');
 const categoryController = require('../controllers/categoryCtrl');
 const orderManagementCtrl = require('../controllers/orderManagementCtrl');
+const couponCtrl = require('../controllers/couponCtrl');
+
 const Order = require('../models/orderModel');
+
 
 app.post('/orderManagement', function(req, res) {
    var orderId = req.body.orderId;
@@ -85,6 +88,9 @@ router.post('/orderStatus/:orderId',orderManagementCtrl.postEditOrderStatus);
 
 router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
 
+
+//coupon management
+router.get('/coupon-list',couponCtrl.couponList);
 
 router.get('/error',(req, res) => {
    res.render('error')

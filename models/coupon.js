@@ -1,40 +1,27 @@
 const mongoose = require('mongoose');
 
 const couponSchema = mongoose.Schema({
-            userId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-            },
-            address:{
-            type: Object,
-            required:true,
-            default: true
-            },
-            products: {
-                type: Object,
-            required:true,
-            default: true
-            },
-                total:{
-                    type:Number,
-                    required:true
-                },
-                paymentMethod:{
-                    type:String,
-                    required:true
-                },
-                status:{
-                    type:String
-                },
-                createdate:{
-                    type:Date,
-                    default:Date.now
-                },
-                carts: {
-                    type: Object,
-                required:true,
-                default: true
-                }
+    name : {
+        type : String,
+        required : true,
+        unique : true
+    },
+    createdOn : {
+        type : Date,
+        required : true
+    },
+    expireOn : {
+        type : Date,
+        required : true
+    },
+    offerPrice : {
+        type : Number,
+        required : true
+    },
+    minimumPrice : {
+        type : Number,
+        required : true
+    }
         });
 
 
