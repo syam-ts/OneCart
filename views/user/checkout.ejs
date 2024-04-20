@@ -159,7 +159,7 @@
                 </select>
 
                 <div class="flex gap-6 max-sm:flex-col mt-5">
-                  <button id="placeOrder" type="button" class="rounded-md px-6 py-1.5 w-32 text-sm font-mono bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
+                  <button id="" type="button" class="rounded-md px-6 py-1.5 w-32 text-sm font-mono bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
                    Add Coupon
                 </button>
                 </div>
@@ -205,22 +205,19 @@
 <script>
 
 
-
-
 document.addEventListener("DOMContentLoaded", function() {
+    
     const placeOrderButton = document.getElementById('placeOrder');
-  
     placeOrderButton.addEventListener('click', function() {
+
+        console.log('IT REACHED HERE')
         const paymentMethod = document.getElementsByName('paymentMethod');
     let selectedValue = "";
 
+    const totalPriceElement = document.getElementById('totalPrice');
+        const totalPrice = parseFloat(totalPriceElement.textContent);
 
-
-    // if (!paymentMethod) {
-    //         alert("Please select a payment method.");
-         
-    //         return;
-    //     }
+console.log('THE WHOLE PRICE : ',totalPrice)
 
     paymentMethod.forEach(radio => {
         if (radio.checked) {
@@ -230,18 +227,42 @@ document.addEventListener("DOMContentLoaded", function() {
 if(!selectedValue){
     alert('Please select a payment method')
 }
-
-
       if(selectedValue == "Cash on Delivery"){
-        return alert('Order Success')
-   
+
+     
+        const paymentMethod = selectedValue;
+
+
+       fetch('/placeOrder',{
+        method:"POST",
+        headers:{
+            "Content-Type" : "application/json"
+        },
+        body:JSON.stringify({
+            totalPrice : totalPrice,
+            paymentMethod : paymentMethod
+
+        })
+       })
+
 
       }else{
-       
-        const totalPriceElement = document.getElementById('totalPrice');
-            const totalPrice = parseFloat(totalPriceElement.textContent.replace(/\D/g,''));
-            const newOrderId = Date.now().toString() + '_' + Math.floor(Math.random() * 1000).toString();
 
+        fetch('/verifyOrder',{
+        method:"POST",
+        headers:{
+            "Content-Type" : "application/json"
+        },
+        body:JSON.stringify({
+            totalPrice : totalPrice,
+            paymentMethod : paymentMethod
+
+        })
+       })
+
+
+       
+      
 
 var options = {
     "key": "rzp_test_3aIOQlQc4egRLE", 
@@ -249,8 +270,8 @@ var options = {
     "currency": "INR",
     "name": "OneCart", 
     "description": "Test Transaction",
-    "image": "https://example.com/your_logo",
-    "order_id": "order_"+newOrderId, 
+    "image": "/images/onecart-log.avif",
+    "order_id": "order_O0z8kUvXNn8qmR", 
     "handler": function (response){
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
@@ -289,7 +310,7 @@ document.getElementById('placeOrder').onclick = function(e){
 })
 
 
-      })
+   })
      
       
   

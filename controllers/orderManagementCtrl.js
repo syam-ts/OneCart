@@ -102,9 +102,24 @@ const orderDetailsAdmin = async (req, res) => {
     }
 };
 
+const getSalesReport = async (req, res) => {
+    try {
+        const order = await Order.find({status : "Delivered"});
+        const userId = await order.map(x => x.userId);
+        const user = await User.find({_id:{ $in : userId}})
+        const email = await user.map(x => x.email);
+        console.log('THE EMAILS : ',email)
+
+        res.render('salesReport',{ order , email});
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 module.exports = {
     getOrderManagement,
     getEditOrderStatus,
     postEditOrderStatus,
-    orderDetailsAdmin
+    orderDetailsAdmin,
+    getSalesReport
 };

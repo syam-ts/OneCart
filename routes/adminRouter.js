@@ -87,12 +87,14 @@ router.get('/orderStatus/:id',orderManagementCtrl.getEditOrderStatus);
 router.post('/orderStatus/:orderId',orderManagementCtrl.postEditOrderStatus);
 
 router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
+router.get('/salesReport',orderManagementCtrl.getSalesReport);
 
 
 //coupon management
 router.get('/coupon-list',couponCtrl.couponList);
 router.get('/coupon-add',couponCtrl.getCouponAdd);
 router.post('/coupon-add',couponCtrl.insertCoupon);
+
 
 router.get('/error',(req, res) => {
    res.render('error')

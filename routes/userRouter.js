@@ -62,6 +62,7 @@ router.get('/checkout/:id',cartController.getCheckout);
    //<------------ order routes -------------->
 router.get('/orderHistory',orderController.getOrderHistory);
 router.post('/placeOrder',orderController.insertOrder);
+router.post('/verifyOrder',orderController.verifyAndInsertOrder);
 
 router.get('/orderSuccess',(req, res) => {
     res.render('orderSuccess');

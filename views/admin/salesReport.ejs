@@ -1,0 +1,102 @@
+<%- include('../partials/adminHeader') %>
+
+
+<!-- component -->
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+
+<main>
+
+
+<section class="py-1 bg-blueGray-50 ">
+<div class="w-full mb-12 xl:mb-0 px-1 mt-16">
+  <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
+
+       
+
+<form class="max-w-sm text-left pl-12">
+
+    <div class="mb-5 w-52">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">From</label>
+      <input type="date" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+    </div>
+    <div class="mb-5 w-52">
+      <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">To</label>
+      <input type="date" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+    </div>
+ 
+    <button type="submit" class="w-52 mb-6 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+  </form>
+  
+    </div>
+
+    <div class="w-full">
+      <table class="items-center bg-transparent w-full border-collapse ">
+        <thead>
+            
+          <tr>
+            <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Order ID</th>
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Billing Name</th>
+           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Email</th>
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Date</th>
+        
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Order Status</th>
+          
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Amount</th>
+          
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Payment Method</th>
+  
+        </thead>
+
+        <tbody>
+      <% order.forEach(ord => { %>
+          <tr>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+            <%= ord.id %>
+            </td>
+            <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+            <%= ord.userId %>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+            <%= email %>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+            <%= ord.createdate %>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+            <%= ord.status %>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+            <%= ord.total %>
+            </td>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
+            <%= ord.paymentMethod %>
+            </td>
+          </tr>
+   
+          <% }) %>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+</section>
+
+</main>
+
+
+<%- include('../partials/adminFooter') %>
