@@ -10,6 +10,17 @@ const couponList = async (req, res ) => {
 };
 
 
+const couponAdd = async (req, res) => {
+    try {
+        res.render('coupon-add')
+        
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+
 module.exports = {
-    couponList
+    couponList,
+    couponAdd
 }

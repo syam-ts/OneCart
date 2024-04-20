@@ -91,6 +91,7 @@ router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
 
 //coupon management
 router.get('/coupon-list',couponCtrl.couponList);
+router.get('/coupon-add',couponCtrl.couponAdd);
 
 router.get('/error',(req, res) => {
    res.render('error')

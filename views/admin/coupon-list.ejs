@@ -1,0 +1,107 @@
+<%- include('../partials/adminHeader') %>
+
+<main>
+
+
+
+  <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white">
+        <div>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
+                    </li>
+                    <li>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate account</a>
+                    </li>
+                </ul>
+                <div class="py-1">
+                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete User</a>
+                </div>
+            </div>
+        </div>
+   
+        <div class="relative">
+            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+          </div>
+    </div>
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-orange-200  dark:text-gray-400">
+            <tr>
+             
+                <th scope="col" class="px-6 3">Coupon Name</th>
+                <th scope="col" class="px-6 py-3">Created Date</th>
+                <th scope="col" class="px-6 py-3">Expiry Date</th>
+                <th scope="col" class="px-6 py-3">Coupon Code</th>
+            </tr>
+        </thead>
+ 
+        <tbody>
+
+            <td class="px-6 py-4">
+                <a  class="font-medium font-sans text-xs text-gray-950  hover:underline">
+                   Name
+                  </a>
+               
+               
+              
+            </td>
+            <td> <a  class="font-medium font-sans text-xs text-gray-950  hover:underline">
+                Date 1
+               </a></td>
+            <td>
+                <a  class="font-medium font-sans text-xs text-gray-950  hover:underline">
+                    Date 2
+                  </a>
+            </td>
+            <td>
+                <a  class="font-medium font-sans text-xs text-gray-950  hover:underline">
+                    Code
+                   </a>
+            </td>
+
+        </tbody>
+    </table>
+
+</div>
+  
+<div> 
+    <button id="addCoupon" class="mt-5 border bg-green-600 w-36 h-12 rounded-full hover:bg-cyan-400 text-white">
+        Add Coupon
+    </button>
+</div>
+
+<script>
+
+
+const btn = document.getElementById('addCoupon');
+btn.addEventListener('click', () => {
+    fetch('http://localhost:4000/admin/coupon-add') 
+    .then(response => {
+        window.location.href = 'http://localhost:4000/admin/coupon-add'
+    })
+    .then(data => {
+    
+        console.log(data); 
+    })
+    .catch(error => {  
+        console.error('Error fetching coupon data:', error);
+    });
+});
+
+
+</script>
+</main>
+
+
+<%- include('../partials/adminFooter') %>

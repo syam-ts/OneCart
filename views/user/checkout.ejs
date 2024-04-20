@@ -148,6 +148,27 @@
     <section>
 
 
+              <div class="mt-6 flex-auto w-40">
+                <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
+                <select id="countries" class="bg-gray-50 h-9 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option selected>Choose coupon</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="FR">France</option>
+                <option value="DE">Germany</option>
+                </select>
+
+                <div class="flex gap-6 max-sm:flex-col mt-5">
+                  <button id="placeOrder" type="button" class="rounded-md px-6 py-1.5 w-32 text-sm font-mono bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
+                   Add Coupon
+                </button>
+                </div>
+              </div>
+            </section>  
+
+    <section>
+
+
               <div class="mt-6 flex-auto">
                 <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
 
@@ -189,31 +210,47 @@
 document.addEventListener("DOMContentLoaded", function() {
     const placeOrderButton = document.getElementById('placeOrder');
   
-
     placeOrderButton.addEventListener('click', function() {
         const paymentMethod = document.getElementsByName('paymentMethod');
     let selectedValue = "";
+
+
+
+    // if (!paymentMethod) {
+    //         alert("Please select a payment method.");
+         
+    //         return;
+    //     }
 
     paymentMethod.forEach(radio => {
         if (radio.checked) {
             selectedValue = radio.value;
         }
     });
-      if(paymentMethod == "Cash on Delivery"){
-        return json('Order Success')
+if(!selectedValue){
+    alert('Please select a payment method')
+}
+
+
+      if(selectedValue == "Cash on Delivery"){
+        return alert('Order Success')
+   
+
       }else{
        
-     
-        
-        const amount = document.getElementById('totalPrice');
+        const totalPriceElement = document.getElementById('totalPrice');
+            const totalPrice = parseFloat(totalPriceElement.textContent.replace(/\D/g,''));
+            const newOrderId = Date.now().toString() + '_' + Math.floor(Math.random() * 1000).toString();
+
+
 var options = {
-    "key": "rzp_test_3aIOQlQc4egRLE", // Enter the Key ID generated from the Dashboard
-    "amount": totalPrice.value, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "key": "rzp_test_3aIOQlQc4egRLE", 
+    "amount": totalPrice * 100,
     "currency": "INR",
-    "name": "Acme Corp", //your business name
+    "name": "OneCart", 
     "description": "Test Transaction",
     "image": "https://example.com/your_logo",
-    "order_id": "order_O0YFKVx6uHHGmA", 
+    "order_id": "order_"+newOrderId, 
     "handler": function (response){
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
@@ -256,12 +293,6 @@ document.getElementById('placeOrder').onclick = function(e){
      
       
   
-
-
-
-
-
-
 
 
 

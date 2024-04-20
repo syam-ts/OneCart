@@ -4,6 +4,7 @@
 
 <main>
 <!-- component -->
+<form action="/admin/coupon-add" method="post">
 <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
     <div class="container max-w-screen-lg mx-auto">
       <div>
@@ -20,42 +21,31 @@
             <div class="lg:col-span-2">
               <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                 <div class="md:col-span-5">
-                  <label for="full_name">Coupon Name</label>
-                  <input type="text" name="full_name" id="full_name" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" />
+                  <label for="couponCode">Coupon Code</label>
+                  <input type="text" name="couponCode" id="couponCode" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
                 </div>
   
                 <div class="md:col-span-5">
-                  <label for="email">Coupon Limit </label>
-                  <input type="text" name="email" id="email" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" />
+                  <label for="massage"> Copuon Description </label>
+                  <textarea type="" name="massage" id="massage" class="h-20 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" ></textarea>
                 </div>
                 <div class="md:col-span-5">
-                  <label for="email">Coupon Code </label>
-                  <input type="text" name="email" id="email" class="h-10 border mt-1 rounded px-4 w-full bg-gray-50" value="" />
+                  <label for="massage">Discount </label>
+                  <input type="number" name="text" id="text" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
                 </div>
-  
-               
-           
-  
-                <div class="md:col-span-2">
-                  <label for="soda">How many soda pops?</label>
-                  <div class="h-10 w-28 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                    <button tabindex="-1" for="show_more" class="cursor-pointer outline-none focus:outline-none border-r border-gray-200 transition-all text-gray-500 hover:text-blue-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
-                    <input name="soda" id="soda" placeholder="0" class="px-2 text-center appearance-none outline-none text-gray-800 w-full bg-transparent" value="0" />
-                    <button tabindex="-1" for="show_more" class="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-500 hover:text-blue-600">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-2 fill-current" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                      </svg>
-                    </button>
-                  </div>
+                <div class="md:col-span-5">
+                  <label for="massage">Minimum Amount </label>
+                  <input type="number" name="text" id="text" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
                 </div>
+                <div class="md:col-span-5">
+                  <label for="massage">Coupon expiry </label>
+                  <input type="date" name="Date" id="email" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
+                </div>
+
         
-                <div class="md:col-span-5 text-right">
+                <div class="md:col-span-5 text-right mt-5">
                   <div class="inline-flex items-end">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                    <button class="bg-cyan-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                   </div>
                 </div>
   
@@ -67,6 +57,7 @@
   
     </div>
   </div>
+</form>
 </main>
 
 
