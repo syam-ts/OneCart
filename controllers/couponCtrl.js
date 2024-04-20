@@ -24,6 +24,7 @@ const insertCoupon = async (req, res) => {
     try{
 
         const { couponCode, description, discount , maximumAmount , expiryDate } = req.body;
+        console.log('THE COUPON REQ BODY: ',req.body)
 
         const coupon = new Coupon({
             couponCode : couponCode,
@@ -33,7 +34,7 @@ const insertCoupon = async (req, res) => {
             expiryDate : expiryDate
         });
 
-        await coupon.save();
+        const result = await coupon.save();
         res.redirect('/admin/coupon-list');
         console.log('FORM SUBMITTED SUCCESSFULLY');
         
