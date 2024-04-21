@@ -2,13 +2,20 @@ const session = require('express-session');
 const User = require('../models/userModel');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
+const dotenv = require('dotenv');
+const express = require('express');
+const app = express();
+//.dev
+dotenv.config({path:'./.env'})
 
-// Session setup
-const sessionMiddleware = session({
-    secret: 'your-secret-key', // Change this to a secure key for production
+const secretKey = process.env.SESSION_SECRET;
+//session object
+app.use(session({
+    secret: secretKey,
     resave: false,
-    saveUninitialized: true
-});
+    saveUninitialized: false,
+    cookie: { maxAge: 36000000 }, 
+}));
 
 //get admin-login
 const getAdmin = (req, res) => {
@@ -27,7 +34,7 @@ const getAdmin = (req, res) => {
 };
 
 //admin authentication
-const admin = {
+const adminCredentials  = {
     UserName: "adminMain",
     Password: "admin123"
 };
@@ -35,17 +42,18 @@ const admin = {
 // verify admin
 const verifyAdmin = async (req, res) => {
     try {
-        if (req.body.userName == admin.UserName && req.body.password == admin.Password) {
-            req.session.admin = true; 
-            const [usersCount, brandCount, categoryCount] = await Promise.all([
+        if (req.body.userName == adminCredentials.UserName && req.body.password == adminCredentials.Password) {
+            req.session.admin = true;
+            req.session.adminUserName = adminCredentials.UserName;
+
+            const [users, brand, category] = await Promise.all([
                 User.find({ isBlock: false }).count(),
                 Product.find({ deleted: false }).count(),
                 Category.find({ deleted: false }).count()
             ]); 
-            // Redirect to the dashboard after successful login
-            res.redirect('/admin/dashboard');
-        } else {
-            // If login fails, stay on the same page and display an error message
+            res.render('dashboard', { list:[users,brand,category]});
+            console.log('Session started');
+        } else {      // If login fails, stay on the same page and display an error message
             res.render('admin-login');
             console.log('Admin login failed');
         }
@@ -58,19 +66,18 @@ const verifyAdmin = async (req, res) => {
 //dashboard
 const getDashboard =  async (req, res) => {
     try {
+        const admin = req.session.admin;
         const users = await User.find({ isBlock: false }).count();
         const brand = await Product.find({ deleted: false }).count();
         const category = await Category.find({ deleted: false }).count();
-        const admin = req.session.admin;
         if(!admin){
+            req.session.destroy();
             res.redirect('./admin-login')
-
+            console.log('Admin not found');
         }else{
-            res.render('dashboard',{
-                chart:[users,brand,category]
-            })
+            res.render('dashboard', { list:[users,brand,category]});
         }
-        res.render('dashboard');
+       
     } catch (error) {
         console.error('Error fetching dashboard data:', error);
         res.status(500).send('Internal Server Error');

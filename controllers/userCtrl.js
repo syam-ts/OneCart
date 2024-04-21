@@ -174,9 +174,9 @@ const verifyOtpLoad = async(req, res) => {
     try {
       const user = req.session.user;
       const isUser = await User.find({$and:[{_id:user},{isBlock: false}]});
+      
       if(isUser.length == 1 && user){
       const products = await Product.find({deleted:false});
-
       res.render('home', {
         products,
         msg: req.flash('msg')
