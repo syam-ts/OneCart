@@ -1,204 +1,162 @@
 <%- include('../partials/header') %>
 
+
 <main>
 
+<div class="mt-20">
+            <h1 class="flex items-center justify-center font-bold text-blue-600 text-md lg:text-3xl">OneCart Checkout 
+            </h1>
+        </div>
+        <div class="container p-12 mx-auto">
+            <div class="flex flex-col w-full px-0 mx-auto md:flex-row">
+                <div class="flex flex-col md:w-full">
+                 <section>
 
-    <div class="font-[sans-serif] bg-gray-200">
-        <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-4 h-full">
-          <div class="bg-stone-600 lg:h-screen lg:sticky lg:top-0">
-            <div class="relative h-full">
-              <div class="p-8 lg:overflow-auto lg:h-[calc(100vh-60px)]">
-            
-                <h2 class="text-2xl font-bold text-white">Order Summary</h2>
-                <div class="space-y-6 mt-10">
-
-                    <% products.forEach( item => { %>
-                  <div class="grid sm:grid-cols-2 items-start gap-6">
-                    <div class="shrink-0 bg-gray-50 rounded-lg h-56 w-40">
-                      <img src='/product_images/<%= item.productImage[0] %>' class="w-full object-contain rounded-lg h-56" />
-                    </div>
-                    <div>
-                      <h3 class="text-base text-white"><%= item.productName %></h3>
-                      <ul class="text-xs text-white space-y-3 mt-4">
-                        <li class="flex flex-wrap gap-4">Size<span class="ml-auto"><%= item.size %> </span></li>
-                        <li class="flex flex-wrap gap-4">Quantity <span class="ml-auto"><%= quantity %> </span></li>
-                        <li class="flex flex-wrap gap-4">Total Price <span class="ml-auto"><%=  item.price %></span></li>
-                      </ul>
-                    </div>
-                  </div>
-                     <% }) %>
-
+                    <h2 class="mb-4 font-bold md:text-xl text-heading text-center">Personal Details</h2>
+                    <div class="flex-row items-center mb-4">
+                    <ul class="text-center space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
+                        <li>
+                           <span>Name : <%= getUser.name %> </span>
+                        </li>
+                        <li>
+                            <span>Email : <%= getUser.email %> </span>
+                        </li>
+                        <li>
+                            <span>Phone : <%= getUser.phone %> </span>
+                        </li>
+                    </ul>
                 </div>
-              </div>
-              <div class="absolute left-0 bottom-0 bg-[#444] w-full p-4">
-                <h4 class="flex flex-wrap gap-4 text-base text-white">Total <span id="totalPrice" class="ml-auto"><%= totalPrice %></span></h4>
-              </div>
-            </div>
-          </div>
+                 </section>
+                       
 
-
-          <div class="xl:col-span-2 h-max rounded-md p-8 sticky top-0">
-            <h2 class="text-2xl font-bold text-[#333]">Complete your order</h2>
-            <h1 class="text-1xl font-bold text-[#333] mt-5">Personal Details </h1>
-                <table class="min-w-full divide-y divide-gray-200 mt-5">
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">Name</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= getUser.name %></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">Email</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= getUser.email %></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm font-medium text-gray-900">Mobile</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="text-sm text-gray-700"><%= getUser.phone %></span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-<section>
-
-
-
-              <div>
-                <h3 class="text-lg font-bold text-[#333] mb-6 mt-5">Shipping Address</h3>
-            
                 
-                <div class="overflow-x-auto ">
-                  <table class="min-w-full divide-y divide-gray-200">
-                      <tbody class="bg-white divide-y divide-gray-200">
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">Name</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.name %></span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">Mobile No</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.mobile %></span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">Address</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.address %></span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">Pincode</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.pincode %></span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">City</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.city %></span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">State</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.state %></span>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm font-medium text-gray-900">Country</span>
-                              </td>
-                              <td class="px-6 py-4 whitespace-nowrap">
-                                  <span class="text-sm text-gray-700"><%= address.country %></span>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-              </div>
-
-            </section>
-
-
-    <section>
-
-
-              <div class="mt-6 flex-auto w-40">
-                <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
-                <select id="countries" class="bg-gray-50 h-9 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option selected>Choose coupon</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
-                </select>
-
-                <div class="flex gap-6 max-sm:flex-col mt-5">
-                  <button id="" type="button" class="rounded-md px-6 py-1.5 w-32 text-sm font-mono bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
-                   Add Coupon
-                </button>
-                </div>
-              </div>
-            </section>  
-
-    <section>
-
-
-              <div class="mt-6 flex-auto">
-                <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
-
-
-                <div class="flex items-center mb-4">
+                    <form class=" mx-auto mt-6" method="post" action>
+                        <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address
+                        </h2>
+                        <div class="flex-row items-center mb-4">
                   
-                    
+                
+
+                        <section>
+                       <div>
+                            <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                            <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Permenant Address</label>
+                                <ul class="max-w-md space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
+                                    <li>
+                                       <%= address.name %> 
+                                       </li>
+                                       <li>
+                                       <%= address.address %> 
+                                     
+                                 
+                                    ,
+                                       <%= address.city %> 
+                                       <li>
+                                            <%= address.pincode %> 
+                                         ,
+                                       <%= address.state %> 
+                                        ,
+                                       <%= address.country %>
+                                        </li>
+                                </ul>
+    
+                        </div>
+                        </section>
+                       
+            <section>
+                <div>
+                    <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">New Address</label>
+                        <ul class="max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-900">
+                            <li>
+                                At least 10 characters (and up to 100 characters)
+                            </li>
+                        </ul>
+                  </div>
+            </section>
+                 <div>
+
+                <section class="mt-12">
+                    <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
+                        <select id="countries" class="bg-gray-50 h-10 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected>Choose coupon</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                        </select>
+                    <div class="flex gap-6 max-sm:flex-col mt-5">
+                      <button id="" type="button" class="rounded-md px-6 py-1.5 w-32 text-sm font-thin bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
+                        Add Coupon
+                    </button>
+                    </div>
+                </section>
+
+        <section  class="mt-12">
+            <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
+                <div class="flex-col  mb-4">
                     <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                     <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
-         
+        
                     <input id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                     <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
-
-                   
                 </div>
-                
+        </section>
 
-                <div class="flex gap-6 max-sm:flex-col mt-10">
-                  <button type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
-                  <button id="placeOrder" type="button" class="rounded-md px-6 py-3 w-full text-sm font-semibold bg-[#333] text-white hover:bg-[#222]">
-                    Complete Purchase
-                </button>
-                </div>
+        <section>
+        <div class="flex gap-6 max-sm:flex-col mt-10">
+            <button type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
+            <button id="placeOrder" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]">
+                Complete Purchase
+                 </button>
               </div>
-            </section>  
-
-            </form>
-          </div>
+        </section>
+       </div>
+            </div>
+           </form>
+                </div>
+                <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5">
+                    <div class="pt-12 md:pt-0 2xl:ps-4 bg-white shadow-md rounded-md">
+                        <h2 class="text-xl font-bold">Order Summary
+                        </h2>
+                        <div class="mt-8">
+                            <% products.forEach( item => { %>
+                                <div class="flex-col space-x-4 mt-4 mb-4">
+                                    <div>
+                                        <img src="/product_images/<%= item.productImage[0] %>" alt="image"
+                                            class="w-60">
+                                    </div>
+                                    <div>
+                                        <h2 class="text-xl font-bold"><%= item.productName %></h2>
+                                        <ul>
+                                            <li class="flex flex-wrap gap-4">Size : <span class="text-end"><%= item.size %> </span></li>
+                                            <li class="flex flex-wrap gap-4">Quantity : <span class="text-end"><%= item.stock %> </span></li>
+                                            <li class="flex flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
+                                        </ul>
+                                       
+                                    </div>
+                                  
+                                </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    
+                        
+                        <div
+                            class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                            Subtotal<span class="ml-2"> <%= totalPrice %>₹ </span></div>
+                        <div
+                            class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                            Shipping Tax<span class="ml-2">00.00₹</span></div>
+                        <div
+                            class="flex items-center w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
+                            Total<span class="ml-2"> <%= totalPrice %>₹</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+
+
 </main>
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -311,44 +269,6 @@ document.getElementById('placeOrder').onclick = function(e){
 
 
    })
-     
-      
-  
+   </script>
 
-
-
-
-
-
-// const placeOrder = async(addressId, totalPrice) => {
-//     const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
-
-//     const requestData = {
-//         addressId,
-//         totalPrice,
-//         paymentMethod: selectedPaymentMethod };
-
-//     try {
-//         const response = await fetch('/placeOrder', {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(requestData)
-//         });
-
-//         if (response.ok) {
-//             window.location.href = '/orderSuccess';
-//         } else {
-//             console.error('Failed to place order:', response.statusText);
-//         }
-//     } catch (error) {
-//         console.error('Error placing order:', error);
-//     }
-// };
-
-
-
-</script>
-
-<%- include('../partials/footer') %>
+        <%- include('../partials/footer') %>

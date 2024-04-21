@@ -68,4 +68,11 @@ router.get('/orderSuccess',(req, res) => {
     res.render('orderSuccess');
 });
 
+
+router.get('/new', (req, res) => {
+   res.render('new')
+})
+
+
+
 module.exports = router;
