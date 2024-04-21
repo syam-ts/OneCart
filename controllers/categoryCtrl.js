@@ -19,7 +19,8 @@ const insertCategory = async (req, res) => {
             res.send('already added');
         }else{
             const category = new Category({
-                categoryName: req.body.categoryName
+                categoryName: req.body.categoryName,
+                description : req.body.description
             });
             const result = await category.save();
     
@@ -101,9 +102,10 @@ const loadCategoryEdit = async (req, res) => {
 // Category edit
 const editCategory = async (req, res) => {
     try {
-        const { categoryName } = req.body;
+        const { categoryName , description} = req.body;
         const updatedFields = {};
         if (categoryName) updatedFields.categoryName = categoryName;
+        if (description) updatedFields.description = description;
 
         const categoryId = req.params.id; 
         const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });

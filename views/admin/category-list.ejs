@@ -1,94 +1,93 @@
 <%- include('../partials/adminHeader') %>
 
 
+<!-- component -->
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
 <main>
 
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-    <div class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white">
-        <div>
-            </button>
-            <!-- Dropdown menu -->
-            <div id="dropdownAction" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownActionButton">
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Reward</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Promote</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activate account</a>
-                    </li>
-                </ul>
-                <div class="py-1">
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete User</a>
-                </div>
-            </div>
+
+<section class="py-1 bg-blueGray-50 ">
+<div class="w-full mb-12 xl:mb-0 px-2 mt-16">
+  <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
+    <div class="rounded-t mb-0 px-4 border-0">
+      <div class="flex flex-wrap items-center">
+        <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+          <h3 class="font-semibold text-base text-blueGray-700">    </h3>
         </div>
-   
-        <div class="relative">
-            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
-            </div>
-          </div>
+
+      </div>
     </div>
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-pink-300  dark:text-gray-500">
-            <tr>
-                <th scope="col" class="px-6 3">Name</th>
-                <th scope="col" class="px-6 py-3">Edit</th>
-                <th scope="col" class="px-6 py-3">Delete</th>
-             
-            </tr>
+
+    <div class="w-full">
+      <table class="items-center bg-transparent border-collapse ">
+        <thead>
+            
+          <tr>
+            <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 px-12 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                         Name</th>
+            <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 px-36 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                         Description</th>
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 px-36 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Edit</th>
+          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Delete</th>
+        
+         
+          </tr>
         </thead>
+
         <tbody>
             <% categories.forEach(category => { %>
-            <tr class="bg-white border-b  dark:border-gray-300 hover:bg-gray-50 ">
-    
-                <td class="px-6 py-4">
-                    <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= category.categoryName %>
-                       
-                      </a>
-                </td>
-                <td class="px-6 py-4">
-                    <a href="./category-edit/<%= category._id %>" class="font-medium font-sans text-xs text-red-950  hover:underline">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-                          </svg>
-                      </a>
-                </td>
+          <tr>
+         
+            <td class="border-t-0 px-12 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4">
+                <%= category.categoryName %>
+            </td>
+         
+            <td class="border-t-0 px-36 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap py-4">
+                <%= category.description %>
+            </td>
      
-              
-                <td class="px-6 py-4">
-                    <a href="./category-block/<%= category._id %>" class="font-medium text-red-950  hover:underline">
-                        <% if (category.deleted == false) { %>
-                            <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 pl-3">Block</span>
-                              </span>
-                        <% } else { %>
+            <td class="border-t-0 px-36 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
+                <a href="./category-edit/<%= category._id %>" class="font-medium font-sans text-xs text-red-950  hover:underline">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                      </svg>
+                  </a>
+            </td>
+            <td class="border-t-0 px-36 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <a href="./category-block/<%= category._id %>" class="font-medium text-red-950  hover:underline">
+                    <% if (category.deleted == false) { %>
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full rounded-full bg-blue-400 opacity-75"> </span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 pl-3">Block</span>
+                          </span>
+                    <% } else { %>
 
-                            <span class="relative flex h-3 w-3">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 pl-3">Unblock</span>
-                              </span>
-                        <% } %>    
-                    </td>
-     
-            </tr>
-            <% }) %>
-    
-
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 pl-3">Unblock</span>
+                          </span>
+                    <% } %>    
+            </td>
+       
+          </tr>
+        <% }) %>
         </tbody>
-    </table>
-    <section class="mb-14 mt-10">
+
+      </table>
+      <section class="mb-14 mt-10">
         <a href="./category-add" type="submit" class="flex w-32 rounded-md bg-pink-300 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-yellow-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Category</a>
 
     </section>
+    </div>
+  </div>
 </div>
+
+</section>
+
 </main>
 
 
@@ -300,5 +299,6 @@
 
     
 </script>
+
 
 <%- include('../partials/adminFooter') %>
