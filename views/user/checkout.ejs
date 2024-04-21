@@ -195,6 +195,7 @@ if(!selectedValue){
             paymentMethod : paymentMethod
         })
     })}else{
+        var orderId;
 
      fetch('/create-order', {
     method: "POST",
@@ -207,15 +208,14 @@ if(!selectedValue){
 })
 .then(response => response.json())
 .then(data => {
-    console.log('THE FINAL DATA: ',data); // Log the response data
+   orderId = data.id;
+   
+console.log('THE ORDER ID : ',orderId); 
 })
 .catch(error => {
     console.error('Error:', error); 
 });
 
-
-
-      
 
 var options = {
     "key": "rzp_test_3aIOQlQc4egRLE", 
@@ -224,11 +224,27 @@ var options = {
     "name": "OneCart", 
     "description": "Test Transaction",
     "image": "/images/onecart-log.avif",
-    "order_id": "order_O1KAUZAkOSR9ih", 
+    "order_id": orderId, 
     "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature)
+        const paymentMethod = selectedValue;
+                fetch('/placeOrder',{
+                method:"POST",
+                headers:{
+                    "Content-Type" : "application/json"
+                },
+                body:JSON.stringify({
+                    totalPrice : totalPrice,
+                    paymentMethod : paymentMethod
+                })
+                }).then(() => {
+                    window.location.href = '/orderSuccess'
+                })
+        
+
+
+        // alert(response.razorpay_payment_id);
+        // alert(response.razorpay_order_id);
+        // alert(response.razorpay_signature)
     },
     "prefill": { 
         "name": "Gaurav Kumar", //your customer's name

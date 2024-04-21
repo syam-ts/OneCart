@@ -60,7 +60,7 @@ const insertOrder = async (req, res) => {
              });
              await order.save();
              await Cart.deleteMany({ userId });
-             res.redirect(302, '/orderSuccess');
+             res.redirect('/orderSuccess');
             
         
     } catch (error) {

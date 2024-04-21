@@ -9,6 +9,9 @@ const addressController = require('../controllers/addressCtrl');
 const orderController = require('../controllers/orderCtrl');
 const productController = require('../controllers/productCtrl');
 var cors = require('cors');
+const dotenv = require('dotenv');
+
+dotenv.config({path:'./.env'})
 
 app.use(cors());
 
@@ -68,29 +71,32 @@ router.post('/placeOrder',orderController.insertOrder);
 router.post('/verifyOrder',orderController.verifyAndInsertOrder);
 
 
-app.post('/create-order', async (req, res) => {
-   try {
-       const totalPrice = req.body.totalPrice; 
-       console.log('THE REQ BODY TO BACKEND : ',req.body);
-       const response = await fetch('https://api.razorpay.com/v1/orders', {
-           method: 'POST',
-           headers: {
-               'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({
-               "amount": totalPrice,
-               "currency": "INR",
-               "receipt": "receipt-001"
-           })
-       });
-       const data = await response.json();
-       console.log('Razorpay API response:', data);
-       res.json(data); // Send the Razorpay response back to the frontend
-   } catch (error) {
-       console.error('Error:', error);
-       res.status(500).json({ error: 'Internal Server Error' });
-   }
-});
+      router.post('/create-order', async (req, res) => {
+         try {
+             const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
+             const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
+             const totalPrice = req.body.totalPrice;
+             const response = await fetch('https://api.razorpay.com/v1/orders', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                     'Authorization': `Basic ${Buffer.from(`${razorpayApiKey}:${razorpaySecretKey}`).toString('base64')}`
+                 },
+                 body: JSON.stringify({
+                     "amount": totalPrice,
+                     "currency": "INR",
+                     "receipt": "receipt-001"
+                 })
+             });
+             const data = await response.json();
+             res.json(data);
+         } catch (error) {
+             console.error('Error:', error);
+             res.status(500).json({ error: 'Internal Server Error' });
+         }
+     });
+     
+
 
 
 router.get('/orderSuccess',(req, res) => {
