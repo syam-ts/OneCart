@@ -168,28 +168,22 @@ document.addEventListener("DOMContentLoaded", function() {
     const placeOrderButton = document.getElementById('placeOrder');
     placeOrderButton.addEventListener('click', function() {
 
-        console.log('IT REACHED HERE')
         const paymentMethod = document.getElementsByName('paymentMethod');
     let selectedValue = "";
 
     const totalPriceElement = document.getElementById('totalPrice');
         const totalPrice = parseFloat(totalPriceElement.textContent);
-
-console.log('THE WHOLE PRICE : ',totalPrice)
-
     paymentMethod.forEach(radio => {
         if (radio.checked) {
             selectedValue = radio.value;
         }
     });
 if(!selectedValue){
-    alert('Please select a payment method')
-}
+            alert('Please select a payment method');
+        }
+        
       if(selectedValue == "Cash on Delivery"){
-
-     
         const paymentMethod = selectedValue;
-
 
        fetch('/placeOrder',{
         method:"POST",
@@ -199,27 +193,28 @@ if(!selectedValue){
         body:JSON.stringify({
             totalPrice : totalPrice,
             paymentMethod : paymentMethod
-
         })
-       })
+    })}else{
+
+     fetch('/create-order', {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+       },
+    body: JSON.stringify({
+        "totalPrice": totalPrice
+    })
+})
+.then(response => response.json())
+.then(data => {
+    console.log('THE FINAL DATA: ',data); // Log the response data
+})
+.catch(error => {
+    console.error('Error:', error); 
+});
 
 
-      }else{
 
-        fetch('/verifyOrder',{
-        method:"POST",
-        headers:{
-            "Content-Type" : "application/json"
-        },
-        body:JSON.stringify({
-            totalPrice : totalPrice,
-            paymentMethod : paymentMethod
-
-        })
-       })
-
-
-       
       
 
 var options = {
@@ -229,7 +224,7 @@ var options = {
     "name": "OneCart", 
     "description": "Test Transaction",
     "image": "/images/onecart-log.avif",
-    "order_id": "order_O0z8kUvXNn8qmR", 
+    "order_id": "order_O1KAUZAkOSR9ih", 
     "handler": function (response){
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
