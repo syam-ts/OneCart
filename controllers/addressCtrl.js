@@ -5,7 +5,7 @@ const User = require('../models/userModel');
 //user address page
 const getUserAddress = async(req, res) => {
   const userId = req.session.user;
-  const user = await User.find(userId);
+  const user = await User.findById(userId);
   const address = await Address.find({userId:{ $in : userId}});
     res.render('userAddress',{ address ,user})
    };
@@ -15,7 +15,7 @@ const getUserAddress = async(req, res) => {
 // laoding address adding page 
    const getAddAddress = async(req, res) => {
     const userId = req.session.user;
-     const user = await User.find(userId);
+    const user = await User.findById(userId);
     const addressId = req.params;
     res.render('addressAdd',{ countries ,user});
    };

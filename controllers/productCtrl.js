@@ -319,7 +319,7 @@ const postProductEdit = async (req, res) => {
         product.size = size;
         product.extras = extras;
 
-        // Handle file uploads separately
+        // file uploads separately
         if (req.files && req.files.length > 0) {
             const productImages = req.files.map(file => file.filename);
             product.productImage = productImages;

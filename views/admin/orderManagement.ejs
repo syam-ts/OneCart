@@ -81,13 +81,20 @@
                  </td> -->
 
 
-                 <td>
-                    <select class="category block w-36 h-7 border-0 text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans" data-orderid="<%= order._id %>">
+                 <td class="flex">
+                    <p id="orderId" value="<%= order.id %>"></p>
+                    <select id="orderStatus" class="category block w-36 h-7 border-0 rounded-full text-gray-500 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                        <option selected disabled selected> <%= order.status %> </option>
                         <option value="Shipped">Shipped</option>
                         <option value="Delivered">Delivered</option>
                         <option value="Cancelled">Cancelled</option>
-                        <option value="Returned">Returned</option>
                     </select>
+                    <div>
+                        <button class="orderStatusChangeButton ml-4 text-green-400">
+                            change
+                        </button>
+                    </div>
+             
                 </td>
                 
                 
@@ -120,30 +127,74 @@
 <script>
 
 
-    $(document).ready(function() {
-        $('.category').change(function() {
-            var newStatus = $(this).val();
-            var orderId = $(this).data('orderid');
-            updateOrderStatus(orderId, newStatus);
-        });
-    });
+    // $(document).ready(function() {
+    //     $('.category').change(function() {
+    //         var newStatus = $(this).val();
+    //         var orderId = $(this).data('orderid');
+    //         updateOrderStatus(orderId, newStatus);
+    //     });
+    // });
 
-    function updateOrderStatus(orderId, newStatus) {
-        $.ajax({
-            url: '/orderManagement', 
-            type: 'POST',
-            data: { orderId: orderId, newStatus: newStatus },
-            success: function(response) {
-                console.log('Order status updated successfully');
-            },
-            error: function(xhr, status, error) {
-                console.error('Error updating order status:', error);
-            }
-        });
-    }
+    // function updateOrderStatus(orderId, newStatus) {
+    //     $.ajax({
+    //         url: '/orderManagement', 
+    //         type: 'POST',
+    //         data: { orderId: orderId, newStatus: newStatus },
+    //         success: function(response) {
+    //             console.log('Order status updated successfully');
+    //         },
+    //         error: function(xhr, status, error) {
+    //             console.error('Error updating order status:', error);
+    //         }
+    //     });
+    // };
+
+    
+
+
+    const orderStatusChangeButtons = document.querySelectorAll('.orderStatusChangeButton');
+
+orderStatusChangeButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+        const td = e.target.closest('td');
+        const select = td.querySelector('select');
+        const orderStatus = select.value;
+        const orderId = td.querySelector('#orderId').getAttribute('value');
+
+        fetch('/admin/orderStatus',{
+        method:"POST",
+          headers:{
+              "Content-Type" : "application/json"
+          },
+          body:JSON.stringify({
+              orderStatus : orderStatus,
+              orderId : orderId
+            })
+       }).then(response => {
+    if (response.ok) {
+        return response.json()}
+            throw new Error('Network response was not ok.');
+        })
+    //     .then(data => {
+    //         let discount = parseFloat(data.discountPrice);
+    //         const subTotal = parseFloat(document.getElementById('subTotal').innerText);
+    //         const discountAmount = (subTotal * discount) / 100;
+    //         const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount ;
+    //         const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
+    //         console.log('Selected coupon:', selectedCoupon);
+    //     });
+    });
+});
+
+
+
+   
+
+
+
 </script>
 
 
-  </script>
+ 
 
 <%- include('../partials/adminFooter') %>

@@ -79,25 +79,25 @@ router.get('/category-delete/:id',categoryController.deleteCategory);
 router.get('/category-edit/:id',categoryController.loadCategoryEdit);
 router.post('/category-edit/:id',categoryController.editCategory);
 
-   //<------------ orderManagementroutes -------------->
+   //<------------ orderManagement routes -------------->
 router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
+router.post('/orderStatus',orderManagementCtrl.orderStatusChng);
 
 
-router.get('/orderStatus/:id',orderManagementCtrl.getEditOrderStatus);
-router.post('/orderStatus/:orderId',orderManagementCtrl.postEditOrderStatus);
 
+   //<------------ salse routes -------------->
 router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
 router.get('/salesReport',orderManagementCtrl.getSalesReport);
 
 
-//coupon management
+   //<------------ couponManagement routes -------------->
 router.get('/coupon-list',couponCtrl.couponList);
 router.get('/coupon-add',couponCtrl.getCouponAdd);
 router.post('/coupon-add',couponCtrl.insertCoupon);
 
+   //<------------ error routes -------------->
+router.get('/error',(req, res) => {res.render('error')})
 
-router.get('/error',(req, res) => {
-   res.render('error')
-})
+
 
 module.exports = router;

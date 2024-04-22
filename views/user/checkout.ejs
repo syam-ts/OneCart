@@ -175,9 +175,9 @@ document.addEventListener("DOMContentLoaded", function() {
             selectedValue = radio.value;
         }
     });
-if(!selectedValue){
-            alert('Please select a payment method');
-        }
+        if(!selectedValue){
+                 alert('Please select a payment method');
+                };
 
    //<------------ for cash on delevery -------------->
       if(selectedValue == "Cash on Delivery"){
@@ -249,13 +249,14 @@ if(!selectedValue){
         }};
         var rzp1 = new Razorpay(options);
         rzp1.on('payment.failed', function (response){
-                alert(response.error.code);
-                alert(response.error.description);
-                alert(response.error.source);
-                alert(response.error.step);
-                alert(response.error.reason);
-                alert(response.error.metadata.order_id);
-                alert(response.error.metadata.payment_id);
+            alert('Payment failed')
+                // alert(response.error.code);
+                // alert(response.error.description);
+                // alert(response.error.source);
+                // alert(response.error.step);
+                // alert(response.error.reason);
+                // alert(response.error.metadata.order_id);
+                // alert(response.error.metadata.payment_id);
             });
             document.getElementById('placeOrder').onclick = function(e){
                 rzp1.open();
@@ -288,26 +289,13 @@ addCouponButton.addEventListener('click', () => {
         })
         .then(data => {
             let discount = parseFloat(data.discountPrice);
-      
             const subTotal = parseFloat(document.getElementById('subTotal').innerText);
-
-
-
-
-const discountAmount = (subTotal * discount) / 100;
-
-const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount ;
-
-const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
-
-console.log('Selected coupon:', selectedCoupon);
+            const discountAmount = (subTotal * discount) / 100;
+            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount ;
+            const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
+            console.log('Selected coupon:', selectedCoupon);
         });
           
-        
-        
-
-      
-
     }else{
         if(couponSearch){
             alert('Cannot select multiple options')
