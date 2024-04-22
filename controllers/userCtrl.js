@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 const express = require('express');
 const bcrypt = require('bcrypt');
 const Product = require('../models/productModel');
+const Address = require('../models/addressModel');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const app = express();
@@ -218,7 +219,28 @@ const getForgotPassword = async (req, res) => {
   } catch (error) {
     console.log(error.message);
   }
-}
+};
+
+      const userProfile = async (req, res) => {
+        try {
+          const userId = req.session.user;
+          const user = await User.findById(userId);
+          const address = await Address.find({userId : userId});
+          console.log('the user ',address)
+        
+          res.render('userProfile',{ user, address })
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+
+      const userEdit = async (req, res) => {
+        try {
+          res.render('userEdit');
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
 
 module.exports = {
     insertUser,
@@ -229,5 +251,7 @@ module.exports = {
     getLogout,
     verifyOtpLoad,
     verifyOTP,
-    getForgotPassword
+    getForgotPassword,
+    userProfile,
+    userEdit
 };

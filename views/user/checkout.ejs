@@ -184,11 +184,9 @@ if(!selectedValue){
             alert('Please select a payment method');
         }
 
-
+   //<------------ for cash on delevery -------------->
       if(selectedValue == "Cash on Delivery"){
         const paymentMethod = selectedValue;
-
-
         fetch('/placeOrder',{
                         method:"POST",
                         headers:{
@@ -200,29 +198,23 @@ if(!selectedValue){
                         })
                         }).then(() => {
                             window.location.href = '/orderSuccess'
-                        })
-
-
-}else{
-        var orderId;
-        fetch('/create-order', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "totalPrice": totalPrice
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-    orderId = data.id;
-    
-    console.log('THE ORDER ID : ',orderId); 
-    })
-    .catch(error => {
+                        })}else{
+       //<------------ for Razor pay -------------->
+            var orderId;
+            fetch('/create-order', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "totalPrice": totalPrice
+            })})
+            .then(response => response.json())
+            .then(data => {
+            orderId = data.id; 
+          }).catch(error => {
         console.error('Error:', error); 
-    });
+      });
         var options = {
             "key": "rzp_test_3aIOQlQc4egRLE", 
             "amount": totalPrice * 100,
@@ -241,11 +233,10 @@ if(!selectedValue){
                         body:JSON.stringify({
                             totalPrice : totalPrice,
                             paymentMethod : paymentMethod
-                        })
-                        }).then(() => {
-                            window.location.href = '/orderSuccess'
-                        })
-                
+                          })
+                            }).then(() => {
+                                    window.location.href = '/orderSuccess'
+                                })
                 // alert(response.razorpay_payment_id);
                 // alert(response.razorpay_order_id);
                 // alert(response.razorpay_signature)
@@ -260,8 +251,7 @@ if(!selectedValue){
         },
         "theme": {
             "color": "#3399cc"
-        }
-    };
+        }};
         var rzp1 = new Razorpay(options);
         rzp1.on('payment.failed', function (response){
                 alert(response.error.code);
@@ -275,8 +265,7 @@ if(!selectedValue){
             document.getElementById('placeOrder').onclick = function(e){
                 rzp1.open();
                 e.preventDefault();
-                }}
-                })
+                }}})
             });
 
    //<------------ coupon applying -------------->

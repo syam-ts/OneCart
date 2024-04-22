@@ -28,6 +28,8 @@ router.get('/home',userController.getHome);
 router.get('/verify-otp',userController.verifyOtpLoad);
 router.post('/verify-otp',userController.verifyOTP);
 router.get('/forgotPassword', userController.getForgotPassword);
+router.get('/userProfile',userController.userProfile);
+router.get('/userEdit',userController.userEdit);
 
 
    //<------------ product routes -------------->
@@ -47,7 +49,6 @@ router.get('/pagination/:id/:cat', productController.getPagination);
 
 
    //<------------ userProfile -------------->
-router.get('/userProfile',addressController.getUserProfile);
 router.get('/userAddress',addressController.getUserAddress);
 router.get('/addAddress',addressController.getAddAddress);
 router.post('/addAddress',addressController.insertAddress);
