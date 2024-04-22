@@ -13,7 +13,7 @@ const couponSchema = mongoose.Schema({
         type : Number,
         required : true
     },
-    maximumAmount : {
+    minimumAmount : {
         type : Number,
         required : true
     },

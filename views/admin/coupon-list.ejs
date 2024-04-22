@@ -17,7 +17,7 @@
           <h3 class="font-semibold text-base text-blueGray-700">    </h3>
         </div>
         <div class=" flex-grow flex-1 text-left">
-          <a href="/admin/coupon-add" class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">See all</a>
+          <a href="/admin/coupon-add" class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">Add Coupon</a>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
            <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Discount</th>
           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Maximum Amount</th>
+                          Minimum Amount</th>
         
           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Expiry Date</th>
@@ -55,7 +55,7 @@
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
-               <%= coup.maximumAmount %>
+               <%= coup.minimumAmount %>
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>

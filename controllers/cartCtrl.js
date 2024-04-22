@@ -3,6 +3,7 @@ const Cart = require('../models/cartModel');
 const Address = require('../models/addressModel');
 const User = require('../models/userModel');
 const Order = require('../models/orderModel');
+const Coupon = require('../models/couponModel');
 
   //<------------ load cart --------------> 
 const getCart = async (req, res) => {
@@ -12,9 +13,9 @@ const getCart = async (req, res) => {
         const productIds = cart.map(item => item.productId);
         const products = await Product.find({ _id: { $in: productIds } }); 
         if(products.length != 0){
-            res.render('cart', { items: { products, cart} }); 
-        }else{
-            res.render('cart', { items: { products, cart} }); 
+            res.render('cart',{ items:{products, cart}}); 
+               }else{
+            res.render('cart',{ items:{products, cart}}); 
         };
             }catch(error){
                 console.log(error.message);
@@ -31,9 +32,9 @@ const getCart = async (req, res) => {
             userId: userId
         });
         if (!existingItem) {
-            if(req.body.quantity > 5){
-                console.error('Cannot add more than 5 quantity');
-                res.status(400).json({ error: 'Cannot add more than 5 quantity' });
+            if(req.body.quantity > 3){
+                console.error('Cannot add more than 3 quantity');
+                res.status(400).json({ error: 'Cannot add more than 3 quantity' });
             } else {
                 const cart = new Cart({
                     userId,
@@ -47,13 +48,13 @@ const getCart = async (req, res) => {
                 res.status(200).json({ message: 'Product added to cart successfully' });
             }
         } else {
-            if(req.body.quantity > 5){
-                console.log('Cannot add more than 5 quantity');
+            if(req.body.quantity > 3){
+                console.log('Cannot add more than 3 quantity');
                 res.status(400).json({ error: 'Cannot add more than 5 quantity' });
             } else {
-                if(existingItem.quantity + req.body.quantity > 5){
-                    console.log('Cannot add more than 5 quantity from the existing item');
-                    res.status(400).json({ error: 'Cannot add more than 5 quantity from the existing item' });
+                if(existingItem.quantity + req.body.quantity > 3){
+                    console.log('Cannot add more than 3 quantity from the existing item');
+                    res.status(400).json({ error: 'Cannot add more than 3 quantity from the existing item' });
                 } else {
                     existingItem.quantity += req.body.quantity;
                     await existingItem.save();
@@ -99,12 +100,16 @@ const getCart = async (req, res) => {
                 const quantity = cart.map(item => item.quantity);
                 const products = await Product.find({ _id: { $in: productIds } });
                 const address = await Address.findOne({ userId:{ $in : userId } });
+                const totalPrice = req.params.id;
+                const coupon = await Coupon.find({ minimumAmount :{$lte : totalPrice} });
+          
+               
                 if(!address) {
                     const message = 'No address found'; 
                     res.render('error',{ message : message})
                 }else{
-                    const totalPrice = req.params.id;
-                    res.render('checkout',{address, getUser,products,totalPrice, quantity});
+                    
+                    res.render('checkout',{address, getUser,products,totalPrice, quantity ,coupon});
                 }
               
             }catch(error){
