@@ -4,7 +4,7 @@
 
 <main class="flex justify-between">
 <section class="justify-start">
-    <%- include('../partials/userProfile') %>
+    <%- include('../partials/userProfileSidebar') %>
 </section>
 
 <section class="mt-28 pt-52">
@@ -28,7 +28,7 @@
           <div class="flex flex-wrap justify-center">
             <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
               <div class="relative">
-                <img alt="..." src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg" class="shadow-xl rounded-full h-auto align-middle border-none  -m-16 -ml-20 lg:-ml-16 max-w-150-px">
+                <img alt="User Image" src="/product_images/<%= user.userImage %>" class="shadow-xl rounded-full h-auto align-middle border-none  -m-16 -ml-20 lg:-ml-16 max-w-150-px">
               </div>
             </div>
             <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
@@ -62,7 +62,7 @@
            
            
             <div class="mb-2 text-blueGray-600 mt-10">
-              <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Gender - Creative Tim Officer
+              <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Gender - <%= user.gender %>
             </div>
             <div class="mb-2 text-blueGray-600 mt-10">
               <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Email  - <%= user.email %>
@@ -71,7 +71,7 @@
               <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>Phone -  <%= user.phone %> 
             </div>
             <div class="mb-2 text-blueGray-600justify-center "> 
-                <a class="flex-col grid-cols-2 " href="/userEdit"> Edit </a>
+                <a class="flex-col grid-cols-2 text-blue-700 border-2 border-gray-300 hover:text-green-300 font-mono rounded-full" href="/userEdit"> Edit </a>
            
                </div>
        

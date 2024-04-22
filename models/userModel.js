@@ -24,6 +24,12 @@ const userSchema = mongoose.Schema({
             otp: {
             type: String
             },
+            userImage:{
+                type:String
+            },gender:{
+                type:String
+            }
+
             });
 
 

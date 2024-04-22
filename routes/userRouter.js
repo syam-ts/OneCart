@@ -12,6 +12,22 @@ const couponController = require('../controllers/couponCtrl');
 var cors = require('cors');
 const dotenv = require('dotenv');
 const couponModel = require('../models/couponModel');
+const multer = require('multer');
+
+const User = require('../models/userModel');
+
+//<------------ imgage rendering -------------->
+const storage = multer.diskStorage({
+   destination:(req, file, cb) => {
+       cb(null,'./public/product_images')
+   },
+   filename:(req, file, cb) => {
+       const name = Date.now()+''+file.originalname;
+       cb(null, name);
+   }
+});
+const upload = multer({ storage });
+
 
 dotenv.config({path:'./.env'})
 
@@ -31,7 +47,17 @@ router.get('/verify-otp',userController.verifyOtpLoad);
 router.post('/verify-otp',userController.verifyOTP);
 router.get('/forgotPassword', userController.getForgotPassword);
 router.get('/userProfile',userController.userProfile);
-router.get('/userEdit',userController.userEdit);
+router.get('/userEdit',userController.getUserEdit);
+router.post('/userEdit',upload.single('userImage'),userController.insertUserDetails);
+router.get('/userProfileSidebar',async (req , res) => {
+   try {
+      const userId = req.session.user;
+      const user = await User.find(userId);
+      res.render('userProfileSidebar',{user})
+   } catch (error) {
+      console.log(error.message);
+   }
+})
 
 
    //<------------ product routes -------------->

@@ -34,28 +34,21 @@
                         <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address
                         </h2>
                         <div class="flex-row items-center mb-4">
-                  
-                
 
                         <section>
                        <div>
                             <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                             <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Permenant Address</label>
-                                <ul class="max-w-md space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
+                                <ul class="max-w-md text-sm space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
                                     <li>
                                        <%= address.name %> 
                                        </li>
                                        <li>
-                                       <%= address.address %> 
-                                     
-                                 
-                                    ,
+                                       <%= address.address %>,
                                        <%= address.city %> 
                                        <li>
-                                            <%= address.pincode %> 
-                                         ,
-                                       <%= address.state %> 
-                                        ,
+                                            <%= address.pincode %>,
+                                       <%= address.state %>,
                                        <%= address.country %>
                                         </li>
                                 </ul>
@@ -63,11 +56,11 @@
                         </div>
                         </section>
                        
-            <section>
+            <section class="mt-5">
                 <div>
                     <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                     <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">New Address</label>
-                        <ul class="max-w-md space-y-1 text-gray-500 list-none list-inside dark:text-gray-900">
+                        <ul class="max-w-md text-sm space-y-1 text-gray-500 list-none list-inside dark:text-gray-900">
                             <li>
                                 At least 10 characters (and up to 100 characters)
                             </li>
@@ -126,14 +119,14 @@
                                 <div class="flex-col space-x-4 mt-4 mb-4">
                                     <div>
                                         <img src="/product_images/<%= item.productImage[0] %>" alt="image"
-                                            class="w-60">
+                                            class="w-24 h-28">
                                     </div>
                                     <div>
-                                        <h2 class="text-xl font-bold"><%= item.productName %></h2>
+                                        <h2 class="text-md font-bold"><%= item.productName %></h2>
                                         <ul>
-                                            <li class="flex flex-wrap gap-4">Size : <span class="text-end"><%= item.size %> </span></li>
-                                            <li class="flex flex-wrap gap-4">Quantity : <span class="text-end"><%= item.stock %> </span></li>
-                                            <li class="flex flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
+                                            <li class="flex text-xs flex-wrap gap-4">Size : <span class="text-end"><%= item.size %> </span></li>
+                                            <li class="flex text-xs flex-wrap gap-4">Quantity : <span class="text-end"><%= item.stock %> </span></li>
+                                            <li class="flex text-xs flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
                                         </ul>
                                        
                                     </div>

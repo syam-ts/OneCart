@@ -1,21 +1,23 @@
 const Address = require('../models/addressModel');
 const countries = require('../public/countries');
+const User = require('../models/userModel');
 
 //user address page
 const getUserAddress = async(req, res) => {
   const userId = req.session.user;
-  console.log('THE SESSION USER; ',userId)
+  const user = await User.find(userId);
   const address = await Address.find({userId:{ $in : userId}});
-  console.log('THE ADDRESS ; ',address)
-    res.render('userAddress',{ address })
+    res.render('userAddress',{ address ,user})
    };
 
 
 
 // laoding address adding page 
    const getAddAddress = async(req, res) => {
+    const userId = req.session.user;
+     const user = await User.find(userId);
     const addressId = req.params;
-    res.render('addressAdd',{ countries });
+    res.render('addressAdd',{ countries ,user});
    };
 
 
@@ -47,7 +49,9 @@ const getEditAddress = async (req, res ) => {
       try {
         const addressId = req.params.id;
         const address = await Address.findById( addressId );
-        res.render('addressEdit',{ address });
+        const userId = req.session.user;
+          const user = await User.findById(userId);
+        res.render('addressEdit',{ address ,user});
           } catch (error) {
             console.log(error.message);
           }

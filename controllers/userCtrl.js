@@ -221,22 +221,50 @@ const getForgotPassword = async (req, res) => {
   }
 };
 
+
+
+
       const userProfile = async (req, res) => {
         try {
           const userId = req.session.user;
           const user = await User.findById(userId);
           const address = await Address.find({userId : userId});
-          console.log('the user ',address)
-        
           res.render('userProfile',{ user, address })
         } catch (error) {
           console.log(error.message);
         }
       };
 
-      const userEdit = async (req, res) => {
+
+
+
+
+      const getUserEdit = async (req, res) => {
         try {
-          res.render('userEdit');
+          const userId = req.session.user;
+          const user = await User.findById(userId);
+          res.render('userEdit', {user});
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+
+
+      const insertUserDetails = async (req, res) => {
+        try {
+          const userImage = req.file.filename;
+          const { gender ,phone } = req.body
+          const updatedFields = {};
+          if (userImage) updatedFields.userImage = userImage;
+          if (gender) updatedFields.gender = gender;
+          if (phone) updatedFields.phone = phone;
+  
+          const userId = req.session.user; 
+          const user = await User.findByIdAndUpdate( userId, updatedFields, { new: true });
+  
+
+       
+          res.redirect('/userProfile')
         } catch (error) {
           console.log(error.message);
         }
@@ -253,5 +281,6 @@ module.exports = {
     verifyOTP,
     getForgotPassword,
     userProfile,
-    userEdit
+    getUserEdit,
+    insertUserDetails
 };

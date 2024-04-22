@@ -1,11 +1,61 @@
 <%- include('../partials/header') %>
 
-<main class="flex justify-between">
+<main class="flex  justify-between">
 <section class="justify-start">
-    <%- include('../partials/userProfile') %>
+    <%- include('../partials/userProfileSidebar') %>
 </section>
-<main>
-<h1>USer Edit Page</h1>
+
+<section class="justify-start items-start mx-auto">
+
+
+    <form action="/userEdit" method="post"  enctype="multipart/form-data">
+        <div class="min-h-screen p-6  flex items-center justify-center">
+            <div class="container max-w-screen-lg mx-auto">
+              <div>
+                <h2 class="font-semibold text-xl text-gray-600">Add User Details</h2>
+               
+          
+                <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6 border-t">
+                  <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                    <div class="text-gray-600">
+                      <p class="font-medium text-lg">User Details</p>
+                      <p>Please fill out all the fields.</p>
+                    </div>
+          
+                    <div class="lg:col-span-2">
+                      <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                        <div class="md:col-span-5">
+                          <label for="userImage">User Image</label>
+                          <input type="file" name="userImage" id="userImage" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
+                        </div>
+          
+                        <div class="md:col-span-5">
+                          <label for="gender"> Gender </label>
+                          <input type="text" name="gender" id="gender" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
+                        </div>
+                        <div class="md:col-span-5">
+                          <label for="phone"> Phone </label>
+                          <input type="number" name="phone" id="phone" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
+                        </div>
+                      
+                
+                        <div class="md:col-span-5 text-right mt-5">
+                          <div class="inline-flex items-end">
+                            <button type="submit" class="bg-cyan-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                          </div>
+                        </div>
+          
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </form>
+</section>
+
 
 </main>
 
