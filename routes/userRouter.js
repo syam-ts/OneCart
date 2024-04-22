@@ -8,8 +8,10 @@ const wishlistController = require('../controllers/wishlistCtrl');
 const addressController = require('../controllers/addressCtrl');
 const orderController = require('../controllers/orderCtrl');
 const productController = require('../controllers/productCtrl');
+const couponController = require('../controllers/couponCtrl');
 var cors = require('cors');
 const dotenv = require('dotenv');
+const couponModel = require('../models/couponModel');
 
 dotenv.config({path:'./.env'})
 
@@ -97,6 +99,9 @@ router.post('/verifyOrder',orderController.verifyAndInsertOrder);
          }
      });
      
+
+ router.post('/couponSearch',couponController.couponSearch);
+
 
 
 
