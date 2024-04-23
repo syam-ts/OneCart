@@ -11,6 +11,8 @@ const flash = require('connect-flash');
 const methodOverride = require('method-override');
 const swal = require('sweetalert');
 const cors = require('cors');
+const sharp = require('sharp');
+
 
 app.use(cors());
 app.use(nocache());

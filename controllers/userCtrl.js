@@ -4,7 +4,7 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const Product = require('../models/productModel');
 const Address = require('../models/addressModel');
-const Wallet = require('../models/walletMode');
+const Wallet = require('../models/walletModel');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const app = express();
@@ -229,7 +229,6 @@ const getForgotPassword = async (req, res) => {
         try {
           const userId = req.session.user;
           const wallet = await Wallet.find({userId : userId})
-          console.log('THE WALLET : ',wallet)
           const user = await User.findById(userId);
           const address = await Address.find({userId : userId});
           res.render('userProfile',{ user, address , wallet})
@@ -237,9 +236,6 @@ const getForgotPassword = async (req, res) => {
           console.log(error.message);
         }
       };
-
-
-
 
 
       const getUserEdit = async (req, res) => {

@@ -28,56 +28,38 @@
                 </div>
                  </section>
                        
-
-                
                     <form class=" mx-auto mt-6" method="post" action>
                         <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address
                         </h2>
+                        <% address.forEach(add => { %>
                         <div class="flex-row items-center mb-4">
-
                         <section>
                        <div>
-                            <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                            <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Permenant Address</label>
-                                <ul class="max-w-md text-sm space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
+                        <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                               <ul class="max-w-md text-sm space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
                                     <li>
-                                       <%= address.name %> 
+                                       <%= add.name %> 
                                        </li>
                                        <li>
-                                       <%= address.address %>,
-                                       <%= address.city %> 
+                                       <%= add.address %>,
+                                       <%= add.city %> 
                                        <li>
-                                            <%= address.pincode %>,
-                                       <%= address.state %>,
-                                       <%= address.country %>
+                                            <%= add.pincode %>,
+                                       <%= add.state %>,
+                                       <%= add.country %>
                                         </li>
                                 </ul>
-    
                         </div>
                         </section>
-                       
-            <section class="mt-5">
-                <div>
-                    <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                    <label  for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">New Address</label>
-                        <ul class="max-w-md text-sm space-y-1 text-gray-500 list-none list-inside dark:text-gray-900">
-                            <li>
-                                At least 10 characters (and up to 100 characters)
-                            </li>
-                        </ul>
-                  </div>
-            </section>
-                 <div>
-
+                        <% }) %>
+                
                 <section class="mt-12">
                     <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
-                
                     <input id="couponSearch" class="w-56 h-9 border border-gray-950" type="text" placeholder="search coupon">
                         <select id="couponValues" class="bg-gray-50 h-9 w-56 mt-5 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-1.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected disabled  selected> Available Coupons </option>
                             <% coupon.forEach(coup => { %>
                             <option value="<%= coup.discount %>"><%= coup.couponCode %></option>
-                            
                             <% }) %>
                         </select>
                     <div class="flex gap-6 max-sm:flex-col mt-5">
@@ -95,13 +77,18 @@
         
                     <input id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                     <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
+                
+                    <input id="default-radio-2" type="radio" value="Wallet" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                    <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900"> Wallet </label>
+                    <span id="walletAmount" >  </span>
                 </div>
+         
         </section>
 
         <section>
         <div class="flex gap-6 max-sm:flex-col mt-10">
             <button type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
-            <button id="placeOrder" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]">
+            <button id="placeOrder" value="<%= wallet[0].amount %>" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]" >
                 Complete Purchase
                  </button>
               </div>
@@ -128,14 +115,12 @@
                                             <li class="flex text-xs flex-wrap gap-4">Quantity : <span class="text-end"><%= item.stock %> </span></li>
                                             <li class="flex text-xs flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
                                         </ul>
-                                       
                                     </div>
-                                  
                                 </div>
                                 <% }) %>
                             </div>
                         </div>
-                    
+
                         
                         <div
                             class="flex items-center w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-3 text-heading last:border-b-0 last:text-base last:pb-0">
@@ -193,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         })
                         }).then(() => {
                             window.location.href = '/orderSuccess'
-                        })}else{
+               })}else if(selectedValue == "Razor Pay"){
        //<------------ for Razor pay -------------->
             var orderId;
             fetch('/create-order', {
@@ -261,7 +246,32 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('placeOrder').onclick = function(e){
                 rzp1.open();
                 e.preventDefault();
-                }}})
+                }}else if(selectedValue == "Wallet"){
+                     //<------------ for wallet -------------->
+                    const walletAmount = document.getElementById('placeOrder').value;
+
+                   
+                    if(walletAmount < totalPrice){
+                        alert('insuffiecnt amount in wallet')
+                    }else{
+                        const paymentMethod = selectedValue;
+                        fetch('/placeOrder',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            totalPrice : totalPrice,
+                            paymentMethod : paymentMethod
+                          })
+                            }).then(() => {
+                                    window.location.href = '/orderSuccess'
+                                })
+                    }
+
+
+
+                }})
             });
 
 

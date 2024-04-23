@@ -4,6 +4,7 @@ const Address = require('../models/addressModel');
 const Order = require('../models/orderModel');
 const Cart = require('../models/cartModel');
 const User = require('../models/userModel');
+const Wallet = require('../models/walletModel');
 const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
@@ -34,33 +35,38 @@ const razorpayInstance = new Razorpay({
 
 const insertOrder = async (req, res) => {
     try {
-      
-        console.log('THE BODY:',req.body)
+            const userId = req.session.user;
+            const address = await Address.findOne({ userId });
+            const total = req.body.totalPrice;
+            const paymentMethod = req.body.paymentMethod;
+             const status = 'Pending';
+             const cart = await Cart.find({ userId });
+             const productIds = cart.map(item => item.productId);
+             const products = await Product.find({ _id: { $in: productIds } });
+                 const order = new Order({
+                     userId: userId,
+                     address: address,
+                     products: products,
+                     total: total,
+                     paymentMethod: paymentMethod,
+                     status: status,
+                     carts: cart
+                 });
+                 await order.save();
+                 await Cart.deleteMany({ userId });
+                 if(paymentMethod == "Wallet"){
+                    const wallet = await Wallet.findOne({userId : userId});
+                    wallet.amount -= total; 
+                    await wallet.save();
+                    console.log('Successfully lower the wallet amount')
+                 }
+                 res.redirect('/orderSuccess');
+        
+        
+        
         
 
-        const userId = req.session.user;
-        const address = await Address.findOne({ userId });
-        const total = req.body.totalPrice;
-         const paymentMethod = req.body.paymentMethod;
-         const status = 'Pending';
-         const cart = await Cart.find({ userId });
-         const productIds = cart.map(item => item.productId);
-
-
-         const products = await Product.find({ _id: { $in: productIds } });
-
-             const order = new Order({
-                 userId: userId,
-                 address: address,
-                 products: products,
-                 total: total,
-                 paymentMethod: paymentMethod,
-                 status: status,
-                 carts: cart
-             });
-             await order.save();
-             await Cart.deleteMany({ userId });
-             res.redirect('/orderSuccess');
+     
             
         
     } catch (error) {

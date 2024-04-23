@@ -4,6 +4,7 @@ const Address = require('../models/addressModel');
 const User = require('../models/userModel');
 const Order = require('../models/orderModel');
 const Coupon = require('../models/couponModel');
+const Wallet = require('../models/walletModel');
 
   //<------------ load cart --------------> 
 const getCart = async (req, res) => {
@@ -95,21 +96,21 @@ const getCart = async (req, res) => {
                 // {addressType:{$eq : 'Permanant'}}
                 const userId = req.session.user;
                 const getUser = await User.findById(userId)
+                const wallet = await Wallet.find({userId : userId});
                 const cart = await Cart.find({userId : userId});
                 const productIds = cart.map(item => item.productId);
                 const quantity = cart.map(item => item.quantity);
                 const products = await Product.find({ _id: { $in: productIds } });
-                const address = await Address.findOne({ userId:{ $in : userId } });
+                const address = await Address.find({ userId:{ $in : userId } }).limit(2);
                 const totalPrice = req.params.id;
                 const coupon = await Coupon.find({ minimumAmount :{$lte : totalPrice} });
-          
                
                 if(!address) {
                     const message = 'No address found'; 
                     res.render('error',{ message : message})
                 }else{
                     
-                    res.render('checkout',{address, getUser,products,totalPrice, quantity ,coupon});
+                    res.render('checkout',{address, getUser,products,totalPrice, quantity ,coupon, wallet});
                 }
               
             }catch(error){

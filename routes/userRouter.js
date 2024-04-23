@@ -76,7 +76,7 @@ router.get('/lowToHigh/:id',productController.getLowToHigh);
 router.get('/pagination/:id/:cat', productController.getPagination);
 
 
-   //<------------ userProfile -------------->
+   //<------------ userProfile || address-------------->
 router.get('/userAddress',addressController.getUserAddress);
 router.get('/addAddress',addressController.getAddAddress);
 router.post('/addAddress',addressController.insertAddress);
