@@ -1,0 +1,52 @@
+<%- include('../partials/header') %>
+
+<main class="flex justify-between">
+<section class="justify-start">
+    <%- include('../partials/userProfileSidebar') %>
+</section>
+
+<section class="antialiased bg-white text-gray-600 h-screen mr-auto mx-auto mt-12 p-40">
+  <div class="flex flex-col h-full">
+      <!------------------- Table -------------------->
+      <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+          <header class="px-5 py-4 border-b border-gray-100">
+              <h2 class="font-semibold text-gray-800">Wallet</h2>
+          </header>
+          <div class="p-3">
+              <div class="overflow-x-auto">
+                  <table class="table-auto w-full">
+                      <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-100 h-8">
+                          <tr class="">
+                              <th class="pl-24 whitespace-nowrap">
+                                  <div class="font-semibold text-left">Status</div>
+                              </th>
+                              <th class="pl-24 whitespace-nowrap">
+                                  <div class="font-semibold text-left">Balance</div>
+                              </th>
+                              <th class="pl-24 pr-24 whitespace-nowrap">
+                                  <div class="font-semibold text-left">Transactions</div>
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody class="text-sm divide-y divide-gray-100">
+                          <tr>
+                              <td class="pl-24 pt-5 whitespace-nowrap">
+                                  <div class="text-left"> Non Active </div>
+                              </td>
+                              <td class="pl-24 pt-5 whitespace-nowrap">
+                                  <div class="text-left font-medium text-green-500">$2,890.66</div>
+                              </td>
+                              <td class="pl-24 pt-5 whitespace-nowrap">
+                                  <div class="text-left font-medium text-green-500">#7823792hsfd</div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+</main>
+
+<%- include('../partials/footer') %>

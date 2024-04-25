@@ -9,6 +9,7 @@ const addressController = require('../controllers/addressCtrl');
 const orderController = require('../controllers/orderCtrl');
 const productController = require('../controllers/productCtrl');
 const couponController = require('../controllers/couponCtrl');
+const walletController = require('../controllers/walletCtrl');
 var cors = require('cors');
 const dotenv = require('dotenv');
 const Product = require('../models/productModel');
@@ -136,8 +137,8 @@ router.get('/orderSuccess',(req, res) => {
     res.render('orderSuccess');
 });
 
-
-
+//<------------ wallet routes -------------->
+router.get('/wallet',walletController.getWalletPage);
 
 //<------------ pagination route -------------->
 

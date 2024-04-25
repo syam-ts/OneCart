@@ -60,18 +60,17 @@ const searchProduct = async(req, res) => {
     try {
        const limit = 4;
        const input = req.query.searchTerm;
-       const products = await Product.find({ category: input }).limit(limit);
+       const product = await Product.find({ productName: input }).limit(limit);
        const total = await Product.find().count();
-       const category = await Product.findOne({category : input});
 
       
        const totalProduct = total / 4;
-       res.render('search', { products , category:category.category , totalProduct});
+       res.render('search', { product  , totalProduct});
 
     } catch (error) {
        console.log(error);
        
-        res.render('error')
+        res.render('error', {message : "Product Not Found"})
    
     }   
  };
