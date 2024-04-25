@@ -340,7 +340,6 @@ const deleteProduct = async (req, res) => {
     try {
         const id = req.params.id;
         const product = await Product.findById(id);
-        console.log('THE PROD: ',id);
      if(product.deleted == false){
         product.deleted = true;
         await product.save();

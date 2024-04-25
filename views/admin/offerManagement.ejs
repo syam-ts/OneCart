@@ -1,0 +1,141 @@
+<%- include('../partials/adminHeader') %>
+
+
+<!-- component -->
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+
+<main>
+
+
+<section class="py-1 bg-blueGray-50 ">
+<div class="w-full mb-12 xl:mb-0  mt-16">
+  <div class=" flex flex-col min-w-0 break-words bg-whitel mb-6 shadow-lg rounded ">
+    <div class="rounded-t mb-0 px-4 border-0">
+      <div class="flex flex-wrap items-center">
+        <div class=" w-full px-4 max-w-full flex-grow flex-1">
+          <h3 class="font-semibold text-base text-blueGray-700">    </h3>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="w-full">
+      <table class="items-center bg-transparent border-collapse ">
+        <thead>
+            
+          <tr>
+            <th class=" bg-blueGray-200  text-blueGray-500 px-36 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                         Name</th>
+            <th class=" bg-blueGray-200 text-blueGray-500 px-36 align-middle border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                         Orginal Price</th>
+          <th class=" bg-blueGray-200 text-blueGray-500 px-36  border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Offer Price</th>
+          <th class=" bg-blueGray-200 text-blueGray-500 px-36  border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Delete</th>
+               </tr>
+          </thead>
+        <tbody>
+            <% product.forEach(pro => { %>
+          <tr>
+                <td class="border-t-0 pl-5 align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                    <span> <%= pro.productName %> </span>
+                </td>
+                <td class="border-t-0  align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                    <span>  <%= pro.price %> </span>
+                </td>
+                <td class="border-t-0  align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                    <span> <%= pro.offer[0].offerPrice %> </span>
+                </td>
+                <td class="border-t-0  align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                    <button class="deleteOffer" value="<%= pro.id %>"> del/ </button>
+                </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+ <!------------ product offer add -------------->
+
+<section>
+    <form action="/admin/offerManagement" method="post"> 
+        <div class="min-h-screen bg-gray-100 flex items-start justify-start pl-24 pt-20">
+            <div class="w-auto">
+              <div>
+                <h2 class="font-semibold text-xl text-gray-600 hover:text-sky-400">Add Product Offer</h2>
+                <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                  <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                    <div class="text-gray-600">
+                      <p class="font-medium text-lg">Coupon Details</p>
+                      <p>Please fill out all the fields.</p>
+                    </div>
+                    <div class="lg:col-span-2">
+                      <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                        <div class="md:col-span-5">
+                          <label for="couponCode">Product</label>
+                          <select id="productName" name="productName" autocomplete="productName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <% allProducts.forEach(product => { %>
+                              <option class="text-gray-900"><%= product.productName %></option>
+                             <% }) %>
+                            </select>
+                        </div>
+                        <div class="md:col-span-5">
+                          <label for="OrginalPrice"> Original Price </label>
+                          <input type="number" name="OrginalPrice" id="OrginalPrice" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="2000" />
+                        </div>
+                        <div class="md:col-span-5">
+                          <label for="offerPrice">Offer Price </label>
+                          <input type="number" name="offerPrice" id="offerPrice" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
+                        </div>
+                        <div class="md:col-span-5 text-right mt-5">
+                          <div class="inline-flex items-end">
+                            <button type="submit" class="bg-cyan-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+</section>
+</main>
+
+<script>
+
+
+
+const deleteOfferBtns = document.querySelectorAll('.deleteOffer');
+
+deleteOfferBtns.forEach(button => {
+    button.addEventListener('click', () => {
+        const productId = button.value;
+        fetch('/admin/deleteOffer', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                productId: productId
+            })
+        })
+        .then(() => {
+            window.location.href = '/admin/offerManagement';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+</script>
+
+
+<%- include('../partials/adminFooter') %>

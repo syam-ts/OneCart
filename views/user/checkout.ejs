@@ -112,8 +112,7 @@
                                         <h2 class="text-md font-bold"><%= item.productName %></h2>
                                         <ul>
                                             <li class="flex text-xs flex-wrap gap-4">Size : <span class="text-end"><%= item.size %> </span></li>
-                                            <li class="flex text-xs flex-wrap gap-4">Quantity : <span class="text-end"><%= item.stock %> </span></li>
-                                            <li class="flex text-xs flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
+                                           <li class="flex text-xs flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -222,9 +221,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 // alert(response.razorpay_signature)
             },
         "prefill": { 
-            "name": "Gaurav Kumar", //your customer's name
+            "name": "Gaurav Kumar", //customer's name
             "email": "gaurav.kumar@example.com", 
-            "contact": "9000090000"  //Provide the customer's phone number for better conversion rates 
+            "contact": "9000090000"  //customer's phone number 
         },
         "notes": {
             "address": "Razorpay Corporate Office"
@@ -281,7 +280,6 @@ addCouponButton.addEventListener('click', () => {
     const couponSearch = document.getElementById('couponSearch').value;
 
     if(couponSearch){
-        
         const total = document.getElementById('totalPrice').innerText;
        fetch('/couponSearch',{
         method:"POST",
@@ -302,10 +300,9 @@ addCouponButton.addEventListener('click', () => {
             const subTotal = parseFloat(document.getElementById('subTotal').innerText);
             const discountAmount = (subTotal * discount) / 100;
             const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount ;
-            const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
-            console.log('Selected coupon:', selectedCoupon);
+            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
+            // console.log('Selected coupon:', selectedCoupon);
         });
-          
     }else{
         if(couponSearch){
             alert('Cannot select multiple options')
@@ -314,13 +311,10 @@ addCouponButton.addEventListener('click', () => {
             const discount = parseFloat(document.getElementById('couponValues').value);
             const discountAmount = (subTotal * discount) / 100;
             const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount;
-            const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
+            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
         }
     }
 });
-
-
-
 
 
    </script>

@@ -142,11 +142,26 @@ const verifyAndInsertOrder = async (req, res) => {
     }
 };
 
+// order cancel for user
+const orderCancel = async (req, res) => {
+    try {
+        const orderId = req.body.orderId;
+        const order = await Order.findById(orderId);
+        order.status = "Cancelled";
+        await order.save();
+        if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
+            console.log('Money refunded to wallet');
+        }
 
+    } catch (error) {
+        console.log(error.message);
+    }
+};
 
 
 module.exports = {
     getOrderHistory,
     insertOrder,
-    verifyAndInsertOrder  
+    verifyAndInsertOrder,
+    orderCancel  
 }

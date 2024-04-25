@@ -126,36 +126,9 @@
 </main>
 <script>
 
-
-    // $(document).ready(function() {
-    //     $('.category').change(function() {
-    //         var newStatus = $(this).val();
-    //         var orderId = $(this).data('orderid');
-    //         updateOrderStatus(orderId, newStatus);
-    //     });
-    // });
-
-    // function updateOrderStatus(orderId, newStatus) {
-    //     $.ajax({
-    //         url: '/orderManagement', 
-    //         type: 'POST',
-    //         data: { orderId: orderId, newStatus: newStatus },
-    //         success: function(response) {
-    //             console.log('Order status updated successfully');
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error('Error updating order status:', error);
-    //         }
-    //     });
-    // };
-
-    
-
-
     const orderStatusChangeButtons = document.querySelectorAll('.orderStatusChangeButton');
-
-orderStatusChangeButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
+    orderStatusChangeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
         const td = e.target.closest('td');
         const select = td.querySelector('select');
         const orderStatus = select.value;

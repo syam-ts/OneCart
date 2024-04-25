@@ -14,7 +14,6 @@ const Coupon = require('../models/couponModel');
         const getCouponAdd = async (req, res) => {
             try {
                 res.render('coupon-add')
-                
             } catch (error) {
                 console.log(error.message);
             }
@@ -37,7 +36,9 @@ const Coupon = require('../models/couponModel');
         }catch(error){
     console.log(error.message)
         }
-    }
+    };
+
+
 
     const couponSearch = async (req, res) => {
         try {
@@ -45,8 +46,6 @@ const Coupon = require('../models/couponModel');
             const coupon = await Coupon.find({couponCode : searchValue});
             const total = req.body.totalPrice;
             const discount = coupon[0].discount;
-            console.log('THE TOTAL : ',total)
-            console.log('THE DISCOUNT : ',discount)
             if(discount <= total){
                 res.status(200).json({discountPrice : discount})
                 

@@ -11,6 +11,7 @@ const productController = require('../controllers/productCtrl');
 const couponController = require('../controllers/couponCtrl');
 var cors = require('cors');
 const dotenv = require('dotenv');
+const Product = require('../models/productModel');
 const couponModel = require('../models/couponModel');
 const multer = require('multer');
 
@@ -98,8 +99,9 @@ router.get('/checkout/:id',cartController.getCheckout);
 router.get('/orderHistory',orderController.getOrderHistory);
 router.post('/placeOrder',orderController.insertOrder);
 router.post('/verifyOrder',orderController.verifyAndInsertOrder);
+router.post('/orderCancel',orderController.orderCancel);
 
-
+//<------------ creating order -------------->
       router.post('/create-order', async (req, res) => {
          try {
              const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
@@ -125,12 +127,11 @@ router.post('/verifyOrder',orderController.verifyAndInsertOrder);
          }
      });
      
-
+//<------------ coupon search -------------->
  router.post('/couponSearch',couponController.couponSearch);
 
 
-
-
+//<------------ order success -------------->
 router.get('/orderSuccess',(req, res) => {
     res.render('orderSuccess');
 });
@@ -138,10 +139,46 @@ router.get('/orderSuccess',(req, res) => {
 
 
 
-router.get('/new', (req, res) => {
-   res.render('new')
-})
+//<------------ pagination route -------------->
 
+router.get("/shopping", async (req, res) => {
+	try {
+		const page = parseInt(req.query.page) - 1 || 0;
+		const limit = parseInt(req.query.limit) || 5;
+		const search = req.query.search || "";
+		let sort = req.query.sort || "Trending";
 
+		req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+		let sortBy = {};
+		if (sort[1]) {
+			sortBy[sort[0]] = sort[1];
+		} else {
+			sortBy[sort[0]] = "asc";
+		}
+
+		const product = await Product.find({ name: { $regex: search, $options: "i" } })
+			.sort(sortBy)
+			.skip(page * limit)
+			.limit(limit);
+
+		const total = await Product.countDocuments({
+			sort: { $in: [...sort] },
+			name: { $regex: search, $options: "i" },
+		});
+
+		const response = {
+			error: false,
+			total,
+			page: page + 1,
+			limit,
+			product,
+		};
+
+		res.status(200).json(response);
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ error: true, message: "Internal Server Error" });
+	}
+});
 
 module.exports = router;

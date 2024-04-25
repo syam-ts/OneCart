@@ -8,6 +8,7 @@ const adminController = require('../controllers/adminCtrl');
 const categoryController = require('../controllers/categoryCtrl');
 const orderManagementCtrl = require('../controllers/orderManagementCtrl');
 const couponCtrl = require('../controllers/couponCtrl');
+const offerController = require('../controllers/offerCtrl');
 
 const Order = require('../models/orderModel');
 
@@ -94,6 +95,13 @@ router.get('/salesReport',orderManagementCtrl.getSalesReport);
 router.get('/coupon-list',couponCtrl.couponList);
 router.get('/coupon-add',couponCtrl.getCouponAdd);
 router.post('/coupon-add',couponCtrl.insertCoupon);
+
+ //<------------ couponManagement routes -------------->
+ router.get('/offerManagement',offerController.offerManagement);
+ router.post('/offerManagement',offerController.insetOffer);
+ router.post('/offerManagement',offerController.insetOffer);
+ router.post('/deleteOffer',offerController.deleteOffer);
+
 
    //<------------ error routes -------------->
 router.get('/error',(req, res) => {res.render('error')})

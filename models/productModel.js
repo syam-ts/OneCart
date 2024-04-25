@@ -49,7 +49,11 @@ const productSchema = mongoose.Schema({
                   productId: String
 
                 } 
-            ]
+            ],
+            offer:[{
+              orgingalPrice : Number,
+              offerPrice : Number
+            }]
         });
 
 

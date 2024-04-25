@@ -7,7 +7,6 @@ const getOrderManagement = async (req, res ) => {
     try {
         const orders = await Order.find(); 
         const userId = orders.address;                                             
-        
         res.render('orderManagement',{ orders : orders })
     } catch (error) {
         console.log(error.message);
@@ -21,16 +20,11 @@ const orderDetailsAdmin = async (req, res) => {
     try {
         const orderId = req.params.id;
         const orders = await Order.findById( orderId );
-
         const address = orders.address;
         const userId = orders.userId;
         const user = await User.findById(userId);
-
         const products = orders.products.map(product => product._id);
         const product = await Product.find({ _id: { $in: products } });
-
-
-
 
         res.render('orderDetailsAdmin', {  address , product , orders , user })
     } catch (error) {
@@ -102,7 +96,6 @@ const orderStatusChng = async (req, res) => {
                     await newWallet.save();
                     console.log('new wallet created')
                     }else{       
-                        
                         
                     await Wallet.findOneAndUpdate(
                         { userId },
