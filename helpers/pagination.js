@@ -20,7 +20,9 @@ router.get('/shoppingPgtn',async (req , res) => {
         const product = await Product.find({name :{$regex: search, $options:"i"}})
         .sort(sortBy)
         .skip(page*limit)
-        .limit(limt)
+        .limit(limit)
+
+        const total = await Product.countDocuments({})
 
         
     } catch (err) {

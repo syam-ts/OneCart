@@ -248,8 +248,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 }}else if(selectedValue == "Wallet"){
                      //<------------ for wallet -------------->
                     const walletAmount = document.getElementById('placeOrder').value;
-
-                   
                     if(walletAmount < totalPrice){
                         alert('insuffiecnt amount in wallet')
                     }else{
@@ -265,11 +263,8 @@ document.addEventListener("DOMContentLoaded", function() {
                           })
                             }).then(() => {
                                     window.location.href = '/orderSuccess'
-                                })
-                    }
-
-
-
+                            })
+                         }
                 }})
             });
 

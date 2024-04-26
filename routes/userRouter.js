@@ -95,6 +95,7 @@ router.get('/cart',cartController.getCart);
 router.post('/addToCart',cartController.addToCart);
 router.get('/removeCart/:id',cartController.removeCart);
 router.get('/checkout/:id',cartController.getCheckout);
+router.post('/cartDec',cartController.cartDec);
  
    //<------------ order routes -------------->
 router.get('/orderHistory',orderController.getOrderHistory);

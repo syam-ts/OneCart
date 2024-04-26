@@ -24,6 +24,8 @@
                             <%= product.productName %>
                         </a>
                     </h3>
+                    <input class="hidden" id="productId" value="<%= product.id %>"></input>
+
                     <p class="text-sm text-gray-500"><%= product.color %></p>
                 <p class="text-sm font-medium text-gray-900"><%= product.size %></p>
                 </div>
@@ -37,7 +39,10 @@
                     <% } %>
                     <% if (cartItem) { %>
                     <% for (let i = 1; i <= 1; i++) { %>
-                    <span class="text-gray-950 h-6 w-6 font-thin"> <%= cartItem.quantity %> </span>
+                        <span class="text-xl cursor-pointer cartDec">-</span>
+                       <span class="text-gray-950 h-6 w-6 font-thin cartQty"> <%= cartItem.quantity %> </span>
+                        <span class="text-xl" id="cartInc">+</span>
+                   
                     <% } %>
                     <% } else { %>
                     <span class="text-gray-950" value="0"> Out of stock </span>
@@ -86,6 +91,36 @@
                 console.error('Error removing item:', error);
             });
     };
+    //------------ cart quantity change --------------
+
+    const productQtyList = document.querySelectorAll('.cartQty');
+    const productId = document.getElementById('productId').value;
+    const cartDecLIst = document.querySelectorAll('.cartDec');
+    let quantity;
+      cartDecLIst.forEach(cartDec => {
+         cartDec.addEventListener('click',() => {
+            
+
+            //------------ collecting each quantity --------------
+            productQtyList.forEach(item => {
+                 quantity = cartDec.nextElementSibling.textContent.trim();
+                   });
+            fetch('/cartDec',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            cartQty: quantity,
+                            productId: productId
+                        })
+                }).then(() => {
+            //   window.location.href = '/orderSuccess'
+              })
+         })
+    })
+  
+
 </script>
 
 <%- include('../partials/footer') %>

@@ -22,7 +22,7 @@
           <div class="sm:col-span-4">
             <label for="mobile" class="block text-sm font-medium leading-6 text-gray-900">Mobile No</label>
             <div class="mt-2">
-              <input id="mobile" name="mobile" type="number" autocomplete="mobile" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <input id="mobile" min="10" name="mobile" type="number" autocomplete="mobile" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm  ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
           </div>
           <div class="sm:col-span-3">
@@ -44,6 +44,12 @@
           </div>
 
           <div class="sm:col-span-2 sm:col-start-1">
+            <label for="pincode" min="5" class="block text-sm font-medium leading-6 text-gray-900">Pincode</label>
+            <div class="mt-2">
+              <input type="number" name="pincode" id="pincode" autocomplete="address-level2" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+          <div class="sm:col-span-2 sm:col-start-1">
             <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
             <div class="mt-2">
               <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -57,18 +63,7 @@
             </div>
           </div>
   
-          <div class="sm:col-span-2">
-            <label for="pincode" class="block text-sm font-medium leading-6 text-gray-900">Postal code</label>
-            <div class="mt-2">
-              <input type="text" name="pincode" id="pincode" autocomplete="pincode" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
-          <div class="sm:col-span-2">
-            <label for="addressType" class="block text-sm font-medium leading-6 text-gray-900">Address Type</label>
-            <div class="mt-2">
-              <input type="text" name="addressType" id="addressType" autocomplete="addressType" class="block w-full  border border-gray-950 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-            </div>
-          </div>
+    
         </div>
       </div>
       </div>

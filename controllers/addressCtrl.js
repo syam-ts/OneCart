@@ -24,21 +24,34 @@ const getUserAddress = async(req, res) => {
    //adding new address
   const insertAddress = async(req, res) => {
   try {
-    const userId = req.session.user;
-    const { name, mobile, address, pincode, city, state, country,addressType } = req.body; 
-    const newAddress = new Address({
-            userId:userId,
-            name: name,
-            mobile: mobile,
-            address: address,
-            pincode: pincode,
-            city: city,
-            state: state,
-            country: country,
-            addressType:addressType
-       });
-    const result = await newAddress.save();
-    res.redirect('/userAddress')
+    if( req.body.name.trim() === '' || req.body.mobile.trim() === '' || req.body.address.trim() === '' || req.body.pincode.trim() === '' || req.body.city.trim() === '' || req.body.state.trim() === '') 
+    {
+      console.log('Cannot add empty form');
+      res.render('error',{message : "Cannot add empty form"});
+    }else{
+      const userId = req.session.user;
+      const { name, mobile, address, pincode, city, state, country } = req.body; 
+      if(mobile.trim().length < 10){
+        console.log('Number need to be more than 10 digit',mobile.trim().length);
+      }else if(pincode.trim().length < 5){
+        console.log('Pincode need to be more than 5 digit');
+      }else{
+        const newAddress = new Address({
+          userId:userId,
+          name: name,
+          mobile: mobile,
+          address: address,
+          pincode: pincode,
+          city: city,
+          state: state,
+          country: country
+     });
+  const result = await newAddress.save();
+  res.redirect('/userAddress')
+}
+
+      }
+  
   } catch (error) {
     console.log(error.message);
   };
@@ -61,7 +74,7 @@ const getEditAddress = async (req, res ) => {
   const editAddress = async (req, res) => {
     try {
       const { id: addressId } = req.params;
-      const { name, mobile, address, pincode, city, state, country, addressType } = req.body;
+      const { name, mobile, address, pincode, city, state, country } = req.body;
       const addressToUpdate = await Address.findById(addressId);
   
       addressToUpdate.name = name;
@@ -71,7 +84,6 @@ const getEditAddress = async (req, res ) => {
       addressToUpdate.city = city;
       addressToUpdate.state = state;
       addressToUpdate.country = country;
-      addressToUpdate.addressType = addressType;
   
       const updatedAddress = await addressToUpdate.save();
       res.redirect('/userAddress');

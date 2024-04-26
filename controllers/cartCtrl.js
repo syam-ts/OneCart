@@ -118,10 +118,28 @@ const getCart = async (req, res) => {
             }
        };
 
+       const cartDec = async (req, res) => {
+        try {
+            
+            const productId = req.body.productId;
+            const cart = await Cart.findOne({productId : productId});
+           
+            console.log('THe cart qty : ',cart.quantity)
+            cart.quantity -= 1;
+           await cart.save();
+
+            console.log("SUccess",cart.quantity);
+            
+        } catch (err) {
+            console.log(err.message);
+        }
+       };
+
 
 module.exports = {
     getCart,
     addToCart,
     removeCart,
-    getCheckout
+    getCheckout,
+    cartDec
 };
