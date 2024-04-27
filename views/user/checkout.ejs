@@ -7,9 +7,9 @@
             <h1 class="flex items-center justify-center font-bold text-blue-600 text-md lg:text-3xl">OneCart Checkout 
             </h1>
         </div>
-        <div class="container p-12 mx-auto">
+        <div class="container p-12 mx-auto ">
             <div class="flex flex-col w-full px-0 mx-auto md:flex-row">
-                <div class="flex flex-col md:w-full">
+                <div class="flex flex-col md:w-full bg-white shadow-xl border-t">
                  <section>
 
                     <h2 class="mb-4 font-bold md:text-xl text-heading text-center">Personal Details</h2>
@@ -35,7 +35,7 @@
                         <div class="flex-row items-center mb-4">
                         <section>
                        <div>
-                        <input  id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
+                        <input type="radio" value="<%= add.id %>" id="addressUser" class="addressUser w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                                <ul class="max-w-md text-sm space-y-1 text-gray-900 list-none list-inside dark:text-gray-900">
                                     <li>
                                        <%= add.name %> 
@@ -44,18 +44,17 @@
                                        <%= add.address %>,
                                        <%= add.city %> 
                                        <li>
-                                            <%= add.pincode %>,
+                                       <%= add.pincode %>,
                                        <%= add.state %>,
                                        <%= add.country %>
                                         </li>
-                                </ul>
-                        </div>
+                                   </ul>
+                            </div>
                         </section>
                         <% }) %>
                 
                 <section class="mt-12">
                     <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
-                    <input id="couponSearch" class="w-56 h-9 border border-gray-950" type="text" placeholder="search coupon">
                         <select id="couponValues" class="bg-gray-50 h-9 w-56 mt-5 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-1.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected disabled  selected> Available Coupons </option>
                             <% coupon.forEach(coup => { %>
@@ -102,22 +101,24 @@
                         <h2 class="text-xl font-bold">Order Summary
                         </h2>
                         <div class="mt-8">
-                            <% products.forEach( item => { %>
-                                <div class="flex-col space-x-4 mt-4 mb-4">
-                                    <div>
-                                        <img src="/product_images/<%= item.productImage[0] %>" alt="image"
-                                            class="w-24 h-28">
+                            <div class="container">
+                                <% for (let i = 0; i < products.length; i++) { %>
+                                    <div class="flex-col space-x-4 mt-4 mb-4">
+                                        <div>
+                                            <img src="/product_images/<%= products[i].productImage[0] %>" alt="image" class="w-24 h-28">
+                                        </div>
+                                        <div>
+                                            <h2 class="text-md font-bold"><%= products[i].productName %></h2>
+                                            <ul>
+                                                <li class="flex text-xs flex-wrap gap-4">Size: <span class="text-end"><%= products[i].size %></span></li>
+                                                <li class="flex text-xs flex-wrap gap-4">Total Price: <span class="text-end"><%= products[i].price %></span></li>
+                                                <li class="flex text-xs flex-wrap gap-4">Quantity: <span class="text-end"><%= quantity[i] %></span></li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h2 class="text-md font-bold"><%= item.productName %></h2>
-                                        <ul>
-                                            <li class="flex text-xs flex-wrap gap-4">Size : <span class="text-end"><%= item.size %> </span></li>
-                                           <li class="flex text-xs flex-wrap gap-4">Total Price : <span class="text-end"><%=  item.price %></span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <% }) %>
+                                <% } %>
                             </div>
+                            
                         </div>
 
                         
@@ -146,19 +147,34 @@
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
 
+   //<------------ coupon applying -------------->
+const addCouponButton = document.getElementById('addCoupon');
+addCouponButton.addEventListener('click', () => {
+            const subTotal = parseFloat(document.getElementById('subTotal').innerText);
+            const discount = parseFloat(document.getElementById('couponValues').value);
+            const discountAmount = (subTotal * discount) / 100;
+            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount;
+            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
+        }
+    
+);
+
+
     //<------------ order creating -------------->
-document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function() {
+    const discountAmount = document.getElementById('discountAmount').innerText;
+    const subTotal = parseFloat(document.getElementById('subTotal').innerText)
     const placeOrderButton = document.getElementById('placeOrder');
     placeOrderButton.addEventListener('click', function() {
         const paymentMethod = document.getElementsByName('paymentMethod');
-    let selectedValue = "";
-    const totalPriceElement = document.getElementById('totalPrice');
-        const totalPrice = parseFloat(totalPriceElement.textContent);
-    paymentMethod.forEach(radio => {
-        if (radio.checked) {
-            selectedValue = radio.value;
-        }
-    });
+        let selectedValue = "";
+        const totalPriceElement = document.getElementById('totalPrice');
+            const totalPrice = parseFloat(totalPriceElement.textContent);
+            paymentMethod.forEach(radio => {
+                if (radio.checked) {
+                    selectedValue = radio.value;
+                }
+            });
         if(!selectedValue){
                  alert('Please select a payment method');
                 };
@@ -173,7 +189,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         },
                         body:JSON.stringify({
                             totalPrice : totalPrice,
-                            paymentMethod : paymentMethod
+                            paymentMethod : paymentMethod,
+                            subTotal : subTotal
                         })
                         }).then(() => {
                             window.location.href = '/orderSuccess'
@@ -211,7 +228,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         },
                         body:JSON.stringify({
                             totalPrice : totalPrice,
-                            paymentMethod : paymentMethod
+                            paymentMethod : paymentMethod,
+                            subTotal : subTotal
                           })
                             }).then(() => {
                                     window.location.href = '/orderSuccess'
@@ -259,7 +277,8 @@ document.addEventListener("DOMContentLoaded", function() {
                         },
                         body:JSON.stringify({
                             totalPrice : totalPrice,
-                            paymentMethod : paymentMethod
+                            paymentMethod : paymentMethod,
+                            subTotal : subTotal
                           })
                             }).then(() => {
                                     window.location.href = '/orderSuccess'
@@ -267,49 +286,6 @@ document.addEventListener("DOMContentLoaded", function() {
                          }
                 }})
             });
-
-
-   //<------------ coupon applying -------------->
-const addCouponButton = document.getElementById('addCoupon');
-addCouponButton.addEventListener('click', () => {
-    const couponSearch = document.getElementById('couponSearch').value;
-
-    if(couponSearch){
-        const total = document.getElementById('totalPrice').innerText;
-       fetch('/couponSearch',{
-        method:"POST",
-          headers:{
-              "Content-Type" : "application/json"
-          },
-          body:JSON.stringify({
-              searchValue : couponSearch,
-              totalPrice : total
-            })
-       }).then(response => {
-    if (response.ok) {
-        return response.json()}
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            let discount = parseFloat(data.discountPrice);
-            const subTotal = parseFloat(document.getElementById('subTotal').innerText);
-            const discountAmount = (subTotal * discount) / 100;
-            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount ;
-            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
-            // console.log('Selected coupon:', selectedCoupon);
-        });
-    }else{
-        if(couponSearch){
-            alert('Cannot select multiple options')
-        }else{
-            const subTotal = parseFloat(document.getElementById('subTotal').innerText);
-            const discount = parseFloat(document.getElementById('couponValues').value);
-            const discountAmount = (subTotal * discount) / 100;
-            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount;
-            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
-        }
-    }
-});
 
 
    </script>

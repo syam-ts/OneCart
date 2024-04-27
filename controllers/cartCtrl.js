@@ -13,10 +13,12 @@ const getCart = async (req, res) => {
         const cart = await Cart.find({userId : userId});
         const productIds = cart.map(item => item.productId);
         const products = await Product.find({ _id: { $in: productIds } }); 
+        const total = await Cart.find().count();
+        console.log('The total : ',total)
         if(products.length != 0){
-            res.render('cart',{ items:{products, cart}}); 
+            res.render('cart',{ items:{products, cart , total}}); 
                }else{
-            res.render('cart',{ items:{products, cart}}); 
+            res.render('cart',{ items:{products, cart , total}}); 
         };
             }catch(error){
                 console.log(error.message);
@@ -100,6 +102,7 @@ const getCart = async (req, res) => {
                 const cart = await Cart.find({userId : userId});
                 const productIds = cart.map(item => item.productId);
                 const quantity = cart.map(item => item.quantity);
+                console.log('The qty of each products : ',quantity)
                 const products = await Product.find({ _id: { $in: productIds } });
                 const address = await Address.find({ userId:{ $in : userId } }).limit(2);
                 const totalPrice = req.params.id;

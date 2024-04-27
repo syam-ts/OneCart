@@ -14,9 +14,7 @@ const getOrderHistory = async (req, res) => {
         const user = await User.findOne({ _id: userId });
         const orders = await Order.find({ userId });
         const address = orders.length > 0 ? orders[0].address : null;
-        
         const products = orders.flatMap(order => order.products.map(product => product._id));
-       
         const product = await Product.find({ _id: { $in: products } });
        const total = orders.map( x => x.total);
       
@@ -38,6 +36,8 @@ const insertOrder = async (req, res) => {
             const userId = req.session.user;
             const address = await Address.findOne({ userId });
             const total = req.body.totalPrice;
+            const discountPrice = req.body.subTotal - total;
+            console.log('The discount Price : ',discountPrice)
             const paymentMethod = req.body.paymentMethod;
              const status = 'Pending';
              const cart = await Cart.find({ userId });
@@ -50,7 +50,8 @@ const insertOrder = async (req, res) => {
                      total: total,
                      paymentMethod: paymentMethod,
                      status: status,
-                     carts: cart
+                     carts: cart,
+                     discountPrice : discountPrice
                  });
                  await order.save();
                  await Cart.deleteMany({ userId });
@@ -61,13 +62,6 @@ const insertOrder = async (req, res) => {
                     console.log('Successfully lower the wallet amount')
                  }
                  res.redirect('/orderSuccess');
-        
-        
-        
-        
-
-     
-            
         
     } catch (error) {
         console.error('Error inserting order:', error);
@@ -100,10 +94,7 @@ const verifyAndInsertOrder = async (req, res) => {
          await order.save();
          await Cart.deleteMany({ userId });
 
-
          const randomOrderId = await Order.aggregate([{ $sample: { size: 1 } }]).then(result => result[0]._id);
-
-
 
         const amount = req.body.totalPrice*100
         const options = {
@@ -111,9 +102,7 @@ const verifyAndInsertOrder = async (req, res) => {
             currency: 'INR',
             receipt: 'recipt-001'
         }
-
         console.log('the amout ',amount)
-
         razorpayInstance.orders.create(options, 
             (err, order)=>{
                 if(!err){

@@ -7,7 +7,8 @@ const orderSchema = mongoose.Schema({
         total:{type:Number,required:true},
         paymentMethod:{type:String,required:true},
         status:{type:String},createdate:{type:Date,default:Date.now},
-        carts: {type: Object,required:true,default: true}
+        carts: {type: Object,required:true,default: true},
+        discountPrice: {type: Number,required:true}
     });
 
 module.exports = mongoose.model('Order',orderSchema);
