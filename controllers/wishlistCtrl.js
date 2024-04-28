@@ -22,7 +22,6 @@ const getwishlist = async (req, res) => {
 
 //<------------ adding products to wishlist -------------->
 const addToWishlist = async (req, res) => {
-
     try {
             console.log('THE USERID: ',req.body.userId);
             console.log('THE PRODUCT: ',req.body.productId);

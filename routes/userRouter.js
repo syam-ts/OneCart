@@ -103,7 +103,7 @@ Router.get('/orderHistory',isLoggedIn, orderController.getOrderHistory);
 Router.post('/placeOrder',isLoggedIn, orderController.insertOrder);
 Router.post('/verifyOrder',isLoggedIn, orderController.verifyAndInsertOrder);
 Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
-Router.get('/orderDetailsUser',isLoggedIn, orderController.orderDetailsUser);
+Router.get('/orderDetailsUser/:id',isLoggedIn, orderController.orderDetailsUser);
 
 //<------------ creating order -------------->
      Router.post('/create-order', async (req, res) => {

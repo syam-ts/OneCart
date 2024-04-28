@@ -31,11 +31,18 @@ const getOrderHistory = async (req, res) => {
 const orderDetailsUser = async (req, res) => {
     try {
         const user = req.session.user;
-        res.render('orderDetailsUser', { user });
+        const orderId = req.params.id;
+        const order = await Order.findById(orderId);
+        const productId = order.products.map(product => product._id);
+        const product = await Product.find({ _id: { $in: productId } });
+        const address = await order.address
+        console.log('The Address : ',address)
+        res.render('orderDetailsUser', { user , order, product, address});
     } catch (error) {
         console.log(error.message);
     }
 };
+
 
 //<------------ razorpay config -------------->
 const razorpayInstance = new Razorpay({
@@ -145,6 +152,7 @@ const orderCancel = async (req, res) => {
         const order = await Order.findById(orderId);
         order.status = "Cancelled";
         await order.save();
+        res.redirect('/orderDetailsUser')
         if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
             console.log('Money refunded to wallet');
         }
