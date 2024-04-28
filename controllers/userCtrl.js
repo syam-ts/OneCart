@@ -13,9 +13,9 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-  //.dev
 dotenv.config({path:'./.env'});
 
+//<------------ nodemailer config -------------->
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -25,14 +25,13 @@ const transporter = nodemailer.createTransport({
 });
 const randomize = require('randomatic');
 
-
 function generateOTP() {
-    // Generate a 6-character alphanumeric OTP
+    // Generate a 6-character  OTP
     return randomize('0', 4);
 };
 
 
-//password bcrypt
+//<------------ password bcrypt -------------->
 const securePassword = async(password) => {
   try {
         const passwordHash = await bcrypt.hash(password, 10);
@@ -42,7 +41,7 @@ const securePassword = async(password) => {
       }
   };
 
-    //user login 
+//<------------ user login page -------------->
     const getLogin = (req, res) => {
       const user = User.findOne({email: req.body.email});
     if (req.session.user) {
@@ -52,7 +51,7 @@ const securePassword = async(password) => {
    }
     };
    
- //verify user || login 
+//<------------ verify user || login -------------->
    const verifyLogin = async (req, res) => {
     try { 
       const  Email = req.body.email;
@@ -79,7 +78,7 @@ const securePassword = async(password) => {
    };
 
 
-  //load signup
+//<------------ load signup -------------->
   const getSignup = async (req,res ) => {
     try {
       res.render('signup');
@@ -89,7 +88,7 @@ const securePassword = async(password) => {
   };
 
 
-// Insert user || signup
+//<------------ insert user || signup -------------->
 const insertUser = async(req, res) => {
   const {name ,email ,phone, password, confirmPassword}  = req.body;
   try { 
@@ -129,7 +128,7 @@ const insertUser = async(req, res) => {
 };
 
 
-// Verify OTP
+//<------------ verify otp -------------->
 const verifyOTP = async(req, res) => {
   try {
       const {  otp } = req.body;
@@ -167,11 +166,7 @@ const verifyOtpLoad = async(req, res) => {
 };
 
 
-
-
-
-
-  //load Home
+//<------------ load home -------------->
   const getHome = async (req, res) => {
     try {
       const user = req.session.user;
@@ -195,10 +190,7 @@ const verifyOtpLoad = async(req, res) => {
    };
 
 
- 
-
-
- // logout
+//<------------ logout -------------->
  const getLogout = async (req, res) => {
       try {
     req.session.destroy(err => {
@@ -223,7 +215,7 @@ const getForgotPassword = async (req, res) => {
 };
 
 
-
+//<------------ user profile -------------->
       const userProfile = async (req, res) => {
         try {
           const userId = req.session.user;
@@ -238,7 +230,7 @@ const getForgotPassword = async (req, res) => {
         }
       };
 
-
+//<------------ user edit -------------->
       const getUserEdit = async (req, res) => {
         try {
           const userId = req.session.user;
@@ -249,7 +241,7 @@ const getForgotPassword = async (req, res) => {
         }
       };
 
-
+//<------------ insert use details || user profile -------------->
       const insertUserDetails = async (req, res) => {
         try {
           const userImage = req.file.filename;

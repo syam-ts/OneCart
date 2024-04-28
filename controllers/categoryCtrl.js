@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
+//<------------ insert category -------------->
 const insertCategory = async (req, res) => {
     try {
         const cat = req.body.categoryName;
@@ -33,7 +33,7 @@ const insertCategory = async (req, res) => {
     }
 };
 
-
+//<------------ category lising -------------->
 const categoryListing = async(req, res) => {
     try {
         const categories = await Category.find({});
@@ -43,7 +43,7 @@ const categoryListing = async(req, res) => {
     }
 };
 
-
+//<------------ category adding page  -------------->
 const categoryAdd = async (req, res) => {
     try {
         const categories = await Category.find();
@@ -53,7 +53,7 @@ const categoryAdd = async (req, res) => {
     }
 };
 
-//delete category
+//<------------ deleting category -------------->
  const deleteCategory = async (req, res) => {
     try {
         const id = req.params.id;
@@ -72,8 +72,6 @@ const categoryAdd = async (req, res) => {
      }else{
         return res.status(404).send('categrory not found');
      }
-
-
     } catch (error) {
         console.log(error.message);
         return res.status(500).send('Internal server error');
@@ -81,7 +79,7 @@ const categoryAdd = async (req, res) => {
 };
 
 
-//load category edit
+//<------------ load category edit -------------->
 const loadCategoryEdit = async (req, res) => {
     try {
         const id = req.params.id;
@@ -99,7 +97,7 @@ const loadCategoryEdit = async (req, res) => {
 };
 
 
-// Category edit
+//<------------ post category edit -------------->
 const editCategory = async (req, res) => {
     try {
         const { categoryName , description} = req.body;
@@ -109,7 +107,6 @@ const editCategory = async (req, res) => {
 
         const categoryId = req.params.id; 
         const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
-
         if (!category) {
             return res.send('error');
         }
@@ -119,7 +116,6 @@ const editCategory = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
-
 
 
 module.exports = {

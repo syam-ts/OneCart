@@ -95,7 +95,6 @@ const getCart = async (req, res) => {
    //<------------ load checkout page -------------->
         const getCheckout = async (req, res) => {
             try {
-                // {addressType:{$eq : 'Permanant'}}
                 const userId = req.session.user;
                 const getUser = await User.findById(userId)
                 const wallet = await Wallet.find({userId : userId});
@@ -116,7 +115,6 @@ const getCart = async (req, res) => {
                     
                     res.render('checkout',{address, getUser,products,totalPrice, quantity ,coupon, wallet});
                 }
-              
             }catch(error){
             console.log(error.message);
             }

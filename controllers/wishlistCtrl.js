@@ -2,6 +2,7 @@ const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const wishlist = require('../models/wishlistModel');
 
+//<------------ wishlist page -------------->
 const getwishlist = async (req, res) => {
     try{
         // const wishlists = await wishlist.find();
@@ -19,15 +20,12 @@ const getwishlist = async (req, res) => {
     }
 };
 
-//adding prodcuts to wishlist
+//<------------ adding products to wishlist -------------->
 const addToWishlist = async (req, res) => {
 
     try {
-        
-console.log('THE USERID: ',req.body.userId);
-        
-console.log('THE PRODUCT: ',req.body.productId);
-
+            console.log('THE USERID: ',req.body.userId);
+            console.log('THE PRODUCT: ',req.body.productId);
         const wishlist = new wishlist({
             userId: req.body.userId,
             productId: req.body.productId
@@ -38,8 +36,7 @@ console.log('THE PRODUCT: ',req.body.productId);
     } catch (error) {
         console.log(error.message);
     }
-
-}
+};
 
 module.exports = {
     getwishlist,

@@ -3,6 +3,7 @@ const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const Wallet = require('../models/walletModel');
 
+//<------------ order management -------------->
 const getOrderManagement = async (req, res ) => {
     try {
         const orders = await Order.find(); 
@@ -14,8 +15,7 @@ const getOrderManagement = async (req, res ) => {
 };
 
 
-
-
+//<------------ order details for admin -------------->
 const orderDetailsAdmin = async (req, res) => {
     try {
         const orderId = req.params.id;
@@ -25,13 +25,13 @@ const orderDetailsAdmin = async (req, res) => {
         const user = await User.findById(userId);
         const products = orders.products.map(product => product._id);
         const product = await Product.find({ _id: { $in: products } });
-
         res.render('orderDetailsAdmin', {  address , product , orders , user })
     } catch (error) {
         console.log(error.message);
     }
 };
 
+//<------------ sales report -------------->
 const getSalesReport = async (req, res) => {
     try {
         const order = await Order.find({status : "Delivered"});
@@ -46,6 +46,7 @@ const getSalesReport = async (req, res) => {
     }
 };
 
+//<------------ order status changing -------------->
 const orderStatusChng = async (req, res) => {
     try {
         const {orderStatus , orderId } = req.body;

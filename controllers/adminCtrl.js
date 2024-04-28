@@ -5,11 +5,10 @@ const Category = require('../models/categoryModel');
 const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
-//.dev
 dotenv.config({path:'./.env'})
 
+//<------------ session congig -------------->
 const secretKey = process.env.SESSION_SECRET;
-//session object
 app.use(session({
     secret: secretKey,
     resave: false,
@@ -17,7 +16,7 @@ app.use(session({
     cookie: { maxAge: 36000000 }, 
 }));
 
-//get admin-login
+//<------------ get admin login -------------->
 const getAdmin = (req, res) => {
     try {
         if (req.session.admin) {
@@ -33,13 +32,13 @@ const getAdmin = (req, res) => {
     }
 };
 
-//admin authentication
+//<------------ admin authuntication -------------->
 const adminCredentials  = {
     UserName: "adminMain",
     Password: "admin123"
 };
 
-// verify admin
+//<------------ verify admin -------------->
 const verifyAdmin = async (req, res) => {
     try {
         if (req.body.userName == adminCredentials.UserName && req.body.password == adminCredentials.Password) {
@@ -53,7 +52,7 @@ const verifyAdmin = async (req, res) => {
             ]); 
             res.render('dashboard', { list:[users,brand,category]});
             console.log('Session started');
-        } else {      // If login fails, stay on the same page and display an error message
+        } else {     
             res.render('admin-login');
             console.log('Admin login failed');
         }
@@ -63,7 +62,7 @@ const verifyAdmin = async (req, res) => {
 };
 
 
-//dashboard
+//<------------ dashboard -------------->
 const getDashboard =  async (req, res) => {
     try {
         const admin = req.session.admin;
@@ -84,16 +83,8 @@ const getDashboard =  async (req, res) => {
     }
 };
 
-//dashboard
-// const requireAdminAuth = (req, res, next) => {
-//     if (req.session.admin) {
-//         next(); // Continue to the next middleware/route if admin is authenticated
-//     } else {
-//         res.redirect('./dahsboard'); 
-//     }
-// };
 
-// Admin logout
+//<------------ admin logout -------------->
 const logoutAdmin = (req, res) => {
     try {
         req.session.destroy((err) => {
@@ -101,7 +92,7 @@ const logoutAdmin = (req, res) => {
                 console.error('Error destroying session:', err);
                 res.send('Error destroying session');
             } else {
-                res.redirect('./admin-login'); // Redirect to admin login page after logout
+                res.redirect('./admin-login'); 
                 console.log('Admin logged out successfully');
             }
         });

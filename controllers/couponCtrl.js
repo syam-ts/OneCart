@@ -39,28 +39,8 @@ const Coupon = require('../models/couponModel');
     };
 
 
-
-    const couponSearch = async (req, res) => {
-        try {
-            const searchValue = req.body.searchValue;
-            const coupon = await Coupon.find({couponCode : searchValue});
-            const total = req.body.totalPrice;
-            const discount = coupon[0].discount;
-            if(discount <= total){
-                res.status(200).json({discountPrice : discount})
-                
-            }else{
-                console.log('cannot add coupon less than minimum amount')
-            }
-          
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
-
 module.exports = {
     couponList,
     getCouponAdd,
-    insertCoupon,
-    couponSearch
+    insertCoupon
 }

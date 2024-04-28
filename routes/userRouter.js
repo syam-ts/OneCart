@@ -130,9 +130,6 @@ Router.get('/orderDetailsUser',isLoggedIn, orderController.orderDetailsUser);
              res.status(500).json({ error: 'Internal Server Error' });
          }
      });
-     
-//<------------ coupon search -------------->
-Router.post('/couponSearch',couponController.couponSearch);
 
 
 //<------------ order success -------------->

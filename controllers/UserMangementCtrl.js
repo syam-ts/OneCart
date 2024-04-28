@@ -1,10 +1,9 @@
 const User = require('../models/userModel');
 
 
-//load user mangement page 
+//<------------ load user management -------------->
 const getUsers = async(req, res) => {
  try {
-
     const users = await User.find();
     console.log('USERS: ',users.isBlock);
 
@@ -16,7 +15,7 @@ const getUsers = async(req, res) => {
 };
 
 
-//block user
+//<------------ block user -------------->
 const blcokUser = async (req, res) => {
    try {
        const id = req.params.id;
@@ -28,7 +27,6 @@ if (user.isBlock == false) {
     await user.save();
     return res.redirect('/admin/userManagement')
 
-
 } else if(user.isBlock == true){
     user.isBlock = false;
     await user.save();
@@ -36,14 +34,13 @@ if (user.isBlock == false) {
 }else{
     return res.status(404).send('user not found');
 }
-    
    } catch (error) {
        console.log(error.message);
        return res.status(500).send('Internal server error');
    }
 };
 
-//unblock user
+//<------------ inblock user -------------->
 const unBlcokUser = async (req, res) => {
    try {
        const id = req.params.id;
@@ -60,8 +57,6 @@ const unBlcokUser = async (req, res) => {
        return res.status(500).send('Internal server error');
    }
 };
-
-
 
 module.exports = {
     getUsers,

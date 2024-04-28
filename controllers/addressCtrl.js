@@ -2,7 +2,7 @@ const Address = require('../models/addressModel');
 const countries = require('../public/countries');
 const User = require('../models/userModel');
 
-//user address page
+//<------------ user address page  -------------->
 const getUserAddress = async(req, res) => {
   const userId = req.session.user;
   const user = await User.findById(userId);
@@ -10,9 +10,7 @@ const getUserAddress = async(req, res) => {
     res.render('userAddress',{ address ,user})
    };
 
-
-
-// laoding address adding page 
+//<------------ loading address adding page   -------------->
    const getAddAddress = async(req, res) => {
     const userId = req.session.user;
     const user = await User.findById(userId);
@@ -21,7 +19,7 @@ const getUserAddress = async(req, res) => {
    };
 
 
-   //adding new address
+//<------------ adding new address -------------->
   const insertAddress = async(req, res) => {
   try {
     if( req.body.name.trim() === '' || req.body.mobile.trim() === '' || req.body.address.trim() === '' || req.body.pincode.trim() === '' || req.body.city.trim() === '' || req.body.state.trim() === '') 
@@ -46,18 +44,15 @@ const getUserAddress = async(req, res) => {
           state: state,
           country: country
      });
-  const result = await newAddress.save();
-  res.redirect('/userAddress')
-}
-
-      }
-  
+    const result = await newAddress.save();
+    res.redirect('/userAddress')
+  }} 
   } catch (error) {
     console.log(error.message);
   };
 }
 
-// load editAddress page
+//<------------ load edit address -------------->
 const getEditAddress = async (req, res ) => {
       try {
         const addressId = req.params.id;
@@ -70,7 +65,7 @@ const getEditAddress = async (req, res ) => {
           }
   };
 
-  //submit changes in address
+//<------------ post changes in address -------------->
   const editAddress = async (req, res) => {
     try {
       const { id: addressId } = req.params;
@@ -92,7 +87,7 @@ const getEditAddress = async (req, res ) => {
     }
   };
   
-//deleting address
+//<------------ deleting address -------------->
 const deleteAddress = async (req, res) => {
   try {
     const { id: addressId } = req.params;

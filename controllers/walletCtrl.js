@@ -1,7 +1,7 @@
 const Wallet = require('../models/walletModel');
 const User = require('../models/userModel');
 
-
+//<------------ wallet page -------------->
 const getWalletPage = async (req, res) => {
     try {
         const userId = req.session.user;

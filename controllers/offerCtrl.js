@@ -29,8 +29,6 @@ const Product = require('../models/productModel');
         const product = await Product.findOne({productName : productName});
         
         product.offer.push({ originalPrice: product.price, offerPrice: offerPrice });
-            
-
         await product.save()
         console.log("success");
         res.redirect('/admin/offerManagement');
@@ -43,8 +41,7 @@ const Product = require('../models/productModel');
   //<------------ delete an offer -------------->
 const deleteOffer = async (req, res) => {
     try {
-
-        console.log('rEACHED GER ')
+        console.log('Reached here');
       const productId = req.body.productId;
 
       const product = await Product.findById(productId);

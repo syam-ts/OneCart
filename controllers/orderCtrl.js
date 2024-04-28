@@ -8,6 +8,7 @@ const Wallet = require('../models/walletModel');
 const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
+//<------------ order history -------------->
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
     try {
@@ -26,7 +27,7 @@ const getOrderHistory = async (req, res) => {
     }
 };
 
-
+//<------------ order details user -------------->
 const orderDetailsUser = async (req, res) => {
     try {
         const user = req.session.user;
@@ -36,11 +37,13 @@ const orderDetailsUser = async (req, res) => {
     }
 };
 
+//<------------ razorpay config -------------->
 const razorpayInstance = new Razorpay({
     key_id: RAZORPAY_ID_KEY,
     key_secret: RAZORPAY_SECRET_KEY
 });
 
+//<------------ insert order -------------->
 const insertOrder = async (req, res) => {
     try {
             const userId = req.session.user;
@@ -78,7 +81,7 @@ const insertOrder = async (req, res) => {
     }
 };
 
-
+//<------------ verifiying order -------------->
 const verifyAndInsertOrder = async (req, res) => {
     try {
         const userId = req.session.user;
@@ -135,7 +138,7 @@ const verifyAndInsertOrder = async (req, res) => {
     }
 };
 
-// order cancel for user
+//<------------ order cancel for user -------------->
 const orderCancel = async (req, res) => {
     try {
         const orderId = req.body.orderId;
@@ -145,12 +148,10 @@ const orderCancel = async (req, res) => {
         if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
             console.log('Money refunded to wallet');
         }
-
     } catch (error) {
         console.log(error.message);
     }
 };
-
 
 module.exports = {
     getOrderHistory,
