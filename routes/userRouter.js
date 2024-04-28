@@ -102,6 +102,7 @@ router.get('/orderHistory',orderController.getOrderHistory);
 router.post('/placeOrder',orderController.insertOrder);
 router.post('/verifyOrder',orderController.verifyAndInsertOrder);
 router.post('/orderCancel',orderController.orderCancel);
+router.get('/orderDetailsUser',orderController.orderDetailsUser);
 
 //<------------ creating order -------------->
       router.post('/create-order', async (req, res) => {

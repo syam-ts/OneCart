@@ -1,4 +1,3 @@
-<%- include('../partials/header') %>
 
 
     <!-- Main Content -->
@@ -30,10 +29,10 @@
                     </div>
                 </section>
                 <section>
-                    <form class="mt-6" method="post" action>
+                    <form class="mx-auto mt-6" method="post" action>
                         <!-- Shipping Address Section -->
                         <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
-                        <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12">
+                        <div class="flex-row items-center mb-4">
                          <% for (let i = 0; i < address.length; i++) { %>
                             <input type="radio" name="selectedAddress" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="123 Main St">
                             <ul class="text-sm text-gray-900 list-none list-inside dark:text-gray-900">
@@ -50,11 +49,10 @@
                                                 <%= address[i].country %>
                                    </li>
                               </ul>
-                              <% } %>
                         </div>
                     </form>
                 </section>
-                <section class="mt-12 ml-96 bg-white">
+                <section class="mt-12">
                     <!-- Coupons Section -->
                     <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
                     <select id="couponValues" class="bg-gray-50 h-9 w-56 mt-5 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-1.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -68,10 +66,10 @@
                         Add Coupon</button>
                     </div>
                 </section>
-                <section class="mt-12 ml-96 bg-white">
+                <section class="mt-12">
                     <!-- Payment Method Section -->
                     <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
-                    <div class="flex-col mb-4">
+                    <div class="flex-col  mb-4">
                         <input id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
                         <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
 
@@ -113,7 +111,7 @@
                                 <% for (let i = 0; i < products.length; i++) { %>
                                     <div class="flex-col space-x-4 mt-4 mb-4">
                                         <div>
-                                            <img src="/product_images/<%= products[i].productImage[0] %>" alt="image" class="w-28 h-32 rounded-xl">
+                                            <img src="/product_images/<%= products[i].productImage[0] %>" alt="image" class="w-24 h-28">
                                         </div>
                                         <div>
                                             <h2 class="text-md font-bold"><%= products[i].productName %></h2>
@@ -145,155 +143,11 @@
                     </div>
                 </section>
             </div>
+        </div>
     </main>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script>
+    <!-- Include any necessary scripts -->
+    <!-- <script src="your-scripts.js"></script> -->
+</body>
 
-   //<------------ coupon applying -------------->
-const addCouponButton = document.getElementById('addCoupon');
-addCouponButton.addEventListener('click', () => {
-            const subTotal = parseFloat(document.getElementById('subTotal').innerText);
-            const discount = parseFloat(document.getElementById('couponValues').value);
-            const discountAmount = (subTotal * discount) / 100;
-            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount;
-            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
-        }
-    
-);
-
-
-    //<------------ order creating -------------->
-    document.addEventListener("DOMContentLoaded", function() {
-    const discountAmount = document.getElementById('discountAmount').innerText;
-    const subTotal = parseFloat(document.getElementById('subTotal').innerText)
-    const placeOrderButton = document.getElementById('placeOrder');
-    placeOrderButton.addEventListener('click', function() {
-        const paymentMethod = document.getElementsByName('paymentMethod');
-        let selectedValue = "";
-        const totalPriceElement = document.getElementById('totalPrice');
-            const totalPrice = parseFloat(totalPriceElement.textContent);
-            paymentMethod.forEach(radio => {
-                if (radio.checked) {
-                    selectedValue = radio.value;
-                }
-            });
-        if(!selectedValue){
-                 alert('Please select a payment method');
-                };
-
-   //<------------ for cash on delevery -------------->
-      if(selectedValue == "Cash on Delivery"){
-        const paymentMethod = selectedValue;
-
-        fetch('/placeOrder',{
-                        method:"POST",
-                        headers:{
-                            "Content-Type" : "application/json"
-                        },
-                        body:JSON.stringify({
-                            totalPrice : totalPrice,
-                            paymentMethod : paymentMethod,
-                            subTotal : subTotal
-                        })
-                        }).then(() => {
-                            window.location.href = '/orderSuccess'
-               }
-            )
-        }else if(selectedValue == "Razor Pay"){
-       //<------------ for Razor pay -------------->
-            var orderId;
-            fetch('/create-order', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "totalPrice": totalPrice
-            })})
-            .then(response => response.json())
-            .then(data => {
-            orderId = data.id; 
-          }).catch(error => {
-        console.error('Error:', error); 
-      });
-        var options = {
-            "key": "rzp_test_3aIOQlQc4egRLE", 
-            "amount": totalPrice * 100,
-            "currency": "INR",
-            "name": "OneCart", 
-            "description": "Test Transaction",
-            "image": "/images/onecart-log.avif",
-            "order_id": orderId, 
-            "handler": function (response){
-                const paymentMethod = selectedValue;
-                        fetch('/placeOrder',{
-                        method:"POST",
-                        headers:{
-                            "Content-Type" : "application/json"
-                        },
-                        body:JSON.stringify({
-                            totalPrice : totalPrice,
-                            paymentMethod : paymentMethod,
-                            subTotal : subTotal
-                          })
-                            }).then(() => {
-                                    window.location.href = '/orderSuccess'
-                                })
-                // alert(response.razorpay_payment_id);
-                // alert(response.razorpay_order_id);
-                // alert(response.razorpay_signature)
-            },
-        "prefill": { 
-            "name": "Gaurav Kumar", //customer's name
-            "email": "gaurav.kumar@example.com", 
-            "contact": "9000090000"  //customer's phone number 
-        },
-        "notes": {
-            "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-            "color": "#3399cc"
-        }};
-        var rzp1 = new Razorpay(options);
-        rzp1.on('payment.failed', function (response){
-            alert('Payment failed')
-                // alert(response.error.code);
-                // alert(response.error.description);
-                // alert(response.error.source);
-                // alert(response.error.step);
-                // alert(response.error.reason);
-                // alert(response.error.metadata.order_id);
-                // alert(response.error.metadata.payment_id);
-            });
-            document.getElementById('placeOrder').onclick = function(e){
-                rzp1.open();
-                e.preventDefault();
-                }}else if(selectedValue == "Wallet"){
-                     //<------------ for wallet -------------->
-                    const walletAmount = document.getElementById('placeOrder').value;
-                    if(walletAmount < totalPrice){
-                        alert('insuffiecnt amount in wallet')
-                    }else{
-                        const paymentMethod = selectedValue;
-                        fetch('/placeOrder',{
-                        method:"POST",
-                        headers:{
-                            "Content-Type" : "application/json"
-                        },
-                        body:JSON.stringify({
-                            totalPrice : totalPrice,
-                            paymentMethod : paymentMethod,
-                            subTotal : subTotal
-                          })
-                            }).then(() => {
-                                    window.location.href = '/orderSuccess'
-                            })
-                         }
-                }})
-            });
-
-
-   </script>
-
-        <%- include('../partials/footer') %>
+</html>

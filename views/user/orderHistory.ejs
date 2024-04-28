@@ -24,47 +24,49 @@
                                   <div class="font-semibold text-left">Email</div>
                               </th>
                               <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-left">Address</div>
+                                  <div class="font-semibold text-center">Total</div>
                               </th>
                               <th class="pl-24 whitespace-nowrap">
                                   <div class="font-semibold text-center">Discount</div>
                               </th>
                               <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-center">Offer</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
                                   <div class="font-semibold text-center">Payment Type</div>
                               </th>
-                           
-                             
+                              <th class="pl-24 whitespace-nowrap">
+                                  <div class="font-semibold text-center">Order Status</div>
+                              </th>
+                              <th class="pl-24 whitespace-nowrap">
+                                  <div class="font-semibold text-center">Details</div>
+                              </th>
                               
                           </tr>
                       </thead>
                       <tbody class="text-sm divide-y divide-gray-100">
+                        <% for(let i = 0; i < orders.length; i++){ %>
                           <tr>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="flex items-center">
-                                      <div class="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img class="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov"></div>
-                                      <div class="font-medium text-gray-800">Alex Shatov</div>
-                                  </div>
+                                  <div class="text-left"> <%= orders[i].id %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left">alexshatov@gmail.com</div>
+                                  <div class="text-left"> <%= user.email %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left font-medium text-green-500">$2,890.66</div>
+                                  <div class="text-left"> <%= total[i] %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-lg text-center">🇺🇸</div>
+                                  <div class="text-left"> <%= orders[i].discountPrice %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left font-medium text-green-500">$2,890.66</div>
+                                  <div class="text-left"> <%= orders[i].paymentMethod %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-lg text-center">🇺🇸</div>
+                                  <div class="text-left"> <%= orders[i].status %> </div>
                               </td>
-                         
+                              <td class="pl-24 pt-5 whitespace-nowrap">
+                                  <div class="text-left"> <a href="/orderDetailsUser" value="<%= orders[i].id %>">/</a>  </div>
+                              </td>
                           </tr>
+                          <% } %>
                       </tbody>
                   </table>
               </div>

@@ -224,14 +224,15 @@ const getForgotPassword = async (req, res) => {
 
 
 
-
       const userProfile = async (req, res) => {
         try {
           const userId = req.session.user;
+         
           const wallet = await Wallet.find({userId : userId})
           const user = await User.findById(userId);
           const address = await Address.find({userId : userId});
-          res.render('userProfile',{ user, address , wallet})
+            res.render('userProfile',{ user, address , wallet});
+            
         } catch (error) {
           console.log(error.message);
         }

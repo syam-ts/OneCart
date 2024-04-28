@@ -11,9 +11,9 @@ const getCart = async (req, res) => {
     try{
         const userId = req.session.user;
         const cart = await Cart.find({userId : userId});
+        const total = await Cart.countDocuments({userId : userId});
         const productIds = cart.map(item => item.productId);
         const products = await Product.find({ _id: { $in: productIds } }); 
-        const total = await Cart.find().count();
         console.log('The total : ',total)
         if(products.length != 0){
             res.render('cart',{ items:{products, cart , total}}); 
@@ -107,6 +107,7 @@ const getCart = async (req, res) => {
                 const address = await Address.find({ userId:{ $in : userId } }).limit(2);
                 const totalPrice = req.params.id;
                 const coupon = await Coupon.find({ minimumAmount :{$lte : totalPrice} });
+                console.log('The wallet : ',wallet)
                
                 if(!address) {
                     const message = 'No address found'; 

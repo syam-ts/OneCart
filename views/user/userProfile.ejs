@@ -51,16 +51,19 @@
             </div>
           </div>
           <div class="text-center mt-12">
-           
-            <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 pt-12">
+            <% if (Array.isArray(address) && address.length > 0) { %>
+              <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 pt-12">
                 <%= address[0].name %>
-            </h3>
-            <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-              <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-              <%= address[0].state %> <%= address[0].country %>
-            </div>
-           
-           
+              </h3>
+              <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+                <i class="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
+                <%= address[0].state %> <%= address[0].country %>
+              </div>
+            <% } else { %>
+              <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 pt-12">
+                No location data available
+              </h3>
+            <% } %>
             <div class="mb-2 text-blueGray-600 mt-10">
               <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>Gender - <%= user.gender %>
             </div>
@@ -70,10 +73,11 @@
             <div class="mb-2 text-blueGray-600">
               <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>Phone -  <%= user.phone %> 
             </div>
-            <div class="mb-2 text-blueGray-600justify-center "> 
-                <a class="flex-col grid-cols-2 text-blue-700 border-2 border-gray-300 hover:text-green-300 font-mono rounded-full" href="/userEdit"> Edit </a>
-           
-               </div>
+
+            <div class="mb-2 text-blueGray-600 justify-center">
+              <a class="flex-col grid-cols-2 text-white border-2 border-gray-300 hover:text-red-500 font-mono bg-gray-900 rounded-md px-4 py-1 transition duration-300 ease-in-out transform hover:scale-105" href="/userEdit">Edit</a>
+          </div>
+          
                <% if(wallet[0] > 0){ %>
                <div class="mb-2 text-blueGray-600">
                 <i class="fas fa-university mr-2 text-lg text-blueGray-400"></i>Wallet Balance :  <%= wallet[0].amount  %>

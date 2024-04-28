@@ -17,13 +17,23 @@ const getOrderHistory = async (req, res) => {
         const products = orders.flatMap(order => order.products.map(product => product._id));
         const product = await Product.find({ _id: { $in: products } });
        const total = orders.map( x => x.total);
+       console.log('THe user : ',total)
       
         res.render('orderHistory', {  address, product, user ,total, orders});
     } catch (error) {
         console.error('Error occurred:', error);
         res.status(500).send('Internal Server Error');
     }
-    
+};
+
+
+const orderDetailsUser = async (req, res) => {
+    try {
+        const user = req.session.user;
+        res.render('orderDetailsUser', { user });
+    } catch (error) {
+        console.log(error.message);
+    }
 };
 
 const razorpayInstance = new Razorpay({
@@ -62,7 +72,6 @@ const insertOrder = async (req, res) => {
                     console.log('Successfully lower the wallet amount')
                  }
                  res.redirect('/orderSuccess');
-        
     } catch (error) {
         console.error('Error inserting order:', error);
         res.status(500).send('Error inserting order');
@@ -72,7 +81,6 @@ const insertOrder = async (req, res) => {
 
 const verifyAndInsertOrder = async (req, res) => {
     try {
-
         const userId = req.session.user;
         const address = await Address.findOne({ userId });
          const paymentMethod = req.body.paymentMethod;
@@ -93,7 +101,6 @@ const verifyAndInsertOrder = async (req, res) => {
          });
          await order.save();
          await Cart.deleteMany({ userId });
-
          const randomOrderId = await Order.aggregate([{ $sample: { size: 1 } }]).then(result => result[0]._id);
 
         const amount = req.body.totalPrice*100
@@ -122,10 +129,7 @@ const verifyAndInsertOrder = async (req, res) => {
                 else{
                     res.status(400).send({success:false,msg:'Something went wrong!'});
                 }
-            }
-        );
-
-
+            });
     } catch (error) {
         console.log(error.message);
     }
@@ -150,6 +154,7 @@ const orderCancel = async (req, res) => {
 
 module.exports = {
     getOrderHistory,
+    orderDetailsUser,
     insertOrder,
     verifyAndInsertOrder,
     orderCancel  

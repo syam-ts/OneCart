@@ -67,17 +67,8 @@
 
 
                   <div class="relative aspect-h-1 h-[350px] sm:h-[450px] overflow-hidden">
-                    <img
-                    src="/product_images/<%= product.productImage[0] %>"
-                    alt=""
-                    class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"
-                    />
-                    
-                    <img
-                    src="/product_images/<%= product.productImage[1] %>"
-                    alt=""
-                    class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"
-                    />
+                    <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"/>
+                    <img src="/product_images/<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"/>
                     </div>
 
 
@@ -120,23 +111,15 @@
        <hr class="border-gray-600 border-1 w-8/12">
     </div>
 
-
-
-
-    
-
     <section class="w-full h-80  flex justify-center items-center mt-48">
 
       <div class="relative flex bg-clip-border  bg-white text-gray-700 shadow-md w-full max-w-[48rem] flex-row">
         <div
           class="relative w-2/5 m-0 overflow-hidden text-gray-700 bg-white  bg-clip-border  shrink-0">
-          <img
-            src="/images/mathilde-langevin-LdPzzJcrPLM-unsplash.jpg"
-            alt="card-image" class="object-cover w-full h-96" />
+          <img src="/images/mathilde-langevin-LdPzzJcrPLM-unsplash.jpg" alt="card-image" class="object-cover w-full h-96" />
         </div>
         <div class="p-6">
-          <h6
-            class="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700 uppercase">
+          <h6 class="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700 uppercase">
             *
           </h6>
           <h4 class="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
@@ -149,16 +132,12 @@
             <%= product.brand %>
           </p>
           <% }) %>
-          <a href="#" class="inline-block"><button
-              class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20"
-              type="button">
-              Learn More<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                stroke-width="2" class="w-4 h-4">
+          <a href="#" class="inline-block"><button class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20" type="button">
+              Learn More<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
               </svg></button></a>
         </div>
       </div>  
-      
     </section>
 
     <section class=" h-14 text-center mt-16 p-4 justify-center flex">
@@ -175,24 +154,10 @@
                   <% products.forEach((product) => { %>
                     <% if (product.extras == 'Trending') { %>
                   <div class="group relative">
-  
-  
                     <div class="relative aspect-h-1 h-[350px] sm:h-[450px] overflow-hidden">
-                      <img
-                      src="/product_images/<%= product.productImage[0] %>"
-                      alt=""
-                      class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"
-                      />
-                      
-                      <img
-                      src="/product_images/<%= product.productImage[1] %>"
-                      alt=""
-                      class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"
-                      />
+                      <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0" /> 
+                      <img src="/product_images/<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100" />
                       </div>
-  
-  
-                      
                       <div class=" flex justify-between">
                           <div>
                               <h3 class="text-sm text-gray-700">
@@ -203,7 +168,6 @@
                               </h3>
                               <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
                           </div>
-                        
                           <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
                             <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
                             <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
@@ -214,23 +178,21 @@
                   </div>
                   <% } %>
                   <% }) %>
-        
               </div>
           </div>
       </div>
   </section>
 
+  <section class="mt-48 w-full h-72 bg-stone-200 text-center py-28">
+     <% products.forEach((product) => { %>
+         <span class="text-xl font-bold px-32">  <%= product.brand %></span>
+     <% }) %>
+  </section>
 
-
-<section class="mt-48 w-full h-72 bg-stone-200 text-center py-28">
-  <% products.forEach((product) => { %>
-<span class="text-xl font-bold px-32">  <%= product.brand %></span>
-<% }) %>
-</section>
 <section class=" h-14 text-center mt-16 p-4 justify-center flex">
-  <hr class="w-96">
-  <span class="text-gray-900 michroma-regular">BEST SELLER </span>
-  <hr class="w-96">
+      <hr class="w-96">
+      <span class="text-gray-900 michroma-regular">BEST SELLER </span>
+      <hr class="w-96">
 </section>  
 
 <!-- Products -->
@@ -241,24 +203,11 @@
               <% products.forEach((product) => { %>
                 <% if (product.extras == 'Best Seller') { %>
               <div class="group relative">
-
-
-                <div class="relative aspect-h-1 h-[350px] sm:h-[450px] overflow-hidden">
-                  <img
-                  src="/product_images/<%= product.productImage[0] %>"
-                  alt=""
-                  class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"
-                  />
-                  
-                  <img
-                  src="/product_images/<%= product.productImage[1] %>"
-                  alt=""
-                  class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"
-                  />
+                
+                <div class="relative aspect-h-1 h-[350px] sm:h-[450px] overflow-hidden"> 
+                  <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0" /> 
+                  <img src="/product_images/<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100" />
                   </div>
-
-
-                  
                   <div class=" flex justify-between">
                       <div>
                           <h3 class="text-sm text-gray-700">
@@ -284,24 +233,6 @@
       </div>
   </div>
 </section>
-
-
-
-
- <!-- Pagination setup 
-<section>
-
- <div class="flex justify-center mt-8">
-  <button class="font-thin  hover:bg-gray-300 px-3 py-1 rounded-l "> < </button>
-  <span class="font-thin  px-3 py-1">1</span>
-  <span class="font-thin  px-3 py-1">2</span>
- 
-  <button class="font-thin  hover:bg-gray-300 px-3 py-1 rounded-r"> > </button>
-</div>
-</section> -->
-   
-
-
 
 <script>
   function showItem(itemId) {
