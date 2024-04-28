@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const router = express.Router();
+const Router = express.Router();
 const bodyParser = require('body-parser');
 const userController = require('../controllers/userCtrl');
 const cartController = require('../controllers/cartCtrl');
@@ -15,6 +15,7 @@ const dotenv = require('dotenv');
 const Product = require('../models/productModel');
 const couponModel = require('../models/couponModel');
 const multer = require('multer');
+const {isLoggedIn} = require('../config/auth');
 
 const User = require('../models/userModel');
 
@@ -39,19 +40,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
    //<------------ user routes -------------->
-router.get('/login' ,userController.getLogin);
-router.post('/login',userController.verifyLogin);
-router.get('/signup',userController.getSignup);
-router.post('/signup',userController.insertUser);
-router.get('/logout' ,(userController.getLogout));
-router.get('/home',userController.getHome);
-router.get('/verify-otp',userController.verifyOtpLoad);
-router.post('/verify-otp',userController.verifyOTP);
-router.get('/forgotPassword', userController.getForgotPassword);
-router.get('/userProfile',userController.userProfile);
-router.get('/userEdit',userController.getUserEdit);
-router.post('/userEdit',upload.single('userImage'),userController.insertUserDetails);
-router.get('/userProfileSidebar',async (req , res) => {
+Router.get('/login' ,userController.getLogin);
+Router.post('/login',userController.verifyLogin);
+Router.get('/signup',userController.getSignup);
+Router.post('/signup',userController.insertUser);
+Router.get('/logout' ,(userController.getLogout));
+Router.get('/home',userController.getHome);
+Router.get('/verify-otp',userController.verifyOtpLoad);
+Router.post('/verify-otp',userController.verifyOTP);
+Router.get('/forgotPassword', userController.getForgotPassword);
+Router.get('/userProfile',userController.userProfile);
+Router.get('/userEdit',userController.getUserEdit);
+Router.post('/userEdit',upload.single('userImage'),userController.insertUserDetails);
+Router.get('/userProfileSidebar',async (req , res) => {
    try {
       const userId = req.session.user;
       const user = await User.find(userId);
@@ -63,49 +64,49 @@ router.get('/userProfileSidebar',async (req , res) => {
 
 
    //<------------ product routes -------------->
-router.get('/product/:id',productController.productDetails);
-router.get('/shopping', productController.getShopping);
+Router.get('/product/:id',productController.productDetails);
+Router.get('/shopping', productController.getShopping);
 
    //<------------ search routes -------------->
-router.get('/search',productController.searchProduct);
-router.get('/lowToHigh/:id',productController.getLowToHigh);
- router.get('/HighToLow/:id',productController.getHighToLow);
- router.get('/newArrivals/:id',productController.getnewArrivals);
- router.get('/AtoZ/:id',productController.getAtoZ);
- router.get('/ZtoA/:id',productController.getZtoA);
+Router.get('/search',productController.searchProduct);
+Router.get('/lowToHigh/:id',productController.getLowToHigh);
+Router.get('/HighToLow/:id',productController.getHighToLow);
+Router.get('/newArrivals/:id',productController.getnewArrivals);
+Router.get('/AtoZ/:id',productController.getAtoZ);
+Router.get('/ZtoA/:id',productController.getZtoA);
 
    //<------------ pagintation -------------->
-router.get('/pagination/:id/:cat', productController.getPagination);
+Router.get('/pagination/:id/:cat', productController.getPagination);
 
 
    //<------------ userProfile || address-------------->
-router.get('/userAddress',addressController.getUserAddress);
-router.get('/addAddress',addressController.getAddAddress);
-router.post('/addAddress',addressController.insertAddress);
-router.get('/editAddress/:id',addressController.getEditAddress);
-router.post('/editAddress/:id',addressController.editAddress);
-router.get('/deleteAddress/:id',addressController.deleteAddress);
+Router.get('/userAddress',isLoggedIn, addressController.getUserAddress);
+Router.get('/addAddress',isLoggedIn,addressController.getAddAddress);
+Router.post('/addAddress',isLoggedIn,addressController.insertAddress);
+Router.get('/editAddress/:id',isLoggedIn,addressController.getEditAddress);
+Router.post('/editAddress/:id',isLoggedIn,addressController.editAddress);
+Router.get('/deleteAddress/:id',isLoggedIn,addressController.deleteAddress);
 
    //<------------ wishlist routes -------------->
-router.get('/wishlist',wishlistController.getwishlist);
-router.post('/wishlist',wishlistController.addToWishlist);
+Router.get('/wishlist',wishlistController.getwishlist);
+Router.post('/wishlist',wishlistController.addToWishlist);
 
    //<------------ cart routes -------------->
-router.get('/cart',cartController.getCart);
-router.post('/addToCart',cartController.addToCart);
-router.get('/removeCart/:id',cartController.removeCart);
-router.get('/checkout/:id',cartController.getCheckout);
-router.post('/cartDec',cartController.cartDec);
+Router.get('/cart',isLoggedIn, cartController.getCart);
+Router.post('/addToCart',isLoggedIn, cartController.addToCart);
+Router.get('/removeCart/:id',isLoggedIn, cartController.removeCart);
+Router.get('/checkout/:id',isLoggedIn, cartController.getCheckout);
+Router.post('/cartDec',isLoggedIn, cartController.cartDec);
  
    //<------------ order routes -------------->
-router.get('/orderHistory',orderController.getOrderHistory);
-router.post('/placeOrder',orderController.insertOrder);
-router.post('/verifyOrder',orderController.verifyAndInsertOrder);
-router.post('/orderCancel',orderController.orderCancel);
-router.get('/orderDetailsUser',orderController.orderDetailsUser);
+Router.get('/orderHistory',isLoggedIn, orderController.getOrderHistory);
+Router.post('/placeOrder',isLoggedIn, orderController.insertOrder);
+Router.post('/verifyOrder',isLoggedIn, orderController.verifyAndInsertOrder);
+Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
+Router.get('/orderDetailsUser',isLoggedIn, orderController.orderDetailsUser);
 
 //<------------ creating order -------------->
-      router.post('/create-order', async (req, res) => {
+     Router.post('/create-order', async (req, res) => {
          try {
              const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
              const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
@@ -131,20 +132,20 @@ router.get('/orderDetailsUser',orderController.orderDetailsUser);
      });
      
 //<------------ coupon search -------------->
- router.post('/couponSearch',couponController.couponSearch);
+Router.post('/couponSearch',couponController.couponSearch);
 
 
 //<------------ order success -------------->
-router.get('/orderSuccess',(req, res) => {
+Router.get('/orderSuccess',(req, res) => {
     res.render('orderSuccess');
 });
 
 //<------------ wallet routes -------------->
-router.get('/wallet',walletController.getWalletPage);
+Router.get('/wallet',walletController.getWalletPage);
 
 //<------------ pagination route -------------->
 
-router.get("/shopping", async (req, res) => {
+Router.get("/shopping", async (req, res) => {
 	try {
 		const page = parseInt(req.query.page) - 1 || 0;
 		const limit = parseInt(req.query.limit) || 5;
@@ -184,4 +185,4 @@ router.get("/shopping", async (req, res) => {
 	}
 });
 
-module.exports = router;
+module.exports =Router;
