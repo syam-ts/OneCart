@@ -8,7 +8,7 @@
       </section>  
   <section class="flex justify-end items-end">
     <div class="relative">
-      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-44 rounded-full border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
+      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-32 mr-44 border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
         <span class="flex items-center font-thin">Sort items</span>
         <svg class="w-2.5 h-2.5 mt-2 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
       </button>
@@ -64,7 +64,7 @@
     </div>
 </section>
 
-
+      <!------------------- pagination -------------------->
 <section class="text-center w-full sm:w-3/4 mx-auto border-t flex justify-center py-6   ">
     <% if (currentPage > 1) { %>
         <a href="?page=<%= currentPage - 1 %>" class="px-2 font-sans hover:text-sky-600"> &lt; </a>
@@ -79,39 +79,53 @@
     <% } %>
 </section>
 
+      <!------------------- category -------------------->
+      <section class=" h-14 text-center mt-16 p-4 justify-center flex">
+        <hr class="w-96">
+        <span class="text-gray-900 michroma-regular">CATEGORIES</span>
+        <hr class="w-96">
+      </section> 
 
+      <section class="flex flex-row justify-center mb-40">
+        <% categories.forEach(cate => { %>
+          <a href="/category/<%= cate.categoryName %>">
+            <div class=" bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12">
+              <div class="max-w-7xl mx-auto">
+                <div class="relative group p-5 w-72">
+                  <div class="absolute -inset-1  rounded-lg blur  group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                  <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6 border-gray-400 border hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
+                    <div class="space-y-2">
+                      <p class="text-slate-800 font-semibold"> <%= cate.categoryName %> </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+       
+        <% }) %>
+      </section>
+      
+    
+    
 
 
 </main>
 <script>
-    // const countriesSelect = document.getElementById('countries');
-    // countriesSelect.addEventListener('change', () => {
-    //     const selectedOption = countriesSelect.value;
-    //     fetch('/sortProduct',{
-    //                     method:"POST",
-    //                     headers:{
-    //                         "Content-Type" : "application/json"
-    //                     },
-    //                     body:JSON.stringify({
-    //                         sortOption : selectedOption
-    //                       })
-    //       })
-    // });
 
     const selectElement = document.getElementById('countries');
-
 selectElement.addEventListener('change', () => {
     const selectedOption = selectElement.options[selectElement.selectedIndex];
     const sorting = selectedOption.value;
     fetch('/sortShopping',{
-                        method:"POST",
-                        headers:{
-                            "Content-Type" : "application/json"
-                        },
-                        body:JSON.stringify({
-                         sort: sorting
-                 })
-         })
+          method:"POST",
+          headers:{
+              "Content-Type" : "application/json"
+          },
+          body:JSON.stringify({
+           sort: sorting
+        })
+    })
 });
 
 
@@ -119,6 +133,16 @@ function toggleDropdown() {
       var dropdown = document.getElementById('dropdown');
       dropdown.classList.toggle('hidden');
     }
+
+
+    const categoryDetail = document.getElementById('categoryDetail');
+categoryDetail.addEventListener('click', () => {
+  // Get the categoryName from the clicked element
+  const categoryName = document.getElementById('categoryName').innerText;
+  // Display the actual categoryName using alert
+  alert(categoryName);
+});
+
 </script>
 
 

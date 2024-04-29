@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+<main>
+    
+      <!------------------- breadcrumbs -------------------->
+      <section class="ml-12 mt-5">
+        <nav class="flex ">
+            <ol role="list" class="flex items-center">
+              <li class="text-left">
+                <div class="-m-1">
+                  <a href="/home" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"> Home </a>
+                </div>
+              </li>
+              <li class="text-left">
+                <div class="flex items-center">
+                  <span class="mx-2 text-gray-400">/</span>
+                  <div class="-m-1">
+                    <a href="/shopping" class="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page"> shopping </a>
+                  </div>
+                </div>
+              </li>
+            </ol>
+          </nav>
+      </section>
+
+
+    <section class=" h-14 text-center mt-16 p-4 justify-center flex">
+        <hr class="w-96">
+        <span class="text-gray-900 michroma-regular">PRODUCTS</span>
+        <hr class="w-96">
+      </section>
+
+<section class="mt-5">
+    <div class="bg-white flex">
+        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
+            <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <% products.forEach( product => { %>
+                <div class="group relative">
+                    <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-transparent lg:aspect-none group-hover:opacity-75 lg:h-80">
+                       <a href="#"> <img src="/product_images/<%= product.productImage[0] %>"></a>
+                    </div>
+                    <div class="mt-4 flex justify-between">
+                        <div>
+                            <h3 class="text-sm text-gray-700">
+                                <a href="/product/<%= product._id %>">
+                                    <span aria-hidden="true" class="absolute inset-0"></span>
+                                    <%= product.productName %>
+                                </a>
+                            </h3>
+                            <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
+                        </div>
+                        <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
+                            <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
+                            <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
+                          <% } else { %>
+                            <h1 class="text-1xl font-medium">₹<%- product.price %>.00</h1>
+                          <% } %>
+                    </div>
+                </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<%- include('../partials/footer') %>

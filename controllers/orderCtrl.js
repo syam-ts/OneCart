@@ -8,6 +8,32 @@ const Wallet = require('../models/walletModel');
 const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
+
+const createOrder = async (req, res) => {
+    try {
+        const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
+        const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
+        const totalPrice = req.body.totalPrice;
+        const response = await fetch('https://api.razorpay.com/v1/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Basic ${Buffer.from(`${razorpayApiKey}:${razorpaySecretKey}`).toString('base64')}`
+            },
+            body: JSON.stringify({
+                "amount": totalPrice,
+                "currency": "INR",
+                "receipt": "receipt-001"
+            })
+        });
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 //<------------ order history -------------->
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
@@ -230,6 +256,15 @@ const verifyAndInsertOrder = async (req, res) => {
     }
 };
 
+//<------------ order success page -------------->
+const orderSuccess = async (req, res) => {
+    try {
+        res.render('orderSuccess');
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 //<------------ order cancel for user -------------->
 const orderCancel = async (req, res) => {
     try {
@@ -247,10 +282,12 @@ const orderCancel = async (req, res) => {
 };
 
 module.exports = {
+    createOrder,
     getOrderHistory,
     sortOrdersUser,
     orderDetailsUser,
     insertOrder,
     verifyAndInsertOrder,
+    orderSuccess,
     orderCancel  
 }

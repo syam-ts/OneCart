@@ -8,36 +8,25 @@ const wishlistController = require('../controllers/wishlistCtrl');
 const addressController = require('../controllers/addressCtrl');
 const orderController = require('../controllers/orderCtrl');
 const productController = require('../controllers/productCtrl');
-const couponController = require('../controllers/couponCtrl');
+const categoryController = require('../controllers/categoryCtrl');
 const walletController = require('../controllers/walletCtrl');
 var cors = require('cors');
 const dotenv = require('dotenv');
-const Product = require('../models/productModel');
-const couponModel = require('../models/couponModel');
 const multer = require('multer');
 const {isLoggedIn} = require('../config/auth');
 
-const User = require('../models/userModel');
-
-//<------------ imgage rendering -------------->
-const storage = multer.diskStorage({
-   destination:(req, file, cb) => {
-       cb(null,'./public/product_images')
-      },
-   filename:(req, file, cb) => {
-       const name = Date.now()+''+file.originalname;
-       cb(null, name);
-   }
-});
+//<------------ multer config -------------->
+const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'./public/product_images')  },
+    filename:(req, file, cb) => { const name = Date.now()+''+file.originalname; cb(null, name) }});
 const upload = multer({ storage });
 
-
+//<------------ requiring tools -------------->
 dotenv.config({path:'./.env'})
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-   //<------------ user routes -------------->
+//<------------ user routes -------------->
 Router.get('/login' ,userController.getLogin);
 Router.post('/login',userController.verifyLogin);
 Router.get('/signup',userController.getSignup);
@@ -55,64 +44,15 @@ Router.get('/userProfileSidebar',userController.userProfileSidebar);
    //<------------ product routes -------------->
 Router.get('/product/:id',productController.productDetails);
 Router.get('/shopping?', productController.getShopping);
-Router.get('/sortShopping/:method', async (req, res) => {
-    try {
-        const sortMethod = req.params.method;
-        var sortQuery = {}; 
-   
-        switch (sortMethod) {
-           case "lowToHigh":
-               sortQuery = { price: 1 };
-               break;
-           case "highToLow":
-               sortQuery = { price: -1 };
-               break;
-           case "aToZ":
-               sortQuery = { productName: 1 };
-               break;
-           case "zToA":
-               sortQuery = { productName: -1 };
-               
-               break;
-           default:
-               sortQuery = {};
-       }
-
-            var page = 1;
-            const limit = 8;
-            if (req.query.page) {
-                page = parseInt(req.query.page);
-            }
-          
-            const products = await Product.find({ deleted: false })
-                .limit(limit * 1)
-                .skip((page - 1) * limit)
-                .sort(sortQuery) 
-                .exec();
-          
-            const count = await Product.find({ deleted: false }).countDocuments();
-          
-            res.render('shopping', {
-                products: products,
-                totalPage: Math.ceil(count / limit),
-                currentPage: page,
-                previousPage: page > 1 ? page - 1 : 1,
-                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
-            });
-        
-    } catch (error) {
-        console.log(error.message);
-    }
-});
-
-
-
+Router.get('/sortShopping/:method',productController.sortShoppingPage); 
+Router.get('/category/:id',categoryController.categoryShopping);
 //Need cross check
 Router.post('/sortProduct',productController.sortShoppingPage);
 
    //<------------ search routes -------------->
 Router.get('/search',productController.searchProduct);
 Router.get('/lowToHigh/:id',productController.getLowToHigh);
+
 
    //<------------ userProfile || address-------------->
 Router.get('/userAddress',isLoggedIn, addressController.getUserAddress);
@@ -122,9 +62,11 @@ Router.get('/editAddress/:id',isLoggedIn,addressController.getEditAddress);
 Router.post('/editAddress/:id',isLoggedIn,addressController.editAddress);
 Router.get('/deleteAddress/:id',isLoggedIn,addressController.deleteAddress);
 
+
    //<------------ wishlist routes -------------->
 Router.get('/wishlist',wishlistController.getwishlist);
 Router.post('/wishlist',wishlistController.addToWishlist);
+
 
    //<------------ cart routes -------------->
 Router.get('/cart',isLoggedIn, cartController.getCart);
@@ -133,6 +75,7 @@ Router.get('/removeCart/:id',isLoggedIn, cartController.removeCart);
 Router.get('/checkout/:id',isLoggedIn, cartController.getCheckout);
 Router.post('/cartDec',isLoggedIn, cartController.cartDec);
  
+
    //<------------ order routes -------------->
 Router.get('/orderHistory',isLoggedIn, orderController.getOrderHistory);
 Router.post('/placeOrder',isLoggedIn, orderController.insertOrder);
@@ -140,44 +83,12 @@ Router.post('/verifyOrder',isLoggedIn, orderController.verifyAndInsertOrder);
 Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
 Router.get('/orderDetailsUser/:id',isLoggedIn, orderController.orderDetailsUser);
 Router.get('/sortOrdersUser/:method',isLoggedIn,orderController.sortOrdersUser);
-
-//<------------ creating order -------------->
-     Router.post('/create-order', async (req, res) => {
-         try {
-             const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
-             const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
-             const totalPrice = req.body.totalPrice;
-             const response = await fetch('https://api.razorpay.com/v1/orders', {
-                 method: 'POST',
-                 headers: {
-                     'Content-Type': 'application/json',
-                     'Authorization': `Basic ${Buffer.from(`${razorpayApiKey}:${razorpaySecretKey}`).toString('base64')}`
-                 },
-                 body: JSON.stringify({
-                     "amount": totalPrice,
-                     "currency": "INR",
-                     "receipt": "receipt-001"
-                 })
-             });
-             const data = await response.json();
-             res.json(data);
-         } catch (error) {
-             console.error('Error:', error);
-             res.status(500).json({ error: 'Internal Server Error' });
-         }
-     });
+Router.post('/create-order',isLoggedIn, orderController.createOrder); 
+Router.get('/orderSuccess',isLoggedIn, orderController.orderSuccess)
 
 
-//<------------ order success -------------->
-Router.get('/orderSuccess',(req, res) => {
-    res.render('orderSuccess');
-});
 
 //<------------ wallet routes -------------->
 Router.get('/wallet',walletController.getWalletPage);
 
-//<------------ pagination route -------------->
-
-
-
-module.exports =Router;
+module.exports = Router;

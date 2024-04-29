@@ -117,6 +117,17 @@ const editCategory = async (req, res) => {
     }
 };
 
+const categoryShopping = async (req, res) => {
+    try {
+        console.log('THe cate name : ',req.params)
+        const categoryName = req.params.id;
+        const products = await Product.find({category : categoryName})
+        res.render('categoryPrdt', {products : products});
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
 
 module.exports = {
     categoryListing,
@@ -124,5 +135,6 @@ module.exports = {
     insertCategory,
     deleteCategory,
     loadCategoryEdit,
-     editCategory
+     editCategory,
+     categoryShopping
 };

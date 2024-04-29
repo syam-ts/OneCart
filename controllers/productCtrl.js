@@ -27,66 +27,11 @@ const upload = multer({ storage }).array('productImage');
                                        **/
 
 //<------------ shopping page -------------->
-const sortShoppingPage = async (req, res) => {
-    try {
-      
-  
-    } catch (err) {
-        console.log(err.message);
-    }
-};
-
-
-const sortShopping = async (req, res) => {
-    try {
-
-        console.log('The daga: ',req.params)
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-
-
-
-
-
-
-
 
 const getShopping= async (req, res) => {
     try {
-    //    console.log('The body: ', req.body)
-    //     if(!req.body){
-    //         console.log('Print this')
-    //         var page = 1;
-    //         const limit = 8;
-    //         if(req.query.page){
-    //             page = req.query.page;
-    //             };
-    
-    //             console.log('The current page : ',page)
-    
-    //         const products = await Product.find({deleted : false })
-    //         .limit(limit * 1)
-    //         .skip((page - 1) * limit)
-    //         .exec();
-    
-    //         const count = await Product.find({deleted : false })
-    //         .countDocuments();
-    
-    //         res.render('shopping',{ 
-    //             products : products,
-    //             totalPage : Math.ceil(count / limit),
-    //             currentPage : page,
-    //             previousPage: page - 1,
-    //             nextPage: parseInt(page) + 1
-    //         });
-    
-        // }else{
             const sortMethod = req.body.sortOption;
             let sortQuery = {};
-        
             switch (sortMethod) {
                 case "lowToHigh":
                     sortQuery = { price: 1 };
@@ -102,7 +47,7 @@ const getShopping= async (req, res) => {
                     break;
                 default:
                     sortQuery = {};
-            }
+             }
         
             var page = 1;
             const limit = 8;
@@ -116,9 +61,11 @@ const getShopping= async (req, res) => {
             
              const count = await Product.find({deleted : false })
              .countDocuments();
+             const categories = await Category.find({deleted : false })
         
             res.render('shopping',{
                  products : products,
+                 categories: categories,
                  totalPage : Math.ceil(count / limit),
                  currentPage : page,
                  previousPage: page - 1,
@@ -131,6 +78,60 @@ const getShopping= async (req, res) => {
             
         }
 
+
+        //<------------ pagination & advanced sort shopping page -------------->
+ const sortShoppingPage = async (req, res) => {
+            try {
+                const sortMethod = req.params.method;
+                var sortQuery = {}; 
+           
+                switch (sortMethod) {
+                   case "lowToHigh":
+                       sortQuery = { price: 1 };
+                       break;
+                   case "highToLow":
+                       sortQuery = { price: -1 };
+                       break;
+                   case "aToZ":
+                       sortQuery = { productName: 1 };
+                       break;
+                   case "zToA":
+                       sortQuery = { productName: -1 };
+                       
+                       break;
+                   default:
+                       sortQuery = {};
+               }
+        
+                    var page = 1;
+                    const limit = 8;
+                    if (req.query.page) {
+                        page = parseInt(req.query.page);
+                    }
+                  
+                    const products = await Product.find({ deleted: false })
+                        .limit(limit * 1)
+                        .skip((page - 1) * limit)
+                        .sort(sortQuery) 
+                        .exec();
+                  
+                    const count = await Product.find({ deleted: false }).countDocuments();
+                    const categories = await Category.find({deleted : false })
+                  
+                    res.render('shopping', {
+                        products: products,
+                        categories : categories,
+                        totalPage: Math.ceil(count / limit),
+                        currentPage: page,
+                        previousPage: page > 1 ? page - 1 : 1,
+                        nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+                    });
+                
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        
 
 
 
@@ -469,7 +470,6 @@ module.exports = {
     deleteProduct,
 
     searchProduct,
-    getLowToHigh,
-    sortShopping
+    getLowToHigh
 
 };

@@ -18,27 +18,37 @@
                       <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-100 h-8">
                           <tr class="">
                               <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-left">Status</div>
+                                  <div class="font-semibold text-left">wallet.status</div>
                               </th>
                               <th class="pl-24 whitespace-nowrap">
                                   <div class="font-semibold text-left">Balance</div>
                               </th>
-                              <th class="pl-24 pr-24 whitespace-nowrap">
+                              <!-- <th class="pl-24 pr-24 whitespace-nowrap">
                                   <div class="font-semibold text-left">Transactions</div>
-                              </th>
+                              </th> -->
                           </tr>
                       </thead>
                       <tbody class="text-sm divide-y divide-gray-100">
                           <tr>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> Non Active </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left font-medium text-green-500">$2,890.66</div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
+                              <% if(wallet) { %>
+                                <td class="pl-24 pt-5 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500"> <%= wallet.status %> </div>
+                                </td>
+                                <td class="pl-24 pt-5 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500"> <%= wallet.amount %>₹ </div>
+                                </td>
+                              <% }else{ %>
+                                <td class="pl-24 pt-5 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500"> Non Active </div>
+                                </td>
+                                <td class="pl-24 pt-5 whitespace-nowrap">
+                                    <div class="text-left font-medium text-green-500"> 0₹ </div>
+                                </td>
+                                <% } %>
+                           
+                              <!-- <td class="pl-24 pt-5 whitespace-nowrap">
                                   <div class="text-left font-medium text-green-500">#7823792hsfd</div>
-                              </td>
+                              </td> -->
                           </tr>
                       </tbody>
                   </table>

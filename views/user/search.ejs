@@ -54,8 +54,13 @@
                             </h3>
                             <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
                         </div>
-                        <p class="text-sm font-medium text-gray-900"><%= product.price %></p>
-                    </div>
+                        <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
+                          <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
+                          <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
+                        <% } else { %>
+                          <h1 class="text-1xl font-medium">₹<%- product.price %>.00</h1>
+                        <% } %>
+                      </div>
                 </div>
                 <% }) %>
             </div>

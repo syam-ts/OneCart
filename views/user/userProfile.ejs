@@ -25,7 +25,7 @@
     <div class="container mx-auto px-4">
       <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
         <div class="px-6">
-          <div class="flex flex-wrap justify-center">
+          <div class="flex flex-wrap justify-end">
             <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
               <div class="relative">
                 <img alt="User Image" src="/product_images/<%= user.userImage %>" class="shadow-xl rounded-full h-auto align-middle border-none  -m-16 -ml-20 lg:-ml-16 max-w-150-px">
@@ -36,20 +36,10 @@
          
               </div>
             </div>
-            <div class="w-full lg:w-4/12 px-4 lg:order-1">
-              <div class="flex justify-center py-4 lg:pt-1 pt-1">
-                <div class="mr-4 p-3 text-center">
-                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">22</span><span class="text-sm text-blueGray-400">Products</span>
-                </div>
-                <div class="mr-4 p-3 text-center">
-                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">10</span><span class="text-sm text-blueGray-400">Whishlisted</span>
-                </div>
-                <div class="lg:mr-4 p-3 text-center">
-                  <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">89</span><span class="text-sm text-blueGray-400">Orders</span>
-                </div>
-              </div>
-            </div>
+            
           </div>
+
+
           <div class="text-center mt-12">
             <% if (Array.isArray(address) && address.length > 0) { %>
               <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 pt-12">
