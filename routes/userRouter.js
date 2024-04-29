@@ -116,8 +116,29 @@ Router.post('/sortShopping',async(req, res) => {
 
 Router.get('/sortShopping/:method', async (req, res) => {
     try {
-        const method = req.params.method;
-        if(method == "HighToLow"){
+        const sortMethod = req.params.method;
+        var sortQuery = {}; 
+   
+        switch (sortMethod) {
+           case "lowToHigh":
+               sortQuery = { price: 1 };
+               break;
+           case "highToLow":
+               sortQuery = { price: -1 };
+               break;
+           case "aToZ":
+               sortQuery = { productName: 1 };
+               break;
+           case "zToA":
+               sortQuery = { productName: -1 };
+               
+               break;
+           default:
+               sortQuery = {};
+       }
+
+
+        // if(method == "HighToLow"){
             var page = 1;
             const limit = 8;
             if (req.query.page) {
@@ -127,7 +148,7 @@ Router.get('/sortShopping/:method', async (req, res) => {
             const products = await Product.find({ deleted: false })
                 .limit(limit * 1)
                 .skip((page - 1) * limit)
-                .sort({price : 1}) 
+                .sort(sortQuery) 
                 .exec();
           
             const count = await Product.find({ deleted: false }).countDocuments();
@@ -139,7 +160,7 @@ Router.get('/sortShopping/:method', async (req, res) => {
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
-        }
+        
     } catch (error) {
         console.log(error.message);
     }
