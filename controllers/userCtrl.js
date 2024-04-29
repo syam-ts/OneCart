@@ -214,6 +214,16 @@ const getForgotPassword = async (req, res) => {
   }
 };
 
+const userProfileSidebar = async (req, res) => {
+  try {
+    const userId = req.session.user;
+    const user = await User.find(userId);
+    res.render('userProfileSidebar',{user})
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
 //<------------ user profile -------------->
       const userProfile = async (req, res) => {
@@ -271,6 +281,7 @@ module.exports = {
     verifyOTP,
     getForgotPassword,
     userProfile,
+    userProfileSidebar,
     getUserEdit,
     insertUserDetails
 };

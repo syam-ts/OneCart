@@ -23,7 +23,7 @@ const User = require('../models/userModel');
 const storage = multer.diskStorage({
    destination:(req, file, cb) => {
        cb(null,'./public/product_images')
-   },
+      },
    filename:(req, file, cb) => {
        const name = Date.now()+''+file.originalname;
        cb(null, name);
@@ -33,9 +33,7 @@ const upload = multer({ storage });
 
 
 dotenv.config({path:'./.env'})
-
-app.use(cors());
-
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -52,68 +50,11 @@ Router.get('/forgotPassword', userController.getForgotPassword);
 Router.get('/userProfile',userController.userProfile);
 Router.get('/userEdit',userController.getUserEdit);
 Router.post('/userEdit',upload.single('userImage'),userController.insertUserDetails);
-Router.get('/userProfileSidebar',async (req , res) => {
-   try {
-      const userId = req.session.user;
-      const user = await User.find(userId);
-      res.render('userProfileSidebar',{user})
-   } catch (error) {
-      console.log(error.message);
-   }
-})
+Router.get('/userProfileSidebar',userController.userProfileSidebar);    
 
    //<------------ product routes -------------->
 Router.get('/product/:id',productController.productDetails);
 Router.get('/shopping?', productController.getShopping);
-Router.post('/sortShopping',async(req, res) => {
- 
-   console.log('The real one : ',req.body)
-   const sortMethod = req.body.sort;
-
-   var sortQuery = {}; 
-   
-   switch (sortMethod) {
-      case "lowToHigh":
-          sortQuery = { price: 1 };
-          break;
-      case "highToLow":
-          sortQuery = { price: -1 };
-          break;
-      case "nameAse":
-          sortQuery = { productName: 1 };
-          break;
-      case "nameDec":
-          sortQuery = { productName: -1 };
-          
-          console.log('This is the High to low',)
-          break;
-      default:
-          sortQuery = {};
-  }
-
-  var page = 1;
-  const limit = 4;
-  if (req.query.page) {
-      page = parseInt(req.query.page);
-  }
-
-  const products = await Product.find({ deleted: false })
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .sort(sortQuery) 
-      .exec();
-
-  const count = await Product.find({ deleted: false }).countDocuments();
-
-  res.render('shopping', {
-      products: products,
-      totalPage: Math.ceil(count / limit),
-      currentPage: page,
-      previousPage: page > 1 ? page - 1 : 1,
-      nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
-  });
-});
-
 Router.get('/sortShopping/:method', async (req, res) => {
     try {
         const sortMethod = req.params.method;
@@ -137,8 +78,6 @@ Router.get('/sortShopping/:method', async (req, res) => {
                sortQuery = {};
        }
 
-
-        // if(method == "HighToLow"){
             var page = 1;
             const limit = 8;
             if (req.query.page) {
@@ -200,6 +139,7 @@ Router.post('/placeOrder',isLoggedIn, orderController.insertOrder);
 Router.post('/verifyOrder',isLoggedIn, orderController.verifyAndInsertOrder);
 Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
 Router.get('/orderDetailsUser/:id',isLoggedIn, orderController.orderDetailsUser);
+Router.get('/sortOrdersUser/:method',isLoggedIn,orderController.sortOrdersUser);
 
 //<------------ creating order -------------->
      Router.post('/create-order', async (req, res) => {
@@ -238,44 +178,6 @@ Router.get('/wallet',walletController.getWalletPage);
 
 //<------------ pagination route -------------->
 
-Router.get("/shopping", async (req, res) => {
-	try {
-		const page = parseInt(req.query.page) - 1 || 0;
-		const limit = parseInt(req.query.limit) || 5;
-		const search = req.query.search || "";
-		let sort = req.query.sort || "Trending";
 
-		req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
-		let sortBy = {};
-		if (sort[1]) {
-			sortBy[sort[0]] = sort[1];
-		} else {
-			sortBy[sort[0]] = "asc";
-		}
-
-		const product = await Product.find({ name: { $regex: search, $options: "i" } })
-			.sort(sortBy)
-			.skip(page * limit)
-			.limit(limit);
-
-		const total = await Product.countDocuments({
-			sort: { $in: [...sort] },
-			name: { $regex: search, $options: "i" },
-		});
-
-		const response = {
-			error: false,
-			total,
-			page: page + 1,
-			limit,
-			product,
-		};
-
-		res.status(200).json(response);
-	} catch (err) {
-		console.log(err);
-		res.status(500).json({ error: true, message: "Internal Server Error" });
-	}
-});
 
 module.exports =Router;

@@ -1,6 +1,32 @@
 <%- include('../partials/adminHeader') %>
 
 <main class="p-4">
+    <section class="flex justify-end items-end">
+        <div class="relative">
+          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-44 rounded-full border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
+            <span class="flex items-center font-thin">Sort items</span>
+            <svg class="w-2.5 h-2.5 mt-2 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+          </button>
+      
+          <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-100 text-gray-950">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+              <li>
+                <a href="/admin/sortProductAdmin/recentProducts" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Recently added</a>
+              </li>
+              <li>
+                <a href="/admin/sortProductAdmin/olderProducts" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Older products</a>
+              </li>
+              <li>
+                <a href="/admin/sortProductAdmin/blockedProducts" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Blocked products</a>
+              </li>
+              <li>
+                <a href="/admin/sortProductAdmin/unBlockedProducts" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Unblocked products</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
     <div class="overflow-x-auto shadow-md">
         <table class="w-full text-xs font-sans text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-blue-800 dark:text-gray-400">
@@ -65,35 +91,43 @@
                 <% }); %>
             </tbody>
         </table>
-        <div class="flex justify-center mt-8">
-            <% let lastPage = 0; %>
-            <% for(let i = 1; i < totalProduct + 2 ; i++) { %>
-              <a class="ml-9 font-sans" href="/admin/pagination/<%= i %>" > <%= i %> </a>
-              <% lastPage = i; %>
+  
+
+        <section class="text-center w-full sm:w-3/4 mx-auto border-t flex justify-center py-6   ">
+            <% if (currentPage > 1) { %>
+                <a href="?page=<%= currentPage - 1 %>" class="px-2 font-sans hover:text-sky-600"> &lt; </a>
             <% } %>
-            <!-- <% if (lastPage > 0) { %>
-              <a class="ml-9 font-sans" href="/admin/pagination/<%= lastPage %>" > > </a>
-            <% } %> -->
-          </div>
-          
-        <section class="text-center mt-5 mb-10 ">
-            <a href="./product-add" type="submit" class=" h-10 w-40 rounded-full inline-block  md:w-auto text-gray-100 bg-blue-800 px-4 py-2 text-sm font-semibold leading-6 shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Product</a>
+            
+            <% for (let i = 1; i <= totalPage; i++) { %>
+                <a href="?page=<%= i %>" class="px-2 font-sans hover:text-sky-600 <%= i === currentPage ? 'text-sky-600' : '' %>"> <%= i %> </a>
+            <% } %>
+            
+            <% if (currentPage < totalPage) { %>
+                <a href="?page=<%= parseInt(currentPage) + 1 %>" class="px-2 font-sans hover:text-sky-600"> &gt; </a>
+            <% } %>
         </section>
+
+          
+   
     </div>
 
-
+    <section class="text-center mt-5 mb-10 ">
+        <a href="/admin/product-add" type="submit" class=" h-10 w-40 rounded-full inline-block  md:w-auto text-gray-100 bg-blue-800 px-4 py-2 text-sm font-semibold leading-6 shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Product</a>
+    </section>
 </main>
 
-
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById('dropdown');
+        dropdown.classList.toggle('hidden');
+      }
+</script>
 
 
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/OneCart/controllers/UserMangementConroller.js"></script>
 
-<script>
-    // Your JavaScript code remains the same
-</script>
 
 <%- include('../partials/adminFooter') %>
 
@@ -305,7 +339,6 @@
     }
     // end: Chart
 
-    
 </script>
 
 <%- include('../partials/adminFooter') %>

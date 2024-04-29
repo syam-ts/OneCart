@@ -10,26 +10,6 @@ const orderManagementCtrl = require('../controllers/orderManagementCtrl');
 const couponCtrl = require('../controllers/couponCtrl');
 const offerController = require('../controllers/offerCtrl');
 
-const Order = require('../models/orderModel');
-
-
-app.post('/orderManagement', function(req, res) {
-   var orderId = req.body.orderId;
-   var newStatus = req.body.newStatus;
-
-   // Update order status in your database
-   Order.findByIdAndUpdate(orderId, { status: newStatus }, function(err, updatedOrder) {
-       if (err) {
-           console.error('Error updating order status:', err);
-           res.status(500).send('Error updating order status');
-       } else {
-           res.status(200).send('Order status updated successfully');
-       }
-   });
-});
-
-
-
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,6 +45,7 @@ router.post('/product-add',upload.array('productImage'),productContoller.insertP
 router.get('/product-block/:id',productContoller.deleteProduct);
 router.get('/product-edit/:id',productContoller.getProductEdit);
 router.post('/product-edit/:id',upload.array('productImage'),productContoller.postProductEdit);
+router.get('/sortProductAdmin/:method',productContoller.sortProductAdmin);
 
    //<------------ categoryManagement routes -------------->
 router.get('/category-list',categoryController.categoryListing);
@@ -81,7 +62,7 @@ router.post('/category-edit/:id',categoryController.editCategory);
    //<------------ orderManagement routes -------------->
 router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
 router.post('/orderStatus',orderManagementCtrl.orderStatusChng);
-
+router.get('/sortOrderAdmin/:method',orderManagementCtrl.sortOrderAdmin);
 
 
    //<------------ salse routes -------------->

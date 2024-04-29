@@ -12,18 +12,103 @@ const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
     try {
+
+        var page = 1;
+        const limit = 8;
+        if (req.query.page) {
+            page = parseInt(req.query.page);
+        }
+        const orders = await Order.find({ userId })
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .exec();
+
         const user = await User.findOne({ _id: userId });
-        const orders = await Order.find({ userId });
         const address = orders.length > 0 ? orders[0].address : null;
         const products = orders.flatMap(order => order.products.map(product => product._id));
         const product = await Product.find({ _id: { $in: products } });
        const total = orders.map( x => x.total);
-       console.log('THe user : ',total)
+
+       console.log('THe pro : ',product)
+
+        
       
-        res.render('orderHistory', {  address, product, user ,total, orders});
+        const count = await Order.find({ deleted: false }).countDocuments();
+      
+        res.render('orderHistory', {
+            address : address,
+            user : user,
+            total : total,
+            orders: orders,
+            products: product,
+            totalPage: Math.ceil(count / limit),
+            currentPage: page,
+            previousPage: page > 1 ? page - 1 : 1,
+            nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+        });
+
+
+
+
+
+
     } catch (error) {
         console.error('Error occurred:', error);
         res.status(500).send('Internal Server Error');
+    }
+};
+
+const sortOrdersUser = async (req , res) => {
+    try {
+        const sortMethod = req.params.method;
+        var sortQuery = {}; 
+   
+        switch (sortMethod) {
+           case "recentOrders":
+               sortQuery = { createdate: 1 };
+               break;
+           case "olderOrders":
+               sortQuery = { createdate: -1 };
+               break;
+           default:
+               sortQuery = {};
+       }
+
+       var page = 1;
+       const limit = 8;
+       if (req.query.page) {
+           page = parseInt(req.query.page);
+       }
+
+       const userId = req.session.user;
+       const orders = await Order.find({ userId })
+           .limit(limit * 1)
+           .skip((page - 1) * limit)
+           .sort(sortQuery) 
+           .exec();
+
+       
+       const user = await User.findOne({ _id: userId });
+       const address = orders.length > 0 ? orders[0].address : null;
+       const products = orders.flatMap(order => order.products.map(product => product._id));
+       const product = await Product.find({ _id: { $in: products } });
+       const total = orders.map( x => x.total);
+       const count = await Order.find({ userId }).countDocuments();
+
+            res.render('orderHistory', {
+                address : address,
+                user : user,
+                total : total,
+                orders: orders,
+                products: product,
+                totalPage: Math.ceil(count / limit),
+                currentPage: page,
+                previousPage: page > 1 ? page - 1 : 1,
+                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+            });
+        
+    } catch (error) {
+        console.log(error.message);
     }
 };
 
@@ -163,6 +248,7 @@ const orderCancel = async (req, res) => {
 
 module.exports = {
     getOrderHistory,
+    sortOrdersUser,
     orderDetailsUser,
     insertOrder,
     verifyAndInsertOrder,

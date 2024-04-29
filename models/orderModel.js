@@ -6,7 +6,8 @@ const orderSchema = mongoose.Schema({
         products:{type: Object,required:true,default: true},
         total:{type:Number,required:true},
         paymentMethod:{type:String,required:true},
-        status:{type:String},createdate:{type:Date,default:Date.now},
+        status:{type:String},
+        createdate:{type:Date,default:Date.now},
         carts: {type: Object,required:true,default: true},
         discountPrice: {type: Number,required:true}
     });

@@ -5,14 +5,107 @@ const Wallet = require('../models/walletModel');
 
 //<------------ order management -------------->
 const getOrderManagement = async (req, res ) => {
+            try {
+                var page = 1;
+                    const limit = 4;
+                    if (req.query.page) {
+                        page = parseInt(req.query.page);
+                    }
+                     
+                    const orders = await Order.find()
+                        .limit(limit * 1)
+                        .skip((page - 1) * limit)
+                        .exec();
+                  
+                    const count = await Order.find().countDocuments();
+                  
+                    res.render('orderManagement', {
+                        orders: orders,
+                        totalPage: Math.ceil(count / limit),
+                        currentPage: page,
+                        previousPage: page > 1 ? page - 1 : 1,
+                        nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+                    });
+                
+            } catch (error) {
+               console.log(error);
+               res.status(500).send('Server internal Error');
+      }   
+};
+
+//<------------ sort admin order -------------->
+
+const sortOrderAdmin = async (req, res) => {
     try {
-        const orders = await Order.find(); 
-        const userId = orders.address;                                             
-        res.render('orderManagement',{ orders : orders })
+        const sortMethod = req.params.method;
+        console.log('THE METHOD : ',sortMethod)
+        var sortQuery = {}; 
+   
+        switch (sortMethod) {
+           case "recentOrders":
+               sortQuery = { createdate: -1 };
+               break;
+           case "recentOrders":
+               sortQuery = { createdate: 1 };
+               break;
+           default:
+               sortQuery = {};
+       }
+
+       if(sortMethod == "deleveredOrders"){
+        var page = 1;
+            const limit = 4;
+            if (req.query.page) {
+                page = parseInt(req.query.page);
+            }
+          
+            const orders = await Order.find({status : "Delivered"})
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .exec();
+          
+            const count = await Order.find({status : "Delivered"}).countDocuments();
+            
+            res.render('orderManagement', {
+                orders: orders,
+                totalPage: Math.ceil(count / limit),
+                currentPage: page,
+                previousPage: page > 1 ? page - 1 : 1,
+                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+            });
+        
+       }
+
+
+            var page = 1;
+            const limit = 4;
+            if (req.query.page) {
+                page = parseInt(req.query.page);
+            }
+          
+            const orders = await Order.find()
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .sort(sortQuery) 
+                .exec();
+          
+            const count = await Order.find().countDocuments();
+
+            console.log('The order : ',orders)
+          
+
+            res.render('orderManagement', {
+                orders: orders,
+                totalPage: Math.ceil(count / limit),
+                currentPage: page,
+                previousPage: page > 1 ? page - 1 : 1,
+                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+            });
+        
     } catch (error) {
         console.log(error.message);
     }
-};
+}
 
 
 //<------------ order details for admin -------------->
@@ -117,6 +210,7 @@ const orderStatusChng = async (req, res) => {
 
 module.exports = {
     getOrderManagement,
+    sortOrderAdmin,
     orderDetailsAdmin,
     getSalesReport,
     orderStatusChng

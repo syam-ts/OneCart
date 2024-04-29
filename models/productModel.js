@@ -13,7 +13,8 @@ const productSchema = mongoose.Schema({
         extras:{type:String},
         deleted: {type: Boolean,default: false}, 
         cartSchema:[{productId: String}],
-        offer:[{orgingalPrice : Number,  offerPrice : Number}]
+        offer:[{orgingalPrice : Number,  offerPrice : Number}],
+        createdate:{type:Date,default:Date.now}
   });
 
 module.exports = mongoose.model('Product',productSchema);
