@@ -24,17 +24,114 @@ const upload = multer({ storage }).array('productImage');
 
   /**
          * ! User Prouduct Controller 
-                                       * */
+                                       **/
 
 //<------------ shopping page -------------->
-const getShopping = async (req, res) => {
+const sortShoppingPage = async (req, res) => {
     try {
-        const products = await Product.find({deleted : false });
-        res.render('shopping',{ products });
+      
+  
+    } catch (err) {
+        console.log(err.message);
+    }
+};
+
+
+const sortShopping = async (req, res) => {
+    try {
+
+        console.log('The daga: ',req.params)
     } catch (error) {
         console.log(error.message);
     }
 };
+
+
+
+
+
+
+
+
+
+const getShopping= async (req, res) => {
+    try {
+    //    console.log('The body: ', req.body)
+    //     if(!req.body){
+    //         console.log('Print this')
+    //         var page = 1;
+    //         const limit = 8;
+    //         if(req.query.page){
+    //             page = req.query.page;
+    //             };
+    
+    //             console.log('The current page : ',page)
+    
+    //         const products = await Product.find({deleted : false })
+    //         .limit(limit * 1)
+    //         .skip((page - 1) * limit)
+    //         .exec();
+    
+    //         const count = await Product.find({deleted : false })
+    //         .countDocuments();
+    
+    //         res.render('shopping',{ 
+    //             products : products,
+    //             totalPage : Math.ceil(count / limit),
+    //             currentPage : page,
+    //             previousPage: page - 1,
+    //             nextPage: parseInt(page) + 1
+    //         });
+    
+        // }else{
+            const sortMethod = req.body.sortOption;
+            let sortQuery = {};
+        
+            switch (sortMethod) {
+                case "lowToHigh":
+                    sortQuery = { price: 1 };
+                    break;
+                case "highToLow":
+                    sortQuery = { price: -1 };
+                    break;
+                case "nameAce":
+                    sortQuery = { productName: 1 };
+                    break;
+                case "nameDec":
+                    sortQuery = { productName: -1 };
+                    break;
+                default:
+                    sortQuery = {};
+            }
+        
+            var page = 1;
+            const limit = 8;
+            if (req.query.page) {
+                page = parseInt(req.query.page);
+              }
+            const products = await Product.find({deleted : false })
+             .limit(limit * 1)
+             .skip((page - 1) * limit)
+             .exec();
+            
+             const count = await Product.find({deleted : false })
+             .countDocuments();
+        
+            res.render('shopping',{
+                 products : products,
+                 totalPage : Math.ceil(count / limit),
+                 currentPage : page,
+                 previousPage: page - 1,
+                 nextPage: parseInt(page) + 1
+            });
+            } catch (error) {
+                console.log(error.message);
+                res.status(500).send("Internal Server Error");
+            }
+            
+        }
+
+
 
 
 //<------------ product details -------------->
@@ -92,116 +189,6 @@ const getLowToHigh = async (req, res) => {
     }
 };
 
-const getHighToLow = async (req, res) => {
-    try {
-        const limit = 4;
-          const input = req.params.id;
-
-        const category = await Product.findOne({category : input});
-            const total = await Product.find({category : input}).count();
-    const totalProduct = total / 4;
-            
-        const products = await Product.find({ category: input }).sort({price : -1}).limit(limit);
-    res.render('search', { products, category :category.category, totalProduct }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-const getnewArrivals = async (req, res) => {
-    try {
-        const limit = 4;
-          const input = req.params.id;
-        const category = await Product.findOne({category : input});
-            const total = await Product.find({category : input}).count();
-          const totalProduct = total / 4;
-            const products = await Product.find({extras: "newArrivals"}).limit(limit);
-    res.render('search', { products, category :category.category, totalProduct }); 
-  
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-const getAtoZ = async (req, res) => {
-    try {
-        const limit = 4;
-          const input = req.params.id;
-        const category = await Product.findOne({category : input});
-            const total = await Product.find({category : input}).count();
-          const totalProduct = total / 4;
-            const products = await Product.find({ category: input }).sort({productName : 1}).limit(limit);
-    res.render('search', { products, category :category.category, totalProduct }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-const getZtoA = async (req, res) => {
-    try {
-        const limit = 4;
-          const input = req.params.id;
-        const category = await Product.findOne({category : input});
-        const total = await Product.find({category : input}).count();
-      const totalProduct = total / 4;
-        const products = await Product.find({ category: input }).sort({productName : -1}).limit(limit);
-    res.render('search', { products, category :category.category, totalProduct }); 
-     
-    } catch (error) {
-        console.log(error.message);
-    }
-};
-
-//<------------ pagination -------------->
-const getPagination = async (req, res) =>  {
-    try {
-       const limit = 4;
-       const page = req.params.id;
-       const cat = req.params.cat;
-       const products = await Product.find({category : cat})
-       .skip((page - 1) * limit).limit(limit) 
-       const total = await Product.find().count();
-       const category = await Product.findOne({category : cat});
-
-       const number = total / 4
-       const totalProduct = Math.floor(number);
-       res.render('search', { products , category:category.category , totalProduct});
-       
-   } catch (error) {
-       console.log(error.message);
-   }       
-};
- 
-
-const getAdminPagination = async (req, res) =>  {
-    try {
-       
-         const page = req.params.id;
-        
-        const limit = 4;
-        const products = await Product.find()
-        .skip((page - 1) * limit).limit(limit) 
-         
-        
-        const total = await Product.find().count();
-        const category = await Product.findOne();
-
-        const number = total / 4
-        const totalProduct = Math.floor(number);
-
-        console.log('THE TOAL PRODUC : ',totalProduct)
-       
-        res.render('product-list', { products ,  totalProduct});
-        
-    } catch (error) {
-        console.log(error.message);
-    }
-}
-
-
 
 
  /**
@@ -236,7 +223,6 @@ const productList = async(req, res) => {
 const insertProduct = async (req, res) => {
     try {
         const { price, size, stock, } = req.body;
-          
             const productName = req.body.productName;
           if(price < 0){
             console.log('The price should be positive');
@@ -250,18 +236,19 @@ const insertProduct = async (req, res) => {
                 res.redirect('/admin/product-add');
             }else{
                 const existingProduct = await Product.find({ productName: productName });
+                const {productName , category, description, brand, color, price, size, stock } = req.body;
                 if (existingProduct.length == 0) {
                         const productImages = req.files.map(file => file.filename);
                         const product = new Product({
-                            productName: req.body.productName,
+                            productName: productName,
                             productImage: productImages,
-                            category: req.body.category,
-                            description: req.body.description,
-                            brand: req.body.brand,
-                            color: req.body.color,
-                            price: req.body.price,
-                            size: req.body.size,
-                            stock: req.body.stock
+                            category: category,
+                            description: description,
+                            brand: brand,
+                            color: color,
+                            price: price,
+                            size: size,
+                            stock: stock
                         });
         
                         await product.save();
@@ -361,6 +348,7 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
     getShopping,
+    sortShoppingPage,
     productDetails,
     productList,
     ProductAdd,
@@ -371,10 +359,6 @@ module.exports = {
 
     searchProduct,
     getLowToHigh,
-    getHighToLow,
-    getnewArrivals,
-    getAtoZ,
-    getZtoA,
-    getPagination,
-    getAdminPagination
+    sortShopping
+
 };

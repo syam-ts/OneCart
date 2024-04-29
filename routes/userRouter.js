@@ -62,22 +62,97 @@ Router.get('/userProfileSidebar',async (req , res) => {
    }
 })
 
-
    //<------------ product routes -------------->
 Router.get('/product/:id',productController.productDetails);
-Router.get('/shopping', productController.getShopping);
+Router.get('/shopping?', productController.getShopping);
+Router.post('/sortShopping',async(req, res) => {
+ 
+   console.log('The real one : ',req.body)
+   const sortMethod = req.body.sort;
+
+   var sortQuery = {}; 
+   
+   switch (sortMethod) {
+      case "lowToHigh":
+          sortQuery = { price: 1 };
+          break;
+      case "highToLow":
+          sortQuery = { price: -1 };
+          break;
+      case "nameAse":
+          sortQuery = { productName: 1 };
+          break;
+      case "nameDec":
+          sortQuery = { productName: -1 };
+          
+          console.log('This is the High to low',)
+          break;
+      default:
+          sortQuery = {};
+  }
+
+  var page = 1;
+  const limit = 4;
+  if (req.query.page) {
+      page = parseInt(req.query.page);
+  }
+
+  const products = await Product.find({ deleted: false })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .sort(sortQuery) 
+      .exec();
+
+  const count = await Product.find({ deleted: false }).countDocuments();
+
+  res.render('shopping', {
+      products: products,
+      totalPage: Math.ceil(count / limit),
+      currentPage: page,
+      previousPage: page > 1 ? page - 1 : 1,
+      nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+  });
+});
+
+Router.get('/sortShopping/:method', async (req, res) => {
+    try {
+        const method = req.params.method;
+        if(method == "HighToLow"){
+            var page = 1;
+            const limit = 8;
+            if (req.query.page) {
+                page = parseInt(req.query.page);
+            }
+          
+            const products = await Product.find({ deleted: false })
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .sort({price : 1}) 
+                .exec();
+          
+            const count = await Product.find({ deleted: false }).countDocuments();
+          
+            res.render('shopping', {
+                products: products,
+                totalPage: Math.ceil(count / limit),
+                currentPage: page,
+                previousPage: page > 1 ? page - 1 : 1,
+                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+            });
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+
+
+//Need cross check
+Router.post('/sortProduct',productController.sortShoppingPage);
 
    //<------------ search routes -------------->
 Router.get('/search',productController.searchProduct);
 Router.get('/lowToHigh/:id',productController.getLowToHigh);
-Router.get('/HighToLow/:id',productController.getHighToLow);
-Router.get('/newArrivals/:id',productController.getnewArrivals);
-Router.get('/AtoZ/:id',productController.getAtoZ);
-Router.get('/ZtoA/:id',productController.getZtoA);
-
-   //<------------ pagintation -------------->
-Router.get('/pagination/:id/:cat', productController.getPagination);
-
 
    //<------------ userProfile || address-------------->
 Router.get('/userAddress',isLoggedIn, addressController.getUserAddress);

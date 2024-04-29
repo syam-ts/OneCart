@@ -46,8 +46,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-   //<------------ pagination admin -------------->
-router.get('/pagination/:id', productContoller.getAdminPagination);
 
    //<------------ admin-login -------------->
 router.get('/admin-login',adminController.getAdmin);
