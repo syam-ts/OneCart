@@ -97,17 +97,16 @@ const getShopping= async (req, res) => {
                        break;
                    case "zToA":
                        sortQuery = { productName: -1 };
-                       
                        break;
                    default:
                        sortQuery = {};
-               }
-        
+                      }
+
                     var page = 1;
                     const limit = 8;
                     if (req.query.page) {
                         page = parseInt(req.query.page);
-                    }
+                     }
                   
                     const products = await Product.find({ deleted: false })
                         .limit(limit * 1)
@@ -140,7 +139,6 @@ const getShopping= async (req, res) => {
        const products = await Product.findById(productId);
        const user = req.session.user;
        const category = products.category;
-
        const relatedProducts = await Product.find({category: {$in : category}})
        res.render('product',{ datas:[ products, user ,relatedProducts]});
           } catch (error) {
@@ -158,15 +156,11 @@ const searchProduct = async(req, res) => {
        const input = req.query.searchTerm;
        const product = await Product.find({ productName: input }).limit(limit);
        const total = await Product.find().count();
-
-      
        const totalProduct = total / 4;
        res.render('search', { product  , totalProduct});
-
-    } catch (error) {
+     } catch (error) {
        console.log(error);
-       
-        res.render('error', {message : "Product Not Found"})
+       res.render('error', {message : "Product Not Found"})
    
     }   
  };
@@ -182,7 +176,6 @@ const getLowToHigh = async (req, res) => {
           const totalProduct = total / 4;
             const products = await Product.find({ category: input }).sort({price : 1}).limit(limit);
         res.render('search', { products, category :category.category, totalProduct }); 
-     
     } catch (error) {
         console.log(error.message);
     }
@@ -239,7 +232,7 @@ const productList = async(req, res) => {
                break;
            default:
                sortQuery = {};
-       }
+              }
 
        if(sortMethod == "blockedProducts"){
         var page = 1;
@@ -269,7 +262,7 @@ const productList = async(req, res) => {
         const limit = 4;
         if (req.query.page) {
             page = parseInt(req.query.page);
-        }
+          }
       
         const products = await Product.find({deleted : false})
             .limit(limit * 1)

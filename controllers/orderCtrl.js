@@ -158,6 +158,7 @@ const insertOrder = async (req, res) => {
              const cart = await Cart.find({ userId });
              const productIds = cart.map(item => item.productId);
              const products = await Product.find({ _id: { $in: productIds } });
+             console.log('The products : ',req.body)
                  const order = new Order({
                      userId: userId,
                      address: address,

@@ -88,7 +88,7 @@
          </div>   
        </div>
        <% if(datas[0].offer && datas[0].offer[0] && datas[0].offer[0].offerPrice) { %>
-         <h1 class="text-1xl font-medium line-through">₹<%- datas[0].price %>.00</h1>
+         <h1 class="text-1xl font-medium line-through text-red-400">₹<%- datas[0].price %>.00</h1>
          <h1 class="text-1xl font-medium">₹<%- datas[0].offer[0].offerPrice %>.00</h1>
        <% } else { %>
          <h1 class="text-1xl font-medium">₹<%- datas[0].price %>.00</h1>
@@ -123,12 +123,12 @@
             <span class="text-xs">Add to cart</span>
           </button>
 
-          <button type="button" onclick="addTowishlistWithQuantity('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
+          <!-- <button type="button" onclick="addTowishlistWithQuantity('<%= datas[0]._id %>','<%= datas[1] %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-10 w-36">
             <svg xmlns="http://www.w3.org/2000/svg" class="shrink-0 mr-3 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                  </svg>
              <span class="text-xs">Add to wishlist</span>
-           </button>
+           </button> -->
         </div>
       </div>  
          <div class="lg:col-span-3 mt-56">

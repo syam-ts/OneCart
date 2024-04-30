@@ -43,12 +43,18 @@
 </section>
 
 <section class="w-full mt-3 flex p-16" style="height: 745px;">
-    <a href=""><img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/1_2a9471ff-024d-40f7-a4b3-a15a058ff334_2022-03-24.jpg?v=1652056987&width=700" alt=""  class="object-cover ml-36" style="width: 510px; height:630px"></a>
-    <div class="grid">
-        <a href=""><img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/04_720x_e9fa28ca-2048-4d27-82bf-695916dc2c8b.jpg?v=1652661868&width=600" alt=""  class="object-cove ml-36" style="height: 250px;width: 554px;"></a>
-        <a href=""><img src="https://www.lip.fr/c/22-category_default/panoramic.jpg" alt=""  class="object-cover ml-36 mt-32"  style="height: 250px;width: 554px;"></a>
-    </div>
-  </section> 
+  <a href="/category/Dress" class="relative inline-block overflow-hidden">
+    <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/1_2a9471ff-024d-40f7-a4b3-a15a058ff334_2022-03-24.jpg?v=1652056987&width=700" alt="" class="object-cover ml-36 transition-transform duration-300 transform hover:scale-110" style="width: 510px; height:630px">
+  </a>
+  <div class="grid">
+    <a href="/category/Footware" class="relative inline-block overflow-hidden">
+      <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/04_720x_e9fa28ca-2048-4d27-82bf-695916dc2c8b.jpg?v=1652661868&width=600" alt="" class="object-cover ml-36 transition-transform duration-300 transform hover:scale-110" style="height: 250px;width: 554px;">
+    </a>
+    <a href="/category/Watch" class="relative inline-block overflow-hidden">
+      <img src="https://www.lip.fr/c/22-category_default/panoramic.jpg" alt="" class="object-cover ml-36 mt-32 transition-transform duration-300 transform hover:scale-110" style="height: 250px;width: 554px;">
+    </a>
+  </div>
+</section>
 
   <section class=" h-14 text-center mt-16 p-4 justify-center flex">
     <hr class="w-96">
@@ -85,7 +91,7 @@
                         </div>
                        
                         <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
-                          <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
+                          <h1 class="text-1xl font-medium line-through text-red-400">₹<%- product.price %>.00</h1>
                           <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
                         <% } else { %>
                           <h1 class="text-1xl font-medium">₹<%- product.price %>.00</h1>
@@ -127,11 +133,13 @@
           </h4>
         
           <p class="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
-            The immersive collection of different brands ,which are :
-            <% products.forEach((product) => { %>
-            <%= product.brand %>
+            The immersive collection of different brands, which are:
+            <% products.slice(0, 7).forEach((product) => { %>
+              <%= product.brand %> <br>
+            <% }); %>
           </p>
-          <% }) %>
+          
+          
           <a href="#" class="inline-block"><button class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20" type="button">
               Learn More<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
@@ -169,8 +177,8 @@
                               <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
                           </div>
                           <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
-                            <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
-                            <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
+                            <h1 class="text-1xl font-medium line-through text-red-400">₹<%- product.price %>.00</h1>
+                            <h1 class="text-1xl font-medium ml-2">₹<%- product.offer[0].offerPrice %>.00</h1>
                           <% } else { %>
                             <h1 class="text-1xl font-medium">₹<%- product.price %>.00</h1>
                           <% } %>
@@ -184,8 +192,8 @@
   </section>
 
   <section class="mt-48 w-full h-72 bg-stone-200 text-center py-28">
-     <% products.forEach((product) => { %>
-         <span class="text-xl font-bold px-32">  <%= product.brand %></span>
+     <% products.slice(0, 5).forEach((product) => { %>
+         <span class="text-xl font-bold px-32"> <%= product.brand %></span>
      <% }) %>
   </section>
 
@@ -219,7 +227,7 @@
                           <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
                       </div>
                       <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
-                        <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
+                        <h1 class="text-1xl font-medium line-through text-red-400">₹<%- product.price %>.00</h1>
                         <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
                       <% } else { %>
                         <h1 class="text-1xl font-medium">₹<%- product.price %>.00</h1>

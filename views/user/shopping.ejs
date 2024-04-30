@@ -42,16 +42,18 @@
                 <% products.forEach((product) => { %>
                 <div class="group relative ">
                     <div class=" aspect-h-1 h-[350px] sm:h-[400px] overflow-hidden group">
-                        <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 transition-opacity duration-500 group-hover:opacity-0" />
+                       <a href="/product/<%= product._id %>">
+                      <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 transition-opacity duration-500 group-hover:opacity-0" />
                         <img src="/product_images/<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    </div>
+                      </a>
+                      </div>
                        <div>
                            <a href="/product/<%= product._id %>" class="font-bold">
                                      <%= product.productName %>
                                 </a>
                             <p class="mt-1 text-sm text-gray-500"><%= product.color %></p>
                             <% if(product.offer && product.offer[0] && product.offer[0].offerPrice) { %>
-                                <h1 class="text-1xl font-medium line-through">₹<%- product.price %>.00</h1>
+                                <h1 class="text-1xl font-medium line-through text-red-400">₹<%- product.price %>.00</h1>
                                 <h1 class="text-1xl font-medium">₹<%- product.offer[0].offerPrice %>.00</h1>
                               <% } else { %>
                                 <h1 class="text-1xl font-medium">₹<%- product.price %>.00</h1>

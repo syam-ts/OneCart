@@ -155,8 +155,7 @@ addCouponButton.addEventListener('click', () => {
             const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount;
             const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
         }
-    
-);
+    );
 
 
     //<------------ order creating -------------->
@@ -166,6 +165,7 @@ addCouponButton.addEventListener('click', () => {
     const placeOrderButton = document.getElementById('placeOrder');
     placeOrderButton.addEventListener('click', function() {
         const paymentMethod = document.getElementsByName('paymentMethod');
+       
         let selectedValue = "";
         const totalPriceElement = document.getElementById('totalPrice');
             const totalPrice = parseFloat(totalPriceElement.textContent);
@@ -178,9 +178,11 @@ addCouponButton.addEventListener('click', () => {
                  alert('Please select a payment method');
           }     
         
+        
    //<------------ for cash on delevery -------------->
       if(selectedValue == "Cash on Delivery"){
 
+        const paymentMethod = selectedValue;
 
         fetch('/placeOrder',{
                         method:"POST",

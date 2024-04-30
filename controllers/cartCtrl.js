@@ -117,16 +117,49 @@ const getCart = async (req, res) => {
             }
         };
 
+  //<------------ cart decrease -------------->
        const cartDec = async (req, res) => {
         try {
-            const productId = req.body.productId;
-            const cart = await Cart.findOne({productId : productId});
-           
-            console.log('THe cart qty : ',cart.quantity)
-            cart.quantity -= 1;
-           await cart.save();
+            const cartId = req.body.productId;
 
-            console.log("SUccess",cart.quantity);
+            const cart = await Cart.findById(cartId);
+           
+            const productId = cart.productId;
+
+            const product = await Product.findById(productId)
+            cart.quantity -= 1;
+            await cart.save();
+
+            product.stock -= 1;
+           await product.save();
+
+            console.log("SUccess",product.stock);
+            res.redirect('/cart')
+            
+        } catch (err) {
+            console.log(err.message);
+        }
+       };
+
+
+  //<------------ cart increse -------------->
+       const cartInc = async (req, res) => {
+        try {
+            const cartId = req.body.productId;
+
+            const cart = await Cart.findById(cartId);
+            const productId = cart.productId;
+
+            const product = await Product.findById(productId)
+           
+            cart.quantity += 1;
+            await cart.save();
+
+            product.stock += 1;
+           await product.save();
+
+            console.log("SUccess",product.stock);
+            res.redirect('/cart')
             
         } catch (err) {
             console.log(err.message);
@@ -139,5 +172,6 @@ module.exports = {
     addToCart,
     removeCart,
     getCheckout,
-    cartDec
+    cartDec,
+    cartInc
 };

@@ -74,6 +74,7 @@ Router.post('/addToCart',isLoggedIn, cartController.addToCart);
 Router.get('/removeCart/:id',isLoggedIn, cartController.removeCart);
 Router.get('/checkout/:id',isLoggedIn, cartController.getCheckout);
 Router.post('/cartDec',isLoggedIn, cartController.cartDec);
+Router.post('/cartInc',isLoggedIn, cartController.cartInc);
  
 
    //<------------ order routes -------------->

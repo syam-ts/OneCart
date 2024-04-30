@@ -24,24 +24,25 @@
                             <%= product.productName %>
                         </a>
                     </h3>
-                    <input class="hidden" id="productId" value="<%= product.id %>"></input>
-
+                   
                     <p class="text-sm text-gray-500"><%= product.color %></p>
                 <p class="text-sm font-medium text-gray-900"><%= product.size %></p>
                 </div>
             </div>
+
             <div class="flex items-center space-x-4 p-4">
                 <p class="text-sm font-medium text-gray-900"><%= product.price %></p>
                 <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()) %>
                 <div class="flex items-center space-x-2">
                     <% if (cartItem) { %>
-                    <img onclick="removeCart('<%= cartItem._id %>')" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" class="h-5 w-5" alt="Remove">
+                    <img class="cursor-pointer h-5 w-5" onclick="removeCart('<%= cartItem._id %>')" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" alt="Remove">
                     <% } %>
                     <% if (cartItem) { %>
                     <% for (let i = 1; i <= 1; i++) { %>
+                        <input class="hidden productId " value="<%= cartItem.id %>"></input>
                         <span class="text-xl cursor-pointer cartDec">-</span>
                        <span class="text-gray-950 h-6 w-6 font-thin cartQty"> <%= cartItem.quantity %> </span>
-                        <span class="text-xl" id="cartInc">+</span>
+                        <span class="text-xl cursor-pointer cartInc">+</span>
                     <% } %>
                     <% } else { %>
                     <span class="text-gray-950" value="0"> Out of stock </span>
@@ -78,12 +79,14 @@
                 method: 'GET'
             })
             .then(response => {
+                window.location.href = '/cart'
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
             })
             .then(data => {
+               
                 console.log("Item removed successfully:", data);
             })
             .catch(error => {
@@ -92,33 +95,57 @@
     };
     //------------ cart quantity change --------------
 
-    const productQtyList = document.querySelectorAll('.cartQty');
-    const productId = document.getElementById('productId').value;
-    const cartDecLIst = document.querySelectorAll('.cartDec');
-    let quantity;
-      cartDecLIst.forEach(cartDec => {
-         cartDec.addEventListener('click',() => {
-            
-
-            //------------ collecting each quantity --------------
-            productQtyList.forEach(item => {
-                 quantity = cartDec.nextElementSibling.textContent.trim();
-                   });
-            fetch('/cartDec',{
+    const cartDecList = document.querySelectorAll('.cartDec');
+cartDecList.forEach(cartDec => {
+    cartDec.addEventListener('click', () => {
+        const productContainer = cartDec.closest('.flex');
+        const productIdElement = productContainer.querySelector('.productId');
+        const productId = productIdElement.value;
+        fetch('/cartDec',{
                         method:"POST",
                         headers:{
                             "Content-Type" : "application/json"
                         },
                         body:JSON.stringify({
-                            cartQty: quantity,
-                            productId: productId
+                            productId : productId
                         })
-                }).then(() => {
-            //   window.location.href = '/orderSuccess'
-              })
-         })
-    })
-  
+                        }).then((response) => {
+                            window.location.href = '/cart'
+                            
+                           
+               }
+            )
+        
+   
+    });
+});
+
+
+
+    const cartIncList = document.querySelectorAll('.cartInc');
+    cartIncList.forEach(cartInc => {
+    cartInc.addEventListener('click', () => {
+        const productContainer = cartInc.closest('.flex');
+        const productIdElement = productContainer.querySelector('.productId');
+        const productId = productIdElement.value;
+        fetch('/cartInc',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            productId : productId
+                        })
+                        }).then((response) => {
+                            window.location.href = '/cart'
+                           
+               }
+            )
+        
+   
+    });
+});
+
 
 </script>
 
