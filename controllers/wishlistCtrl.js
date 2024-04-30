@@ -1,41 +1,53 @@
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
-const wishlist = require('../models/wishlistModel');
+const Wishlist = require('../models/wishlistModel');
 
 //<------------ wishlist page -------------->
 const getwishlist = async (req, res) => {
-    try{
-        // const wishlists = await wishlist.find();
-        // const wishlist = await wishlist.find();
-        // const proId = await wishlist.distinct("productId")
-        // console.log('PRO ID: ',proId);
-        // const products = await Product.find({ _id: { $in: proId } }); 
-        // res.render('wishlist',{
-        //    products
-        // });
-        res.render('error')
+    try {
+        const userId = req.session.user;
+        const user = await User.findById(userId);
+        const wishlist = await Wishlist.find({ userId: userId });
+        const productIds = wishlist.map(item => item.productId);
+        const products = await Product.find({ _id: { $in: productIds } });
 
-    }catch(error){
+        res.render('wishlist', {
+            products : products,
+            user : user
+        });
+    } catch (error) {
         console.log(error.message);
+        res.render('error'); 
     }
 };
+
 
 //<------------ adding products to wishlist -------------->
 const addToWishlist = async (req, res) => {
     try {
-            console.log('THE USERID: ',req.body.userId);
-            console.log('THE PRODUCT: ',req.body.productId);
-        const wishlist = new wishlist({
-            userId: req.body.userId,
-            productId: req.body.productId
+        const productId = req.body.productId;
+        const userId = req.session.user;
+        const existingItem = await Wishlist.findOne({
+            productId: productId,
+            userId: userId
         });
-        const result = await wishlist.save()
-     res.redirect('/wishlist');
-        
+        if (!existingItem) {
+            if(req.body.quantity > 3){
+                console.error('Cannot add more than 3 quantity');
+                res.status(400).json({ error: 'Cannot add more than 3 quantity' });
+            } else {
+                const wishlist = new Wishlist({
+                    userId,
+                    productId: req.body.productId
+                });
+                await wishlist.save();
+                res.status(200).json({ message: 'Product added to wishlist successfully' });
+            }
+        }
     } catch (error) {
         console.log(error.message);
-    }
-};
+        res.status(500).json({ error: 'Internal server error' });
+    } }
 
 module.exports = {
     getwishlist,

@@ -133,8 +133,6 @@ const getShopping= async (req, res) => {
         };
         
 
-
-
 //<------------ product details -------------->
   const productDetails = async(req, res) => {
     try {

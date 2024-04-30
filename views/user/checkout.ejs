@@ -29,31 +29,28 @@
                         </div>
                     </div>
                 </section>
-                <section>
-                    <form class="mt-6" method="post" action>
+                <section  id="shippingAddressSection">
                         <!-- Shipping Address Section -->
                         <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
                         <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12">
-                         <% for (let i = 0; i < address.length; i++) { %>
-                            <input type="radio" name="selectedAddress" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="123 Main St">
-                            <ul class="text-sm text-gray-900 list-none list-inside dark:text-gray-900">
-                              <li class="addName">
-                                                <%= address[i].name %> 
-                                            </li>
-                                            <li>
-                                                <%= address[i].address %>,
-                                                <%= address[i].city %> 
-                                            </li>
-                                            <li>
-                                                <%= address[i].pincode %>,
-                                                <%= address[i].state %>,
-                                                <%= address[i].country %>
-                                   </li>
-                              </ul>
-                              <% } %>
+                            <% for (let i = 0; i < address.length; i++) { %>
+                            <label>
+                                <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="<%= address[i].id %>">
+                                <ul class="text-sm text-gray-900 list-none list-inside dark:text-gray-900">
+                                    <li class="addName">
+                                        <%= address[i].name %>
+                                    </li>
+                                    <li>
+                                        <%= address[i].address %>, <%= address[i].city %>
+                                    </li>
+                                    <li>
+                                        <%= address[i].pincode %>, <%= address[i].state %>, <%= address[i].country %>
+                                    </li>
+                                </ul>
+                            </label>
+                            <% } %>
                         </div>
-                    </form>
-                </section>
+                 </section>
                 <section class="mt-12 ml-96 bg-white">
                     <!-- Coupons Section -->
                     <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
@@ -89,10 +86,9 @@
                             <button type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
                             <button id="placeOrder" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]" >
                                 Complete Purchase
-                                 </button>
-                              </div>
-               
-              <% }else{ %>
+                           </button>
+                      </div>
+                <% }else{ %>
                 <div class="flex gap-6 max-sm:flex-col mt-10">
                     <button type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
                     <button id="placeOrder" value="<%= wallet[0].amount %>" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]" >
@@ -180,11 +176,11 @@ addCouponButton.addEventListener('click', () => {
             });
         if(!selectedValue){
                  alert('Please select a payment method');
-                };
-
+          }     
+        
    //<------------ for cash on delevery -------------->
       if(selectedValue == "Cash on Delivery"){
-        const paymentMethod = selectedValue;
+
 
         fetch('/placeOrder',{
                         method:"POST",
@@ -291,7 +287,11 @@ addCouponButton.addEventListener('click', () => {
                             })
                          }
                 }})
-            });
+            
+            })
+
+
+
 
 
    </script>

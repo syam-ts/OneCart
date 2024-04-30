@@ -1,18 +1,19 @@
 
 <%- include('../partials/header') %>
 
+<main>
+
 <section class="h-14 text-center mt-7 p-4">
-    <span class="michroma-regular">SEARCH</span>
+    <span class="michroma-regular">WISHLIST</span>
 </section>
 <section class="mt-5">
     <div class="bg-white flex">
         <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-1 lg:max-w-7xl lg:px-8">
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                <!-- First Product -->
                 <% products.forEach( x => { %>
                 <div class="group relative">
                     <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
-                        <img src="./product_images/<%= x.productImage %>">
+                        <img src="./product_images/<%= x.productImage[0] %>">
                     </div>
                     <div class="mt-4 flex justify-between">
                         <div>
@@ -25,13 +26,67 @@
                             <p class="mt-1 text-sm text-gray-500"><%= x.color %></p>
                         </div>
                         <p class="text-sm font-medium text-gray-900"><%= x.price %></p>
+                        <div>
+                            <img onclick="removeCart('')" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" class="h-5 w-5" alt="Remove">
+                           
+                        </div>
+                        <div>
+                            <button type="button" onclick="addToCartWithQuantity('<%= x.id %>','<%= user.id %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-thin text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-5 w-24">
+                                <span class="text-xs">Add to cart</span>
+                              </button>
+                        </div>
+                      
                     </div>
                 </div>
+       
                 <% }) %>
             </div>
         </div>
     </div>
 </section>
+</main>
+
+<script>
+          //<------------ to cart page -------------->
+const addToCartWithQuantity = (productId, userId) => {
+
+        fetch(`/addTocart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                userId: userId,
+                quantity: 1
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Display error SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.error
+                });
+            } else {
+                // Display success SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message
+                }).then(() => {
+                    window.location.href = `/cart`;
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    
+};
+</script>
 
 
 <%- include('../partials/footer') %>

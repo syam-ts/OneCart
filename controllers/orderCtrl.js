@@ -38,7 +38,6 @@ const createOrder = async (req, res) => {
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
     try {
-
         var page = 1;
         const limit = 8;
         if (req.query.page) {
@@ -54,11 +53,6 @@ const getOrderHistory = async (req, res) => {
         const products = orders.flatMap(order => order.products.map(product => product._id));
         const product = await Product.find({ _id: { $in: products } });
        const total = orders.map( x => x.total);
-
-       console.log('THe pro : ',product)
-
-        
-      
         const count = await Order.find({ deleted: false }).countDocuments();
       
         res.render('orderHistory', {
@@ -72,12 +66,6 @@ const getOrderHistory = async (req, res) => {
             previousPage: page > 1 ? page - 1 : 1,
             nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
         });
-
-
-
-
-
-
     } catch (error) {
         console.error('Error occurred:', error);
         res.status(500).send('Internal Server Error');
@@ -88,7 +76,6 @@ const sortOrdersUser = async (req , res) => {
     try {
         const sortMethod = req.params.method;
         var sortQuery = {}; 
-   
         switch (sortMethod) {
            case "recentOrders":
                sortQuery = { createdate: 1 };
@@ -113,7 +100,6 @@ const sortOrdersUser = async (req , res) => {
            .sort(sortQuery) 
            .exec();
 
-       
        const user = await User.findOne({ _id: userId });
        const address = orders.length > 0 ? orders[0].address : null;
        const products = orders.flatMap(order => order.products.map(product => product._id));
@@ -132,7 +118,6 @@ const sortOrdersUser = async (req , res) => {
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
-        
     } catch (error) {
         console.log(error.message);
     }
@@ -168,7 +153,6 @@ const insertOrder = async (req, res) => {
             const address = await Address.findOne({ userId });
             const total = req.body.totalPrice;
             const discountPrice = req.body.subTotal - total;
-            console.log('The discount Price : ',discountPrice)
             const paymentMethod = req.body.paymentMethod;
              const status = 'Pending';
              const cart = await Cart.find({ userId });
@@ -196,7 +180,7 @@ const insertOrder = async (req, res) => {
     } catch (error) {
         console.error('Error inserting order:', error);
         res.status(500).send('Error inserting order');
-    }
+     }
 };
 
 //<------------ verifiying order -------------->
@@ -223,7 +207,6 @@ const verifyAndInsertOrder = async (req, res) => {
          await order.save();
          await Cart.deleteMany({ userId });
          const randomOrderId = await Order.aggregate([{ $sample: { size: 1 } }]).then(result => result[0]._id);
-
         const amount = req.body.totalPrice*100
         const options = {
             amount: amount,
