@@ -324,42 +324,46 @@ const insertProduct = async (req, res) => {
     try {
         const { price, size, stock, } = req.body;
             const productName = req.body.productName;
-            console.log('The naem: ',productName)
-          if(price < 0){
-            console.log('The price should be positive');
-            res.redirect('/admin/product-add');
-             
-            }else if(size < 0){
-                console.log(`SIZE IS CAN'T BE NEGATIVE`);
-                res.redirect('/admin/product-add');
-            }else if(stock < 0){
-                console.log(`STOCK IS CAN'T BE NEGATIVE`);
-                res.redirect('/admin/product-add');
+            const existingProduct = await Product.findOne({ productName: { $regex: new RegExp('^' + productName + '$', 'i') } });
+    
+            if(existingProduct){
+                console.log("Already Exists");
+                res.send("Alredy Exists");
             }else{
-                const existingProduct = await Product.find({ productName: productName });
-                const {category, description, brand, color, price, size, stock } = req.body;
-                if (existingProduct.length == 0) {
-                        const productImages = req.files.map(file => file.filename);
-                        const product = new Product({
-                            productName: productName,
-                            productImage: productImages,
-                            category: category,
-                            description: description,
-                            brand: brand,
-                            color: color,
-                            price: price,
-                            size: size,
-                            stock: stock
-                        });
-        
-                        await product.save();
-                        res.redirect('/admin/product-list');     
-                   }else {
-                console.log('Product already exists');
-                res.redirect('/admin/product-list');
+                if(price < 0){
+                    console.log('The price should be positive');
+                    res.redirect('/admin/product-add');
+                     
+                    }else if(size < 0){
+                        console.log(`SIZE IS CAN'T BE NEGATIVE`);
+                        res.redirect('/admin/product-add');
+                    }else if(stock < 0){
+                        console.log(`STOCK IS CAN'T BE NEGATIVE`);
+                        res.redirect('/admin/product-add');
+                    }else{
+                     
+                        const {category, description, brand, color, price, size, stock } = req.body;
+                
+                                const productImages = req.files.map(file => file.filename);
+                                const product = new Product({
+                                    productName: productName,
+                                    productImage: productImages,
+                                    category: category,
+                                    description: description,
+                                    brand: brand,
+                                    color: color,
+                                    price: price,
+                                    size: size,
+                                    stock: stock
+                                });
+                
+                                await product.save();
+                                res.redirect('/admin/sortProductAdmin/recentProducts');     
+                    
+                  }
             }
-          }}
-    catch (error) {
+      
+        }catch (error) {
         console.error(error);
         res.status(500).send(error.message);
     }

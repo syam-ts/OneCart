@@ -21,7 +21,7 @@ const insertCategory = async (req, res) => {
                 description : req.body.description
             });
            result = await category.save();
-           res.redirect('./category-list');
+           res.redirect('/admin/category-list');
         }
         
     } catch (error) {
