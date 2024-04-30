@@ -42,10 +42,10 @@ Router.post('/userEdit',upload.single('userImage'),userController.insertUserDeta
 Router.get('/userProfileSidebar',userController.userProfileSidebar);    
 
    //<------------ product routes -------------->
-Router.get('/product/:id',productController.productDetails);
-Router.get('/shopping?', productController.getShopping);
-Router.get('/sortShopping/:method',productController.sortShoppingPage); 
-Router.get('/category/:id',categoryController.categoryShopping);
+Router.get('/product/:id', isLoggedIn, productController.productDetails);
+Router.get('/shopping?', isLoggedIn,  productController.getShopping);
+Router.get('/sortShopping/:method', isLoggedIn, productController.sortShoppingPage); 
+Router.get('/category/:id', isLoggedIn, categoryController.categoryShopping);
 //Need cross check
 Router.post('/sortProduct',productController.sortShoppingPage);
 

@@ -6,51 +6,42 @@ const Order = require('../models/orderModel');
 const Coupon = require('../models/couponModel');
 const Wallet = require('../models/walletModel');
 
-  //<------------ load cart --------------> 
+  //<------------ load cart page --------------> 
 const getCart = async (req, res) => {
     try{
         const userId = req.session.user;
         const cart = await Cart.find({userId : userId});
         const total = await Cart.countDocuments({userId : userId});
         const productIds = cart.map(item => item.productId);
-        const products = await Product.find({ _id: { $in: productIds } }); 
-        console.log('The total : ',total)
+        const products = await Product.find({ _id: { $in: productIds } });
         if(products.length != 0){
             res.render('cart',{ items:{products, cart , total}}); 
                }else{
-            res.render('cart',{ items:{products, cart , total}}); 
-        };
+            res.render('cart',{ items:{products, cart , total}})}
             }catch(error){
                 console.log(error.message);
             }
         };
+
 
    //<------------ adding prodcuts to cart --------------> 
    const addToCart = async (req, res) => {
     try {
         const productId = req.body.productId;
         const userId = req.session.user;
-        const existingItem = await Cart.findOne({
-            productId: productId,
-            userId: userId
-        });
+        const existingItem = await Cart.findOne({ productId: productId, userId: userId });
         if (!existingItem) {
             if(req.body.quantity > 3){
                 console.error('Cannot add more than 3 quantity');
                 res.status(400).json({ error: 'Cannot add more than 3 quantity' });
             } else {
-                const cart = new Cart({
-                    userId,
-                    productId: req.body.productId,
-                    quantity: req.body.quantity
-                });
+                const cart = new Cart({ userId, productId: req.body.productId, quantity: req.body.quantity });
                 await cart.save();
                 const product = await Product.findById(productId); 
                 product.stock -= req.body.quantity;
                 await product.save();
-                res.status(200).json({ message: 'Product added to cart successfully' });
-            }
-        } else {
+                res.status(200).json({ message: 'Product added to cart successfully' })}
+            } else {
             if(req.body.quantity > 3){
                 console.log('Cannot add more than 3 quantity');
                 res.status(400).json({ error: 'Cannot add more than 5 quantity' });
@@ -65,14 +56,74 @@ const getCart = async (req, res) => {
                     product.stock -= req.body.quantity;
                     await product.save();
                     res.status(200).json({ message: 'Product added to cart successfully' });
-                }
+                  }
+              }
+          }
+        } catch (error) {
+            console.log(error.message);
+            res.status(500).json({ error: 'Internal server error' })}
+    };
+
+      //<------------ cart decrease -------------->
+      const cartDec = async (req, res) => {
+        try {
+            const cartId = req.body.productId;
+            const currentQty = req.body.currentQty;
+
+            const cart = await Cart.findById(cartId);
+           
+            const productId = cart.productId;
+
+            const product = await Product.findById(productId)
+            if(currentQty <= 1){
+                console.log('Cannot minus the quantity');
+            }else if(currentQty <= product.stock) {
+                console.log('Cannot decrese less than stock');
+            }else{
+                cart.quantity -= 1;
+                   await cart.save();
+    
+                product.stock -= 1;
+                   await product.save();
+                res.redirect('/cart')
             }
+
+            
+        } catch (err) {
+            console.log(err.message);
         }
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-};
+       };
+
+
+  //<------------ cart increse -------------->
+       const cartInc = async (req, res) => {
+        try {
+            const cartId = req.body.productId;
+            const currentQty = req.body.currentQty;
+
+            const cart = await Cart.findById(cartId);
+            const productId = cart.productId;
+
+            const product = await Product.findById(productId)
+
+            if(currentQty >= product.stock){
+                console.log("The stock : ",product.stock)
+                console.log('Cannot add more than product stock')
+            }else if(currentQty >= 3){
+                console.log('Cannot add more than 3 quantity to cart')
+              }else{
+                cart.quantity += 1;
+                   await cart.save();
+    
+                product.stock += 1;
+                   await product.save();
+            console.log("SUccess",product.stock);
+            res.redirect('/cart')
+              }
+        } catch (err) {
+            console.log(err.message);
+        }
+       };
 
 
      //<------------ remove from cart -------------->
@@ -117,61 +168,12 @@ const getCart = async (req, res) => {
             }
         };
 
-  //<------------ cart decrease -------------->
-       const cartDec = async (req, res) => {
-        try {
-            const cartId = req.body.productId;
-
-            const cart = await Cart.findById(cartId);
-           
-            const productId = cart.productId;
-
-            const product = await Product.findById(productId)
-            cart.quantity -= 1;
-            await cart.save();
-
-            product.stock -= 1;
-           await product.save();
-
-            console.log("SUccess",product.stock);
-            res.redirect('/cart')
-            
-        } catch (err) {
-            console.log(err.message);
-        }
-       };
-
-
-  //<------------ cart increse -------------->
-       const cartInc = async (req, res) => {
-        try {
-            const cartId = req.body.productId;
-
-            const cart = await Cart.findById(cartId);
-            const productId = cart.productId;
-
-            const product = await Product.findById(productId)
-           
-            cart.quantity += 1;
-            await cart.save();
-
-            product.stock += 1;
-           await product.save();
-
-            console.log("SUccess",product.stock);
-            res.redirect('/cart')
-            
-        } catch (err) {
-            console.log(err.message);
-        }
-       };
-
 
 module.exports = {
     getCart,
     addToCart,
-    removeCart,
-    getCheckout,
     cartDec,
-    cartInc
+    cartInc,
+    removeCart,
+    getCheckout
 };

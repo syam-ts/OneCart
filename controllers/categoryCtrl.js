@@ -10,10 +10,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //<------------ insert category -------------->
 const insertCategory = async (req, res) => {
     try {
-        const cat = req.body.categoryName;
-        console.log('CAR NMAME:',cat);
-        const isCat = await Category.findOne({categoryName:cat});
-        console.log('CAT: ', isCat);
+        const categoryName = req.body.categoryName;
+        const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
         if(isCat){
             // req.flash('msg','Successfully logged in ');
             res.send('already added');
@@ -22,8 +20,7 @@ const insertCategory = async (req, res) => {
                 categoryName: req.body.categoryName,
                 description : req.body.description
             });
-            const result = await category.save();
-    
+           result = await category.save();
            res.redirect('./category-list');
         }
         
@@ -101,16 +98,24 @@ const loadCategoryEdit = async (req, res) => {
 const editCategory = async (req, res) => {
     try {
         const { categoryName , description} = req.body;
-        const updatedFields = {};
-        if (categoryName) updatedFields.categoryName = categoryName;
-        if (description) updatedFields.description = description;
+        const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
+        console.log(isCat)
 
-        const categoryId = req.params.id; 
-        const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
-        if (!category) {
-            return res.send('error');
+        if(isCat){
+            res.send('already have category in this name');
+        }else{
+            const updatedFields = {};
+            if (categoryName) updatedFields.categoryName = categoryName;
+            if (description) updatedFields.description = description;
+    
+            const categoryId = req.params.id; 
+            const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
+            if (!category) {
+                return res.send('error');
+            }
+            res.redirect('/admin/category-list');
         }
-        res.redirect('/admin/category-list');
+     
     } catch (error) {
         console.log('Error:', error);
         res.status(500).send('Internal Server Error');

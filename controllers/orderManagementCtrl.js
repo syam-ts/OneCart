@@ -7,7 +7,7 @@ const Wallet = require('../models/walletModel');
 const getOrderManagement = async (req, res ) => {
             try {
                 var page = 1;
-                    const limit = 4;
+                    const limit = 5;
                     if (req.query.page) {
                         page = parseInt(req.query.page);
                     }
@@ -54,7 +54,7 @@ const sortOrderAdmin = async (req, res) => {
 
        if(sortMethod == "deleveredOrders"){
         var page = 1;
-            const limit = 4;
+            const limit = 5;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }
@@ -78,7 +78,7 @@ const sortOrderAdmin = async (req, res) => {
 
 
             var page = 1;
-            const limit = 4;
+            const limit = 5;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }

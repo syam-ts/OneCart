@@ -101,13 +101,16 @@ cartDecList.forEach(cartDec => {
         const productContainer = cartDec.closest('.flex');
         const productIdElement = productContainer.querySelector('.productId');
         const productId = productIdElement.value;
+        const cartElement = productContainer.querySelector('.cartQty');
+        const currentQty = cartElement.innerText;
         fetch('/cartDec',{
                         method:"POST",
                         headers:{
                             "Content-Type" : "application/json"
                         },
                         body:JSON.stringify({
-                            productId : productId
+                            productId : productId,
+                            currentQty : currentQty
                         })
                         }).then((response) => {
                             window.location.href = '/cart'
@@ -128,13 +131,17 @@ cartDecList.forEach(cartDec => {
         const productContainer = cartInc.closest('.flex');
         const productIdElement = productContainer.querySelector('.productId');
         const productId = productIdElement.value;
+        const cartElement = productContainer.querySelector('.cartQty');
+        const currentQty = cartElement.innerText;
+
         fetch('/cartInc',{
                         method:"POST",
                         headers:{
                             "Content-Type" : "application/json"
                         },
                         body:JSON.stringify({
-                            productId : productId
+                            productId : productId,
+                            currentQty : currentQty
                         })
                         }).then((response) => {
                             window.location.href = '/cart'
