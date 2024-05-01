@@ -12,6 +12,7 @@ const methodOverride = require('method-override');
 const swal = require('sweetalert');
 const cors = require('cors');
 const sharp = require('sharp');
+const toastr = require('toastr')
 
 
 app.use(cors());

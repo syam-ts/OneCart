@@ -30,6 +30,9 @@
   
     </div>
 
+  </section>
+  <section>
+
     <div class="w-full">
       <table class="items-center bg-transparent w-full border-collapse ">
         <thead>
@@ -93,10 +96,21 @@
     </div>
   </div>
 </div>
+<button id="downloadPDF" class="w-52 mb-6 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Download PDF</button>
+
 
 </section>
 
 </main>
 
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const downloadPDFBtn = document.getElementById('downloadPDF');
+    downloadPDFBtn.addEventListener('click', function() {
+      toastr.success('Have fun storming the castle!', 'Miracle Max Says');
+    });
+  });
+</script>
 
 <%- include('../partials/adminFooter') %>

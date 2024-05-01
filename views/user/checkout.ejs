@@ -175,7 +175,7 @@ addCouponButton.addEventListener('click', () => {
                 }
             });
         if(!selectedValue){
-                 alert('Please select a payment method');
+              toastr.error('Please select a payment method');
           }     
         
         
@@ -271,7 +271,7 @@ addCouponButton.addEventListener('click', () => {
                      //<------------ for wallet -------------->
                     const walletAmount = document.getElementById('placeOrder').value;
                     if(walletAmount < totalPrice){
-                        alert('insuffiecnt amount in wallet')
+                        toastr.error('insufficient amount in wallet');
                     }else{
                         const paymentMethod = selectedValue;
                         fetch('/placeOrder',{

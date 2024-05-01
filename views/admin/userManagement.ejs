@@ -19,7 +19,14 @@
                     <% users.forEach(user => { %>
                     <tr class="text-xs">
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <button class="text-indigo-600 hover:text-indigo-900 font-medium font-sans" >Profile</button>
+                            <% if (user.userImage) { %>
+                                <img class="text-indigo-600 hover:text-indigo-900 font-medium font-sans h-8 w-8 rounded-full" src="/product_images/<%= user.userImage %>" alt="User Image">
+                            <% } else { %>
+                                <img class="text-indigo-600 hover:text-indigo-900 font-medium font-sans h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN-4CFnwYyDL9H-qvQjZ9wHgTgHl99xePaWVbUfuLjXvXPnarNdTW44gkTXTNzbQrb0lo&usqp=CAU" alt="Placeholder Image">
+                            <% } %>
+                            
+                       
+                      
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium font-sans" ><%= user.name %></td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium font-sans"><%= user.email %></td>
