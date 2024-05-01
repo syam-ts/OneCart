@@ -63,5 +63,16 @@
   </section>
 
 </main>
-      
+      <!-- Your HTML code for /userAddress page -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    
+    if (success === 'true') {
+      toastr.success('Address successfully updated');
+    }
+  });
+  </script>
+  
 <%- include('../partials/footer') %>

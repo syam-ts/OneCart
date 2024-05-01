@@ -50,10 +50,13 @@ const verifyAdmin = async (req, res) => {
                 Product.find({ deleted: false }).count(),
                 Category.find({ deleted: false }).count()
             ]); 
-            res.render('dashboard', { list:[users,brand,category]});
-            console.log('Session started');
+            res.render('dashboard', { 
+                list: [users, brand, category],
+                toastMessage: { type: 'success', text: 'Successfully LoggedIn' }
+            });
+            
         } else {     
-            res.render('admin-login');
+            res.render('admin-login', { toastMessage: 'Admin login failed' });
             console.log('Admin login failed');
         }
     } catch (error) {

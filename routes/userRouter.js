@@ -26,6 +26,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
+
 //<------------ user routes -------------->
 Router.get('/login' ,userController.getLogin);
 Router.post('/login',userController.verifyLogin);

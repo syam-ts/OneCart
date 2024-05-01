@@ -43,8 +43,8 @@
             <tbody>
                 <% products.forEach(product => { %>
                 <tr class="bg-white border-b dark:border-gray-400 hover:bg-gray-50">
-                    <th scope="row" class="flex items-center px-4 md:px-6 py-2 md:py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                        <img class="w-10 h-8 md:w-12 md:h-14" src="/product_images/<%= product.productImage[0] %>" alt="Product Image">
+                    <th scope="row" class="flex items-center px-4 md:px-6 py-3 md:py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                        <img class="w-8 h-8 md:w-8 md:h-8" src="/product_images/<%= product.productImage[0] %>" alt="Product Image">
                         <div class="ps-3">
                             <a href="#" class="font-medium font-sans text-gray-950 hover:underline"><%= product.productName %></a>
                         </div>
@@ -110,10 +110,12 @@
           
    
     </div>
-
-    <section class="text-center mt-5 mb-10 ">
-        <a href="/admin/product-add" type="submit" class=" h-10 w-40 rounded-full inline-block  md:w-auto text-gray-100 bg-blue-800 px-4 py-2 text-sm font-semibold leading-6 shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Product</a>
+    <section class="text-center mt-5 mb-10">
+        <a href="/admin/product-add" class="inline-block h-10 w-40 px-4 py-2 text-sm font-semibold leading-6 text-white bg-blue-700 rounded-full shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50">
+            Add Product
+        </a>
     </section>
+    
 </main>
 
 <script>

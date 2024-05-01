@@ -6,7 +6,15 @@
     <title>Loign</title>
     <script src="https://cdn.tailwindcss.com"></script>  
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">   
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+    
+    <style>
+       #toast-container > .toast-error {
+    background-color: red !important;
+  }
+    </style>
 </head>
+
 <body>
 
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -50,7 +58,18 @@
 
    </main>
    
-   
-   
+   <!------------- toastr jquery ---------------->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+<script>
+  var toastMessage = "<%= typeof toastMessage !== 'undefined' ? toastMessage : '' %>";
+  // Display the message using Toastr if it exists
+  document.addEventListener('DOMContentLoaded', function() {
+      if (toastMessage !== '') {
+          toastr.error(toastMessage);
+      }
+  });
+</script>
 </body>
 </html>

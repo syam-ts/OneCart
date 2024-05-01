@@ -7,7 +7,8 @@ const getUserAddress = async(req, res) => {
   const userId = req.session.user;
   const user = await User.findById(userId);
   const address = await Address.find({userId:{ $in : userId}});
-    res.render('userAddress',{ address ,user})
+    res.render('userAddress',{ address ,user,
+      toastMessage: { type: 'success', text: '' } })
    };
 
 //<------------ loading address adding page   -------------->
@@ -44,8 +45,8 @@ const getUserAddress = async(req, res) => {
           state: state,
           country: country
      });
-    const result = await newAddress.save();
-    res.redirect('/userAddress')
+    await newAddress.save();
+    res.redirect('/userAddress?message=New Address added&type=success');
   }} 
   } catch (error) {
     console.log(error.message);
@@ -80,8 +81,8 @@ const getEditAddress = async (req, res ) => {
       addressToUpdate.state = state;
       addressToUpdate.country = country;
   
-      const updatedAddress = await addressToUpdate.save();
-      res.redirect('/userAddress');
+       await addressToUpdate.save();
+      res.redirect('/userAddress?message=Address edited successfully&type=success');
     } catch (error) {
       console.log(error.message);
     }
@@ -92,7 +93,10 @@ const deleteAddress = async (req, res) => {
   try {
     const { id: addressId } = req.params;
     await Address.findByIdAndDelete(addressId);
-    res.redirect('/userAddress');
+   
+    res.redirect('/userAddress?message=Address deleted successfully&type=success');
+
+
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Internal Server Error');
