@@ -14,6 +14,23 @@ var cors = require('cors');
 const dotenv = require('dotenv');
 const multer = require('multer');
 const {isLoggedIn} = require('../config/auth');
+const passport = require('passport');
+require('../config/passport');
+
+Router.use(passport.initialize());
+Router.use(passport.session());
+
+Router.get('/auth/google',passport.authenticate('google',{scope: 
+[ 'email', 'profile' ]
+}));
+
+Router.get('/auth/google/callback',
+passport.authenticate( 'google',{
+   successRedirect: '/home',
+   failureRedirect: '/login'
+}))
+
+// successRedirect: '/home?message=Succesfully LoggedIn&type=success',
 
 //<------------ multer config -------------->
 const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'./public/product_images')  },

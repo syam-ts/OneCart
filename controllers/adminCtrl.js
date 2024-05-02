@@ -41,24 +41,28 @@ const adminCredentials  = {
 //<------------ verify admin -------------->
 const verifyAdmin = async (req, res) => {
     try {
-        if (req.body.userName == adminCredentials.UserName && req.body.password == adminCredentials.Password) {
-            req.session.admin = true;
-            req.session.adminUserName = adminCredentials.UserName;
+        if (req.body.userName == adminCredentials.UserName) {
 
-            const [users, brand, category] = await Promise.all([
-                User.find({ isBlock: false }).count(),
-                Product.find({ deleted: false }).count(),
-                Category.find({ deleted: false }).count()
-            ]); 
-            res.render('dashboard', { 
-                list: [users, brand, category],
-                toastMessage: { type: 'success', text: 'Successfully LoggedIn' }
-            });
-            
-        } else {     
-            res.render('admin-login', { toastMessage: 'Admin login failed' });
-            console.log('Admin login failed');
+            if(req.body.password == adminCredentials.Password){
+                req.session.admin = true;
+                req.session.adminUserName = adminCredentials.UserName;
+    
+                const [users, brand, category] = await Promise.all([
+                    User.find({ isBlock: false }).count(),
+                    Product.find({ deleted: false }).count(),
+                    Category.find({ deleted: false }).count()
+                ]); 
+                res.render('dashboard', { 
+                    list: [users, brand, category],
+                    toastMessage: { type: 'success', text: 'Successfully LoggedIn' }
+                });
+            }else{
+                res.redirect('/admin/admin-login?message=Invalid Password&type=error');
+            }
+        }else{
+            res.redirect('/admin/admin-login?message=Invalid Username&type=error');
         }
+
     } catch (error) {
         res.send(error.message);
     }
@@ -95,7 +99,7 @@ const logoutAdmin = (req, res) => {
                 console.error('Error destroying session:', err);
                 res.send('Error destroying session');
             } else {
-                res.redirect('./admin-login'); 
+                res.redirect('/admin/admin-login?message=Loggedout Successfully&type=success'); 
                 console.log('Admin logged out successfully');
             }
         });

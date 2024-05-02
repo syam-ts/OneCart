@@ -20,6 +20,16 @@ const isLoggedIn = async (req, res, next) => {
     }
 };
 
+const isGoogleAuth = async(req, res) => {
+    try {
+        if(req.user){
+            
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 module.exports = {
     isLoggedIn
 }
