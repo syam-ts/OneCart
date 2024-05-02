@@ -46,25 +46,25 @@
                     <th scope="row" class="flex items-center px-4 md:px-6 py-3 md:py-4 text-gray-900 whitespace-nowrap dark:text-white">
                         <img class="w-8 h-8 md:w-8 md:h-8" src="/product_images/<%= product.productImage[0] %>" alt="Product Image">
                         <div class="ps-3">
-                            <a href="#" class="font-medium font-sans text-gray-950 hover:underline"><%= product.productName %></a>
+                            <span class="font-medium font-sans text-gray-950"><%= product.productName %></span>
                         </div>
                     </th>
                     <td class="px-4 md:px-6 py-4">
-                        <a href="#" class="font-medium font-sans text-gray-950 hover:underline"><%= product.stock %></a>
+                        <span class="font-medium font-sans text-gray-950"><%= product.stock %></span>
                     </td>
                     <td class="px-4 md:px-6 py-4">
-                        <a class="font-medium font-sans text-gray-950 hover:underline"><%= product.brand %></a>
+                        <span class="font-medium font-sans text-gray-950"><%= product.brand %></span>
                     </td>
                     <td class="px-4 md:px-6 py-4">
-                        <a href="#" class="font-medium font-sans text-gray-950 hover:underline"><%= product.color %></a>
+                        <span class="font-medium font-sans text-gray-950"><%= product.color %></span>
                     </td>
                     <td class="px-4 md:px-6 py-4">
-                        <a href="#" class="font-medium font-sans text-gray-950 hover:underline"><%= product.price %></a>
+                        <span class="font-medium font-sans text-gray-950"><%= product.price %></span>
                     </td>
 
 
                     <td class="px-6 py-4">
-                        <a href="/admin/product-block/<%= product._id %>" class="font-medium text-red-950  hover:underline">
+                        <a href="/admin/product-block/<%= product._id %>" class="font-medium text-red-950">
                             <% if (product.deleted == false) { %>
                                 <span class="relative flex h-3 w-3">
                                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
@@ -139,208 +139,5 @@
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/OneCart/controllers/UserMangementConroller.js"></script>
-
-<script>
-    // start: Sidebar
-    const sidebarToggle = document.querySelector('.sidebar-toggle')
-    const sidebarOverlay = document.querySelector('.sidebar-overlay')
-    const sidebarMenu = document.querySelector('.sidebar-menu')
-    const main = document.querySelector('.main')
-    sidebarToggle.addEventListener('click', function (e) {
-        e.preventDefault()
-        main.classList.toggle('active')
-        sidebarOverlay.classList.toggle('hidden')
-        sidebarMenu.classList.toggle('-translate-x-full')
-    })
-    sidebarOverlay.addEventListener('click', function (e) {
-        e.preventDefault()
-        main.classList.add('active')
-        sidebarOverlay.classList.add('hidden')
-        sidebarMenu.classList.add('-translate-x-full')
-    })
-    document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (item) {
-        item.addEventListener('click', function (e) {
-            e.preventDefault()
-            const parent = item.closest('.group')
-            if (parent.classList.contains('selected')) {
-                parent.classList.remove('selected')
-            } else {
-                document.querySelectorAll('.sidebar-dropdown-toggle').forEach(function (i) {
-                    i.closest('.group').classList.remove('selected')
-                })
-                parent.classList.add('selected')
-            }
-        })
-    })
-    // end: Sidebar
-
-
-
-    // start: Popper
-    const popperInstance = {}
-    document.querySelectorAll('.dropdown').forEach(function (item, index) {
-        const popperId = 'popper-' + index
-        const toggle = item.querySelector('.dropdown-toggle')
-        const menu = item.querySelector('.dropdown-menu')
-        menu.dataset.popperId = popperId
-        popperInstance[popperId] = Popper.createPopper(toggle, menu, {
-            modifiers: [
-                {
-                    name: 'offset',
-                    options: {
-                        offset: [0, 8],
-                    },
-                },
-                {
-                    name: 'preventOverflow',
-                    options: {
-                        padding: 24,
-                    },
-                },
-            ],
-            placement: 'bottom-end'
-        });
-    })
-    document.addEventListener('click', function (e) {
-        const toggle = e.target.closest('.dropdown-toggle')
-        const menu = e.target.closest('.dropdown-menu')
-        if (toggle) {
-            const menuEl = toggle.closest('.dropdown').querySelector('.dropdown-menu')
-            const popperId = menuEl.dataset.popperId
-            if (menuEl.classList.contains('hidden')) {
-                hideDropdown()
-                menuEl.classList.remove('hidden')
-                showPopper(popperId)
-            } else {
-                menuEl.classList.add('hidden')
-                hidePopper(popperId)
-            }
-        } else if (!menu) {
-            hideDropdown()
-        }
-    })
-
-    function hideDropdown() {
-        document.querySelectorAll('.dropdown-menu').forEach(function (item) {
-            item.classList.add('hidden')
-        })
-    }
-    function showPopper(popperId) {
-        popperInstance[popperId].setOptions(function (options) {
-            return {
-                ...options,
-                modifiers: [
-                    ...options.modifiers,
-                    { name: 'eventListeners', enabled: true },
-                ],
-            }
-        });
-        popperInstance[popperId].update();
-    }
-    function hidePopper(popperId) {
-        popperInstance[popperId].setOptions(function (options) {
-            return {
-                ...options,
-                modifiers: [
-                    ...options.modifiers,
-                    { name: 'eventListeners', enabled: false },
-                ],
-            }
-        });
-    }
-    // end: Popper
-
-
-
-    // start: Tab
-    document.querySelectorAll('[data-tab]').forEach(function (item) {
-        item.addEventListener('click', function (e) {
-            e.preventDefault()
-            const tab = item.dataset.tab
-            const page = item.dataset.tabPage
-            const target = document.querySelector('[data-tab-for="' + tab + '"][data-page="' + page + '"]')
-            document.querySelectorAll('[data-tab="' + tab + '"]').forEach(function (i) {
-                i.classList.remove('active')
-            })
-            document.querySelectorAll('[data-tab-for="' + tab + '"]').forEach(function (i) {
-                i.classList.add('hidden')
-            })
-            item.classList.add('active')
-            target.classList.remove('hidden')
-        })
-    })
-    // end: Tab
-
-
-
-    // start: Chart
-    new Chart(document.getElementById('order-chart'), {
-        type: 'line',
-        data: {
-            labels: generateNDays(7),
-            datasets: [
-                {
-                    label: 'Active',
-                    data: generateRandomData(7),
-                    borderWidth: 1,
-                    fill: true,
-                    pointBackgroundColor: 'rgb(59, 130, 246)',
-                    borderColor: 'rgb(59, 130, 246)',
-                    backgroundColor: 'rgb(59 130 246 / .05)',
-                    tension: .2
-                },
-                {
-                    label: 'Completed',
-                    data: generateRandomData(7),
-                    borderWidth: 1,
-                    fill: true,
-                    pointBackgroundColor: 'rgb(16, 185, 129)',
-                    borderColor: 'rgb(16, 185, 129)',
-                    backgroundColor: 'rgb(16 185 129 / .05)',
-                    tension: .2
-                },
-                {
-                    label: 'Canceled',
-                    data: generateRandomData(7),
-                    borderWidth: 1,
-                    fill: true,
-                    pointBackgroundColor: 'rgb(244, 63, 94)',
-                    borderColor: 'rgb(244, 63, 94)',
-                    backgroundColor: 'rgb(244 63 94 / .05)',
-                    tension: .2
-                },
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-    function generateNDays(n) {
-        const data = []
-        for(let i=0; i<n; i++) {
-            const date = new Date()
-            date.setDate(date.getDate()-i)
-            data.push(date.toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric'
-            }))
-        }
-        return data
-    }
-    function generateRandomData(n) {
-        const data = []
-        for(let i=0; i<n; i++) {
-            data.push(Math.round(Math.random() * 10))
-        }
-        return data
-    }
-    // end: Chart
-
-</script>
 
 <%- include('../partials/adminFooter') %>

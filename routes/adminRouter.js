@@ -28,7 +28,7 @@ Router.get('/dashboard',adminController.getDashboard);
    //<------------ userManagement routes -------------->
 Router.get('/userManagement',userManagementController.getUsers);
 Router.get('/user-block/:id',userManagementController.blcokUser);
-Router.get('/user-unblock/:id',userManagementController.unBlcokUser);
+// Router.get('/user-unblock/:id',userManagementController.unBlcokUser);
 
 
    //<------------ proudutManagement routes -------------->
