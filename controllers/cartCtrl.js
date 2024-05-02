@@ -67,62 +67,44 @@ const getCart = async (req, res) => {
       //<------------ cart decrease -------------->
       const cartDec = async (req, res) => {
         try {
-            const cartId = req.body.productId;
+            const cartId = req.body.cartId;
             const currentQty = req.body.currentQty;
-
             const cart = await Cart.findById(cartId);
-           
             const productId = cart.productId;
-
             const product = await Product.findById(productId)
             if(currentQty <= 1){
                 console.log('Cannot minus the quantity');
-            }else if(currentQty <= product.stock) {
-                console.log('Cannot decrese less than stock');
             }else{
+                product.stock += 1;
                 cart.quantity -= 1;
-                   await cart.save();
-    
-                product.stock -= 1;
-                   await product.save();
+                await Promise.all([product.save(), cart.save()]);
                 res.redirect('/cart')
-            }
-
-            
-        } catch (err) {
+            }} catch (err) {
             console.log(err.message);
         }
        };
 
-
   //<------------ cart increse -------------->
        const cartInc = async (req, res) => {
         try {
-            const cartId = req.body.productId;
+            const cartId = req.body.cartId;
             const currentQty = req.body.currentQty;
-
             const cart = await Cart.findById(cartId);
             const productId = cart.productId;
-
             const product = await Product.findById(productId)
-
-            if(currentQty >= product.stock){
-                console.log("The stock : ",product.stock)
-                console.log('Cannot add more than product stock')
-            }else if(currentQty >= 3){
-                console.log('Cannot add more than 3 quantity to cart')
-              }else{
-                cart.quantity += 1;
-                   await cart.save();
-    
-                product.stock += 1;
-                   await product.save();
-            console.log("SUccess",product.stock);
+           if(currentQty >= product.stock){
+            console.log('Cannot add more than available stock');
+           }else if(currentQty >= 3){
+            console.log('Cannot add more than 3 quantity to cart');
+           }else{
+            product.stock -= 1;
+            cart.quantity += 1;
+            await Promise.all([product.save(), cart.save()]);
             res.redirect('/cart')
-              }
-        } catch (err) {
-            console.log(err.message);
-        }
+              }} 
+              catch (err) {
+                console.log(err.message);
+            }
        };
 
 

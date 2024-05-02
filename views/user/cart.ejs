@@ -100,7 +100,7 @@ cartDecList.forEach(cartDec => {
     cartDec.addEventListener('click', () => {
         const productContainer = cartDec.closest('.flex');
         const productIdElement = productContainer.querySelector('.productId');
-        const productId = productIdElement.value;
+        const cartId = productIdElement.value;
         const cartElement = productContainer.querySelector('.cartQty');
         const currentQty = cartElement.innerText;
         fetch('/cartDec',{
@@ -109,7 +109,7 @@ cartDecList.forEach(cartDec => {
                             "Content-Type" : "application/json"
                         },
                         body:JSON.stringify({
-                            productId : productId,
+                            cartId : cartId,
                             currentQty : currentQty
                         })
                         }).then((response) => {
@@ -124,13 +124,12 @@ cartDecList.forEach(cartDec => {
 });
 
 
-
     const cartIncList = document.querySelectorAll('.cartInc');
     cartIncList.forEach(cartInc => {
     cartInc.addEventListener('click', () => {
         const productContainer = cartInc.closest('.flex');
         const productIdElement = productContainer.querySelector('.productId');
-        const productId = productIdElement.value;
+        const cartId = productIdElement.value;
         const cartElement = productContainer.querySelector('.cartQty');
         const currentQty = cartElement.innerText;
 
@@ -140,7 +139,7 @@ cartDecList.forEach(cartDec => {
                             "Content-Type" : "application/json"
                         },
                         body:JSON.stringify({
-                            productId : productId,
+                            cartId : cartId,
                             currentQty : currentQty
                         })
                         }).then((response) => {

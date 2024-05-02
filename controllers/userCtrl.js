@@ -169,14 +169,14 @@ const verifyOtpLoad = async(req, res) => {
 //<------------ load home -------------->
   const getHome = async (req, res) => {
     try {
-      console.log(req.user.email);
-      if(req.user){
-        const products = await Product.find({deleted:false});
-        res.render('home', {
-          products,
-          msg: req.flash('msg'),
-          toastMessage: { type: 'success', text: 'Successfully LoggedIn' } 
-        }) }
+      // console.log(req.user.email);
+      // if(req.user){
+      //   const products = await Product.find({deleted:false});
+      //   res.render('home', {
+      //     products,
+      //     msg: req.flash('msg'),
+      //     toastMessage: { type: 'success', text: 'Successfully LoggedIn' } 
+      //   }) }
       const user = req.session.user;
       const isUser = await User.find({$and:[{_id:user},{isBlock: false}]});
       
