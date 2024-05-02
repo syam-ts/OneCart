@@ -208,7 +208,8 @@ const productList = async(req, res) => {
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
-                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit),
+                toastMessage: { type: 'success', text: '' }
             });
         
     } catch (error) {
@@ -419,7 +420,7 @@ const postProductEdit = async (req, res) => {
         // Save the updated product
         product = await product.save();
 
-        return res.redirect('/admin/product-list');
+        return res.redirect('/admin/product-list?message=Product Updated&type=success');
     } catch (error) {
         console.log('Error:', error);
         return res.status(500).send('Internal Server Error');
@@ -434,12 +435,12 @@ const deleteProduct = async (req, res) => {
      if(product.deleted == false){
         product.deleted = true;
         await product.save();
-        return res.redirect('/admin/product-list');
+        return res.redirect('/admin/product-list?message=Product Blocked&type=success');
      }
      else if(product.deleted == true) {
         product.deleted = false;
         await product.save();
-        return res.redirect('/admin/product-list');
+        return res.redirect('/admin/product-list?message=Product Unblocked&type=success');
      }else{
         return res.status(404).send('prouduct not found');
      }

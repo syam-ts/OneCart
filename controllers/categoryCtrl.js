@@ -21,7 +21,8 @@ const insertCategory = async (req, res) => {
                 description : req.body.description
             });
            result = await category.save();
-           res.redirect('/admin/category-list');
+          
+           res.redirect('/admin/category-list?message=New Category Added&type=success');
         }
         
     } catch (error) {
@@ -60,12 +61,13 @@ const categoryAdd = async (req, res) => {
 
         category.deleted = true;
         await category.save();
-        return res.redirect('/admin/category-list');
+        return res.redirect('/admin/category-list?message=Catergory Deleted&type=success');
+        
      }
      else if(category.deleted == true) {
         category.deleted = false;
         await category.save();
-        return res.redirect('/admin/category-list');
+        return res.redirect('/admin/category-list?message=Catergory Retrieved&type=success');
      }else{
         return res.status(404).send('categrory not found');
      }
@@ -99,11 +101,7 @@ const editCategory = async (req, res) => {
     try {
         const { categoryName , description} = req.body;
         const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
-        console.log(isCat)
 
-        if(isCat){
-            res.send('already have category in this name');
-        }else{
             const updatedFields = {};
             if (categoryName) updatedFields.categoryName = categoryName;
             if (description) updatedFields.description = description;
@@ -113,8 +111,8 @@ const editCategory = async (req, res) => {
             if (!category) {
                 return res.send('error');
             }
-            res.redirect('/admin/category-list');
-        }
+            res.redirect('/admin/category-list?message=Category Updated&type=success');
+        
      
     } catch (error) {
         console.log('Error:', error);

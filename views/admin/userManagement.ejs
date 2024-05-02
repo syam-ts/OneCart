@@ -5,28 +5,26 @@
     <section class="w-full h-auto bg-blue-700 overflow-x-auto mt-12">
         <div class="min-w-full">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-pink-200">
+                <thead class="bg-violet-500">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Name</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Email</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Phone</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Gender</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-sans">Action</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider font-sans">Profile</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider font-sans">Name</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider font-sans">Email</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider font-sans">Phone</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider font-sans">Gender</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider font-sans">Action</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white ">
                     <% users.forEach(user => { %>
                     <tr class="text-xs">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <% if (user.userImage) { %>
                                 <img class="text-indigo-600 hover:text-indigo-900 font-medium font-sans h-8 w-8 rounded-full" src="/product_images/<%= user.userImage %>" alt="User Image">
                             <% } else { %>
-                                <img class="text-indigo-600 hover:text-indigo-900 font-medium font-sans h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN-4CFnwYyDL9H-qvQjZ9wHgTgHl99xePaWVbUfuLjXvXPnarNdTW44gkTXTNzbQrb0lo&usqp=CAU" alt="Placeholder Image">
+                                <img class="text-indigo-600 hover:text-indigo-900 font-medium font-sans h-8 w-8 rounded-full" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQN-4CFnwYyDL9H-qvQjZ9wHgTgHl99xePaWVbUfuLjXvXPnarNdTW44gkTXTNzbQrb0lo&usqp=CAU" alt="No User Image">
                             <% } %>
                             
-                       
-                      
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium font-sans" ><%= user.name %></td>
                         <td class="px-6 py-4 whitespace-nowrap font-medium font-sans"><%= user.email %></td>

@@ -14,30 +14,44 @@
 
 
 <main>
-    <form method="post">
-        <div class="space-y-12 p-20 flex">
-          <div class="border-b border-gray-900/10 pb-12">
-            <div class="flex-col mt-10 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div class="sm:col-span-3 w-52">
-                <label for="categoryName" class="block text-sm font-medium leading-6 text-gray-900">Category name</label>
-                <div class="mt-2">
-                  <input type="text" name="categoryName" id="categoryName" autocomplete="given-name" class="block w-full border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                </div>
-              </div>
 
-              <div class="sm:col-span-3 mt-12 ">
-                <label for="description" class="block text-sm font-medium leading-6 text-gray-900">Category Description</label>
-                <div class="mt-2">
-                  <textarea type="text" name="description" id="description" autocomplete="given-name" class="block w-56 h-28 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+      <section>
+        <form  method="post"> 
+            <div class="min-h-screen bg-gray-100 flex items-start justify-start pl-24 pt-20">
+                <div class="w-auto">
+                  <div>
+                    <h2 class="font-semibold text-xl text-gray-600 hover:text-sky-400"></h2>
+                    <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                      <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                          <p class="font-medium text-lg">Category</p>
+                        </div>
+                        <div class="lg:col-span-2">
+                          <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+
+                            <div class="md:col-span-5">
+                              <label for="categoryName"> Category Name </label>
+                              <input type="text" name="categoryName" id="categoryName" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                            </div>
+                            <div class="md:col-span-5">
+                              <label for="description">Description </label>
+                              <textarea type="text" name="description" id="description" autocomplete="given-name" class="block w-56 h-28 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                            </div>
+                            <div class="md:col-span-5 text-right mt-5">
+                              <div class="inline-flex items-end">
+                                <button type="submit" class="bg-cyan-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-        </div>
-        <button type="submit" class="mt-12 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium  text-white bg-yellow-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            Add Category
-        </button>
-        </div>
-        </div>
-      </form>
+            </form>
+    
+    </section>
   </main>
 
 <script src="https://unpkg.com/@popperjs/core@2"></script>
