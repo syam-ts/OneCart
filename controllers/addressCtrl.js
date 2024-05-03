@@ -46,7 +46,7 @@ const getUserAddress = async(req, res) => {
           country: country
      });
     await newAddress.save();
-    res.redirect('/userAddress?message=New Address added&type=success');
+    res.render('userAddress?message=New Address added&type=success');
   }} 
   } catch (error) {
     console.log(error.message);

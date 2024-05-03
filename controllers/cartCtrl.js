@@ -15,7 +15,7 @@ const getCart = async (req, res) => {
         const productIds = cart.map(item => item.productId);
         const products = await Product.find({ _id: { $in: productIds } });
         if(products.length != 0){
-            res.render('cart',{ items:{products, cart , total}}); 
+            res.render('cart',{ items:{products, cart , total}, toastMessage: { type: 'success', text: '' } }); 
                }else{
             res.render('cart',{ items:{products, cart , total}})}
             }catch(error){
@@ -73,7 +73,7 @@ const getCart = async (req, res) => {
             const productId = cart.productId;
             const product = await Product.findById(productId)
             if(currentQty <= 1){
-                console.log('Cannot minus the quantity');
+                res.json({ toastMessage: { type: 'error', text: 'Cannot decrese less than zero' }});
             }else{
                 product.stock += 1;
                 cart.quantity -= 1;
@@ -93,9 +93,11 @@ const getCart = async (req, res) => {
             const productId = cart.productId;
             const product = await Product.findById(productId)
            if(currentQty >= product.stock){
-            console.log('Cannot add more than available stock');
+            res.redirect('/cart?message=sfjs&type=error')
+            res.json({ toastMessage: { type: 'error', text: 'Cannot add more than available stock' }});
            }else if(currentQty >= 3){
-            console.log('Cannot add more than 3 quantity to cart');
+            res.redirect('/cart?message=sfjs&type=error')
+            res.json({ toastMessage: { type: 'error', text: 'Cannot add more than 3 quantity to cart' }});
            }else{
             product.stock -= 1;
             cart.quantity += 1;
