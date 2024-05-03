@@ -150,18 +150,19 @@ const razorpayInstance = new Razorpay({
 const insertOrder = async (req, res) => {
     try {
             const userId = req.session.user;
-            const address = await Address.findOne({ userId });
             const total = req.body.totalPrice;
             const discountPrice = req.body.subTotal - total;
             const paymentMethod = req.body.paymentMethod;
+            
+      
+        const addressId = req.body.addressId;
              const status = 'Pending';
              const cart = await Cart.find({ userId });
              const productIds = cart.map(item => item.productId);
              const products = await Product.find({ _id: { $in: productIds } });
-             console.log('The products : ',req.body)
                  const order = new Order({
                      userId: userId,
-                     address: address,
+                     addressId: addressId,
                      products: products,
                      total: total,
                      paymentMethod: paymentMethod,

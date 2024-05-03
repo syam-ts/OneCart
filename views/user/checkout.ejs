@@ -30,27 +30,22 @@
                     </div>
                 </section>
                 <section  id="shippingAddressSection">
-                        <!-- Shipping Address Section -->
-                        <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
-                        <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12">
-                            <% for (let i = 0; i < address.length; i++) { %>
-                            <label>
-                                <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="<%= address[i].id %>">
-                                <ul class="text-sm text-gray-900 list-none list-inside dark:text-gray-900">
-                                    <li class="addName">
-                                        <%= address[i].name %>
-                                    </li>
-                                    <li>
-                                        <%= address[i].address %>, <%= address[i].city %>
-                                    </li>
-                                    <li>
-                                        <%= address[i].pincode %>, <%= address[i].state %>, <%= address[i].country %>
-                                    </li>
-                                </ul>
-                            </label>
-                            <% } %>
-                        </div>
-                 </section>
+        <!--------------- Shipping Address Section --------------->
+                    <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
+                    <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12">
+                        <% for (let i = 0; i < address.length; i++) { %>
+                            <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="<%= address[i].id %>">
+                            <ul class="text-sm text-gray-900 list-none list-inside dark:text-gray-900">
+                                <li>
+                                    <%= address[i].name %></li>
+                                <li>
+                                    <%= address[i].address %>, <%= address[i].city %></li>
+                                <li>
+                                    <%= address[i].pincode %>, <%= address[i].state %>, <%= address[i].country %></li>
+                            </ul>
+                        <% } %>
+                    </div>
+              </section>
                 <section class="mt-12 ml-96 bg-white">
                     <!-- Coupons Section -->
                     <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
@@ -185,9 +180,20 @@ removeCouponButton.addEventListener('click', () => {
     const subTotal = parseFloat(document.getElementById('subTotal').innerText)
     const placeOrderButton = document.getElementById('placeOrder');
     placeOrderButton.addEventListener('click', function() {
-        // if(No Address){
+        // if(noAddress){
         //     throw error
         // }
+
+        var selectedRadios = document.querySelectorAll('input[name="selectedAddress"]:checked');
+        
+        if (selectedRadios.length > 0) {
+            // If at least one radio button is selected, get the value of the first selected one
+            var selectedId = selectedRadios[0].value;
+            toastr.success('Address selected');
+        } else {
+            toastr.error('Please select an address');
+        }
+
         const paymentMethod = document.getElementsByName('paymentMethod');
         let selectedValue = "";
         const totalPriceElement = document.getElementById('totalPrice');
@@ -215,7 +221,8 @@ removeCouponButton.addEventListener('click', () => {
                         body:JSON.stringify({
                             totalPrice : totalPrice,
                             paymentMethod : paymentMethod,
-                            subTotal : subTotal
+                            subTotal : subTotal,
+                            addressId : selectedId
                         })
                         }).then(() => {
                             window.location.href = '/orderSuccess'
