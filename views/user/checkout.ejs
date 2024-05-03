@@ -178,6 +178,7 @@ removeCouponButton.addEventListener('click', () => {
     document.addEventListener("DOMContentLoaded", function() {
     const discountAmount = document.getElementById('discountAmount').innerText;
     const subTotal = parseFloat(document.getElementById('subTotal').innerText)
+    const TotalPrice = parseFloat(document.getElementById('totalPrice').innerText)
     const placeOrderButton = document.getElementById('placeOrder');
     placeOrderButton.addEventListener('click', function() {
         // if(noAddress){
@@ -210,10 +211,12 @@ removeCouponButton.addEventListener('click', () => {
         
    //<------------ for cash on delevery -------------->
       if(selectedValue == "Cash on Delivery"){
-
         const paymentMethod = selectedValue;
-
-        fetch('/placeOrder',{
+        if(totalPrice > 1000){
+          alert(totalPrice  )
+            toastr.error('Cannot order over 1000₹ product using COD');
+        }else{
+            fetch('/placeOrder',{
                         method:"POST",
                         headers:{
                             "Content-Type" : "application/json"
@@ -228,7 +231,7 @@ removeCouponButton.addEventListener('click', () => {
                             window.location.href = '/orderSuccess'
                }
             )
-        }else if(selectedValue == "Razor Pay"){
+        }}else if(selectedValue == "Razor Pay"){
        //<------------ for Razor pay -------------->
             var orderId;
             fetch('/create-order', {
@@ -237,7 +240,8 @@ removeCouponButton.addEventListener('click', () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "totalPrice": totalPrice
+                "totalPrice": totalPrice,
+                addressId : selectedId
             })})
             .then(response => response.json())
             .then(data => {
@@ -312,7 +316,8 @@ removeCouponButton.addEventListener('click', () => {
                         body:JSON.stringify({
                             totalPrice : totalPrice,
                             paymentMethod : paymentMethod,
-                            subTotal : subTotal
+                            subTotal : subTotal,
+                            addressId : selectedId
                           })
                             }).then(() => {
                                     window.location.href = '/orderSuccess'

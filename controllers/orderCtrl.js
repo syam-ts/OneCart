@@ -131,7 +131,8 @@ const orderDetailsUser = async (req, res) => {
         const order = await Order.findById(orderId);
         const productId = order.products.map(product => product._id);
         const product = await Product.find({ _id: { $in: productId } });
-        const address = await order.address
+        const addressId = await order.addressId
+        const address = await Address.findById(addressId)
         console.log('The Address : ',address)
         res.render('orderDetailsUser', { user , order, product, address});
     } catch (error) {
@@ -189,7 +190,8 @@ const insertOrder = async (req, res) => {
 const verifyAndInsertOrder = async (req, res) => {
     try {
         const userId = req.session.user;
-        const address = await Address.findOne({ userId });
+        const addressId = req.body.addressId;
+        const address = await Address.findById(addressId);
          const paymentMethod = req.body.paymentMethod;
          const status = 'Pending';
          const cart = await Cart.find({ userId });
