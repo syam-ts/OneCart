@@ -131,9 +131,7 @@ const orderDetailsUser = async (req, res) => {
         const order = await Order.findById(orderId);
         const productId = order.products.map(product => product._id);
         const product = await Product.find({ _id: { $in: productId } });
-        const addressId = await order.addressId
-        const address = await Address.findById(addressId)
-        console.log('The Address : ',address)
+        const address = await order.address;
         res.render('orderDetailsUser', { user , order, product, address});
     } catch (error) {
         console.log(error.message);
@@ -157,13 +155,14 @@ const insertOrder = async (req, res) => {
             
       
         const addressId = req.body.addressId;
-             const status = 'Pending';
+        const address = await Address.findById(addressId);
+             const status = 'Processing';
              const cart = await Cart.find({ userId });
              const productIds = cart.map(item => item.productId);
              const products = await Product.find({ _id: { $in: productIds } });
                  const order = new Order({
                      userId: userId,
-                     addressId: addressId,
+                     address: address,
                      products: products,
                      total: total,
                      paymentMethod: paymentMethod,
@@ -193,7 +192,7 @@ const verifyAndInsertOrder = async (req, res) => {
         const addressId = req.body.addressId;
         const address = await Address.findById(addressId);
          const paymentMethod = req.body.paymentMethod;
-         const status = 'Pending';
+         const status = 'Processing';
          const cart = await Cart.find({ userId });
          const productIds = cart.map(item => item.productId);
          const total = req.body.totalPrice
@@ -267,6 +266,7 @@ const orderCancel = async (req, res) => {
         console.log(error.message);
     }
 };
+
 
 module.exports = {
     createOrder,

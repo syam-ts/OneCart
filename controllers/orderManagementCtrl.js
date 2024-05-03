@@ -145,16 +145,15 @@ const orderStatusChng = async (req, res) => {
         const {orderStatus , orderId } = req.body;
         const order = await Order.findById(orderId);
 
-        if(order.status == "Cancelled"){
-            res.redirect('/admin/orderManagement');
-            console.log("cannot edit cancelled order")
-            res.json({message : "cannot edit cancelled order"})
 
-        }else if(order.status == "Delivered"){
+      if(order.status == "Cancelled"){
+        res.redirect('/admin/orderManagement');
+        console.log("cannot edit cancelled order")
+      }else if(order.status == "Delivered"){
             res.redirect('/admin/orderManagement');
             console.log("cannot edit delivered order")
             res.json({message : "cannot edit delevered order"})
-        }else if(order.status == "Pending" ){
+        }else if(order.status == "Processing" ){
             if(orderStatus == "Delivered" || orderStatus == "Shipped"){
               
                  order.status = orderStatus;

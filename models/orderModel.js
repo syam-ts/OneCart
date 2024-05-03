@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
         userId:{type: mongoose.Schema.Types.ObjectId,ref: 'User'},
-        addressId:{type: mongoose.Schema.Types.ObjectId,ref: 'Address'},
+        address:{type: Object,required:true,default: true},
         products:{type: Object,required:true,default: true},
         total:{type:Number,required:true},
         paymentMethod:{type:String,required:true},

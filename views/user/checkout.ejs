@@ -213,7 +213,6 @@ removeCouponButton.addEventListener('click', () => {
       if(selectedValue == "Cash on Delivery"){
         const paymentMethod = selectedValue;
         if(totalPrice > 1000){
-          alert(totalPrice  )
             toastr.error('Cannot order over 1000₹ product using COD');
         }else{
             fetch('/placeOrder',{
@@ -267,7 +266,8 @@ removeCouponButton.addEventListener('click', () => {
                         body:JSON.stringify({
                             totalPrice : totalPrice,
                             paymentMethod : paymentMethod,
-                            subTotal : subTotal
+                            subTotal : subTotal,
+                            addressId : selectedId
                           })
                             }).then(() => {
                                     window.location.href = '/orderSuccess'
