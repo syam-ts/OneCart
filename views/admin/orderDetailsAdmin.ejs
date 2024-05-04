@@ -5,13 +5,8 @@
 <section class="py-24 relative">
     <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
         <h2 class="font-manrope font-bold text-4xl leading-10 text-black text-center">
-            Order Details
-        </h2>
-     
-        
-   
-                    <% product.forEach( item => { %>
-                   
+            Order Details </h2>
+                   <% product.forEach( item => { %>
                         <div class="flex flex-col lg:flex-col items-center py-6 gap-6 w-full ">
                     <div class="flex flex-row img-box max-lg:w-full bg-white rounded-lg">
                         <img src="/product_images/<%= item.productImage[0] %>" alt="product image" 
@@ -56,8 +51,8 @@
                                         <p class="font-medium text-sm leading-7 text-black">Payment Method
                                         </p>
                                         <p
-                                            class="font-medium text-sm leading-6 py-0.5 px-3 whitespace-nowrap rounded-full lg:mt-3 bg-indigo-50 text-indigo-600">
-                                            Razor Pay</p>
+                                            class="font-medium text-sm leading-6 hover:bg-sky-500 hover:text-white py-0.5 px-3 whitespace-nowrap rounded-full lg:mt-3 bg-indigo-100 text-indigo-600">
+                                           <%= orders.paymentMethod %> </p>
                                     </div>
 
                                 </div>
@@ -94,7 +89,36 @@
 
 </section>
                                         
+<section>
+    <% if(orders.return){ %>
+<% if(orders.return.return === true){ %>
+    <span> The reason for returning : <%= orders.return.reason %> </span>
+    <div>
+        <button onclick="acceptReturn('<%= orders.id %>')" class="mt-5 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Accept</button>
+        <button onclick="rejectReturn('<%= orders.id %>')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Reject</button>
+    
+    </div>
+ 
+  <% }else{ %>
+    <span class="hidden">None</span>
+    <% } %>
+    <% } %>
+</section>
+
+<script>
+
+    // -------------- order return accept -----------------
+    const acceptReturn = (orderId) => {
+        alert(orderId)
+    }
+
+    // -------------- order return reject -----------------
+    const rejectReturn = (orderId) => {
+        alert(orderId)
+    }
 
 
+
+</script>
 
 <%- include('../partials/adminFooter') %>

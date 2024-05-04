@@ -9,7 +9,8 @@ const orderSchema = mongoose.Schema({
         status:{type:String},
         createdate:{type:Date,default:Date.now},
         carts: {type: Object,required:true,default: true},
-        discountPrice: {type: Number,required:true}
+        discountPrice: {type: Number,required:true},
+        return:{type:{return:Boolean, reason:String}}
     });
 
 module.exports = mongoose.model('Order',orderSchema);

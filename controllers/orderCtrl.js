@@ -272,7 +272,10 @@ const returnOrder = async (req, res) => {
       const { orderId, reason } = req.body;
       const order = await Order.findById(orderId);
 
-      order.status = "Return Pending"
+
+      order.return = { return: true, reason: reason };
+      await order.save();
+      console.log('The order is  : 0',order)
     } catch (err) {
         console.log(err.message);
     }
