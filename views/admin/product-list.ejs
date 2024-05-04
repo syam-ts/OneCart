@@ -3,12 +3,12 @@
 <main class="p-4">
     <section class="flex justify-end items-end">
         <div class="relative">
-          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-44 rounded-full border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
-            <span class="flex items-center font-thin">Sort items</span>
+          <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-44 border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
+            <span class="flex items-center font-thin">Sort By</span>
             <svg class="w-2.5 h-2.5 mt-2 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
           </button>
       
-          <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-100 text-gray-950">
+          <div id="dropdown" class="absolute pt-12 right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-100 text-gray-950">
             <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
               <li>
                 <a href="/admin/sortProductAdmin/recentProducts" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Recently added</a>
@@ -27,7 +27,7 @@
         </div>
       </section>
 
-    <div class="overflow-x-auto shadow-md">
+    <div class="overflow-x-auto shadow-md mt-7">
         <table class="w-full text-xs font-sans text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-blue-800 dark:text-gray-400">
                 <tr>
@@ -113,7 +113,7 @@
    
     </div>
     <section class="text-center mt-5 mb-10">
-        <a href="/admin/product-add" class="inline-block h-10 w-40 px-4 py-2 text-sm font-semibold leading-6 text-white bg-blue-700 rounded-full shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50">
+        <a href="/admin/product-add" class="inline-block h-10 w-40 px-4 py-2 text-sm font-semibold leading-6 text-gray-400 bg-blue-800 rounded-full shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50">
             Add Product
         </a>
     </section>
