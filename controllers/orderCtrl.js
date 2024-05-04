@@ -267,6 +267,16 @@ const orderCancel = async (req, res) => {
     }
 };
 
+const returnOrder = async (req, res) => {
+    try {
+      const { orderId, reason } = req.body;
+      const order = await Order.findById(orderId);
+
+      order.status = "Return Pending"
+    } catch (err) {
+        console.log(err.message);
+    }
+};
 
 module.exports = {
     createOrder,
@@ -276,5 +286,6 @@ module.exports = {
     insertOrder,
     verifyAndInsertOrder,
     orderSuccess,
-    orderCancel  
+    orderCancel,
+    returnOrder
 }

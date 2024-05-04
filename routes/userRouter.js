@@ -103,8 +103,8 @@ Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
 Router.get('/orderDetailsUser/:id',isLoggedIn, orderController.orderDetailsUser);
 Router.get('/sortOrdersUser/:method',isLoggedIn,orderController.sortOrdersUser);
 Router.post('/create-order',isLoggedIn, orderController.createOrder); 
-Router.get('/orderSuccess',isLoggedIn, orderController.orderSuccess)
-
+Router.get('/orderSuccess',isLoggedIn, orderController.orderSuccess);
+Router.post('returnOrder',isLoggedIn, orderController.returnOrder);
 
 
 //<------------ wallet routes -------------->

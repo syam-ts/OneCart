@@ -49,12 +49,38 @@
                             <button class="font-normal text-xl leading-8 text-black">Cancelled</button>
                         </div>
                         <% }else{ %>
-                        <div class="total flex items-center justify-between pt-6">
-                            <button id="cancelOrderUser" class="font-normal text-xl leading-8 text-black bg-red-600" value="<%= order.id %>">Cancel</button>
-                        </div>
+          
+                        <button  id="cancelOrderUser" value="<%= order.id %>" class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+                        Cancel
+                       </button>
+                        <% } %>
+                        <% if(order.status == "Delivered") {%>  
+                            <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModal()">
+                                Return
+                                </button>
                         <% } %>
                     </div>
                 </div>
+
+                <dialog id="my_modal_1" class="modal w-3/6 h-4/6  bg-stone-400 rounded-lg">
+                    <div class="modal-box rounded-md">
+                        <h3 class="font-bold text-lg mt-12">Return</h3>
+                       
+                        <div class="modal-action">
+                            <form method="dialog">
+                            <span>Reason For Return</span>
+                                <textarea id="reason" class="w-full mt-12 h-40 bg-gray-200 p-2 mb-4"></textarea>
+                                <div class="mt-12 ml-80">
+                                    <button onclick="returnOrder('<%= order.id %>')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Submit</button>
+                                    <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModal()">Close</button>
+                               
+                                </div>
+                           </form>
+                        </div>
+                    </div>
+                </dialog>
+                
+
       
                 <div class="w-full max-w-sm md:max-w-3xl max-xl:mx-auto">
                     <div class="grid grid-cols-1 gap-6">
@@ -177,6 +203,32 @@
                  })
     })
 
+
+                        function openModal() {
+                                            var modal = document.getElementById("my_modal_1");
+                                            modal.showModal();
+                                        }
+                
+                        function closeModal() {
+                            var modal = document.getElementById("my_modal_1");
+                            modal.close();
+                        };
+
+           const returnOrder = (orderId) => {
+           const reason = document.getElementById('reason').value;
+              fetch('/returnOrder',{
+              method:"POST",
+              headers:{
+                  "Content-Type" : "application/json"
+              },
+              body:JSON.stringify({
+                  orderId : orderId,
+                  reason: reason
+              })
+          }) 
+      }
+
+              
 </script>
 
 <%- include('../partials/footer') %>
