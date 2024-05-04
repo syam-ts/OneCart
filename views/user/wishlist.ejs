@@ -26,20 +26,21 @@
                             <p class="mt-1 text-sm text-gray-500"><%= x.color %></p>
                         </div>
                         <p class="text-sm font-medium text-gray-900"><%= x.price %></p>
-                        <div>
-                            <img onclick="removeCart('')" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" class="h-5 w-5" alt="Remove">
-                           
-                        </div>
-                        <div>
-                            <button type="button" onclick="addToCartWithQuantity('<%= x.id %>','<%= user.id %>')" class="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-thin text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-5 w-24">
-                                <span class="text-xs">Add to cart</span>
-                              </button>
-                        </div>
                       
                     </div>
+                    <div class="flex group relative">
+                        <img onclick="removeCart()" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" class="h-5 w-5" alt="Remove">
+    
+                        <button type="button" onclick="addToCartWithQuantity('<%= x.id %>','<%= user.id %>')" class="inline-flex ml-40 items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-thin text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-5 w-24">
+                            <span class="text-xs">Add to cart</span>
+                          </button>
+                      </div>
                 </div>
-       
+                
+    
                 <% }) %>
+               
+               
             </div>
         </div>
     </div>
@@ -49,7 +50,6 @@
 <script>
           //<------------ to cart page -------------->
 const addToCartWithQuantity = (productId, userId) => {
-
         fetch(`/addTocart`, {
             method: 'POST',
             headers: {
@@ -86,7 +86,11 @@ const addToCartWithQuantity = (productId, userId) => {
         });
     
 };
-</script>
 
+const removeCart = () => {
+    alert('Remodve button')
+}
+
+</script>
 
 <%- include('../partials/footer') %>

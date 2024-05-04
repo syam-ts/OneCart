@@ -25,6 +25,7 @@ const getwishlist = async (req, res) => {
 //<------------ adding products to wishlist -------------->
 const addToWishlist = async (req, res) => {
     try {
+        console.log('The wihslist body : ',req.body)
         const productId = req.body.productId;
         const userId = req.session.user;
         const existingItem = await Wishlist.findOne({
