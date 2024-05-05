@@ -310,6 +310,7 @@ const productList = async(req, res) => {
     }
    }
 
+
    //<------------ proudct add page load -------------->
    const ProductAdd = async(req, res) => {
     const categories = await Category.find({deleted: false})
@@ -320,55 +321,46 @@ const productList = async(req, res) => {
     }
 };
 
+
 //<------------ add prouduct -------------->
 const insertProduct = async (req, res) => {
     try {
         const { price, size, stock, } = req.body;
             const productName = req.body.productName;
             const existingProduct = await Product.findOne({ productName: { $regex: new RegExp('^' + productName + '$', 'i') } });
-    
             if(existingProduct){
-                console.log("Already Exists");
-                res.send("Alredy Exists");
+                res.redirect("/admin/product-add?message=Product already exist&type=error")
             }else{
                 if(price < 0){
-                    console.log('The price should be positive');
-                    res.redirect('/admin/product-add');
-                     
+                    res.redirect('/admin/product-add?message=Price should be posivite&type=error');
                     }else if(size < 0){
-                        console.log(`SIZE IS CAN'T BE NEGATIVE`);
-                        res.redirect('/admin/product-add');
+                        res.redirect('/admin/product-add?message=Size should be posivite&type=error');
                     }else if(stock < 0){
-                        console.log(`STOCK IS CAN'T BE NEGATIVE`);
-                        res.redirect('/admin/product-add');
+                        res.redirect('/admin/product-add?message=Stock should be positive&type=error');
                     }else{
-                     
-                        const {category, description, brand, color, price, size, stock } = req.body;
+                       const {category, description, brand, color, price, size, stock } = req.body;
+                         const productImages = req.files.map(file => file.filename);
+                         const product = new Product({
+                             productName: productName,
+                             productImage: productImages,
+                             category: category,
+                             description: description,
+                             brand: brand,
+                             color: color,
+                             price: price,
+                             size: size,
+                             stock: stock
+                         });
                 
-                                const productImages = req.files.map(file => file.filename);
-                                const product = new Product({
-                                    productName: productName,
-                                    productImage: productImages,
-                                    category: category,
-                                    description: description,
-                                    brand: brand,
-                                    color: color,
-                                    price: price,
-                                    size: size,
-                                    stock: stock
-                                });
-                
-                                await product.save();
-                                res.redirect('/admin/sortProductAdmin/recentProducts');     
-                    
-                  }
-            }
-      
-        }catch (error) {
-        console.error(error);
+                         await product.save();
+                         res.redirect('/admin/sortProductAdmin/recentProducts?message=New product created&type=success');     
+                    }}
+            }catch (error) {
+            console.error(error);
         res.status(500).send(error.message);
     }
 };
+
 
 //<------------ load product edit -------------->
 const getProductEdit = async (req, res) => {
@@ -388,6 +380,7 @@ const getProductEdit = async (req, res) => {
     }
 };
 
+
 //<------------ update product edit -------------->
 const postProductEdit = async (req, res) => {
     try {
@@ -397,7 +390,7 @@ const postProductEdit = async (req, res) => {
         // Retrieve existing product details
         let product = await Product.findById(productId);
         if (!product) {
-            return res.send('Product not found');
+            return res.render('product-list?message=New Address added&type=success');
         }
 
         // Update fields other than product images
