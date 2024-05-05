@@ -13,18 +13,21 @@ const insertCategory = async (req, res) => {
         const categoryName = req.body.categoryName;
         const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
         if(isCat){
-            // req.flash('msg','Successfully logged in ');
-            res.send('already added');
+            res.redirect('/admin/category-add?message=The product name you entered is already in use&type=warning');
         }else{
-            const category = new Category({
-                categoryName: req.body.categoryName,
-                description : req.body.description
-            });
-           result = await category.save();
-          
-           res.redirect('/admin/category-list?message=New Category Added&type=success');
-        }
-        
+            const {categoryName, description} = req.body;
+            if(!categoryName){
+                res.redirect('/admin/category-add?message=please enter category name&type=warning');
+            }else if(!description){
+                res.redirect('/admin/category-add?message=please enter description&type=warning');
+            }else{
+                const category = new Category({
+                    categoryName: req.body.categoryName,
+                    description : req.body.description
+                });
+               result = await category.save();
+               res.redirect('/admin/category-list?message=New Category Added&type=success');
+            }}
     } catch (error) {
        console.error(error);
         res.status(500);
@@ -41,30 +44,27 @@ const categoryListing = async(req, res) => {
     }
 };
 
+
 //<------------ category adding page  -------------->
 const categoryAdd = async (req, res) => {
     try {
-        const categories = await Category.find();
         res.render('category-add')
     } catch (error) {
         console.log(error.message);
     }
 };
 
+
 //<------------ deleting category -------------->
  const deleteCategory = async (req, res) => {
     try {
         const id = req.params.id;
         const category = await Category.findById(id);
-        console.log('THE PROD: ',id);
      if(category.deleted == false){
-
         category.deleted = true;
         await category.save();
         return res.redirect('/admin/category-list?message=Catergory Deleted&type=success');
-        
-     }
-     else if(category.deleted == true) {
+     }else if(category.deleted == true) {
         category.deleted = false;
         await category.save();
         return res.redirect('/admin/category-list?message=Catergory Retrieved&type=success');
@@ -83,11 +83,9 @@ const loadCategoryEdit = async (req, res) => {
     try {
         const id = req.params.id;
         const category = await Category.findById(id);
-        
         if (!category) {
            return res.status(404).send("Category not found");
         }
-
         res.render('category-edit', { categories: category });
        } catch (error) {
         console.log('Error:', error);
@@ -100,8 +98,13 @@ const loadCategoryEdit = async (req, res) => {
 const editCategory = async (req, res) => {
     try {
         const { categoryName , description} = req.body;
+
         const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
 
+    
+        // if(isCat.categoryName != categoryName){
+        //     res.redirect('/admin/category-edit/662497f52888a2249c363cca?message=category with same name already exits&type=warning')
+        // }else{
             const updatedFields = {};
             if (categoryName) updatedFields.categoryName = categoryName;
             if (description) updatedFields.description = description;
@@ -113,6 +116,8 @@ const editCategory = async (req, res) => {
             }
             res.redirect('/admin/category-list?message=Category Updated&type=success');
         
+        
+          
      
     } catch (error) {
         console.log('Error:', error);

@@ -75,9 +75,21 @@
                   </a>
                 </td>
                   <td>
-                    <a href="/admin/orderDetailsAdmin/<%= order.id %>">
+                    <% if(order.return){ %>
+                      <div class="relative inline-block ">
+                        <a href="/admin/orderDetailsAdmin/<%= order.id %>">
+                          <img class="h-3.5 w-3.5 ml-9" src="/images/resume.png" alt="order details">
+                      </a>
+                        <span class="absolute top-0 right-0 inline-flex rounded-full h-2 w-2 bg-green-500 "></span>
+                      </div>
+                      
+                 
+                      
+                     <% }else{ %>
+                      <a href="/admin/orderDetailsAdmin/<%= order.id %>">
                         <img class="h-3.5 w-3.5 ml-9" src="/images/resume.png" alt="order details">
                     </a>
+                      <% } %>
                   </td>
             </tr>
           <% }) %>

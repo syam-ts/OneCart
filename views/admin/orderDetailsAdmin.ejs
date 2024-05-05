@@ -89,20 +89,22 @@
 
 </section>
                                         
-<section>
+<section class="ml-96">
+   
     <% if(orders.return){ %>
-<% if(orders.return.return === true){ %>
-    <span> The reason for returning : <%= orders.return.reason %> </span>
-    <div>
-        <button onclick="acceptReturn('<%= orders.id %>')" class="mt-5 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Accept</button>
-        <button onclick="rejectReturn('<%= orders.id %>')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Reject</button>
-    
+        <% if(orders.return.return === true){ %>
+    <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-500 ">
+        <a href="#">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Reason For Return</h5>
+        </a>
+        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"> <%= orders.return.reason %> </p>
+            <button onclick="acceptReturn('<%= orders.id %>')" class="mt-5 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Accept</button>
+            <button onclick="rejectReturn('<%= orders.id %>')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Reject</button>
+      <% }else{ %>
+        <span class="hidden">None</span>
+        <% } %>
+        <% } %>
     </div>
- 
-  <% }else{ %>
-    <span class="hidden">None</span>
-    <% } %>
-    <% } %>
 </section>
 
 <script>
