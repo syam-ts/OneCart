@@ -131,14 +131,14 @@ const insertUser = async(req, res) => {
 //<------------ verify otp -------------->
 const verifyOTP = async(req, res) => {
   try {
-      const {  otp } = req.body;
+      const { otp } = req.body;
       console.log('THE FIRST OTP : ',otp)
       const userData = req.session.userData;
       console.log('THE SECOND OTP : ',userData)
 
       if (  userData.otp !== otp) {
           console.log('Invalid data or OTP',otp);
-          return res.send('Invalid data or OTP');
+          return res.redirect('/verify-otp?message=invalid OTP&type=error')
       }
     
       const secPassword = await securePassword(userData.password);
