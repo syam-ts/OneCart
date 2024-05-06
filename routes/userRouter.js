@@ -17,6 +17,8 @@ const {isLoggedIn} = require('../config/auth');
 const passport = require('passport');
 require('../config/passport');
 
+const Order = require('../models/orderModel');
+
 Router.use(passport.initialize());
 Router.use(passport.session());
 
@@ -110,4 +112,14 @@ Router.post('/returnOrder',isLoggedIn, orderController.returnOrder);
 //<------------ wallet routes -------------->
 Router.get('/wallet',walletController.getWalletPage);
 
+
+Router.get('/admin/orders', async (req, res) => {
+   try {
+      const orders = await Order.find({}, 'createdate total').lean();
+      res.json(orders);
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+})
 module.exports = Router;

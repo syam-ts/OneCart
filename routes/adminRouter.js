@@ -11,6 +11,8 @@ const couponCtrl = require('../controllers/couponCtrl');
 const offerController = require('../controllers/offerCtrl');
 const bodyParser = require('body-parser');
 
+const Order = require('../models/orderModel');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
    //<------------ multer config -------------->

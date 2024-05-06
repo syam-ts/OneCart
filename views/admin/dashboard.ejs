@@ -74,11 +74,9 @@
                               <div class="bg-white border border-gray-100 shadow-md w-full">
                                   <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                                       <div class="bg-white border border-gray-100 shadow-md p-6 rounded-md lg:col-span-2">
-                                    
-                                          <article class="card-body">
-                                            <h5 class="card-title">Sale statistics</h5>
-                                            <canvas id="myChart" height="120px"></canvas>
-                                        </article>
+                                        <div>
+                                            <canvas id="myChart"></canvas>
+                                          </div>
                                       </div>
                                   </div>
                               </div>
@@ -91,58 +89,62 @@
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <!-- Include Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Your Chart.js initialization script -->
-
-
-    
-    <!-- Other scripts -->
     <script src="https://unpkg.com/@popperjs/core@2"></script>
 
+    <!---------------- toastr script ------------------>
     <script>
         var toastMessage = "<%= typeof toastMessage !== 'undefined' ? toastMessage.text : '' %>";
         document.addEventListener('DOMContentLoaded', function() {
             if (toastMessage !== '') {
-                toastr.success(toastMessage);
-            }
+                toastr.success(toastMessage)}
         });
     </script>
-    
 
-    <script>
-    $(document).ready(function() {
-        // Chart.js code for generating the chart
-        if ($('#myChart').length) {
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'line',
-            data: {
+      <!---------------- chart script ---------------->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        fetch('/admin/orders')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            const ordersData = data.map(order => ({
+              month: new Date(order.createdate).getMonth(),
+              quantity: order.total 
+            }));
+      
+            const monthlyData = Array.from({ length: 12 }, () => 0); 
+            ordersData.forEach(order => {
+              const month = order.month;
+              monthlyData[month] += order.quantity;
+            });
+      
+            const ctx = document.getElementById('myChart');
+      
+            new Chart(ctx, {
+              type: 'bar',
+              data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
-                    label: 'Sales',
-                    tension: 0.3,
-                    fill: true,
-                    backgroundColor: 'rgba(44, 120, 220, 0.2)',
-                    borderColor: 'rgba(44, 120, 220)',
-                    data: [18, 17, 4, 3, 2, 20, 25, 31, 25, 22, 20, 9]
+                  label: '# of Orders',
+                  data: monthlyData,
+                  borderWidth: 1
                 }]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                        },
-                    }
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
                 }
-            }
-        });
-    }
-    });
-</script>
-
+              }
+            });
+          })
+          .catch(error => console.error('Error fetching orders:', error));
+      </script>
+      
     
 <%- include('../partials/adminFooter') %>
