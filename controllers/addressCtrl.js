@@ -7,16 +7,15 @@ const getUserAddress = async(req, res) => {
   const userId = req.session.user;
   const user = await User.findById(userId);
   const address = await Address.find({userId:{ $in : userId}});
-    res.render('userAddress',{ address ,user,
-      toastMessage: { type: 'success', text: '' } })
-   };
+    res.render('userAddress',{ address ,user,toastMessage: { type: 'success', text: '' } 
+  })};
 
 //<------------ loading address adding page   -------------->
    const getAddAddress = async(req, res) => {
     const userId = req.session.user;
     const user = await User.findById(userId);
     const addressId = req.params;
-    res.render('addressAdd',{ countries ,user});
+    res.render('addressAdd',{ countries ,user ,type: 'success', text: ''});
    };
 
 
@@ -46,7 +45,7 @@ const getUserAddress = async(req, res) => {
           country: country
      });
     await newAddress.save();
-    res.render('userAddress?message=New Address added&type=success');
+    res.redirect('/userAddress?message=New Address added&type=success');
   }} 
   } catch (error) {
     console.log(error.message);
@@ -82,7 +81,8 @@ const getEditAddress = async (req, res ) => {
       addressToUpdate.country = country;
   
        await addressToUpdate.save();
-      res.redirect('/userAddress?message=Address edited successfully&type=success');
+      
+      res.redirect('/userAddress?message=Address deleted successfully&type=success');
     } catch (error) {
       console.log(error.message);
     }

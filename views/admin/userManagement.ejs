@@ -3,16 +3,14 @@
     <!----------- toaster css ------------->
     <style>
         #toast-container > .toast-success {
-          background: linear-gradient(to right, #16b051e3, #22242F 50% ) !important;
+          background: linear-gradient(to right, #e92d0ce3, #22242F 50% ) !important;
           width: 350px;
           height: 70px;
           position: relative;
           color: white; 
-          
-
-
-          /* pading for text */
-          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+          text-align: center;
+          font-size: larger;
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
         
         #toast-container > .toast-success::after {
@@ -22,7 +20,7 @@
           left: 0;
           width: 100%;
           height: 4px; 
-          background-color: rgb(4, 255, 0); 
+          background-color: rgb(255, 0, 0); 
           transform: scaleX(0); 
           transform-origin: right; 
           animation: expandLine 5s linear forwards; 
