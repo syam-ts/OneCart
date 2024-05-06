@@ -54,6 +54,8 @@ const getOrderHistory = async (req, res) => {
         const product = await Product.find({ _id: { $in: products } });
        const total = orders.map( x => x.total);
         const count = await Order.find({ deleted: false }).countDocuments();
+
+        console.log( orders)
       
         res.render('orderHistory', {
             address : address,

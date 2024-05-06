@@ -5,9 +5,6 @@
     <%- include('../partials/userProfileSidebar') %>
 </section>
 
-<section>
-
-
     <section class="py-24 relative">
         <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
             <div class="flex items-start flex-col gap-6 xl:flex-row ">
@@ -21,7 +18,8 @@
                             <div class="flex items-center justify-between gap-4 mb-5">
                                 <p class="font-normal text-lg leading-8 text-gray-400 transition-all duration-500 group-hover:text-gray-700">
                                     Order Id</p>
-                                <p class="font-medium text-xs leading-8 text-gray-600"> <%= order.id %> </p>
+                                    <% const ORDID = parseInt(Math.random() * 2342332320); %>
+                                    <div class="text-left"> <%= ORDID %> </div>
                             </div>
                             <div class="flex items-center justify-between gap-4 mb-5">
                                 <p class="font-normal text-lg leading-8 text-gray-400 transition-all duration-500 group-hover:text-gray-700">
@@ -59,9 +57,16 @@
                                 Return
                                 </button>
                         <% } %>
+                        <section>
+                            <button id="downloadInvoice" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-gray-900 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+                                Dowload Invoice
+                               </button>
+                        </section>
                     </div>
+                    
                 </div>
 
+                
                 <dialog id="my_modal_1" class="modal w-3/6 h-4/6  bg-stone-400 rounded-lg">
                     <div class="modal-box rounded-md">
                         <h3 class="font-bold text-lg mt-12">Return</h3>
@@ -181,7 +186,7 @@
         </div>
     </section>                              
 
-</section>
+
 
 
 </main>
@@ -226,9 +231,16 @@
                   reason: reason
               })
           }) 
-      }
+      };
 
-              
+
+    //------------ downlaod Invoice ---------------//
+
+    const downloadInvoice = document.getElementById('downloadInvoice');
+
+    downloadInvoice.addEventListener('click',() => {
+        alert('Dowload the invoice')
+    }) 
 </script>
 
 <%- include('../partials/footer') %>

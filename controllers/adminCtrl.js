@@ -57,10 +57,10 @@ const verifyAdmin = async (req, res) => {
                     toastMessage: { type: 'success', text: 'Successfully LoggedIn' }
                 });
             }else{
-                res.redirect('/admin/admin-login?message=Invalid Password&type=error');
+                res.redirect('/admin/admin-login?message=INVALID PASSWORD&type=error');
             }
         }else{
-            res.redirect('/admin/admin-login?message=Invalid Username&type=error');
+            res.redirect('/admin/admin-login?message=INVALID USERNAME&type=error');
         }
 
     } catch (error) {

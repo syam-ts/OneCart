@@ -66,8 +66,9 @@
                       <tbody class="text-sm divide-y divide-gray-100">
                         <% for(let i = 0; i < orders.length; i++){ %>
                           <tr>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <%= orders[i].id %> </div>
+                            <td class="pl-24 pt-5 whitespace-nowrap">
+                                <% const ORDID = parseInt(Math.random() * 2342332320); %>
+                                <div class="text-left"> <%= ORDID %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
                                   <div class="text-left"> <%= user.email %> </div>

@@ -8,12 +8,40 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">   
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     
+    <!----------- toaster css ------------->
     <style>
-       #toast-container > .toast-error {
-    background-color: red !important;
-   
-  }
+      #toast-container > .toast-error {
+        background: linear-gradient(to right, #e92d0ce3, #22242F 50% ) !important;
+        width: 350px;
+        height: 70px;
+        position: relative;
+        color: white; 
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
+      
+      #toast-container > .toast-error::after {
+        content: ""; 
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 4px; 
+        background-color: rgb(255, 0, 0); 
+        transform: scaleX(0); 
+        transform-origin: right; 
+        animation: expandLine 5s linear forwards; 
+      }
+    
+      @keyframes expandLine {
+        to {
+          transform: scaleX(1); 
+        }
+      }
     </style>
+    
+    
+    
+    
 </head>
 
 <body>
