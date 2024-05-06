@@ -256,18 +256,47 @@ const orderSuccess = async (req, res) => {
 //<------------ order cancel for user -------------->
 const orderCancel = async (req, res) => {
     try {
+        const userId = req.session.user;
         const orderId = req.body.orderId;
         const order = await Order.findById(orderId);
-        order.status = "Cancelled";
-        await order.save();
-        res.redirect('/orderDetailsUser')
-        if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
-            console.log('Money refunded to wallet');
+       
+        if (order.paymentMethod === "Razor Pay") {
+            const wallet = await Wallet.findOne({ userId: userId });
+
+            if (!wallet) {
+                const newWallet = new Wallet({
+                    userId: userId,
+                    amount: order.total
+                });
+                await newWallet.save();
+            } else {
+                wallet.amount += order.total;
+                await wallet.save();
+            }
+
+            order.status = "Cancelled";
+            await order.save();
+            res.redirect('/orderDetailsUser');
+            console.log('New wallet created and money added to wallet');
+        } else if (order.paymentMethod === "Wallet") {
+            const wallet = await Wallet.findOne({ userId: userId });
+            if (wallet) {
+                wallet.amount += order.total;
+                await wallet.save();
+            }
+            order.status = "Cancelled";
+            await order.save();
+            res.redirect('/orderDetailsUser');
+            console.log("Money added to the wallet");
         }
     } catch (error) {
         console.log(error.message);
+        res.status(500).send("Internal Server Error");
     }
 };
+
+
+
 
 const returnOrder = async (req, res) => {
     try {

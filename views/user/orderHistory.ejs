@@ -86,7 +86,9 @@
                                   <div class="text-left"> <%= orders[i].status %> </div>
                               </td>
                               <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">/</a>  </div>
+                                  <div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">
+                                    Details
+                                </a></div>
                               </td>
                           </tr>
                           <% } %>
