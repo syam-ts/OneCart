@@ -322,24 +322,26 @@ const productList = async(req, res) => {
 };
 
 
-//<------------ add prouduct -------------->
+//<------------ adding new product -------------->
 const insertProduct = async (req, res) => {
     try {
-        const { price, size, stock, } = req.body;
-            const productName = req.body.productName;
-            const existingProduct = await Product.findOne({ productName: { $regex: new RegExp('^' + productName + '$', 'i') } });
-            if(existingProduct){
-                res.redirect("/admin/product-add?message=Product already exist&type=error")
-            }else{
-                if(price < 0){
-                    res.redirect('/admin/product-add?message=Price should be posivite&type=error');
-                    }else if(size < 0){
-                        res.redirect('/admin/product-add?message=Size should be posivite&type=error');
-                    }else if(stock < 0){
-                        res.redirect('/admin/product-add?message=Stock should be positive&type=error');
+        const {price, description, size, stock, } = req.body;
+        const productImages = req.files.map(file => file.filename);
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
+        const allExtensionsAllowed = extensions.every(ext => allowedExtensions.includes(ext));
+           if (!allExtensionsAllowed) {
+                        res.redirect('/admin/product-add?message=The image format not support&type=error')
+                    }else if(description.length < 20){
+                        res.redirect('/admin/product-add?message=Description should have atleast 20 words&type=error');
+                    }else if(price < 300 || price > 40000){
+                        res.redirect('/admin/product-add?message=The price should be between 300 and 40000&type=error');
+                    }else if(size < 4 || size > 42){
+                        res.redirect('/admin/product-add?message=The size should be between 4 and 42&type=error');
+                    }else if(stock < 1 || stock > 1000){
+                        res.redirect('/admin/product-add?message=The stock should be between 1 and 1000&type=error');
                     }else{
-                       const {category, description, brand, color, price, size, stock } = req.body;
-                         const productImages = req.files.map(file => file.filename);
+                       const {productName, category, brand, color, size, stock } = req.body;
                          const product = new Product({
                              productName: productName,
                              productImage: productImages,
@@ -351,13 +353,10 @@ const insertProduct = async (req, res) => {
                              size: size,
                              stock: stock
                          });
-                
                          await product.save();
-                         res.redirect('/admin/sortProductAdmin/recentProducts?message=New product created&type=success');     
-                    }}
-            }catch (error) {
-            console.error(error);
-        res.status(500).send(error.message);
+                         res.redirect('/admin/sortProductAdmin/recentProducts?message=New product created&type=success')}
+                    }catch (err) {
+        res.render('error', {message : err});
     }
 };
 
@@ -385,6 +384,18 @@ const getProductEdit = async (req, res) => {
 const postProductEdit = async (req, res) => {
     try {
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
+
+
+
+
+
+
+
+
+
+
+
+    
         const productId = req.params.id; 
 
         // Retrieve existing product details
