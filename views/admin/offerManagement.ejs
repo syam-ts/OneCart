@@ -171,34 +171,39 @@
 </section>
 </main>
 
+
 <script>
 
 
-
 const deleteOfferBtns = document.querySelectorAll('.deleteOffer');
-
 deleteOfferBtns.forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', async () => {
         const productId = button.value;
-        fetch('/admin/deleteOffer', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                productId: productId
-            })
-        })
-        .then(() => {
-            window.location.href = '/admin/offerManagement';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        try {
+            const response = await fetch('/admin/deleteOffer', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    productId: productId
+                })
+            });
+
+            if (response.ok) {
+                window.location.href = response.url; // Redirect if response status is OK
+            } else {
+                console.error('Failed to delete offer.');
+                // Handle error here, e.g., show error message to the user
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            // Handle error here, e.g., show error message to the user
+        }
     });
 });
-
 </script>
+
 <script>
   function parseQueryParams() {
       var queryParams = {};

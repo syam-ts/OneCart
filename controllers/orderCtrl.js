@@ -9,6 +9,7 @@ const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
 
+
 const createOrder = async (req, res) => {
     try {
         const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
@@ -312,6 +313,27 @@ const returnOrder = async (req, res) => {
     }
 };
 
+const generateInvoice = async (req, res) => {
+        try {
+            const orderId = req.body.orderId;
+            const pageUrl = `${req.protocol}://${req.get('host')}/orderDetailsUser/${orderId}`;
+            
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.goto(pageUrl, { waitUntil: 'networkidle0' });
+    
+            const pdfBuffer = await page.pdf({ format: 'A4' });
+            await browser.close();
+    
+            res.contentType('application/pdf');
+            res.send(pdfBuffer);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Internal Server Error");
+        }
+
+}
+
 module.exports = {
     createOrder,
     getOrderHistory,
@@ -321,5 +343,6 @@ module.exports = {
     verifyAndInsertOrder,
     orderSuccess,
     orderCancel,
-    returnOrder
+    returnOrder,
+    generateInvoice
 }

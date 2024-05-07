@@ -85,11 +85,123 @@
                   </div>
               </div>
         </div>
+
+            <!---------------- Sorting orders ---------------->
+<section class="flex justify-end items-end">
+  <div class="relative">
+    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mt-12 text-gray-950 h-9 w-44 border border-gray-950 bg-gray-500  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
+      <span class="flex items-center font-thin">Sort By</span>
+      <svg class="w-2.5 h-2.5 mt-2 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+    </button>
+    <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-100 text-gray-950">
+      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <li>
+          <a href="/admin/sortDashboard/topTenPrdt" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Top 10 Proudcts</a>
+        </li>
+        <li>
+          <a href="/admin/sortDashboard/topTenCtgry" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Top 10 Categories</a>
+        </li>
+        <li>
+          <a href="/admin/sortDashboard/topTenBrnd" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Top 10 Brands</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="py-1 bg-blueGray-50 ">
+  <h1 class="font-bold text-2xl">Top Sellers</h1>
+  <div class="w-full mb-12 xl:mb-0 px-2 mt-5">
+    <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
+      <div class="rounded-t mb-0 px-4 border-0">
+        <div class="flex flex-wrap items-center">
+          <div class="relative w-full px-4 max-w-full flex-grow flex-1">
+            <h3 class="font-semibold text-base text-blueGray-700">    </h3>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="w-full">
+        <table class="items-center bg-transparent border-collapse w-full">
+          <thead>
+              
+            <tr>
+              <th class=" bg-pink-500 pl-5 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                           Name</th>
+              <th class=" bg-pink-500 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                           Description</th>
+            <th class=" bg-pink-500 text-blueGray-500  border border-solid border-blueGray-100 py-3 pr-20  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold">
+                            Edit</th>
+            <th class=" bg-pink-500 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 pr-20 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Delete</th>
+          
+           
+            </tr>
+          </thead>
+  
+          <tbody>
+              
+            <tr>
+              <td class="border-t-0 pl-5 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap">
+                  category.categoryName 
+              </td>
+           
+              <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap w-auto">
+                 category.description %>
+              </td>
+       
+              <td class="border-t-0 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap">
+                  <a href="./category-edit/" class="font-medium font-sans text-xs text-red-950  hover:underline">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                        </svg>
+                    </a>
+              </td>
+              <td class="border-t-0 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                  <a href="./category-block/" class="font-medium text-red-950  hover:underline">
+                     
+                          <span class="relative flex h-3 w-3">
+                              <span class="absolute inline-flex h-full rounded-full bg-blue-400 opacity-75"> </span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500 pl-3">Block</span>
+                            </span>
+                     
+  
+                          <span class="relative flex h-3 w-3">
+                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"> </span>
+                              <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 pl-3">Unblock</span>
+                            </span>
+                    
+              </td>
+         
+            </tr>
+        
+          </tbody>
+  
+        </table>
+        <section class="mb-14 mt-10">
+          <a href="./category-add" type="submit" class="flex w-32 rounded-md bg-pink-500 px-3 py-1.5 text-sm font-semibold leading-6 text-gray-700 shadow-sm hover:bg-yellow-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add Category</a>
+  
+      </section>
+      </div>
+    </div>
+  </div>
+  
+  </section>
       <!-- End Content -->
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
+
+
+    <!---------------- sort dropdown ------------------->
+    <script>
+      function toggleDropdown() {
+          var dropdown = document.getElementById('dropdown');
+          dropdown.classList.toggle('hidden');
+        }
+  </script>
 
     <!---------------- toastr script ------------------>
     <script>

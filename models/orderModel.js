@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uuid = require('uuid');
 
 const orderSchema = mongoose.Schema({
         userId:{type: mongoose.Schema.Types.ObjectId,ref: 'User'},
@@ -10,7 +11,8 @@ const orderSchema = mongoose.Schema({
         createdate:{type:Date,default:Date.now},
         carts: {type: Object,required:true,default: true},
         discountPrice: {type: Number,required:true},
-        return:{type:{return:Boolean, reason:String}}
+        return:{type:{return:Boolean, reason:String}},
+        ordId: { type: String, default: uuid.v4, unique: true }
     });
 
 module.exports = mongoose.model('Order',orderSchema);

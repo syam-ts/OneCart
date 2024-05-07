@@ -2,6 +2,7 @@ const session = require('express-session');
 const User = require('../models/userModel');
 const Product = require('../models/productModel');
 const Category = require('../models/categoryModel');
+const Order = require('../models/orderModel');
 const dotenv = require('dotenv');
 const express = require('express');
 const app = express();
@@ -108,6 +109,25 @@ const logoutAdmin = (req, res) => {
         res.send('An error occurred');
     }
 };
+
+
+const topTenPrdt = async (req, res) => {
+    try {
+        const result = await Order.aggregate([
+            { $unwind: "$products" },
+            { $group: { _id: "$products.productName", count: { $sum: 1 } } }, 
+            { $sort: { count: -1 } }, 
+            { $limit: 3 } 
+        ]);
+        
+        console.log('The pro : ',result)
+        res.json(result);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
+
 
 module.exports = {
     getAdmin,

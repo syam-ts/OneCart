@@ -35,7 +35,6 @@ const Product = require('../models/productModel');
         } else {
             product.offer.push({ originalPrice: product.price, offerPrice: offerPrice });
             await product.save();
-            console.log("Success");
             res.redirect('/admin/offerManagement?message=New Offer added&type=success');
         }
     } catch (error) {
@@ -48,15 +47,11 @@ const Product = require('../models/productModel');
   //<------------ delete an offer -------------->
 const deleteOffer = async (req, res) => {
     try {
-        console.log('Reached here');
       const productId = req.body.productId;
-
       const product = await Product.findById(productId);
-
      product.offer.pop();
      await product.save();
-     res.redirect('/admin/offerManagement')
-        
+     return res.redirect('/admin/offerManagement?message=Offer deleted&type=success');
     } catch (error) {
         console.log(error.message);
     }

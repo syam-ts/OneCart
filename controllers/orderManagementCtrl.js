@@ -131,9 +131,8 @@ const getSalesReport = async (req, res) => {
         const userId = await order.map(x => x.userId);
         const user = await User.find({_id:{ $in : userId}})
         const email = await user.map(x => x.email);
-        console.log('THE EMAILS : ',email)
-
-        res.render('salesReport',{ order , email});
+        const name = await user.map(x => x.name);
+        res.render('salesReport',{ order , email, name});
     } catch (error) {
         console.log(error.message);
     }
@@ -207,10 +206,37 @@ const orderStatusChng = async (req, res) => {
     }
 }
 
+
+const sortSalesReport = async (req, res) => {
+    try {
+        console.log('The type : ',req.params)
+        const type = req.params.type;
+        if(type == "Delevered"){
+            const order = await Order.find({ status: { $in: "Delivered" } });
+            const userId = await order.map(x => x.userId);
+            const user = await User.find({_id:{ $in : userId}})
+            const email = await user.map(x => x.email);
+            const name = await user.map(x => x.name);
+            res.render('salesReport',{ order , email, name});
+        }else if(type == "Cancelled"){
+            const order = await Order.find({ status: { $in: "Cancelled" } });
+            const userId = await order.map(x => x.userId);
+            const user = await User.find({_id:{ $in : userId}})
+            const email = await user.map(x => x.email);
+            const name = await user.map(x => x.name);
+            res.render('salesReport',{ order , email, name});
+        }
+       
+
+    } catch (err) {
+        console.log(err.message);
+    }
+};
 module.exports = {
     getOrderManagement,
     sortOrderAdmin,
     orderDetailsAdmin,
     getSalesReport,
-    orderStatusChng
+    orderStatusChng,
+    sortSalesReport
 };

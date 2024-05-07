@@ -238,9 +238,40 @@
 
     const downloadInvoice = document.getElementById('downloadInvoice');
 
-    downloadInvoice.addEventListener('click',() => {
-        alert('Dowload the invoice')
-    }) 
+downloadInvoice.addEventListener('click', async () => {
+    try {
+        const orderId = document.getElementById('cancelOrderUser').value;
+
+        const response = await fetch('/generateInvoice', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "orderId": orderId
+            })
+        });
+
+        if (response.ok) {
+            const pdfBlob = await response.blob();
+            const url = window.URL.createObjectURL(pdfBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } else {
+            console.error('Failed to download invoice.');
+            // Handle error here
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+        // Handle error here
+    }
+});
+
 </script>
 
 <%- include('../partials/footer') %>

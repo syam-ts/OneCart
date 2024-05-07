@@ -11,7 +11,6 @@ const couponCtrl = require('../controllers/couponCtrl');
 const offerController = require('../controllers/offerCtrl');
 const bodyParser = require('body-parser');
 
-const Order = require('../models/orderModel');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -25,7 +24,9 @@ Router.get('/admin-login',adminController.getAdmin);
 Router.post('/admin-login',adminController.verifyAdmin);
 Router.get('/admin-logout',adminController.logoutAdmin);
 Router.get('/dashboard',adminController.getDashboard);
-
+// Router.get('/admin/sortDashboard/topTenPrdt',adminController.topTenPrdt);
+// Router.get('/admin/sortDashboard/topTenCtgry',adminController,topTenCtgry);
+// Router.get('/admin/sortDashboard/topTenBrnd',adminController.topTenBrnd);
 
    //<------------ userManagement routes -------------->
 Router.get('/userManagement',userManagementController.getUsers);
@@ -62,7 +63,7 @@ Router.get('/sortOrderAdmin/:method',orderManagementCtrl.sortOrderAdmin);
    //<------------ salse routes -------------->
 Router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
 Router.get('/salesReport',orderManagementCtrl.getSalesReport);
-
+Router.get('/sortSalesReport/:type',orderManagementCtrl.sortSalesReport);
 
    //<------------ couponManagement routes -------------->
 Router.get('/coupon-list',couponCtrl.couponList);
