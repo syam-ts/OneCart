@@ -385,46 +385,46 @@ const postProductEdit = async (req, res) => {
     try {
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
 
+        const productImages = req.files.map(file => file.filename);
+        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
+        const allExtensionsAllowed = extensions.every(ext => allowedExtensions.includes(ext));
+           if (!allExtensionsAllowed) {
+                        res.redirect('/admin/product-add?message=The image format not support&type=error')
+                    }else if(description.length < 20){
+                        res.redirect('/admin/product-add?message=Description should have atleast 20 words&type=error');
+                    }else if(price < 300 || price > 40000){
+                        res.redirect('/admin/product-add?message=The price should be between 300 and 40000&type=error');
+                    }else if(size < 4 || size > 42){
+                        res.redirect('/admin/product-add?message=The size should be between 4 and 42&type=error');
+                    }else if(stock < 1 || stock > 1000){
+                        res.redirect('/admin/product-add?message=The stock should be between 1 and 1000&type=error');
+                    }else{
+                        const productId = req.params.id; 
 
+                        // Retrieve existing product details
+                        let product = await Product.findById(productId);
+                        if (!product) {
+                            return res.render('product-list?message=New Address added&type=success');
+                        }
+                
+                        // Update fields other than product images
+                        product.productName = productName;
+                        product.productImage = productImages;
+                        product.category = category;
+                        product.description = description;
+                        product.brand = brand;
+                        product.stock = stock;
+                        product.color = color;
+                        product.price = price;
+                        product.size = size;
+                        product.extras = extras;
+                
+                        // Save the updated product
+                        product = await product.save();
+                        return res.redirect('/admin/sortProductAdmin/recentProducts?message=Product Updated&type=success');
+                    }
 
-
-
-
-
-
-
-
-
-    
-        const productId = req.params.id; 
-
-        // Retrieve existing product details
-        let product = await Product.findById(productId);
-        if (!product) {
-            return res.render('product-list?message=New Address added&type=success');
-        }
-
-        // Update fields other than product images
-        product.productName = productName;
-        product.category = category;
-        product.description = description;
-        product.brand = brand;
-        product.stock = stock;
-        product.color = color;
-        product.price = price;
-        product.size = size;
-        product.extras = extras;
-
-        // file uploads separately
-        if (req.files && req.files.length > 0) {
-            const productImages = req.files.map(file => file.filename);
-            product.productImage = productImages;
-        }
-
-        // Save the updated product
-        product = await product.save();
-
-        return res.redirect('/admin/product-list?message=Product Updated&type=success');
     } catch (error) {
         console.log('Error:', error);
         return res.status(500).send('Internal Server Error');
