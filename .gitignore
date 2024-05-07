@@ -1,8 +1,9 @@
 # Node.js
-/node_modules
+node_modules
+
+# Environment files
+.env
 
 # tailwind files
 tailwind.config.js
 
-# Environment files
-.env
