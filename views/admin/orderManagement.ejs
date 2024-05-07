@@ -12,7 +12,7 @@
       <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-100 text-gray-950">
         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
           <li>
-            <a href="/admin/sortOrderAdmin/recentOrders" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Recently added</a>
+            <a href="/admin/sortOrderAdmin/recentOrders" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Recent orders</a>
           </li>
           <li>
             <a href="/admin/sortOrderAdmin/olderOrders" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Older orders</a>
@@ -103,7 +103,7 @@
             <a href="?page=<%= currentPage - 1 %>" class="px-2 font-sans hover:text-sky-600"> &lt; </a>
         <% } %>
         <% for (let i = 1; i <= totalPage; i++) { %>
-            <a href="?page=<%= i %>" class="px-2 font-sans hover:text-sky-600 <%= i === currentPage ? 'text-sky-600' : '' %>"> <%= i %> </a>
+            <a href="?page=<%= i %>" class="px-2 font-sans hover:text-sky-600 <%= i === currentPage ? 'bg-sky-600 rounded-full' : '' %>"> <%= i %> </a>
         <% } %>
         <% if (currentPage < totalPage) { %>
             <a href="?page=<%= parseInt(currentPage) + 1 %>" class="px-2 font-sans hover:text-sky-600"> &gt; </a>

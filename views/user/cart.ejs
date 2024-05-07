@@ -140,9 +140,10 @@ cartDecList.forEach(cartDec => {
                   currentQty : currentQty
               })
               }).then(async (response) => {
-  const data = await response.json();
-    const url = `/cart?message=${data.toastMessage.text}&type=${data.toastMessage.type}`;
-    window.location.href = url
+                const res = response.toastMessage
+                    console.log('This : ',res);
+    // const url = `/cart?message=${data.toastMessage.text}&type=${data.toastMessage.type}`;
+    window.location.href = `/cart`
 
 }).catch((error) => {
   console.error('Error:', error);
@@ -171,8 +172,8 @@ cartDecList.forEach(cartDec => {
                 })
                 }).then(async (response) => {
                     const res = response.toastMessage
-                    console.log('This : ',res)
-    window.location.href = `/cart?message=hellow&type=error`
+                    console.log('This : ',res);
+    window.location.href = `/cart`
 
 }).catch((error) => {
   console.error('Error:', error);

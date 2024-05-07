@@ -101,7 +101,7 @@
             <% } %>
             
             <% for (let i = 1; i <= totalPage; i++) { %>
-                <a href="?page=<%= i %>" class="px-2 font-sans hover:text-sky-600 <%= i === currentPage ? 'text-sky-600' : '' %>"> <%= i %> </a>
+                <a href="?page=<%= i %>" class="px-2 font-sans hover:text-white <%= i === currentPage ? 'bg-sky-600 rounded-full' : '' %>"> <%= i %> </a>
             <% } %>
             
             <% if (currentPage < totalPage) { %>

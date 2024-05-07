@@ -8,10 +8,8 @@ const nocache = require("nocache");
 const app = express();
 const connectDB = require('./DB/db');
 const flash = require('connect-flash');
-const methodOverride = require('method-override');
 const swal = require('sweetalert');
 const cors = require('cors');
-const sharp = require('sharp');
 const toastr = require('toastr')
 
 
@@ -21,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 
-//.dev
+//dotdev
 dotenv.config({path:'./.env'})
 
 const secretKey = process.env.SESSION_SECRET;
@@ -49,7 +47,6 @@ app.use((req, res, next) => {
     };
     next();
 });
-
 
 
 //routes
@@ -82,5 +79,3 @@ const server = app.listen(PORT, () => {
         console.log('cant connet to the sever');
     });
 });
-
-

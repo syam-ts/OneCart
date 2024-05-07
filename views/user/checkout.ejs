@@ -41,7 +41,7 @@
                     <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12">
                         <% for (let i = 0; i < address.length; i++) { %>
                             <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="<%= address[i].id %>">
-                            <ul class="text-sm text-gray-900 list-none list-inside dark:text-gray-900">
+                            <ul class="text-sm text-gray-900 list-none list-inside font-mono dark:text-gray-900">
                                 <li>
                                     <%= address[i].name %></li>
                                 <li>
@@ -63,10 +63,10 @@
                             <% }) %>
                     </select>
                     <div class="flex gap-6 max-sm:flex-col mt-5">
-                        <button id="addCoupon" type="button" class="rounded-md px-6 py-1.5 w-32 text-sm font-thin bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
+                        <button id="addCoupon" type="button" class="rounded-md px-6 py-1.5 w-36 text-sm font-bold bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
                         Add Coupon</button>
                   
-                        <button id="removeCoupon" type="button" class="rounded-md px-6 py-1 w-32 text-sm font-thin bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
+                        <button id="removeCoupon" type="button" class="rounded-md px-6 py-1 w-32 text-sm font-bold bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
                         Remove </button>
                     </div>
                 </section>
@@ -75,27 +75,27 @@
                     <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
                     <div class="flex-col mb-4">
                         <input id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                        <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Cash on Delivery</label>
+                        <label for="paymentMethod" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Cash on Delivery</label>
 
                         <input id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                        <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900">Razor Pay</label>
+                        <label for="paymentMethod" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Razor Pay</label>
 
                         <input id="default-radio-2" type="radio" value="Wallet" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                        <label for="paymentMethod" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-900"> Wallet </label>
-                        <span id="walletAmount">100</span>
+                        <label for="paymentMethod" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900"> Wallet </label>
+                        <!-- <span id="walletAmount"></span> -->
                     </div>
                 </section>
                 <section>
                <% if(Array.isArray(wallet) && wallet.length == 0) { %>
                     <div class="flex gap-6 max-sm:flex-col mt-10">
-                            <button type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
-                            <button id="placeOrder" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]" >
+                            <a href="/cart" type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</a>
+                            <button id="placeOrder" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#23f353] text-white hover:bg-[#222]" >
                                 Complete Purchase
                            </button>
                       </div>
                 <% }else{ %>
                 <div class="flex gap-6 max-sm:flex-col mt-10">
-                    <button type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</button>
+                    <a href="/cart" type="button" class="rounded-md pl-36 px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</a>
                     <button id="placeOrder" value="<%= wallet[0].amount %>" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]" >
                         Complete Purchase
                          </button>
@@ -197,7 +197,7 @@ removeCouponButton.addEventListener('click', () => {
         if (selectedRadios.length > 0) {
             // If at least one radio button is selected, get the value of the first selected one
             var selectedId = selectedRadios[0].value;
-            toastr.success('Address selected');
+            // toastr.success('Address selected');
         } else {
             toastr.error('Please select an address');
         }

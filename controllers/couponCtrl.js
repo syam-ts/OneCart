@@ -1,4 +1,5 @@
 const Coupon = require('../models/couponModel');
+const { ObjectId } = require('mongoose').Types;
 
    //<------------ coupon List -------------->
     const couponList = async (req, res ) => {
@@ -52,8 +53,25 @@ const Coupon = require('../models/couponModel');
     };
 
 
+           //<------------ delete coupon -------------->
+           const deleteCoupon = async (req, res) => {
+            try {
+                const couponId = req.params.id;
+                console.log('The id: ', couponId);
+                const deletedCoupon = await Coupon.findById(couponId);
+                console.log('The coupon: ', deletedCoupon); // Corrected line
+                res.redirect('/admin/coupon-list');
+            } catch (err) {
+                console.error(err.message);
+                res.status(500).send("Internal Server Error");
+            }
+        };
+        
+
+
 module.exports = {
     couponList,
     getCouponAdd,
-    insertCoupon
+    insertCoupon,
+    deleteCoupon
 }

@@ -64,7 +64,7 @@ const getCart = async (req, res) => {
             res.status(500).json({ error: 'Internal server error' })}
     };
 
-      //<------------ cart decrease -------------->
+      //<------------ decreasing the cart qunatity -------------->
       const cartDec = async (req, res) => {
         try {
             const cartId = req.body.cartId;
@@ -73,7 +73,7 @@ const getCart = async (req, res) => {
             const productId = cart.productId;
             const product = await Product.findById(productId)
             if(currentQty <= 1){
-                res.json({ toastMessage: { type: 'error', text: 'Cannot decrese less than zero' }});
+                res.json({ toastMessage: { type: 'error', text: 'Cannot make the quantity to zero' }});
             }else{
                 product.stock += 1;
                 cart.quantity -= 1;
@@ -84,7 +84,7 @@ const getCart = async (req, res) => {
         }
        };
 
-  //<------------ cart increse -------------->
+  //<------------ incresing the cart qunatity -------------->
        const cartInc = async (req, res) => {
         try {
             const cartId = req.body.cartId;

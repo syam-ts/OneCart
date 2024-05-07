@@ -69,6 +69,7 @@ Router.get('/sortSalesReport/:type',orderManagementCtrl.sortSalesReport);
 Router.get('/coupon-list',couponCtrl.couponList);
 Router.get('/coupon-add',couponCtrl.getCouponAdd);
 Router.post('/coupon-add',couponCtrl.insertCoupon);
+Router.get('/deleteCoupon/:id',couponCtrl.deleteCoupon);
 
 
  //<------------ offerManagement routes -------------->
