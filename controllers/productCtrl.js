@@ -201,8 +201,6 @@ const productList = async(req, res) => {
                 .exec();
           
             const count = await Product.find().countDocuments();
-          
-            console.log('THe products :',products)
             res.render('product-list', {
                 products: products,
                 totalPage: Math.ceil(count / limit),
@@ -221,7 +219,6 @@ const productList = async(req, res) => {
    const sortProductAdmin = async (req, res) => {
     try {
         const sortMethod = req.params.method;
-        console.log('THE METHOD : ',sortMethod)
         var sortQuery = {}; 
    
         switch (sortMethod) {
@@ -248,8 +245,6 @@ const productList = async(req, res) => {
                 .exec();
           
             const count = await Product.find({deleted : true}).countDocuments();
-          
-            console.log('THe products :',products)
             res.render('product-list', {
                 products: products,
                 totalPage: Math.ceil(count / limit),
@@ -269,25 +264,21 @@ const productList = async(req, res) => {
             .limit(limit * 1)
             .skip((page - 1) * limit)
             .exec();
-      
         const count = await Product.find({deleted : false}).countDocuments();
       
-        console.log('THe products :',products)
         res.render('product-list', {
             products: products,
             totalPage: Math.ceil(count / limit),
             currentPage: page,
             previousPage: page > 1 ? page - 1 : 1,
             nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
-        });
-       }
-
+                });
+            }
             var page = 1;
             const limit = 4;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }
-          
             const products = await Product.find()
                 .limit(limit * 1)
                 .skip((page - 1) * limit)
@@ -295,8 +286,6 @@ const productList = async(req, res) => {
                 .exec();
           
             const count = await Product.find().countDocuments();
-          
-            console.log('The page : ',page)
             res.render('product-list', {
                 products: products,
                 totalPage: Math.ceil(count / limit),
@@ -435,16 +424,19 @@ const postProductEdit = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const id = req.params.id;
+        const url = req.url;
+        console.log('The url : ',url)
         const product = await Product.findById(id);
      if(product.deleted == false){
         product.deleted = true;
         await product.save();
-        return res.redirect('/admin/product-list?message=Product Blocked&type=success');
+        return res.redirect(`/admin/product-list${req.url.includes('?') ? '&' : '?'}message=Product%20Unlisted&type=success`);
+
      }
      else if(product.deleted == true) {
         product.deleted = false;
         await product.save();
-        return res.redirect('/admin/product-list?message=Product Unblocked&type=success');
+        return res.redirect(`/admin/product-list${req.url.includes('?') ? '&' : '?'}message=Product Listed&type=success`);
      }else{
         return res.status(404).send('prouduct not found');
      }

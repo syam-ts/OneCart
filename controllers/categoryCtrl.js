@@ -10,29 +10,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //<------------ insert category -------------->
 const insertCategory = async (req, res) => {
     try {
-        const categoryName = req.body.categoryName;
-        const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
+        const {categoryName, description} = req.body;
+        if(!categoryName){
+            res.redirect('/admin/category-add?message=please enter category name&type=warning')}
+             const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
         if(isCat){
-            res.redirect('/admin/category-add?message=The product name you entered is already in use&type=warning');
-        }else{
-            const {categoryName, description} = req.body;
-            if(!categoryName){
-                res.redirect('/admin/category-add?message=please enter category name&type=warning');
-            }else if(!description){
-                res.redirect('/admin/category-add?message=please enter description&type=warning');
-            }else{
+            res.redirect('/admin/category-add?message=Category name should be unique&type=warning');
+                }else if(description.length < 20){
+                res.redirect('/admin/category-add?message=Desctiption should have atleast 20 words&type=error');
+                }else{
                 const category = new Category({
                     categoryName: req.body.categoryName,
                     description : req.body.description
                 });
                result = await category.save();
                res.redirect('/admin/category-list?message=New Category Added&type=success');
-            }}
-    } catch (error) {
+            }
+        }catch (error) {
        console.error(error);
         res.status(500);
     }
 };
+
 
 //<------------ category lising -------------->
 const categoryListing = async(req, res) => {
