@@ -17,17 +17,17 @@
                           <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
 
                             <div class="md:col-span-5">
-                              <label for="productName"> Product Name </label>
+                              <label for="productName" class="font-bold" > Product Name </label>
                               <input type="text" name="productName" id="productName" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                             </div>
                             <div class="md:col-span-5">
-                              <label for="productImage"> Product Image </label>
+                              <label for="productImage" class="font-bold"> Product Image </label>
                               <input type="file" name="productImage" id="productImage" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                               <div id="imagePreview" class="mt-2"></div>
                             </div>
 
                             <div class="md:col-span-5">
-                              <label for="categoryName"> Category Name </label>
+                              <label for="categoryName" class="font-bold"> Category Name </label>
                               <div class="mt-2">
                                 <select id="category" name="category" autocomplete="category-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                 <% categories.forEach(category => { %>
@@ -37,33 +37,33 @@
                               </div>                            </div>
 
                             <div class="md:col-span-5">
-                              <label for="description">Description </label>
+                              <label for="description" class="font-bold">Description </label>
                               <textarea type="text" name="description" id="description" autocomplete="given-name" class="block w-56 h-28 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                             </div>
 
                             <div class="md:col-span-5">
-                                <label for="brand"> Brand Name </label>
+                                <label for="brand" class="font-bold" > Brand Name </label>
                                 <input type="text" name="brand" id="brand" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                               </div>
                             <div class="md:col-span-5">
-                                <label for="color"> Product Color </label>
+                                <label for="color" class="font-bold" > Product Color </label>
                                 <input type="text" name="color" id="color" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                               </div>
                             <div class="md:col-span-5">
-                                <label for="price"> Product Price </label>
+                                <label for="price" class="font-bold" > Product Price </label>
                                 <input type="number" name="price" id="price" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                               </div>
                             <div class="md:col-span-5">
-                                <label for="size"> Product Size </label>
+                                <label for="size" class="font-bold" > Product Size </label>
                                 <input type="number" name="size" id="size" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                               </div>
                             <div class="md:col-span-5">
-                                <label for="stock"> Product Stock </label>
+                                <label for="stock" class="font-bold" > Product Stock </label>
                                 <input type="number" name="stock" id="size" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
                               </div>
                             <div class="md:col-span-5 text-right mt-5">
                               <div class="inline-flex items-end">
-                                <button type="submit" class="bg-cyan-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                                <button type="submit" class="bg-sky-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                               </div>
                             </div>
                           </div>
