@@ -7,7 +7,28 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-//<------------ insert category -------------->
+//<------------ listing the categories -------------->
+const categoryListing = async(req, res) => {
+    try {
+        const categories = await Category.find({});
+        res.render('category-list',{categories})
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+
+//<------------ loading category adding page  -------------->
+const categoryAdd = async (req, res) => {
+    try {
+        res.render('category-add')
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+
+//<------------ adding new category -------------->
 const insertCategory = async (req, res) => {
     try {
         const {categoryName, description} = req.body;
@@ -33,25 +54,55 @@ const insertCategory = async (req, res) => {
 };
 
 
-//<------------ category lising -------------->
-const categoryListing = async(req, res) => {
+//<------------ load category edit -------------->
+const loadCategoryEdit = async (req, res) => {
     try {
-        const categories = await Category.find({});
-        res.render('category-list',{categories})
-    } catch (error) {
-        console.log(error.message);
+        const id = req.params.id;
+        const category = await Category.findById(id);
+        if (!category) {
+           res.render('error', {message : "Category not found"});
+           }
+        res.render('category-edit', { categories: category });
+       } catch (err) {
+          res.render('error', {message : err.message});
+      }
+};
+
+
+//<------------ post category edit -------------->
+const editCategory = async (req, res) => {
+    try {
+        const categoryId = req.params.id; 
+
+            const { realCategoryName, categoryName , description } = req.body;
+            if(!categoryName){
+                res.redirect(`/admin/category-edit/${categoryId}?message=Please enter the Category name&type=error`);
+            }else {
+                const existsCategory = await Category.findOne({ 
+                    categoryName: { 
+                        $regex: new RegExp('^' + categoryName + '$', 'i'), 
+                        $ne: realCategoryName 
+                    } 
+                });
+                
+                if(existsCategory){ 
+                    res.redirect(`/admin/category-edit/${categoryId}?message=Category name must be unique&type=warning`);
+                }else if(description.length < 20){
+                    res.redirect(`/admin/category-edit/${categoryId}?message=Desctiption should have atleast 20 words&type=error`);
+                }else{
+                    const updatedFields = {};
+                    if (categoryName) updatedFields.categoryName = categoryName;
+                    if (description) updatedFields.description = description;
+                    
+                    const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
+                    res.redirect('/admin/category-list?message=Category Updated&type=success')}    
+            }
+       }catch (err) {
+        res.render('error',{ message : err.message });
     }
 };
 
 
-//<------------ category adding page  -------------->
-const categoryAdd = async (req, res) => {
-    try {
-        res.render('category-add')
-    } catch (error) {
-        console.log(error.message);
-    }
-};
 
 
 //<------------ deleting category -------------->
@@ -62,11 +113,11 @@ const categoryAdd = async (req, res) => {
      if(category.deleted == false){
         category.deleted = true;
         await category.save();
-        return res.redirect('/admin/category-list?message=Catergory Deleted&type=success');
+        return res.redirect('/admin/category-list?message=Catergory Unlisted&type=success');
      }else if(category.deleted == true) {
         category.deleted = false;
         await category.save();
-        return res.redirect('/admin/category-list?message=Catergory Retrieved&type=success');
+        return res.redirect('/admin/category-list?message=Catergory Listed&type=success');
      }else{
         return res.status(404).send('categrory not found');
      }
@@ -77,52 +128,7 @@ const categoryAdd = async (req, res) => {
 };
 
 
-//<------------ load category edit -------------->
-const loadCategoryEdit = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const category = await Category.findById(id);
-        if (!category) {
-           return res.status(404).send("Category not found");
-        }
-        res.render('category-edit', { categories: category });
-       } catch (error) {
-        console.log('Error:', error);
-        res.status(500).send("Internal Server Error");
-    }
-};
 
-
-//<------------ post category edit -------------->
-const editCategory = async (req, res) => {
-    try {
-        const { categoryName , description} = req.body;
-
-        const isCat = await Category.findOne({ categoryName: { $regex: new RegExp('^' + categoryName + '$', 'i') } });
-
-    
-        // if(isCat.categoryName != categoryName){
-        //     res.redirect('/admin/category-edit/662497f52888a2249c363cca?message=category with same name already exits&type=warning')
-        // }else{
-            const updatedFields = {};
-            if (categoryName) updatedFields.categoryName = categoryName;
-            if (description) updatedFields.description = description;
-    
-            const categoryId = req.params.id; 
-            const category = await Category.findByIdAndUpdate(categoryId, updatedFields, { new: true });
-            if (!category) {
-                return res.send('error');
-            }
-            res.redirect('/admin/category-list?message=Category Updated&type=success');
-        
-        
-          
-     
-    } catch (error) {
-        console.log('Error:', error);
-        res.status(500).send('Internal Server Error');
-    }
-};
 
 const categoryShopping = async (req, res) => {
     try {
