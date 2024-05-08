@@ -190,7 +190,7 @@ const getLowToHigh = async (req, res) => {
 const productList = async(req, res) => {
     try {
         var page = 1;
-            const limit = 4;
+            const limit = 8;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }
@@ -234,7 +234,7 @@ const productList = async(req, res) => {
 
        if(sortMethod == "blockedProducts"){
         var page = 1;
-            const limit = 4;
+            const limit = 8;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }
@@ -255,7 +255,7 @@ const productList = async(req, res) => {
         
        }else if(sortMethod == "unBlockedProducts"){
         var page = 1;
-        const limit = 4;
+        const limit = 8;
         if (req.query.page) {
             page = parseInt(req.query.page);
           }
@@ -275,7 +275,7 @@ const productList = async(req, res) => {
                 });
             }
             var page = 1;
-            const limit = 4;
+            const limit = 8;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }

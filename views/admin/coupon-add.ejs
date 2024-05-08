@@ -1,30 +1,23 @@
-<%- include('../partials/adminHeader') %>
-
-
+  <%- include('../partials/adminHeader') %>
 
 <main>
-
 <form action="/admin/coupon-add" method="post">
 <div class="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
     <div class="container max-w-screen-lg mx-auto">
       <div>
         <h2 class="font-semibold text-xl text-gray-600">Add Coupon</h2>
-       
-  
         <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
           <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
             <div class="text-gray-600">
               <p class="font-medium text-lg">Coupon Details</p>
               <p>Please fill out all the fields.</p>
             </div>
-  
             <div class="lg:col-span-2">
               <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                 <div class="md:col-span-5">
                   <label for="couponCode">Coupon Code</label>
                   <input type="text" name="couponCode" id="couponCode" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
                 </div>
-  
                 <div class="md:col-span-5">
                   <label for="description"> Copuon Description </label>
                   <textarea type="" name="description" id="description" class="h-20 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" ></textarea>
@@ -41,14 +34,11 @@
                   <label for="expiryDate">Coupon expiry </label>
                   <input type="date" name="expiryDate" id="email" class="h-8 border mt-1 rounded px-4 w-full bg-gray-50 border-gray-300" value="" />
                 </div>
-
-        
                 <div class="md:col-span-5 text-right mt-5">
                   <div class="inline-flex items-end">
                     <button type="submit" class="bg-cyan-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded">Submit</button>
                   </div>
                 </div>
-  
               </div>
             </div>
           </div>
@@ -59,9 +49,5 @@
   </div>
 </form>
 </main>
-
-
-
-
 
 <%- include('../partials/adminFooter') %>

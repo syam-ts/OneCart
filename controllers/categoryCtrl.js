@@ -78,13 +78,7 @@ const editCategory = async (req, res) => {
             if(!categoryName){
                 res.redirect(`/admin/category-edit/${categoryId}?message=Please enter the Category name&type=error`);
             }else {
-                const existsCategory = await Category.findOne({ 
-                    categoryName: { 
-                        $regex: new RegExp('^' + categoryName + '$', 'i'), 
-                        $ne: realCategoryName 
-                    } 
-                });
-                
+                const existsCategory = await Category.findOne({ categoryName:{ $regex: new RegExp('^' + categoryName + '$', 'i'),$ne: realCategoryName }});
                 if(existsCategory){ 
                     res.redirect(`/admin/category-edit/${categoryId}?message=Category name must be unique&type=warning`);
                 }else if(description.length < 20){

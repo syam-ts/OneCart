@@ -33,10 +33,30 @@ const { ObjectId } = require('mongoose').Types;
             }
         };
 
-           //<------------ post coupon add -------------->
+
+           //<------------ adding new coupon -------------->
     const insertCoupon = async (req, res) => {
         try{
             const { couponCode, description, discount , minimumAmount , expiryDate } = req.body;
+            if(!couponCode){
+                res.redirect('/admin/coupon-add?message=Please enter the Coupon Code&type=error')
+            }else if(!description){
+                
+                res.redirect('/admin/coupon-add?message=Please enter the Description&type=error')
+                const existCoupon = await Coupon.find({couponName : couponName});
+                if(existCoupon){
+                    res.redirect('/admin/coupon-add?message=Coupon Name should be unique&type=warning')
+                     }
+            }else if(!discount){
+                res.redirect('/admin/coupon-add?message=Please enter the Discount Amount&type=error')
+
+            }else if(!minimumAmount){
+                res.redirect('/admin/coupon-add?message=Please enter the Minimum Amount&type=error')
+
+            }else if(!expiryDate){
+                res.redirect('/admin/coupon-add?message=Please enter the Expiry Date&type=error')
+
+            }
             const coupon = new Coupon({
                 couponCode : couponCode,
                 description : description,
@@ -47,8 +67,8 @@ const { ObjectId } = require('mongoose').Types;
            await coupon.save();
             res.redirect('/admin/coupon-list');
 
-        }catch(error){
-    console.log(error.message)
+        }catch(err){
+    res.render('error',{ message : err.message });
         }
     };
 
