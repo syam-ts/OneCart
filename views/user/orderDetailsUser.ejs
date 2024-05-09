@@ -47,8 +47,8 @@
                             <button class="font-normal text-xl leading-8 text-black">Cancelled</button>
                         </div>
                         <% }else{ %>
-          
-                        <button  id="cancelOrderUser" value="<%= order.id %>" class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+
+                        <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModalCancel()">
                         Cancel
                        </button>
                         <% } %>
@@ -57,7 +57,7 @@
                                 Return
                                 </button>
                         <% } %>
-                        <section>
+                        <!-- <section> -->
                             <!-- <button id="downloadInvoice" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-gray-900 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
                                 Dowload Invoice
                                </button>
@@ -85,7 +85,28 @@
                     </div>
                 </dialog>
                 
+        
+                <dialog id="my_modal_2" class="modal w-3/6 h-4/6  bg-stone-400 rounded-lg">
+                    <div class="modal-box rounded-md">
+                        <h3 class="font-bold text-lg mt-12">Cancel</h3>
+                       
+                        <div class="modal-action">
+                            <form method="dialog">
+                            <span>Reason For Cancel</span>
+                                <textarea id="reasonCancel" class="w-full mt-12 h-40 bg-gray-200 p-2 mb-4"></textarea>
+                                <div class="mt-12 ml-80">
+                                    <button onclick="orderCancel('<%= order.id %>')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Submit</button>
+                                    <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModalCancel()">Close</button>
+                               
+                                </div>
+                           </form>
+                        </div>
+                    </div>
+                </dialog>
+                
+        
 
+               
       
                 <div class="w-full max-w-sm md:max-w-3xl max-xl:mx-auto">
                     <div class="grid grid-cols-1 gap-6">
@@ -191,36 +212,69 @@
 
 </main>
 <script>
-    const orderId = document.getElementById('cancelOrderUser').value;
-    const cancelOrderUserBtn = document.getElementById('cancelOrderUser');
-    cancelOrderUserBtn.addEventListener('click',() => {
-
-        fetch('/orderCancel', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "orderId": orderId
-            })})
-            .then(() => {
-                  window.location.href = '/orderDetailsUser/' + orderId;
-                 })
-        })
-
-
-                        function openModal() {
-                                            var modal = document.getElementById("my_modal_1");
-                                            modal.showModal();
-                                        }
+    //<----------------------- Cancel Section ------------------------>
+    function openModalCancel() {
+            var modal = document.getElementById("my_modal_2");
+            modal.showModal();
+           }
                 
-                        function closeModal() {
-                            var modal = document.getElementById("my_modal_1");
-                            modal.close();
-                        };
+        function closeModalCancel() {
+           var modal = document.getElementById("my_modal_2");
+           modal.close();
+               };
+
+               const orderCancel = (orderId) => {
+           const reason = document.getElementById('reasonCancel').value;
+           
+           alert(reason)
+              fetch('/orderCancel',{
+              method:"POST",
+              headers:{
+                  "Content-Type" : "application/json"
+              },
+              body:JSON.stringify({
+                  orderId : orderId,
+                  reason: reason
+              })
+          }) 
+      };
+
+    // const orderId = document.getElementById('cancelOrderUser').value;
+    // const cancelOrderUserBtn = document.getElementById('cancelOrderUser');
+    // cancelOrderUserBtn.addEventListener('click',() => {
+
+        
+
+    //     fetch('/orderCancel', {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             "orderId": orderId
+    //         })})
+    //         .then(() => {
+    //               window.location.href = '/orderDetailsUser/' + orderId;
+    //              })
+    //     })
+
+
+        //<---------------Return section ----------------->
+
+        function openModal() {
+            var modal = document.getElementById("my_modal_1");
+            modal.showModal();
+           }
+                
+        function closeModal() {
+           var modal = document.getElementById("my_modal_1");
+           modal.close();
+               };
 
            const returnOrder = (orderId) => {
            const reason = document.getElementById('reason').value;
+           
+           alert(reason)
               fetch('/returnOrder',{
               method:"POST",
               headers:{

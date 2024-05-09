@@ -12,7 +12,8 @@ const orderSchema = mongoose.Schema({
         carts: {type: Object,required:true,default: true},
         discountPrice: {type: Number,required:true},
         return:{type:{return:Boolean, reason:String}},
-        ordId: { type: String, default: uuid.v4, unique: true }
+        ordId: { type: String, default: uuid.v4, unique: true },
+        cancelReason: { type: String }
     });
 
 module.exports = mongoose.model('Order',orderSchema);

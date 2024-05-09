@@ -258,7 +258,7 @@ const orderSuccess = async (req, res) => {
 const orderCancel = async (req, res) => {
     try {
         const userId = req.session.user;
-        const orderId = req.body.orderId;
+        const { orderId, reason } = req.body;
         const order = await Order.findById(orderId);
        
         if (order.paymentMethod === "Razor Pay") {
@@ -276,6 +276,7 @@ const orderCancel = async (req, res) => {
             }
 
             order.status = "Cancelled";
+            order.cancelReason = reason;
             await order.save();
             res.redirect('/orderDetailsUser');
             console.log('New wallet created and money added to wallet');
