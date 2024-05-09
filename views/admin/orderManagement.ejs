@@ -126,6 +126,10 @@
         const td = e.target.closest('td');
         const select = td.querySelector('select');
         const orderStatus = select.value;
+
+        if(orderStatus == "Cancelled"){
+          
+        }
         const orderId = td.querySelector('#orderId').getAttribute('value');
 
         fetch('/admin/orderStatus',{

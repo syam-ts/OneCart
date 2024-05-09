@@ -50,9 +50,12 @@
                 </div>
             </div>
         </div>
-        <% }) %>
-    </div>
-
+     
+        <% if(cartItem){ %>
+          
+        </div>
+      
+ 
     <section class="flex justify-center mt-16">
         <% let totalPrice = 0; %>
         <% items.cart.forEach(cartItem => { %>
@@ -70,6 +73,10 @@
 
     </section>
 
+    <% }else{ %>
+        <span></span>
+        <% } %>
+        <% }) %>
 </main>
 
 <script>

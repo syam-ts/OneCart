@@ -44,7 +44,9 @@
                         </div>
                         <% if(order.status == "Cancelled") {%>
                         <div class="total flex items-center justify-between pt-6">
+                            <span class="text-xs "> <%= order.cancelReason %> </span>
                             <button class="font-normal text-xl leading-8 text-black">Cancelled</button>
+
                         </div>
                         <% }else{ %>
 
@@ -225,8 +227,6 @@
 
                const orderCancel = (orderId) => {
            const reason = document.getElementById('reasonCancel').value;
-           
-           alert(reason)
               fetch('/orderCancel',{
               method:"POST",
               headers:{
@@ -273,8 +273,6 @@
 
            const returnOrder = (orderId) => {
            const reason = document.getElementById('reason').value;
-           
-           alert(reason)
               fetch('/returnOrder',{
               method:"POST",
               headers:{
