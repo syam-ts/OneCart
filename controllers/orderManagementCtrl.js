@@ -330,6 +330,36 @@ const sortSalesReport = async (req, res) => {
  };
 
 
+ const orderDaily = async (req, res) => {
+    try {
+       const orders = await Order.find({}, 'createdate total').lean();
+       res.json(orders);
+     } catch (err) {
+       console.error('Error fetching orders:', err);
+       res.status(500).json({ error: 'Internal server error' });
+     }
+ }
+ const orderMonthly = async (req, res) => {
+    try {
+       const orders = await Order.find({}, 'createdate total').lean();
+       res.json(orders);
+     } catch (err) {
+       console.error('Error fetching orders:', err);
+       res.status(500).json({ error: 'Internal server error' });
+     }
+ }
+ const orderYearly = async (req, res) => {
+    try {
+       const orders = await Order.find({}, 'createdate total').lean();
+       res.json(orders);
+     } catch (err) {
+       console.error('Error fetching orders:', err);
+       res.status(500).json({ error: 'Internal server error' });
+     }
+ }
+
+
+
 module.exports = {
     getOrderManagement,
     sortOrderAdmin,
@@ -338,5 +368,8 @@ module.exports = {
     orderStatusChng,
     sortSalesReport,
     returnAccept,
-    returnReject
+    returnReject,
+    orderDaily,
+    orderMonthly,
+    orderYearly
 };

@@ -115,13 +115,5 @@ Router.post('/generateInvoice',isLoggedIn, orderController.generateInvoice);
 Router.get('/wallet',walletController.getWalletPage);
 
 
-Router.get('/admin/orders', async (req, res) => {
-   try {
-      const orders = await Order.find({}, 'createdate total').lean();
-      res.json(orders);
-    } catch (err) {
-      console.error('Error fetching orders:', err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-})
+
 module.exports = Router;

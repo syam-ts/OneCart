@@ -10,6 +10,7 @@ const orderManagementCtrl = require('../controllers/orderManagementCtrl');
 const couponCtrl = require('../controllers/couponCtrl');
 const offerController = require('../controllers/offerCtrl');
 const bodyParser = require('body-parser');
+const Order = require('../models/orderModel');
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,6 +25,10 @@ Router.get('/admin-login',adminController.getAdmin);
 Router.post('/admin-login',adminController.verifyAdmin);
 Router.get('/admin-logout',adminController.logoutAdmin);
 Router.get('/dashboard',adminController.getDashboard);
+Router.get('/orders/daily',orderManagementCtrl.orderDaily) 
+Router.get('/orders/monthly',orderManagementCtrl.orderMonthly) 
+Router.get('/orders/yearly',orderManagementCtrl.orderYearly) 
+
 // Router.get('/admin/sortDashboard/topTenPrdt',adminController.topTenPrdt);
 // Router.get('/admin/sortDashboard/topTenCtgry',adminController,topTenCtgry);
 // Router.get('/admin/sortDashboard/topTenBrnd',adminController.topTenBrnd);

@@ -68,14 +68,22 @@
             </div>
                 <!-- Graph 1 -->
                 <div class="grid grid-cols-1 lg:grid-cols-1 mb-6">
+         
                   <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 shadow-lg w-full">
                       <div class="mb-0 px-0 border-0">
                           <div class="flex flex-wrap items-center px-4 py-2">
                               <div class="bg-white border border-gray-100 shadow-md w-full">
                                   <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                                       <div class="bg-white border border-gray-100 shadow-md p-6 rounded-md lg:col-span-2">
-                                        <div>
-                                            <canvas id="myChart"></canvas>
+                                      
+                                          <select class=" block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                                            <option selected disabled selected>  </option>
+                                            <option value="Shipped">Daily</option>
+                                            <option value="Cancelled">monthly</option>
+                                            <option value="Cancelled">Yearly</option>
+                                         </select>
+                                         <button class="text-red-500" onclick="graphDropdown()">ok</button>
+                                         <canvas id="myChart"></canvas>
                                           </div>
                                       </div>
                                   </div>
@@ -206,8 +214,8 @@
 
       <!---------------- chart script ---------------->
       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <script>
-        fetch('/admin/orders')
+      <!-- <script>
+        fetch('/admin/orders/monthly')
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -227,12 +235,13 @@
             });
       
             const ctx = document.getElementById('myChart');
+          
                   new Chart(ctx, {
               type: 'bar',
               data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
-                  label: '# of Orders',
+                  label: '# Monthly',
                   data: monthlyData,
                   borderWidth: 1
                 }]
@@ -245,8 +254,110 @@
                 }
               }
             });
+            
           })
           .catch(error => console.error('Error fetching orders:', error));
+
+</script> -->
+      
+
+<script>
+        fetch('/admin/orders/yearly')
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            const ordersData = data.map(order => ({
+              year: new Date(order.createdate).getFullYear(),
+              quantity: order.total 
+            }));
+      
+            const yearlyData = Array.from({ length: 13 }, () => 0); 
+            ordersData.forEach(order => {
+              const year = order.year - 2018;
+              yearlyData[year] += order.quantity;
+            });
+      
+            const ctx = document.getElementById('myChart').getContext('2d');
+          
+                  new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                  label: '# Yearly',
+                  data: yearlyData,
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+            
+          })
+          .catch(error => console.error('Error fetching orders:', error));
+
+</script> 
+
+<!-- <script>
+  fetch('/admin/orders/daily')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          const ordersData = data.map(order => ({
+              day: new Date(order.createdate).getDate(), 
+              quantity: order.total
+          }));
+
+          const dailyData = Array.from({ length: 30 }, () => 0);
+
+          ordersData.forEach(order => {
+              const day = order.day;
+              dailyData[day - 1] += order.quantity; 
+          });
+
+          const ctx = document.getElementById('myChart').getContext('2d');
+          new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: Array.from({ length: 30 }, (_, i) => (i + 1).toString()), 
+                  datasets: [{
+                      label: '# Daily Orders',
+                      data: dailyData,
+                      backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+                      borderColor: 'rgba(54, 162, 235, 1)', 
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      })
+      .catch(error => console.error('Error fetching or processing data:', error));
+</script> -->
+
+  <script>
+    //<-------------------- graph dropdown ------------------>
+          const graphDropdown = () => {
+            alert('This is it')
+          }
       </script>
       
     
