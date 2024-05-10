@@ -100,12 +100,13 @@ Router.post('/cartInc',isLoggedIn, cartController.cartInc);
    //<------------ order routes -------------->
 Router.get('/orderHistory',isLoggedIn, orderController.getOrderHistory);
 Router.post('/placeOrder',isLoggedIn, orderController.insertOrder);
-Router.post('/verifyOrder',isLoggedIn, orderController.verifyAndInsertOrder);
 Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
 Router.get('/orderDetailsUser/:id',isLoggedIn, orderController.orderDetailsUser);
 Router.get('/sortOrdersUser/:method',isLoggedIn,orderController.sortOrdersUser);
-Router.post('/create-order',isLoggedIn, orderController.createOrder); 
+Router.post('/create-order',isLoggedIn, orderController.createOrder);
+Router.post('/paymentFailed',isLoggedIn, orderController.paymentFailed);
 Router.get('/orderSuccess',isLoggedIn, orderController.orderSuccess);
+Router.get('/orderFailed',isLoggedIn, orderController.orderFailed);
 Router.post('/returnOrder',isLoggedIn, orderController.returnOrder);
 Router.post('/generateInvoice',isLoggedIn, orderController.generateInvoice);
 

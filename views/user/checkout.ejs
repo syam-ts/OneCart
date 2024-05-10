@@ -195,9 +195,7 @@ removeCouponButton.addEventListener('click', () => {
         var selectedRadios = document.querySelectorAll('input[name="selectedAddress"]:checked');
         
         if (selectedRadios.length > 0) {
-            // If at least one radio button is selected, get the value of the first selected one
             var selectedId = selectedRadios[0].value;
-            // toastr.success('Address selected');
         } else {
             toastr.error('Please select an address');
         }
@@ -296,7 +294,24 @@ removeCouponButton.addEventListener('click', () => {
         }};
         var rzp1 = new Razorpay(options);
         rzp1.on('payment.failed', function (response){
-            alert('Payment failed')
+            const paymentMethod = selectedValue;
+            fetch('/paymentFailed',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            totalPrice : totalPrice,
+                            paymentMethod : paymentMethod,
+                            subTotal : subTotal,
+                            addressId : selectedId
+                          })
+                         }).then(() => {
+                                    window.location.href = '/orderFailed'
+                                })
+ 
+
+
                 // alert(response.error.code);
                 // alert(response.error.description);
                 // alert(response.error.source);

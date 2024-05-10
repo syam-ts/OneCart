@@ -50,12 +50,9 @@
                 </div>
             </div>
         </div>
-     
-        <% if(cartItem){ %>
-          
-        </div>
-      
- 
+        <% }) %>
+    </div>
+
     <section class="flex justify-center mt-16">
         <% let totalPrice = 0; %>
         <% items.cart.forEach(cartItem => { %>
@@ -65,18 +62,17 @@
         <% } %>
         <% }); %>
         
+        <% if(totalPrice){ %>
         <!------------ checkout -------------->
         <span class="font-bold"> Total: <%= totalPrice %></span><br><br>
         <a href="/checkout/<%= totalPrice %>" class="h-8 ml-4 w-44 bg-cyan-400 text-gray-100 font-semibold text-xs py-2 px-4 rounded-lg hover:bg-cyan-500">
             Checkout
         </a>
-
+        <% }else{ %>
+            <span></span>
+            <% } %>
     </section>
 
-    <% }else{ %>
-        <span></span>
-        <% } %>
-        <% }) %>
 </main>
 
 <script>

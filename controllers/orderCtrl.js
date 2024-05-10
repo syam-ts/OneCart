@@ -8,8 +8,14 @@ const Wallet = require('../models/walletModel');
 const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
+ //<------------ razorpay config -------------->
+ const razorpayInstance = new Razorpay({
+    key_id: RAZORPAY_ID_KEY,
+    key_secret: RAZORPAY_SECRET_KEY
+});
 
 
+//<------------ for razorpay -------------->
 const createOrder = async (req, res) => {
     try {
         const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
@@ -35,6 +41,84 @@ const createOrder = async (req, res) => {
     }
 };
 
+//<------------ for COD and wallet -------------->
+const insertOrder = async (req, res) => {
+    try {
+    
+            const userId = req.session.user;
+            const total = req.body.totalPrice;
+            const discountPrice = req.body.subTotal - total;
+            const paymentMethod = req.body.paymentMethod;
+            const addressId = req.body.addressId;
+            const address = await Address.findById(addressId);
+            const status = 'Processing';
+            const cart = await Cart.find({ userId });
+            const productIds = cart.map(item => item.productId);
+            const products = await Product.find({ _id: { $in: productIds } });
+                 const order = new Order({
+                     userId: userId,
+                     address: address,
+                     products: products,
+                     total: total,
+                     paymentMethod: paymentMethod,
+                     status: status,
+                     carts: cart,
+                     discountPrice : discountPrice,
+                     payment : true
+                 });
+                 await order.save();
+                 await Cart.deleteMany({ userId });
+                 if(paymentMethod == "Wallet"){
+                    const wallet = await Wallet.findOne({userId : userId});
+                    wallet.amount -= total; 
+                    await wallet.save();
+                    console.log('Successfully lower the wallet amount')
+                 }
+                 res.json({payment : order.payment});
+      } catch (err) {
+        console.log('Error inserting order:', err);
+        res.render('error',{ message : err.message });
+     }
+};
+
+
+//<------------ failed payment -------------->
+
+ const paymentFailed = async(req, res) =>{
+    try {
+            const userId = req.session.user;
+            const total = req.body.totalPrice;
+            const discountPrice = req.body.subTotal - total;
+            const paymentMethod = req.body.paymentMethod;
+            const addressId = req.body.addressId;
+            const address = await Address.findById(addressId);
+            const status = 'PaymentFailed';
+            const cart = await Cart.find({ userId });
+            const productIds = cart.map(item => item.productId);
+            const products = await Product.find({ _id: { $in: productIds } });
+                 const order = new Order({
+                     userId: userId,
+                     address: address,
+                     products: products,
+                     total: total,
+                     paymentMethod: paymentMethod,
+                     status: status,
+                     carts: cart,
+                     discountPrice : discountPrice,
+                     payment : false
+                 });
+                 await order.save();
+                 await Cart.deleteMany({ userId });
+                 res.redirect('/orderFailed')
+    } catch (err) {
+        res.render('error',{ message: err.message });
+    };
+ } 
+
+
+
+
+
 //<------------ order history -------------->
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
@@ -56,8 +140,6 @@ const getOrderHistory = async (req, res) => {
        const total = orders.map( x => x.total);
         const count = await Order.find({ deleted: false }).countDocuments();
 
-        console.log( orders)
-      
         res.render('orderHistory', {
             address : address,
             user : user,
@@ -88,7 +170,7 @@ const sortOrdersUser = async (req , res) => {
                break;
            default:
                sortQuery = {};
-       }
+          }
 
        var page = 1;
        const limit = 8;
@@ -142,113 +224,20 @@ const orderDetailsUser = async (req, res) => {
 };
 
 
-//<------------ razorpay config -------------->
-const razorpayInstance = new Razorpay({
-    key_id: RAZORPAY_ID_KEY,
-    key_secret: RAZORPAY_SECRET_KEY
-});
-
-//<------------ insert order -------------->
-const insertOrder = async (req, res) => {
+//<------------ order success page -------------->
+const orderSuccess = async (req, res) => {
     try {
-            const userId = req.session.user;
-            const total = req.body.totalPrice;
-            const discountPrice = req.body.subTotal - total;
-            const paymentMethod = req.body.paymentMethod;
-            
-      
-        const addressId = req.body.addressId;
-        const address = await Address.findById(addressId);
-             const status = 'Processing';
-             const cart = await Cart.find({ userId });
-             const productIds = cart.map(item => item.productId);
-             const products = await Product.find({ _id: { $in: productIds } });
-                 const order = new Order({
-                     userId: userId,
-                     address: address,
-                     products: products,
-                     total: total,
-                     paymentMethod: paymentMethod,
-                     status: status,
-                     carts: cart,
-                     discountPrice : discountPrice
-                 });
-                 await order.save();
-                 await Cart.deleteMany({ userId });
-                 if(paymentMethod == "Wallet"){
-                    const wallet = await Wallet.findOne({userId : userId});
-                    wallet.amount -= total; 
-                    await wallet.save();
-                    console.log('Successfully lower the wallet amount')
-                 }
-                 res.redirect('/orderSuccess');
-    } catch (error) {
-        console.error('Error inserting order:', error);
-        res.status(500).send('Error inserting order');
-     }
-};
-
-//<------------ verifiying order -------------->
-const verifyAndInsertOrder = async (req, res) => {
-    try {
-        const userId = req.session.user;
-        const addressId = req.body.addressId;
-        const address = await Address.findById(addressId);
-         const paymentMethod = req.body.paymentMethod;
-         const status = 'Processing';
-         const cart = await Cart.find({ userId });
-         const productIds = cart.map(item => item.productId);
-         const total = req.body.totalPrice
-         const products = await Product.find({ _id: { $in: productIds } });
-
-         const order = new Order({
-             userId: userId,
-             address: address,
-             products: products,
-             total: total,
-             paymentMethod: paymentMethod,
-             status: status,
-             carts: cart
-         });
-         await order.save();
-         await Cart.deleteMany({ userId });
-         const randomOrderId = await Order.aggregate([{ $sample: { size: 1 } }]).then(result => result[0]._id);
-        const amount = req.body.totalPrice*100
-        const options = {
-            amount: amount,
-            currency: 'INR',
-            receipt: 'recipt-001'
-        }
-        console.log('the amout ',amount)
-        razorpayInstance.orders.create(options, 
-            (err, order)=>{
-                if(!err){
-                    res.status(200).send({
-                        success:true,
-                        msg:'Order Created',
-                        order_id:randomOrderId,
-                        amount:amount,
-                        key_id:RAZORPAY_ID_KEY,
-                        // product_name:req.body.name,
-                        // description:req.body.description,
-                        contact:"8567345632",
-                        name: "Sandeep Sharma",
-                        email: "sandeep@gmail.com"
-                    });
-                }
-                else{
-                    res.status(400).send({success:false,msg:'Something went wrong!'});
-                }
-            });
+            res.render('orderSuccess');
     } catch (error) {
         console.log(error.message);
     }
 };
 
-//<------------ order success page -------------->
-const orderSuccess = async (req, res) => {
+
+//<------------ order failed page -------------->
+const orderFailed = async (req, res) => {
     try {
-        res.render('orderSuccess');
+            res.render('orderFailed');
     } catch (error) {
         console.log(error.message);
     }
@@ -308,7 +297,6 @@ const returnOrder = async (req, res) => {
 
       order.return = { return: true, reason: reason };
       await order.save();
-      console.log('The order is  : 0',order)
     } catch (err) {
         console.log(err.message);
     }
@@ -337,12 +325,13 @@ const generateInvoice = async (req, res) => {
 
 module.exports = {
     createOrder,
+    paymentFailed,
     getOrderHistory,
     sortOrdersUser,
     orderDetailsUser,
     insertOrder,
-    verifyAndInsertOrder,
     orderSuccess,
+    orderFailed,
     orderCancel,
     returnOrder,
     generateInvoice

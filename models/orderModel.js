@@ -13,6 +13,7 @@ const orderSchema = mongoose.Schema({
         discountPrice: {type: Number,required:true},
         return:{type:{return:Boolean, reason:String}},
         ordId: { type: String, default: uuid.v4, unique: true },
+        payment:{type: Boolean},
         cancelReason: { type: String }
     });
 
