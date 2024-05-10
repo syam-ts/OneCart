@@ -89,7 +89,7 @@
 
 </section>
                                         
-<section class="ml-96">
+<section class="ml-96 pb-32">
    
     <% if(orders.return){ %>
         <% if(orders.return.return === true){ %>
@@ -107,17 +107,41 @@
     </div>
 </section>
 
+
 <script>
 
     // -------------- order return accept -----------------
     const acceptReturn = (orderId) => {
         alert(orderId)
+        fetch('/returnAccept',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            totalPrice : totalPrice,
+                            paymentMethod : paymentMethod,
+                            subTotal : subTotal,
+                            addressId : selectedId
+                          })
+                            }).then(() => {
+                                    window.location.href = '/orderSuccess'
+                            })
     }
 
     // -------------- order return reject -----------------
     const rejectReturn = (orderId) => {
         alert(orderId)
-    }
+        fetch('/admin/returnReject',{
+            method:"POST",
+            headers:{
+                "Content-Type" : "application/json"
+            },
+            body:JSON.stringify({
+                orderId : orderId
+              })
+                }).then(() => {
+      })}
 
 
 

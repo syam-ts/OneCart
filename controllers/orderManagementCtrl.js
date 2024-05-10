@@ -19,7 +19,7 @@ const getOrderManagement = async (req, res ) => {
                   
                     const count = await Order.find().countDocuments();
                   
-                    res.render('orderManagement', {
+                    res.render('orderManagement',{
                         orders: orders,
                         totalPage: Math.ceil(count / limit),
                         currentPage: page,
@@ -27,9 +27,8 @@ const getOrderManagement = async (req, res ) => {
                         nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
                     });
                 
-            } catch (error) {
-               console.log(error);
-               res.status(500).send('Server internal Error');
+            } catch (err) {
+               res.render('error', { message : err.message });
       }   
 };
 
@@ -199,6 +198,29 @@ const orderStatusChng = async (req, res) => {
                 }
  
                }
+            }else if(orderStatus == "Returned"){
+
+
+                const userId = order.userId;
+                if( order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet" ){
+                    // product need to go back to stock
+                    // add the amount to wallet
+                    
+                    const total = order.total;
+                const wallet = await Wallet.find({userId : userId});
+               
+                    wallet.amount =+ total;
+
+
+                    order.status = "Returned";
+                    await order.save();
+                }else{
+                //    if COD do nothing just change status to 
+                   order.status = "Returned"
+                   await order.save();
+
+                }
+
             }
         }
     } catch (error) {
@@ -227,16 +249,48 @@ const sortSalesReport = async (req, res) => {
             res.render('salesReport',{ order , email, name});
         }
        
-
     } catch (err) {
         console.log(err.message);
     }
 };
+
+
+//<------------ return accept by admin -------------->
+ const returnAccept = async (req, res) => {
+    try{
+        console.log('REACHED HERE')
+        const orderId = req.body.orderId;
+        const order = await Order.findById(orderId);
+        order.status = "returnPickup";
+        await order.save();
+        res.redirect('/admin/orderManagement');
+    }catch(err){
+        res.render('error',{ message : err.message });
+    }
+ };
+
+
+//<------------ return reject by admin -------------->
+ const returnReject = async (req, res) => {
+    try{
+        const orderId = req.body.orderId;
+        const order = await Order.findById(orderId);
+        order.status = "returnRejected";
+        await order.save();
+        res.redirect('/admin/orderManagement');
+    }catch(err){
+        res.render('error',{ message : err.message });
+    }
+ };
+
+
 module.exports = {
     getOrderManagement,
     sortOrderAdmin,
     orderDetailsAdmin,
     getSalesReport,
     orderStatusChng,
-    sortSalesReport
+    sortSalesReport,
+    returnAccept,
+    returnReject
 };

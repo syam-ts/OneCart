@@ -58,6 +58,8 @@ Router.post('/category-edit/:id',categoryController.editCategory);
 Router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
 Router.post('/orderStatus',orderManagementCtrl.orderStatusChng);
 Router.get('/sortOrderAdmin/:method',orderManagementCtrl.sortOrderAdmin);
+Router.post('/returnAccept',orderManagementCtrl.returnAccept);
+Router.post('/returnReject',orderManagementCtrl.returnReject);
 
 
    //<------------ salse routes -------------->

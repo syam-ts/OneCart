@@ -25,6 +25,7 @@
     </div>
   </section>
 
+
   <div class="relative overflow-x-auto shadow-md mt-5">
       <!---------------- order table ----------------->
     <section>
@@ -53,17 +54,39 @@
                 </td>
                  <td class="flex">
                     <p id="orderId" value="<%= order.id %>"></p>
+                    <% if(order.status == "Cancelled"){ %>
+                      <span>Cancelled</span>
+                      <% }else if(order.status == "Delivered"){ %>
+                        <span>Delivered</span>
+                        <% }else if(order.status == "PaymentFailed"){ %>
+                          <span>Payment Failed</span>
+                          <% }else if(order.status == "Returned"){ %>
+                            <span>Returned</span>
+                          <% }else if(order.status == "Processing"){ %>
                     <select id="orderStatus" class="category block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
                         <option selected disabled selected> <%= order.status %> </option>
                         <option value="Shipped">Shipped</option>
+                        <option value="Cancelled">Cancelled</option>
+                        </select>
+                        <div>
+                          <button class="orderStatusChangeButton ml-4 text-green-600">
+                              change
+                          </button>
+                      </div>
+                   
+                          <% }else if(order.status == "Shipped"){ %>
+                    <select id="orderStatus" class="category block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                        <option selected disabled selected> <%= order.status %> </option>
                         <option value="Delivered">Delivered</option>
                         <option value="Cancelled">Cancelled</option>
-                    </select>
-                    <div>
-                        <button class="orderStatusChangeButton ml-4 text-green-600">
-                            change
-                        </button>
-                    </div>
+                        </select>
+                        <div>
+                          <button class="orderStatusChangeButton ml-4 text-green-600">
+                              change
+                          </button>
+                      </div>
+                   
+                    <% } %>
                 </td>
                 <td class="px-6 py-4">
                   <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"> <%
@@ -83,8 +106,6 @@
                         <span class="absolute top-0 right-0 inline-flex rounded-full h-2 w-2 bg-green-500 "></span>
                       </div>
                       
-                 
-                      
                      <% }else{ %>
                       <a href="/admin/orderDetailsAdmin/<%= order.id %>">
                         <img class="h-3.5 w-3.5 ml-9" src="/images/resume.png" alt="order details">
@@ -96,6 +117,7 @@
         </tbody>
     </table>
 </section>
+
 
   <!----------------------- pagination ----------------------->
     <section class="text-center w-full sm:w-3/4 mx-auto border-t flex justify-center py-6   ">
