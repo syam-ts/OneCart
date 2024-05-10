@@ -45,6 +45,7 @@
             <tr class="bg-white  hover:bg-gray-50 ">
                 <td class="px-6 py-4">
                     <a class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= order.address.name %> </a>
+                    <input id="orderId" value="<%= order.id %>"/>
                 </td>
                 <td class="px-6 py-4">
                   <a class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= order.total %> </a>
@@ -53,40 +54,39 @@
                   <a class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= order.paymentMethod %> </a>
                 </td>
                  <td class="flex">
-                    <p id="orderId" value="<%= order.id %>"></p>
-                    <% if(order.status == "Cancelled"){ %>
-                      <span>Cancelled</span>
-                      <% }else if(order.status == "Delivered"){ %>
-                        <span>Delivered</span>
-                        <% }else if(order.status == "PaymentFailed"){ %>
-                          <span>Payment Failed</span>
-                          <% }else if(order.status == "Returned"){ %>
-                            <span>Returned</span>
-                          <% }else if(order.status == "Processing"){ %>
-                    <select id="orderStatus" class="category block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                        <option selected disabled selected> <%= order.status %> </option>
-                        <option value="Shipped">Shipped</option>
-                        <option value="Cancelled">Cancelled</option>
+                    <p id="orderId"  value="<%= order.id %>"></p>
+                           <% if(order.status == "Cancelled"){ %>
+                              <span>Cancelled</span>
+                           <% }else if(order.status == "Delivered"){ %>
+                              <span>Delivered</span>
+                           <% }else if(order.status == "PaymentFailed"){ %>
+                              <span>Payment Failed</span>
+                           <% }else if(order.status == "Returned"){ %>
+                              <span>Returned</span>
+                           <% }else if(order.status == "returnRejected"){ %>
+                              <span>Return Rejected</span>
+                           <% }else if(order.status == "Processing"){ %>
+                         <select class="category orderStatus block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                            <option selected disabled selected> <%= order.status %> </option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Cancelled">Cancelled</option>
+                         </select>
+                         <div><button class="orderStatusChangeButton ml-4 text-green-600"> change </button> </div>
+                      <% }else if(order.status == "Shipped"){ %>
+                        <select class="category orderStatus block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                              <option selected disabled selected> <%= order.status %> </option>
+                              <option value="Delivered">Delivered</option>
+                              <option value="Cancelled">Cancelled</option>
                         </select>
-                        <div>
-                          <button class="orderStatusChangeButton ml-4 text-green-600">
-                              change
-                          </button>
-                      </div>
-                   
-                          <% }else if(order.status == "Shipped"){ %>
-                    <select id="orderStatus" class="category block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                        <option selected disabled selected> <%= order.status %> </option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
-                        </select>
-                        <div>
-                          <button class="orderStatusChangeButton ml-4 text-green-600">
-                              change
-                          </button>
-                      </div>
-                   
-                    <% } %>
+                        <div><button class="orderStatusChangeButton ml-4 text-green-600"> change </button> </div>
+                        <% }else if(order.status == "returnAccepted"){ %>
+                          <select class="category orderStatus block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                            <option selected disabled selected> <%= order.status %> </option>
+                            <option value="Returned">Returned</option>
+                            
+                      </select>
+                      <div><button class="orderStatusChangeButton ml-4 text-green-600"> change </button></div>
+                      <% } %>
                 </td>
                 <td class="px-6 py-4">
                   <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"> <%
@@ -116,8 +116,9 @@
           <% }) %>
         </tbody>
     </table>
-</section>
 
+  
+</section>
 
   <!----------------------- pagination ----------------------->
     <section class="text-center w-full sm:w-3/4 mx-auto border-t flex justify-center py-6   ">
@@ -145,15 +146,11 @@
     const orderStatusChangeButtons = document.querySelectorAll('.orderStatusChangeButton');
     orderStatusChangeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
+        
         const td = e.target.closest('td');
         const select = td.querySelector('select');
         const orderStatus = select.value;
-
-        if(orderStatus == "Cancelled"){
-          
-        }
         const orderId = td.querySelector('#orderId').getAttribute('value');
-
         fetch('/admin/orderStatus',{
         method:"POST",
           headers:{
@@ -177,9 +174,9 @@
     //         const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
     //         console.log('Selected coupon:', selectedCoupon);
     //     });
-    });
-});
+     } );
 
+  });
 </script>
 
 <%- include('../partials/adminFooter') %>

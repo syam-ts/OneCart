@@ -246,6 +246,7 @@ const orderFailed = async (req, res) => {
 //<------------ order cancel for user -------------->
 const orderCancel = async (req, res) => {
     try {
+        console.log('The body : ',req.body)
         const userId = req.session.user;
         const { orderId, reason } = req.body;
         const order = await Order.findById(orderId);

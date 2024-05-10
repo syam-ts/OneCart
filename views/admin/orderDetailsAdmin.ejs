@@ -113,19 +113,16 @@
     // -------------- order return accept -----------------
     const acceptReturn = (orderId) => {
         alert(orderId)
-        fetch('/returnAccept',{
+        fetch('/admin/returnAccept',{
                         method:"POST",
                         headers:{
                             "Content-Type" : "application/json"
                         },
                         body:JSON.stringify({
-                            totalPrice : totalPrice,
-                            paymentMethod : paymentMethod,
-                            subTotal : subTotal,
-                            addressId : selectedId
+                            orderId : orderId
                           })
                             }).then(() => {
-                                    window.location.href = '/orderSuccess'
+                                    window.location.href = '/admin/orderManagement'
                             })
     }
 

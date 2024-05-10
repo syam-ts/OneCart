@@ -140,89 +140,135 @@ const getSalesReport = async (req, res) => {
 //<------------ order status changing -------------->
 const orderStatusChng = async (req, res) => {
     try {
+    
         const {orderStatus , orderId } = req.body;
         const order = await Order.findById(orderId);
 
-
-      if(order.status == "Cancelled"){
-        res.redirect('/admin/orderManagement');
-        console.log("cannot edit cancelled order")
-      }else if(order.status == "Delivered"){
-            res.redirect('/admin/orderManagement');
-            console.log("cannot edit delivered order")
-            res.json({message : "cannot edit delevered order"})
-        }else if(order.status == "Processing" ){
-            if(orderStatus == "Delivered" || orderStatus == "Shipped"){
-              
-                 order.status = orderStatus;
-               await order.save();
-               res.redirect('/admin/orderManagement');
-           
-            }else if(orderStatus == "Cancelled"){
-               const productIds = order.products.map(item => item);
-               const products = await Product.find({ _id: { $in: productIds }});
-               const carts = order.carts.map(item => item);
-               const stocks = products.map(x => x.stock);
-               const quantity = carts.map(x => x.quantity);
-               order.status = orderStatus;
-               await order.save();
-               for (let i = 0; i < stocks.length; i++) {
-                   products[i].stock += quantity[i]   
-                   await products[i].save();
-               }
-
-               if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
-                const userId = order.userId;
-                const total = order.total;
-                const wallet = await Wallet.find({userId : userId});
-                console.log('Enter this',wallet)   
-                if(wallet == undefined){   
-                    console.log("FINALLY IT ENTERDN");
-                    
-                    wallet.amount =+ total;
-                    const newWallet = new Wallet({
-                        userId : userId,
-                        amount : wallet.amount
-                    });
-                    await newWallet.save();
-                    console.log('new wallet created')
-                    }else{       
-                        
-                    await Wallet.findOneAndUpdate(
-                        { userId },
-                        { $inc: { amount: total } },
-                        { new: true }
-                    );
-                 res.redirect('/admin/orderManagement');
-                 console.log('amount added to the cart')
-                }
- 
-               }
-            }else if(orderStatus == "Returned"){
-
-
-                const userId = order.userId;
-                if( order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet" ){
-                    // product need to go back to stock
-                    // add the amount to wallet
-                    
+        if(order.status == "Processing"){
+            if(orderStatus == "Shipped"){
+                order.status = "Shipped";
+                await order.save();
+                res.redirect('/admin/orderManagement');
+            }else{
+                if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
+                    const userId = order.userId;
                     const total = order.total;
-                const wallet = await Wallet.find({userId : userId});
-               
-                    wallet.amount =+ total;
-
-
-                    order.status = "Returned";
-                    await order.save();
-                }else{
-                //    if COD do nothing just change status to 
-                   order.status = "Returned"
+                    const wallet = await Wallet.find({userId : userId});
+                    console.log('Enter this',wallet)   
+                    if(wallet == undefined){   
+                       
+                        wallet.amount =+ total;
+                        const newWallet = new Wallet({
+                            userId : userId,
+                            amount : wallet.amount
+                        });
+                        await newWallet.save();
+                        console.log('new wallet created')
+                        }else{       
+                        await Wallet.findOneAndUpdate(
+                            { userId },
+                            { $inc: { amount: total } },
+                            { new: true }
+                        );
+                     console.log('amount added to the cart')
+                 }}
+                   const productIds = order.products.map(item => item);
+                   const products = await Product.find({ _id: { $in: productIds }});
+                   const stocks = products.map(x => x.stock);
+                   order.status = orderStatus;
                    await order.save();
-
+                   for (let i = 0; i < stocks.length; i++) {
+                       products[i].stock += quantity[i]   
+                       await products[i].save();
+                   }
+                   
+                   res.redirect('/admin/orderManagement');
+            }
+        }else if(order.status == "Shipped"){
+                 if(orderStatus == "Delivered"){
+                    order.status = "Delivered";
+                    await order.save();
+                    res.redirect('/admin/orderManagement');
+                   } else{
+               
+                 if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
+                        const userId = order.userId;
+                        const total = order.total;
+                        const wallet = await Wallet.find({userId : userId});
+                        console.log('Enter this',wallet)   
+                        if(wallet == undefined){   
+                       
+                        wallet.amount =+ total;
+                        const newWallet = new Wallet({
+                            userId : userId,
+                            amount : wallet.amount
+                        });
+                        await newWallet.save();
+                        console.log('new wallet created')
+                        }else{       
+                        await Wallet.findOneAndUpdate(
+                            { userId },
+                            { $inc: { amount: total } },
+                            { new: true }
+                        );
+                     console.log('amount added to the cart')
+                 }}
+                   const productIds = order.products.map(item => item);
+                   const products = await Product.find({ _id: { $in: productIds }});
+                   const stocks = products.map(x => x.stock);
+                   order.status = orderStatus;
+                   await order.save();
+                   for (let i = 0; i < stocks.length; i++) {
+                       products[i].stock += quantity[i]   
+                       await products[i].save();
+                   }
+                   
+                   res.redirect('/admin/orderManagement');
                 }
+        }else if(order.status == "returnAccepted"){
+
+ 
+                     order.status = "Returned";
+                     await order.save();
+                     res.redirect('/admin/orderManagement');
+
+
+                     if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
+                        const userId = order.userId;
+                        const total = order.total;
+                        const wallet = await Wallet.find({userId : userId});
+                        console.log('Enter this',wallet)   
+                        if(wallet == undefined){   
+                       
+                        wallet.amount =+ total;
+                        const newWallet = new Wallet({
+                            userId : userId,
+                            amount : wallet.amount
+                        });
+                        await newWallet.save();
+                        console.log('new wallet created')
+                        }else{       
+                        await Wallet.findOneAndUpdate(
+                            { userId },
+                            { $inc: { amount: total } },
+                            { new: true }
+                        );
+                     console.log('amount added to the cart')
+                 }}
+                   const productIds = order.products.map(item => item);
+                   const products = await Product.find({ _id: { $in: productIds }});
+                   const stocks = products.map(x => x.stock);
+                   order.status = orderStatus;
+                   await order.save();
+                   for (let i = 0; i < stocks.length; i++) {
+                       products[i].stock += quantity[i]   
+                       await products[i].save();
+                   }
+                   
+                   res.redirect('/admin/orderManagement');
 
             }
-        }
+        
     } catch (error) {
         console.log(error.message);
     }
@@ -261,7 +307,7 @@ const sortSalesReport = async (req, res) => {
         console.log('REACHED HERE')
         const orderId = req.body.orderId;
         const order = await Order.findById(orderId);
-        order.status = "returnPickup";
+        order.status = "returnAccepted";
         await order.save();
         res.redirect('/admin/orderManagement');
     }catch(err){
