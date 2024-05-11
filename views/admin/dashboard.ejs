@@ -32,7 +32,6 @@
   </style>
 
    <main>
-      <!-- Content -->
         <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                 <div class="bg-white rounded-md border border-gray-100 p-6 shadow-md shadow-black/5">
@@ -76,14 +75,14 @@
                                   <div class="grid grid-cols-1 lg:grid-cols-1 gap-6 mb-6">
                                       <div class="bg-white border border-gray-100 shadow-md p-6 rounded-md lg:col-span-2">
                                       
-                                          <select class=" block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                                            <option selected disabled selected>  </option>
-                                            <option value="Shipped">Daily</option>
-                                            <option value="Cancelled">monthly</option>
-                                            <option value="Cancelled">Yearly</option>
+                                          <select class="graphSales block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
+                                            <option selected disabled selected>Daily</option>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Monthly">Monthly</option>
+                                            <option value="Yearly">Yearly</option>
                                          </select>
-                                         <button class="text-red-500" onclick="graphDropdown()">ok</button>
-                                         <canvas id="myChart"></canvas>
+                                         <button class="text-blue-500 graphChange">ok</button>
+                                         <canvas class="myChart"></canvas>
                                           </div>
                                       </div>
                                   </div>
@@ -211,11 +210,117 @@
                 toastr.success(toastMessage)}
         });
     </script>
+    <script>
 
-      <!---------------- chart script ---------------->
-      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <!-- <script>
-        fetch('/admin/orders/monthly')
+   //<--------------------- default graph ---------------------->
+   fetch('/admin/orders/Daily')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+          }
+          return response.json();
+      })
+      .then(data => {
+          const ordersData = data.map(order => ({
+              day: new Date(order.createdate).getDate(), 
+              quantity: order.total
+          }));
+
+          const dailyData = Array.from({ length: 30 }, () => 0);
+
+          ordersData.forEach(order => {
+              const day = order.day;
+              dailyData[day - 1] += order.quantity; 
+          });
+
+          const ctx = document.getElementsByClassName('myChart');
+          new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: Array.from({ length: 30 }, (_, i) => (i + 1).toString()), 
+                  datasets: [{
+                      label: '# Daily',
+                      data: dailyData,
+                      backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+                      borderColor: 'rgba(54, 162, 235, 1)', 
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      })
+      .catch(error => console.error('Error fetching or processing data:', error));
+
+
+ // <------------------------Graph changing ------------------------------>
+    const graphChangeButton = document.querySelectorAll('.graphChange');
+    graphChangeButton.forEach(button => {
+        button.addEventListener('click', (e) => {
+        const div = e.target.closest('div');
+        const select = div.querySelector('select');
+        const changeValue = select.value;
+     
+        const canvas = div.querySelector('canvas');
+        
+        // Get the Chart instance associated with the canvas
+        let chartInstance = Chart.getChart(canvas);
+
+        // Destroy the existing Chart instance
+        if (chartInstance) {
+            chartInstance.destroy();
+        }
+
+        if(changeValue == "Daily"){
+          fetch('/admin/orders/Daily')
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+              }
+          return response.json();
+      })
+      .then(data => {
+          const ordersData = data.map(order => ({
+              day: new Date(order.createdate).getDate(), 
+              quantity: order.total
+          }));
+          const dailyData = Array.from({ length: 30 }, () => 0);
+          ordersData.forEach(order => {
+              const day = order.day;
+              dailyData[day - 1] += order.quantity; 
+          });
+          const ctx = document.getElementsByClassName('myChart');
+          
+          new Chart(ctx, {
+              type: 'bar',
+              data: {
+                  labels: Array.from({ length: 30 }, (_, i) => (i + 1).toString()), 
+                  datasets: [{
+                      label: '# Daily',
+                      data: dailyData,
+                      backgroundColor: 'rgba(54, 162, 235, 0.2)', 
+                      borderColor: 'rgba(54, 162, 235, 1)', 
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      })
+      .catch(error => console.error('Error fetching or processing data:', error)
+      )}else if(changeValue == "Monthly"){
+
+          fetch('/admin/orders/Monthly')
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -227,16 +332,14 @@
               month: new Date(order.createdate).getMonth(),
               quantity: order.total 
             }));
-      
             const monthlyData = Array.from({ length: 12 }, () => 0); 
             ordersData.forEach(order => {
               const month = order.month;
               monthlyData[month] += order.quantity;
             });
-      
-            const ctx = document.getElementById('myChart');
+            const ctx = document.getElementsByClassName('myChart');
           
-                  new Chart(ctx, {
+            new Chart(ctx, {
               type: 'bar',
               data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -256,13 +359,10 @@
             });
             
           })
-          .catch(error => console.error('Error fetching orders:', error));
+          .catch(error => console.error('Error fetching orders:', error)
+        )}else if(changeValue == "Yearly"){
 
-</script> -->
-      
-
-<script>
-        fetch('/admin/orders/yearly')
+          fetch('/admin/orders/Yearly')
           .then(response => {
             if (!response.ok) {
               throw new Error('Network response was not ok');
@@ -274,16 +374,14 @@
               year: new Date(order.createdate).getFullYear(),
               quantity: order.total 
             }));
-      
             const yearlyData = Array.from({ length: 13 }, () => 0); 
             ordersData.forEach(order => {
               const year = order.year - 2018;
               yearlyData[year] += order.quantity;
             });
-      
-            const ctx = document.getElementById('myChart').getContext('2d');
+            const ctx = document.getElementsByClassName('myChart');
           
-                  new Chart(ctx, {
+             new Chart(ctx, {
               type: 'bar',
               data: {
                 labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030'],
@@ -304,61 +402,14 @@
             
           })
           .catch(error => console.error('Error fetching orders:', error));
-
-</script> 
-
-<!-- <script>
-  fetch('/admin/orders/daily')
-      .then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.json();
+        }})
       })
-      .then(data => {
-          const ordersData = data.map(order => ({
-              day: new Date(order.createdate).getDate(), 
-              quantity: order.total
-          }));
+    </script>
 
-          const dailyData = Array.from({ length: 30 }, () => 0);
 
-          ordersData.forEach(order => {
-              const day = order.day;
-              dailyData[day - 1] += order.quantity; 
-          });
-
-          const ctx = document.getElementById('myChart').getContext('2d');
-          new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: Array.from({ length: 30 }, (_, i) => (i + 1).toString()), 
-                  datasets: [{
-                      label: '# Daily Orders',
-                      data: dailyData,
-                      backgroundColor: 'rgba(54, 162, 235, 0.2)', 
-                      borderColor: 'rgba(54, 162, 235, 1)', 
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
-      })
-      .catch(error => console.error('Error fetching or processing data:', error));
-</script> -->
-
-  <script>
-    //<-------------------- graph dropdown ------------------>
-          const graphDropdown = () => {
-            alert('This is it')
-          }
-      </script>
+      <!---------------- chart script ---------------->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      
       
     
 <%- include('../partials/adminFooter') %>
