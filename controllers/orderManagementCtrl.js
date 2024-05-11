@@ -2,6 +2,7 @@ const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const Wallet = require('../models/walletModel');
+const Category = require('../models/categoryModel');
 
 //<------------ order management -------------->
 const getOrderManagement = async (req, res ) => {
@@ -359,7 +360,79 @@ const sortSalesReport = async (req, res) => {
  }
 
 
+ const topTenPrdt = async (req, res) => {
+    try{
+        
+        const admin = req.session.admin;
+        const users = await User.find({ isBlock: false }).count();
+        const brand = await Product.find({ deleted: false }).count();
+        const category = await Category.find({ deleted: false }).count();
+        const topTenPrdts = await Order.aggregate([ { $unwind: "$products" }, 
+        { $group: { _id: "$products._id",
+         productName: { $first: "$products.productName" },
+          totalOrders: { $sum: 1 } } }, 
+          { $sort: { totalOrders: -1 } }] )
 
+          const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
+          { $group: { _id: "$products._id",
+           category: { $first: "$products.category" },
+            totalOrders: { $sum: 1 } } }, 
+            { $sort: { totalOrders: -1 } }] )
+
+          const topTenBrnd = await Order.aggregate([ { $unwind: "$products" }, 
+          { $group: { _id: "$products._id",
+           brand: { $first: "$products.brand" },
+            totalOrders: { $sum: 1 } } }, 
+            { $sort: { totalOrders: -1 } }] )
+
+            console.log('The brands : ',topTenBrnd)
+
+        if(!admin){
+            req.session.destroy();
+            res.redirect('./admin-login')
+            console.log('Admin not found');
+        }else{
+            res.render('dashboard', { list:[users,brand,category, topTenPrdts, topTenCtgry]});
+        }
+        
+
+       
+    }catch(err){
+        res.render('error',{ message : err.messgae });
+    }
+ };
+
+
+ const topTenCtgry = async (req, res) => {
+    try{
+        
+        const admin = req.session.admin;
+        const users = await User.find({ isBlock: false }).count();
+        const brand = await Product.find({ deleted: false }).count();
+        const category = await Category.find({ deleted: false }).count();
+        const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
+        { $group: { _id: "$products._id",
+         category: { $first: "$products.category" },
+          totalOrders: { $sum: 1 } } }, 
+          { $sort: { totalOrders: -1 } }] )
+        if(!admin){
+            req.session.destroy();
+            res.redirect('./admin-login')
+            console.log('Admin not found');
+        }else{
+            console.log('The cate : ',topTenCtgry)
+            res.render('dashboard', { list:[users,brand,category, topTenCtgry]});
+        }
+        
+
+       
+    }catch(err){
+        res.render('error',{ message : err.messgae });
+    }
+ };
+
+
+  
 module.exports = {
     getOrderManagement,
     sortOrderAdmin,
@@ -371,5 +444,7 @@ module.exports = {
     returnReject,
     orderDaily,
     orderMonthly,
-    orderYearly
+    orderYearly,
+    topTenPrdt,
+    topTenCtgry
 };

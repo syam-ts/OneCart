@@ -25,13 +25,6 @@ Router.get('/admin-login',adminController.getAdmin);
 Router.post('/admin-login',adminController.verifyAdmin);
 Router.get('/admin-logout',adminController.logoutAdmin);
 Router.get('/dashboard',adminController.getDashboard);
-Router.get('/orders/Daily',orderManagementCtrl.orderDaily) 
-Router.get('/orders/Monthly',orderManagementCtrl.orderMonthly) 
-Router.get('/orders/Yearly',orderManagementCtrl.orderYearly) 
-
-// Router.get('/admin/sortDashboard/topTenPrdt',adminController.topTenPrdt);
-// Router.get('/admin/sortDashboard/topTenCtgry',adminController,topTenCtgry);
-// Router.get('/admin/sortDashboard/topTenBrnd',adminController.topTenBrnd);
 
    //<------------ userManagement routes -------------->
 Router.get('/userManagement',userManagementController.getUsers);
@@ -65,7 +58,12 @@ Router.post('/orderStatus',orderManagementCtrl.orderStatusChng);
 Router.get('/sortOrderAdmin/:method',orderManagementCtrl.sortOrderAdmin);
 Router.post('/returnAccept',orderManagementCtrl.returnAccept);
 Router.post('/returnReject',orderManagementCtrl.returnReject);
-
+Router.get('/orders/Daily',orderManagementCtrl.orderDaily) 
+Router.get('/orders/Monthly',orderManagementCtrl.orderMonthly) 
+Router.get('/orders/Yearly',orderManagementCtrl.orderYearly) 
+Router.get('/sortDashboard/topTenPrdt',orderManagementCtrl.topTenPrdt);
+Router.get('/sortDashboard/topTenCtgry',orderManagementCtrl.topTenCtgry);
+// Router.get('/admin/sortDashboard/topTenBrnd',orderManagementCtrl.topTenBrnd);
 
    //<------------ salse routes -------------->
 Router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
