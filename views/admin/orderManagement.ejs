@@ -45,7 +45,7 @@
             <tr class="bg-white  hover:bg-gray-50 ">
                 <td class="px-6 py-4">
                     <a class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= order.address.name %> </a>
-                    <input id="orderId" value="<%= order.id %>"/>
+                    <input class="hidden" id="orderId" value="<%= order.id %>"/>
                 </td>
                 <td class="px-6 py-4">
                   <a class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= order.total %> </a>
@@ -56,34 +56,33 @@
                  <td class="flex">
                     <p id="orderId"  value="<%= order.id %>"></p>
                            <% if(order.status == "Cancelled"){ %>
-                              <span>Cancelled</span>
+                              <span class="text-gray-400">Cancelled</span>
                            <% }else if(order.status == "Delivered"){ %>
-                              <span>Delivered</span>
+                              <span class="text-gray-400">Delivered</span>
                            <% }else if(order.status == "PaymentFailed"){ %>
-                              <span>Payment Failed</span>
+                              <span class="text-gray-400">Payment Failed</span>
                            <% }else if(order.status == "Returned"){ %>
-                              <span>Returned</span>
+                              <span class="text-gray-400">Returned</span>
                            <% }else if(order.status == "returnRejected"){ %>
-                              <span>Return Rejected</span>
+                              <span class="text-gray-400">Return Rejected</span>
                            <% }else if(order.status == "Processing"){ %>
                          <select class="category orderStatus block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                            <option selected disabled selected> <%= order.status %> </option>
-                            <option value="Shipped">Shipped</option>
+                            <option selected disabled> <%= order.status %> </option>
+                            <option>Shipped</option>
                             <option value="Cancelled">Cancelled</option>
                          </select>
                          <div><button class="orderStatusChangeButton ml-4 text-green-600"> change </button> </div>
                       <% }else if(order.status == "Shipped"){ %>
                         <select class="category orderStatus block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                              <option selected disabled selected> <%= order.status %> </option>
+                              <option selected disabled> <%= order.status %> </option>
                               <option value="Delivered">Delivered</option>
                               <option value="Cancelled">Cancelled</option>
                         </select>
                         <div><button class="orderStatusChangeButton ml-4 text-green-600"> change </button> </div>
                         <% }else if(order.status == "returnAccepted"){ %>
                           <select class="category orderStatus block w-36 h-6  text-gray-500 shadow-sm  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6 font-sans">
-                            <option selected disabled selected> <%= order.status %> </option>
+                            <option selected disabled> <%= order.status %> </option>
                             <option value="Returned">Returned</option>
-                            
                       </select>
                       <div><button class="orderStatusChangeButton ml-4 text-green-600"> change </button></div>
                       <% } %>

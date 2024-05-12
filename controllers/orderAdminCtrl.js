@@ -131,9 +131,22 @@ const orderDetailsAdmin = async (req, res) => {
 //<------------ sales report -------------->
 const getSalesReport = async (req, res) => {
     try {
-        let product = [];
+        const currentDate = new Date();
+        const day = currentDate.getDate();
+            const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day, 0, 0, 0);
+            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1, 23, 59, 59);
+            
         
-        res.render('salesReport',{ product : product});
+            const orders = await Order.find({ createdate: { $gte: startOfDay, $lte: endOfDay }}).lean();
+            const productIds = [];
+            orders.forEach(order => {
+            order.products.forEach(product => {
+                productIds.push(product._id);
+            })});
+    
+          const products = await Product.find({ _id: {$in : productIds}})
+          res.render('salesReport', {product : products})
+      
     } catch (error) {
         console.log(error.message);
     }
@@ -377,16 +390,31 @@ const sortSalesReport = async (req, res) => {
             const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day, 0, 0, 0);
             const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1, 23, 59, 59);
             
-        
             const orders = await Order.find({ createdate: { $gte: startOfDay, $lte: endOfDay }}).lean();
+
+
             const productIds = [];
+            const quantity = [];
+            const date = [];
             orders.forEach(order => {
-            order.products.forEach(product => {
-                productIds.push(product._id);
+            order.carts.forEach(cart => {
+                productIds.push(cart.productId,);
+                quantity.push(cart.quantity);
+                date.push(order.createdate);
             })});
+
+       
     
-          const products = await Product.find({ _id: {$in : productIds}})
-          res.render('salesReport', {product : products})
+          const products = await Product.find({ _id: {$in : productIds}});
+
+          console.log("The pro : ",productIds)
+       
+            
+
+          res.render('salesReport', {product : [products, quantity ,date]})
+
+
+
         }else if(format == "monthly"){
             
             const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1, 0, 0, 0);

@@ -35,69 +35,46 @@
 
   <section>
 
-    <div class="w-full ml-5 mt-5">
+    <div class="w-fullmt-5">
       <table class="items-center bg-transparent w-full border-collapse ">
         <thead>
           <tr>
-           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+           <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
                           Id</th>
-           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+           <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
                           Product Name</th>
-           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+           <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
                           Product Price</th>
-           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+           <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
                             Product Offer</th>
-           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+           <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
                             Total Item Sold</th>
-           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+           <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
                           Total Sale</th>
            </tr>
          </thead>
-
-        <tbody>
-      <% product.forEach((pro, index)=> { %>
-          <tr>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-            <%= index +1  %>
-            </td>
-            <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-            <%= pro.productName %>
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class=" text-emerald-500 mr-4"></i>
-              order > createDate
-            </td>
-            <% if(pro.offer[0]){ %>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class=" text-emerald-500 mr-4"></i>
-            <%= pro.offer[0].offerPrice %>
-            </td>
-            <% }else{ %>
-              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <i class=" text-emerald-500 mr-4"></i>
-              Null
+         <tbody>
+          <% product.forEach((product, index) => { %>  
+            <tr>
+              <td>
+                <%= product[index].productName %> 
               </td>
-              <% } %>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class=" text-emerald-500 mr-4"></i>
-           0
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class=" text-emerald-500 mr-4"></i>
-            <%= pro.size %>
-            </td>
-            
-          </tr>
-   
+              <td>
+                <%= product[1].quantity %>
+              </td>
+              <td>
+                <%= product[index].date %>
+              </td>
+            </tr>
           <% }) %>
         </tbody>
-
+        
       </table>
     </div>
   </div>
 </div>
-<!-- <button id="downloadPDF" class="w-52 mb-6 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Download PDF</button>
- -->
+<button id="downloadPDF" class="mb-6 mt-8 text-white bg-red-700 hover:bg-blue-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download PDF</button>
+
 
 </section>
 <section>
