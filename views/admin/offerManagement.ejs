@@ -1,10 +1,5 @@
 <%- include('../partials/adminHeader') %>
 
-
-<!-- component -->
-<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
-<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
-
  <!----------- toaster css ------------->
  <style>
   #toast-container > .toast-success {
@@ -74,43 +69,36 @@
 <section class="py-1 bg-blueGray-50 ">
 <div class="w-full mb-12 xl:mb-0  mt-16">
   <div class=" flex flex-col min-w-0 break-words bg-whitel mb-6 shadow-lg rounded ">
-    <div class="rounded-t mb-0 px-4 border-0">
-      <div class="flex flex-wrap items-center">
-        <div class=" w-full px-4 max-w-full flex-grow flex-1">
-          <h3 class="font-semibold text-base text-blueGray-700">    </h3>
-        </div>
 
-      </div>
-    </div>
 
     <div class="w-full">
       <table class="items-center bg-transparent border-collapse ">
         <thead>
             
-          <tr>
-            <th class=" bg-red-500 text-white px-36 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+          <tr class="w-full">
+            <th class=" bg-red-500 text-white w-full px-24 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                          Name</th>
-            <th class=" bg-red-500 text-white px-36 align-middle border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+            <th class=" bg-red-500 text-white w-full px-24 align-middle border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                          Orginal Price</th>
-          <th class=" bg-red-500 text-white px-36  border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+          <th class=" bg-red-500 text-white w-full px-24 align-middle border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Offer Price</th>
-          <th class=" bg-red-500 text-white px-36  border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+          <th class=" bg-red-500 text-white w-full px-24 align-middle border border-solid border-blueGray-100 py-3  text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                           Delete</th>
                </tr>
           </thead>
         <tbody>
             <% product.forEach(pro => { %>
           <tr>
-                <td class="border-t-0 pl-5 align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                <td class="border-t-0align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <span> <%= pro.productName %> </span>
                 </td>
-                <td class="border-t-0  align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <span>  <%= pro.price %> </span>
                 </td>
-                <td class="border-t-0  align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <span> <%= pro.offer[0].offerPrice %> </span>
                 </td>
-                <td class="border-t-0  align-middle px-28 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <button class="deleteOffer" value="<%= pro.id %>"> del/ </button>
                 </td>
           </tr>

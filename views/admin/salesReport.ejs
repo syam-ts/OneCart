@@ -1,16 +1,11 @@
 <%- include('../partials/adminHeader') %>
 
-
-<!-- component -->
-<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
-<link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
-
 <main>
 
   
 
         <!---------------- Sorting orders ---------------->
-<section class="flex flex-col justify-end items-end w-3/4 ">
+<section class="flex flex-col justify-end items-end">
   
   <div class="relative">
     <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="mt-12 text-gray-950 h-9 w-44 border border-gray-950 bg-gray-500  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
@@ -20,80 +15,78 @@
     <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 shadow w-44 dark:bg-gray-100 text-gray-950">
       <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
         <li>
-          <a href="/admin/sortSalesReport/Delevered" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delivered</a>
+          <a href="/admin/sortSalesReport/daily" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Daily</a>
         </li>
         <li>
-          <a href="/admin/sortSalesReport/Cancelled" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Cancelled</a>
+          <a href="/admin/sortSalesReport/monthly" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Monthly</a>
         </li>
         <li>
-          <a href="/admin/sortSalesReport/Returned" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Returned</a>
+          <a href="/admin/sortSalesReport/yearly" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Yearly</a>
+        </li>
+        <li>
+          <a href="/admin/sortSalesReport/custom" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Custom</a>
         </li>
       </ul>
     </div>
   </div>
-  <!--------- Total sales goes here -------------->
-  <div>
-    <span>Sales Total : </span>
-  </div>
+
 </section>
 
 
   <section>
 
-    <div class="w-3/4 ml-5 mt-5">
+    <div class="w-full ml-5 mt-5">
       <table class="items-center bg-transparent w-full border-collapse ">
         <thead>
-            
           <tr>
-            <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Order ID</th>
-          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Billing Name</th>
            <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Email</th>
-          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Date</th>
-        
-          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Order Status</th>
-          
-          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Amount</th>
-          
-          <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                          Payment Method</th>
-  
-        </thead>
+                          Id</th>
+           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Product Name</th>
+           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Product Price</th>
+           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Product Offer</th>
+           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                            Total Item Sold</th>
+           <th class=" bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                          Total Sale</th>
+           </tr>
+         </thead>
 
         <tbody>
-      <% order.forEach(ord => { %>
+      <% product.forEach((pro, index)=> { %>
           <tr>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-            <%= ord.ordId  %>
+            <%= index +1  %>
             </td>
             <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-            <%= ord.userId %>
+            <%= pro.productName %>
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               <i class=" text-emerald-500 mr-4"></i>
-            <%= email %>
+              order > createDate
+            </td>
+            <% if(pro.offer[0]){ %>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class=" text-emerald-500 mr-4"></i>
+            <%= pro.offer[0].offerPrice %>
+            </td>
+            <% }else{ %>
+              <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                <i class=" text-emerald-500 mr-4"></i>
+              Null
+              </td>
+              <% } %>
+            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class=" text-emerald-500 mr-4"></i>
+           0
             </td>
             <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
               <i class=" text-emerald-500 mr-4"></i>
-            <%= ord.createdate %>
+            <%= pro.size %>
             </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class=" text-emerald-500 mr-4"></i>
-            <%= ord.status %>
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class=" text-emerald-500 mr-4"></i>
-            <%= ord.total %>
-            </td>
-            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-              <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
-            <%= ord.paymentMethod %>
-            </td>
+            
           </tr>
    
           <% }) %>
@@ -105,6 +98,14 @@
 </div>
 <!-- <button id="downloadPDF" class="w-52 mb-6 mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Download PDF</button>
  -->
+
+</section>
+<section>
+  <div class="flex flex-col items-end mt-12 mr-5">
+    <span class="font-bold">Total Offer : 21100₹</span>
+    <span class="font-bold">Total Discount : 6000₹</span>
+    <span class="font-bold">Total Payment : 178220₹</span>
+  </div>
 
 </section>
 

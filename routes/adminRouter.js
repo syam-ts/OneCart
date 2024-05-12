@@ -2,15 +2,14 @@ const express = require('express');
 const app = express();
 const Router = express.Router();
 const multer = require('multer');
-const userManagementController = require('../controllers/UserMangementCtrl');
-const productContoller = require('../controllers/productCtrl');
-const adminController = require('../controllers/adminCtrl');
-const categoryController = require('../controllers/categoryCtrl');
-const orderManagementCtrl = require('../controllers/orderManagementCtrl');
+const userManagementCtrl = require('../controllers/UserMangementCtrl');
+const productCtrl = require('../controllers/productCtrl');
+const adminCtrl = require('../controllers/adminCtrl');
+const categoryCtrl = require('../controllers/categoryCtrl');
+const orderAdminCtrl = require('../controllers/orderAdminCtrl');
 const couponCtrl = require('../controllers/couponCtrl');
-const offerController = require('../controllers/offerCtrl');
+const offerCtrl = require('../controllers/offerCtrl');
 const bodyParser = require('body-parser');
-const Order = require('../models/orderModel');
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,54 +20,52 @@ const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'.
 const upload = multer({ storage });
 
    //<------------ admin-login -------------->
-Router.get('/admin-login',adminController.getAdmin);
-Router.post('/admin-login',adminController.verifyAdmin);
-Router.get('/admin-logout',adminController.logoutAdmin);
-Router.get('/dashboard',adminController.getDashboard);
+Router.get('/admin-login',adminCtrl.getAdmin);
+Router.post('/admin-login',adminCtrl.verifyAdmin);
+Router.get('/admin-logout',adminCtrl.logoutAdmin);
+Router.get('/dashboard',adminCtrl.getDashboard);
 
    //<------------ userManagement routes -------------->
-Router.get('/userManagement',userManagementController.getUsers);
-Router.get('/user-block/:id',userManagementController.blcokUser);
-// Router.get('/user-unblock/:id',userManagementController.unBlcokUser);
+Router.get('/userManagement',userManagementCtrl.getUsers);
+Router.get('/user-block/:id',userManagementCtrl.blcokUser);
+// Router.get('/user-unblock/:id',userManagementCtrl.unBlcokUser);
 
 
    //<------------ proudutManagement routes -------------->
-Router.get('/product-list',productContoller.productList);
-Router.get('/product-add' ,productContoller.ProductAdd);
-Router.post('/product-add',upload.array('productImage'),productContoller.insertProduct);
-Router.get('/product-block/:id',productContoller.deleteProduct);
-Router.get('/product-edit/:id',productContoller.getProductEdit);
-Router.post('/product-edit/:id',upload.array('productImage'),productContoller.postProductEdit);
-Router.get('/sortProductAdmin/:method',productContoller.sortProductAdmin);
+Router.get('/product-list',productCtrl.productList);
+Router.get('/product-add' ,productCtrl.ProductAdd);
+Router.post('/product-add',upload.array('productImage'),productCtrl.insertProduct);
+Router.get('/product-block/:id',productCtrl.deleteProduct);
+Router.get('/product-edit/:id',productCtrl.getProductEdit);
+Router.post('/product-edit/:id',upload.array('productImage'),productCtrl.postProductEdit);
+Router.get('/sortProductAdmin/:method',productCtrl.sortProductAdmin);
 
 
    //<------------ categoryManagement routes -------------->
-Router.get('/category-list',categoryController.categoryListing);
-Router.get('/category-add',categoryController.categoryAdd);
-Router.post('/category-add',categoryController.insertCategory);
-Router.get('/category-block/:id',categoryController.deleteCategory);
-Router.get('/category-delete/:id',categoryController.deleteCategory);
-Router.get('/category-edit/:id',categoryController.loadCategoryEdit);
-Router.post('/category-edit/:id',categoryController.editCategory);
+Router.get('/category-list',categoryCtrl.categoryListing);
+Router.get('/category-add',categoryCtrl.categoryAdd);
+Router.post('/category-add',categoryCtrl.insertCategory);
+Router.get('/category-block/:id',categoryCtrl.deleteCategory);
+Router.get('/category-delete/:id',categoryCtrl.deleteCategory);
+Router.get('/category-edit/:id',categoryCtrl.loadCategoryEdit);
+Router.post('/category-edit/:id',categoryCtrl.editCategory);
 
 
    //<------------ orderManagement routes -------------->
-Router.get('/orderManagement',orderManagementCtrl.getOrderManagement);
-Router.post('/orderStatus',orderManagementCtrl.orderStatusChng);
-Router.get('/sortOrderAdmin/:method',orderManagementCtrl.sortOrderAdmin);
-Router.post('/returnAccept',orderManagementCtrl.returnAccept);
-Router.post('/returnReject',orderManagementCtrl.returnReject);
-Router.get('/orders/Daily',orderManagementCtrl.orderDaily) 
-Router.get('/orders/Monthly',orderManagementCtrl.orderMonthly) 
-Router.get('/orders/Yearly',orderManagementCtrl.orderYearly) 
-Router.get('/sortDashboard/topTenPrdt',orderManagementCtrl.topTenPrdt);
-Router.get('/sortDashboard/topTenCtgry',orderManagementCtrl.topTenCtgry);
-// Router.get('/admin/sortDashboard/topTenBrnd',orderManagementCtrl.topTenBrnd);
+Router.get('/orderManagement',orderAdminCtrl.getOrderManagement);
+Router.post('/orderStatus',orderAdminCtrl.orderStatusChng);
+Router.get('/sortOrderAdmin/:method',orderAdminCtrl.sortOrderAdmin);
+Router.post('/returnAccept',orderAdminCtrl.returnAccept);
+Router.post('/returnReject',orderAdminCtrl.returnReject);
+Router.get('/orders/Daily',orderAdminCtrl.orderDaily) 
+Router.get('/orders/Monthly',orderAdminCtrl.orderMonthly) 
+Router.get('/orders/Yearly',orderAdminCtrl.orderYearly);
 
    //<------------ salse routes -------------->
-Router.get('/orderDetailsAdmin/:id',orderManagementCtrl.orderDetailsAdmin);
-Router.get('/salesReport',orderManagementCtrl.getSalesReport);
-Router.get('/sortSalesReport/:type',orderManagementCtrl.sortSalesReport);
+Router.get('/orderDetailsAdmin/:id',orderAdminCtrl.orderDetailsAdmin);
+Router.get('/salesReport',orderAdminCtrl.getSalesReport);
+// Router.get('/sortSalesReport/:type',orderAdminCtrl.sortSalesReport);
+Router.get('/sortSalesReport/:format', orderAdminCtrl.salesReport);
 
    //<------------ couponManagement routes -------------->
 Router.get('/coupon-list',couponCtrl.couponList);
@@ -78,10 +75,10 @@ Router.get('/deleteCoupon/:id',couponCtrl.deleteCoupon);
 
 
  //<------------ offerManagement routes -------------->
- Router.get('/offerManagement',offerController.offerManagement);
- Router.post('/offerManagement',offerController.insetOffer);
- Router.post('/offerManagement',offerController.insetOffer);
- Router.post('/deleteOffer',offerController.deleteOffer);
+ Router.get('/offerManagement',offerCtrl.offerManagement);
+ Router.post('/offerManagement',offerCtrl.insetOffer);
+ Router.post('/offerManagement',offerCtrl.insetOffer);
+ Router.post('/deleteOffer',offerCtrl.deleteOffer);
 
  
    //<------------ error routes -------------->

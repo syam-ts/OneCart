@@ -8,6 +8,11 @@ const Wallet = require('../models/walletModel');
 const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
+  /**
+         * ! For User order 
+                                       **/
+
+
  //<------------ razorpay config -------------->
  const razorpayInstance = new Razorpay({
     key_id: RAZORPAY_ID_KEY,

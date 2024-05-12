@@ -4,6 +4,10 @@ const User = require('../models/userModel');
 const Wallet = require('../models/walletModel');
 const Category = require('../models/categoryModel');
 
+  /**
+         * ! For admin order Management 
+                                       **/
+
 //<------------ order management -------------->
 const getOrderManagement = async (req, res ) => {
             try {
@@ -127,12 +131,9 @@ const orderDetailsAdmin = async (req, res) => {
 //<------------ sales report -------------->
 const getSalesReport = async (req, res) => {
     try {
-        const order = await Order.find({status : "Delivered"});
-        const userId = await order.map(x => x.userId);
-        const user = await User.find({_id:{ $in : userId}})
-        const email = await user.map(x => x.email);
-        const name = await user.map(x => x.name);
-        res.render('salesReport',{ order , email, name});
+        let product = [];
+        
+        res.render('salesReport',{ product : product});
     } catch (error) {
         console.log(error.message);
     }
@@ -330,7 +331,7 @@ const sortSalesReport = async (req, res) => {
     }
  };
 
-
+ //<--------------------- daily order chart ----------------------->
  const orderDaily = async (req, res) => {
     try {
        const orders = await Order.find({}, 'createdate total').lean();
@@ -340,6 +341,9 @@ const sortSalesReport = async (req, res) => {
        res.status(500).json({ error: 'Internal server error' });
      }
  }
+
+  //<--------------------- monhtly order chart ----------------------->
+
  const orderMonthly = async (req, res) => {
     try {
        const orders = await Order.find({}, 'createdate total').lean();
@@ -349,6 +353,9 @@ const sortSalesReport = async (req, res) => {
        res.status(500).json({ error: 'Internal server error' });
      }
  }
+
+  //<--------------------- yearly order chart ----------------------->
+
  const orderYearly = async (req, res) => {
     try {
        const orders = await Order.find({}, 'createdate total').lean();
@@ -360,79 +367,73 @@ const sortSalesReport = async (req, res) => {
  }
 
 
- const topTenPrdt = async (req, res) => {
+  //<--------------------- sales report ----------------------->
+  const salesReport = async (req, res ) => {
     try{
+        const format = req.params.format;
+        const currentDate = new Date();
+        if(format == "daily"){
+            const day = currentDate.getDate();
+            const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day, 0, 0, 0);
+            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1, 23, 59, 59);
+            
         
-        const admin = req.session.admin;
-        const users = await User.find({ isBlock: false }).count();
-        const brand = await Product.find({ deleted: false }).count();
-        const category = await Category.find({ deleted: false }).count();
-        const topTenPrdts = await Order.aggregate([ { $unwind: "$products" }, 
-        { $group: { _id: "$products._id",
-         productName: { $first: "$products.productName" },
-          totalOrders: { $sum: 1 } } }, 
-          { $sort: { totalOrders: -1 } }] )
+            const orders = await Order.find({ createdate: { $gte: startOfDay, $lte: endOfDay }}).lean();
+            const productIds = [];
+            orders.forEach(order => {
+            order.products.forEach(product => {
+                productIds.push(product._id);
+            })});
+    
+          const products = await Product.find({ _id: {$in : productIds}})
+          res.render('salesReport', {product : products})
+        }else if(format == "monthly"){
+            
+            const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1, 0, 0, 0);
+            const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
 
-          const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
-          { $group: { _id: "$products._id",
-           category: { $first: "$products.category" },
-            totalOrders: { $sum: 1 } } }, 
-            { $sort: { totalOrders: -1 } }] )
+            const orders = await Order.find({
+                createdate: { $gte: startOfMonth, $lte: endOfMonth }
+            }).lean();
 
-          const topTenBrnd = await Order.aggregate([ { $unwind: "$products" }, 
-          { $group: { _id: "$products._id",
-           brand: { $first: "$products.brand" },
-            totalOrders: { $sum: 1 } } }, 
-            { $sort: { totalOrders: -1 } }] )
+            const productIds = [];
+            orders.forEach(order => {
+                order.products.forEach(product => {
+                    productIds.push(product._id);
+                });
+           }); 
+           const products = await Product.find({ _id: {$in : productIds}})
 
-            console.log('The brands : ',topTenBrnd)
+           console.log('The date : ',products)
+            res.render('salesReport', {product: products})
+        }else if(format == "yearly"){
 
-        if(!admin){
-            req.session.destroy();
-            res.redirect('./admin-login')
-            console.log('Admin not found');
-        }else{
-            res.render('dashboard', { list:[users,brand,category, topTenPrdts, topTenCtgry]});
+            const startOfYear = new Date(currentDate.getFullYear(), 0, 1, 0, 0, 0); 
+            const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59);
+            
+
+            const orders = await Order.find({
+                createdate: { $gte: startOfYear, $lte: endOfYear }
+            }).lean();
+
+            const productIds = [];
+            orders.forEach(order => {
+                order.products.forEach(product => {
+                    productIds.push(product._id);
+                });
+           }); 
+           const products = await Product.find({ _id: {$in : productIds}})
+
+           console.log('The date : ',products)
+            res.render('salesReport', {product: products})
         }
-        
 
-       
     }catch(err){
-        res.render('error',{ message : err.messgae });
+        res.render('error',{ message: err.message });
     }
- };
+  };
 
 
- const topTenCtgry = async (req, res) => {
-    try{
-        
-        const admin = req.session.admin;
-        const users = await User.find({ isBlock: false }).count();
-        const brand = await Product.find({ deleted: false }).count();
-        const category = await Category.find({ deleted: false }).count();
-        const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
-        { $group: { _id: "$products._id",
-         category: { $first: "$products.category" },
-          totalOrders: { $sum: 1 } } }, 
-          { $sort: { totalOrders: -1 } }] )
-        if(!admin){
-            req.session.destroy();
-            res.redirect('./admin-login')
-            console.log('Admin not found');
-        }else{
-            console.log('The cate : ',topTenCtgry)
-            res.render('dashboard', { list:[users,brand,category, topTenCtgry]});
-        }
-        
-
-       
-    }catch(err){
-        res.render('error',{ message : err.messgae });
-    }
- };
-
-
-  
 module.exports = {
     getOrderManagement,
     sortOrderAdmin,
@@ -445,6 +446,5 @@ module.exports = {
     orderDaily,
     orderMonthly,
     orderYearly,
-    topTenPrdt,
-    topTenCtgry
+    salesReport
 };

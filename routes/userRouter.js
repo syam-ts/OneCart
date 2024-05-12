@@ -2,14 +2,14 @@ const express = require('express');
 const app = express();
 const Router = express.Router();
 const bodyParser = require('body-parser');
-const userController = require('../controllers/userCtrl');
-const cartController = require('../controllers/cartCtrl');
-const wishlistController = require('../controllers/wishlistCtrl');
-const addressController = require('../controllers/addressCtrl');
-const orderController = require('../controllers/orderCtrl');
-const productController = require('../controllers/productCtrl');
-const categoryController = require('../controllers/categoryCtrl');
-const walletController = require('../controllers/walletCtrl');
+const userCtrl = require('../controllers/userCtrl');
+const cartCtrl = require('../controllers/cartCtrl');
+const wishlistCtrl = require('../controllers/wishlistCtrl');
+const addressCtrl = require('../controllers/addressCtrl');
+const orderCtrl = require('../controllers/orderUserCtrl');
+const productCtrl = require('../controllers/productCtrl');
+const categoryCtrl = require('../controllers/categoryCtrl');
+const walletCtrl = require('../controllers/walletCtrl');
 var cors = require('cors');
 const dotenv = require('dotenv');
 const multer = require('multer');
@@ -47,72 +47,72 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 //<------------ user routes -------------->
-Router.get('/login' ,userController.getLogin);
-Router.post('/login',userController.verifyLogin);
-Router.get('/signup',userController.getSignup);
-Router.post('/signup',userController.insertUser);
-Router.get('/logout' ,(userController.getLogout));
-Router.get('/home',userController.getHome);
-Router.get('/verify-otp',userController.verifyOtpLoad);
-Router.post('/verify-otp',userController.verifyOTP);
-Router.get('/forgotPassword', userController.getForgotPassword);
-Router.get('/userProfile',userController.userProfile);
-Router.get('/userEdit',userController.getUserEdit);
-Router.post('/userEdit',upload.single('userImage'),userController.insertUserDetails);
-Router.get('/userProfileSidebar',userController.userProfileSidebar);    
+Router.get('/login' ,userCtrl.getLogin);
+Router.post('/login',userCtrl.verifyLogin);
+Router.get('/signup',userCtrl.getSignup);
+Router.post('/signup',userCtrl.insertUser);
+Router.get('/logout' ,(userCtrl.getLogout));
+Router.get('/home',userCtrl.getHome);
+Router.get('/verify-otp',userCtrl.verifyOtpLoad);
+Router.post('/verify-otp',userCtrl.verifyOTP);
+Router.get('/forgotPassword', userCtrl.getForgotPassword);
+Router.get('/userProfile',userCtrl.userProfile);
+Router.get('/userEdit',userCtrl.getUserEdit);
+Router.post('/userEdit',upload.single('userImage'),userCtrl.insertUserDetails);
+Router.get('/userProfileSidebar',userCtrl.userProfileSidebar);    
 
    //<------------ product routes -------------->
-Router.get('/product/:id', isLoggedIn, productController.productDetails);
-Router.get('/shopping?', isLoggedIn,  productController.getShopping);
-Router.get('/sortShopping/:method', isLoggedIn, productController.sortShoppingPage); 
-Router.get('/category/:id', isLoggedIn, categoryController.categoryShopping);
+Router.get('/product/:id', isLoggedIn, productCtrl.productDetails);
+Router.get('/shopping?', isLoggedIn,  productCtrl.getShopping);
+Router.get('/sortShopping/:method', isLoggedIn, productCtrl.sortShoppingPage); 
+Router.get('/category/:id', isLoggedIn, categoryCtrl.categoryShopping);
 //Need cross check
-Router.post('/sortProduct',productController.sortShoppingPage);
+Router.post('/sortProduct',productCtrl.sortShoppingPage);
 
    //<------------ search routes -------------->
-Router.get('/search',productController.searchProduct);
-Router.get('/lowToHigh/:id',productController.getLowToHigh);
+Router.get('/search',productCtrl.searchProduct);
+Router.get('/lowToHigh/:id',productCtrl.getLowToHigh);
 
 
    //<------------ userProfile || address-------------->
-Router.get('/userAddress',isLoggedIn, addressController.getUserAddress);
-Router.get('/addAddress',isLoggedIn,addressController.getAddAddress);
-Router.post('/addAddress',isLoggedIn,addressController.insertAddress);
-Router.get('/editAddress/:id',isLoggedIn,addressController.getEditAddress);
-Router.post('/editAddress/:id',isLoggedIn,addressController.editAddress);
-Router.get('/deleteAddress/:id',isLoggedIn,addressController.deleteAddress);
+Router.get('/userAddress',isLoggedIn, addressCtrl.getUserAddress);
+Router.get('/addAddress',isLoggedIn,addressCtrl.getAddAddress);
+Router.post('/addAddress',isLoggedIn,addressCtrl.insertAddress);
+Router.get('/editAddress/:id',isLoggedIn,addressCtrl.getEditAddress);
+Router.post('/editAddress/:id',isLoggedIn,addressCtrl.editAddress);
+Router.get('/deleteAddress/:id',isLoggedIn,addressCtrl.deleteAddress);
 
 
    //<------------ wishlist routes -------------->
-Router.get('/wishlist',wishlistController.getwishlist);
-Router.post('/addToWishlist',wishlistController.addToWishlist);
+Router.get('/wishlist',wishlistCtrl.getwishlist);
+Router.post('/addToWishlist',wishlistCtrl.addToWishlist);
 
 
    //<------------ cart routes -------------->
-Router.get('/cart',isLoggedIn, cartController.getCart);
-Router.post('/addToCart',isLoggedIn, cartController.addToCart);
-Router.get('/removeCart/:id',isLoggedIn, cartController.removeCart);
-Router.get('/checkout/:id',isLoggedIn, cartController.getCheckout);
-Router.post('/cartDec',isLoggedIn, cartController.cartDec);
-Router.post('/cartInc',isLoggedIn, cartController.cartInc);
+Router.get('/cart',isLoggedIn, cartCtrl.getCart);
+Router.post('/addToCart',isLoggedIn, cartCtrl.addToCart);
+Router.get('/removeCart/:id',isLoggedIn, cartCtrl.removeCart);
+Router.get('/checkout/:id',isLoggedIn, cartCtrl.getCheckout);
+Router.post('/cartDec',isLoggedIn, cartCtrl.cartDec);
+Router.post('/cartInc',isLoggedIn, cartCtrl.cartInc);
  
 
    //<------------ order routes -------------->
-Router.get('/orderHistory',isLoggedIn, orderController.getOrderHistory);
-Router.post('/placeOrder',isLoggedIn, orderController.insertOrder);
-Router.post('/orderCancel',isLoggedIn, orderController.orderCancel);
-Router.get('/orderDetailsUser/:id',isLoggedIn, orderController.orderDetailsUser);
-Router.get('/sortOrdersUser/:method',isLoggedIn,orderController.sortOrdersUser);
-Router.post('/create-order',isLoggedIn, orderController.createOrder);
-Router.post('/paymentFailed',isLoggedIn, orderController.paymentFailed);
-Router.get('/orderSuccess',isLoggedIn, orderController.orderSuccess);
-Router.get('/orderFailed',isLoggedIn, orderController.orderFailed);
-Router.post('/returnOrder',isLoggedIn, orderController.returnOrder);
-Router.post('/generateInvoice',isLoggedIn, orderController.generateInvoice);
+Router.get('/orderHistory',isLoggedIn, orderCtrl.getOrderHistory);
+Router.post('/placeOrder',isLoggedIn, orderCtrl.insertOrder);
+Router.post('/orderCancel',isLoggedIn, orderCtrl.orderCancel);
+Router.get('/orderDetailsUser/:id',isLoggedIn, orderCtrl.orderDetailsUser);
+Router.get('/sortOrdersUser/:method',isLoggedIn,orderCtrl.sortOrdersUser);
+Router.post('/create-order',isLoggedIn, orderCtrl.createOrder);
+Router.post('/paymentFailed',isLoggedIn, orderCtrl.paymentFailed);
+Router.get('/orderSuccess',isLoggedIn, orderCtrl.orderSuccess);
+Router.get('/orderFailed',isLoggedIn, orderCtrl.orderFailed);
+Router.post('/returnOrder',isLoggedIn, orderCtrl.returnOrder);
+Router.post('/generateInvoice',isLoggedIn, orderCtrl.generateInvoice);
 
 
 //<------------ wallet routes -------------->
-Router.get('/wallet',walletController.getWalletPage);
+Router.get('/wallet',walletCtrl.getWalletPage);
 
 
 
