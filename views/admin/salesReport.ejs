@@ -24,13 +24,38 @@
           <a href="/admin/sortSalesReport/yearly" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Yearly</a>
         </li>
         <li>
-          <a href="/admin/sortSalesReport/custom" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Custom</a>
+          <a id="openModal" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Custom</a>
         </li>
       </ul>
     </div>
   </div>
 
 </section>
+
+<div class="flex gap-3 mb-3">
+
+  <div data-dialog-backdrop="dialog-xs" data-dialog-backdrop-close="true" class="pointer-events-none fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 opacity-0 backdrop-blur-sm transition-opacity duration-300">
+      <div data-dialog="dialog-xs" class="relative m-4 w-1/4 min-w-[25%] max-w-[25%] rounded-lg bg-white font-sans text-base font-light leading-relaxed text-blue-gray-500 antialiased shadow-2xl">
+        <div class="relative p-4 font-sans text-base antialiased font-light leading-relaxed border-t border-b border-t-blue-gray-100 border-b-blue-gray-100 text-blue-gray-500">
+
+            <span>Starting Date</span>
+            <input id="startingDate" type="date"/>
+          </div>
+          <div class="relative p-4 font-sans text-base antialiased font-light leading-relaxed border-t border-b border-t-blue-gray-100 border-b-blue-gray-100 text-blue-gray-500">
+            <span>Ending Date</span>
+            <input id="endingDate" type="date"/>
+          </div>
+          <div class="flex flex-wrap items-center justify-end p-4 shrink-0 text-blue-gray-500">
+              <button onclick="closeModal()" data-ripple-dark="true" data-dialog-close="true" class="px-6 py-3 mr-1 font-sans text-xs font-bold text-red-500 uppercase transition-all rounded-lg middle none center hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                  Cancel
+              </button>
+              <button onclick="customSales()" data-ripple-light="true" data-dialog-close="true" class="middle none center rounded-lg bg-gradient-to-tr from-green-600 to-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                  Confirm
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
 
 
   <section>
@@ -126,6 +151,47 @@
       function toggleDropdown() {
           var dropdown = document.getElementById('dropdown');
           dropdown.classList.toggle('hidden');
-        }
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+    const openModalButton = document.getElementById("openModal");
+    const modal = document.querySelector("[data-dialog-backdrop]");
+    const cancelButton = modal.querySelector("[data-dialog-close]");
+
+    openModalButton.addEventListener("click", function () {
+        modal.classList.add("opacity-100");
+        modal.classList.add("pointer-events-auto");
+    });
+
+    cancelButton.addEventListener("click", function () {
+        modal.classList.remove("opacity-100");
+        modal.classList.remove("pointer-events-auto");
+    });
+});
+
+   const customSales = () => {
+    const startingDate = document.getElementById('startingDate').value;
+    const endingDate = document.getElementById('endingDate').value;
+
+    fetch('/admin/customSales', {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              startingDate: startingDate,
+              endingDate: endingDate
+                })})
+      .then(response => response.json()) 
+          .then(data => {
+              const orders = data.orders;
+              window.location.href = '/admin/salesReport'
+          })
+          .catch(error => {
+            
+              console.error('Error:', error);
+      });
+
+    }
   </script>
 <%- include('../partials/adminFooter') %>

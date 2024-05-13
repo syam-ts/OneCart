@@ -188,10 +188,7 @@ removeCouponButton.addEventListener('click', () => {
     const TotalPrice = parseFloat(document.getElementById('totalPrice').innerText)
     const placeOrderButton = document.getElementById('placeOrder');
     placeOrderButton.addEventListener('click', function() {
-        // if(noAddress){
-        //     throw error
-        // }
-
+        
         var selectedRadios = document.querySelectorAll('input[name="selectedAddress"]:checked');
         
         if (selectedRadios.length > 0) {
@@ -348,9 +345,6 @@ removeCouponButton.addEventListener('click', () => {
                 }})
             
             })
-
-
-
 
 
    </script>

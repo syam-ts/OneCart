@@ -417,6 +417,29 @@ const orderStatusChng = async (req, res) => {
   };
 
 
+ //<------------------ custom sales ------------------>
+  const customSales = async (req, res) => {
+    try{
+        const startingDate = req.body.startingDate;
+        const endingDate = req.body.endingDate;
+        
+        const order = await Order.aggregate([{$match:{ createdate: { $gte: startingDate, $lte: endingDate} }}, { $unwind: "$carts" }, { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, { $project: { _id: 1, count: 1 } } ]);
+        const productIds = order.map(item => item._id)
+        const qty = order.map(item => item.count)
+        const orders = await Product.find({ _id:{$in: productIds} }).lean();
+       await orders.forEach((order, index) => {
+            const count = qty[index]; 
+            order.count = count; 
+        });
+        console.log('The order : ',orders)
+   
+      res.json({orders: orders})
+    }catch(err){
+        res.render('error',{message : err.message});
+    }
+  };
+
+
 module.exports = {
     getOrderManagement,
     sortOrderAdmin,
@@ -428,5 +451,6 @@ module.exports = {
     orderDaily,
     orderMonthly,
     orderYearly,
-    salesReport
+    salesReport,
+    customSales
 };
