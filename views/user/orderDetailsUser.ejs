@@ -59,6 +59,12 @@
                                 Return
                                 </button>
                         <% } %>
+                        <% if(order.status == "PaymentFailed") {%>  
+                            <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button"
+                             onclick="rePayment('<%= order.id %> ','<%= order.total %>')">
+                                Complete Payment
+                                </button>
+                        <% } %>
                         <!-- <section> -->
                             <!-- <button id="downloadInvoice" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-gray-900 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
                                 Dowload Invoice
@@ -106,8 +112,6 @@
                     </div>
                 </dialog>
                 
-        
-
                
       
                 <div class="w-full max-w-sm md:max-w-3xl max-xl:mx-auto">
@@ -210,9 +214,8 @@
     </section>                              
 
 
-
-
 </main>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
     //<----------------------- Cancel Section ------------------------>
     function openModalCancel() {
@@ -323,6 +326,86 @@ downloadInvoice.addEventListener('click', async () => {
         // Handle error here
     }
 });
+
+
+function rePayment(orderId ,totalPrice) {
+            var order;
+            fetch('/create-order',{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                "totalPrice": totalPrice
+            })})
+            .then(response => response.json())
+            .then(data => {
+            order = data.id; 
+          }).catch(error => {
+        console.error('Error:', error); 
+      });
+               alert(order)
+        var options = {
+            "key": "rzp_test_3aIOQlQc4egRLE", 
+            "amount": totalPrice * 100,
+            "currency": "INR",
+            "name": "OneCart", 
+            "description": "Test Transaction",
+            "image": "/images/onecart-log.avif",
+            "order_id": order, 
+            "handler": function (response){
+                        fetch('/repaymentOrder',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                           orderId : orderId
+                          })
+                            }).then(() => {
+                                    window.location.href = '/orderSuccess'
+                                })
+                // alert(response.razorpay_payment_id);
+                // alert(response.razorpay_order_id);
+                // alert(response.razorpay_signature)
+            },
+        "prefill": { 
+            "name": "Gaurav Kumar", //customer's name
+            "email": "gaurav.kumar@example.com", 
+            "contact": "9000090000"  //customer's phone number 
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+            "color": "#3399cc"
+        }};
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+            fetch('/paymentFailed',{
+                        method:"POST",
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            totalPrice : totalPrice,
+                            paymentMethod : paymentMethod,
+                            subTotal : subTotal,
+                            addressId : selectedId
+                          })
+                         }).then(() => {
+                                    window.location.href = '/orderFailed'
+                                })
+                // alert(response.error.code);
+                // alert(response.error.description);
+                // alert(response.error.source);
+                // alert(response.error.step);
+                // alert(response.error.reason);
+                // alert(response.error.metadata.order_id);
+                // alert(response.error.metadata.payment_id);
+            });
+           
+        }
 
 </script>
 

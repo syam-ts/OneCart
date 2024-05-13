@@ -326,8 +326,25 @@ const generateInvoice = async (req, res) => {
             console.error(error);
             res.status(500).send("Internal Server Error");
         }
+};
 
-}
+const repaymentOrder = async (req, res) => {
+    try {
+        console.log('The ')
+        const orderId = req.body.orderId;
+        const order = await Order.findById(orderId);
+        console.log('The order before : ',order.payment)
+
+         order.payment = true;
+         await order.save();
+
+        console.log('The order after : ',order.payment)
+        res.json({payment : order.payment});
+      } catch (err) {
+        console.log('Error inserting order:', err);
+        res.render('error',{ message : err.message });
+     }
+};
 
 module.exports = {
     createOrder,
@@ -340,5 +357,6 @@ module.exports = {
     orderFailed,
     orderCancel,
     returnOrder,
-    generateInvoice
+    generateInvoice,
+    repaymentOrder
 }

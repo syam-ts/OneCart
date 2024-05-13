@@ -109,6 +109,7 @@ Router.get('/orderSuccess',isLoggedIn, orderCtrl.orderSuccess);
 Router.get('/orderFailed',isLoggedIn, orderCtrl.orderFailed);
 Router.post('/returnOrder',isLoggedIn, orderCtrl.returnOrder);
 Router.post('/generateInvoice',isLoggedIn, orderCtrl.generateInvoice);
+Router.post('/repaymentOrder',isLoggedIn, orderCtrl.repaymentOrder);
 
 
 //<------------ wallet routes -------------->

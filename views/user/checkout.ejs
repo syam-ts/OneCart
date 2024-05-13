@@ -235,14 +235,13 @@ removeCouponButton.addEventListener('click', () => {
         }}else if(selectedValue == "Razor Pay"){
        //<------------ for Razor pay -------------->
             var orderId;
-            fetch('/create-order', {
+            fetch('/create-order',{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                "totalPrice": totalPrice,
-                addressId : selectedId
+                "totalPrice": totalPrice
             })})
             .then(response => response.json())
             .then(data => {
@@ -250,6 +249,7 @@ removeCouponButton.addEventListener('click', () => {
           }).catch(error => {
         console.error('Error:', error); 
       });
+    
         var options = {
             "key": "rzp_test_3aIOQlQc4egRLE", 
             "amount": totalPrice * 100,
@@ -261,6 +261,7 @@ removeCouponButton.addEventListener('click', () => {
             "handler": function (response){
                 const paymentMethod = selectedValue;
                         fetch('/placeOrder',{
+                      
                         method:"POST",
                         headers:{
                             "Content-Type" : "application/json"
@@ -306,9 +307,6 @@ removeCouponButton.addEventListener('click', () => {
                          }).then(() => {
                                     window.location.href = '/orderFailed'
                                 })
- 
-
-
                 // alert(response.error.code);
                 // alert(response.error.description);
                 // alert(response.error.source);
