@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 
-<main class="flex justify-start">
+<main class="flex justify-start" id="main">
 <section class="justify-start">
     <%- include('../partials/userProfileSidebar') %>
 </section>
@@ -66,10 +66,10 @@
                                 </button>
                         <% } %>
                         <!-- <section> -->
-                            <!-- <button id="downloadInvoice" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-gray-900 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+                            <button onclick="exportToPDF()" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
                                 Dowload Invoice
                                </button>
-                        </section> -->
+                        </section>
                     </div>
                     
                 </div>
@@ -114,7 +114,7 @@
                 
                
       
-                <div class="w-full max-w-sm md:max-w-3xl max-xl:mx-auto">
+                <div class="w-full max-w-sm md:max-w-3xl max-xl:mx-auto mt-20">
                     <div class="grid grid-cols-1 gap-6">
                         <% product.forEach(pro => { %>
                         <div class="hover:bg-stone-200 rounded-2xl px-12 py-4 bg-gray-100 border border-gray-100 flex flex-col md:flex-row md:items-center gap-5 transition-all duration-500 hover:border-gray-400">
@@ -216,7 +216,9 @@
 
 </main>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script>
+
     //<----------------------- Cancel Section ------------------------>
     function openModalCancel() {
             var modal = document.getElementById("my_modal_2");
@@ -290,42 +292,20 @@
 
 
     //------------ downlaod Invoice ---------------//
+    function exportToPDF() {
+    const element = document.getElementById('main');
+    const opt = {
+      margin: 4,
+      filename: 'sales_report.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'Landscape' },
+    };
 
-    const downloadInvoice = document.getElementById('downloadInvoice');
+    html2pdf().from(element).set(opt).save();
+  }
 
-downloadInvoice.addEventListener('click', async () => {
-    try {
-        const orderId = document.getElementById('cancelOrderUser').value;
 
-        const response = await fetch('/generateInvoice', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                "orderId": orderId
-            })
-        });
-
-        if (response.ok) {
-            const pdfBlob = await response.blob();
-            const url = window.URL.createObjectURL(pdfBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'invoice.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        } else {
-            console.error('Failed to download invoice.');
-            // Handle error here
-        }
-    } catch (error) {
-        console.error('An error occurred:', error);
-        // Handle error here
-    }
-});
 
 
 function rePayment(orderId ,totalPrice) {
