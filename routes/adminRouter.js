@@ -64,7 +64,6 @@ Router.get('/orders/Yearly',orderAdminCtrl.orderYearly);
    //<------------ salse routes -------------->
 Router.get('/orderDetailsAdmin/:id',orderAdminCtrl.orderDetailsAdmin);
 Router.get('/salesReport',orderAdminCtrl.getSalesReport);
-// Router.get('/sortSalesReport/:type',orderAdminCtrl.sortSalesReport);
 Router.get('/sortSalesReport/:format', orderAdminCtrl.salesReport);
 
    //<------------ couponManagement routes -------------->

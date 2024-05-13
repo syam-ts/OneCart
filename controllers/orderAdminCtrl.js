@@ -133,20 +133,22 @@ const orderDetailsAdmin = async (req, res) => {
 const getSalesReport = async (req, res) => {
     try {
         const currentDate = new Date();
-        const day = currentDate.getDate();
-            const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day, 0, 0, 0);
-            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1, 23, 59, 59);
-            
-        
-            const orders = await Order.find({ createdate: { $gte: startOfDay, $lte: endOfDay }}).lean();
-            const productIds = [];
-            orders.forEach(order => {
-            order.products.forEach(product => {
-                productIds.push(product._id);
-            })});
-    
-          const products = await Product.find({ _id: {$in : productIds}})
-          res.render('salesReport', {product : products})
+        const yesterday = new Date(currentDate);
+        yesterday.setDate(currentDate.getDate() - 1);
+        yesterday.setHours(0, 0, 0, 0);
+        const endOfToday = new Date(currentDate);
+         endOfToday.setHours(23, 59, 59, 999);
+
+        const order = await Order.aggregate([{$match:{ createdate: { $gte: yesterday, $lte: endOfToday} }}, { $unwind: "$carts" }, { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, { $project: { _id: 1, count: 1 } } ]);
+        const productIds = order.map(item => item._id)
+        const qty = order.map(item => item.count)
+        const orders = await Product.find({ _id:{$in: productIds} }).lean();
+        orders.forEach((order, index) => {
+            const count = qty[index]; 
+            order.count = count; 
+        });
+   
+      res.render('salesReport', {orders : orders});
       
     } catch (error) {
         console.log(error.message);
@@ -291,31 +293,6 @@ const orderStatusChng = async (req, res) => {
 }
 
 
-const sortSalesReport = async (req, res) => {
-    try {
-        console.log('The type : ',req.params)
-        const type = req.params.type;
-        if(type == "Delevered"){
-            const order = await Order.find({ status: { $in: "Delivered" } });
-            const userId = await order.map(x => x.userId);
-            const user = await User.find({_id:{ $in : userId}})
-            const email = await user.map(x => x.email);
-            const name = await user.map(x => x.name);
-            res.render('salesReport',{ order , email, name});
-        }else if(type == "Cancelled"){
-            const order = await Order.find({ status: { $in: "Cancelled" } });
-            const userId = await order.map(x => x.userId);
-            const user = await User.find({_id:{ $in : userId}})
-            const email = await user.map(x => x.email);
-            const name = await user.map(x => x.name);
-            res.render('salesReport',{ order , email, name});
-        }
-       
-    } catch (err) {
-        console.log(err.message);
-    }
-};
-
 
 //<------------ return accept by admin -------------->
  const returnAccept = async (req, res) => {
@@ -387,104 +364,53 @@ const sortSalesReport = async (req, res) => {
         const format = req.params.format;
         const currentDate = new Date();
         if(format == "daily"){
-            const currentDate = new Date();
-
-            // Set the start date for yesterday
             const yesterday = new Date(currentDate);
             yesterday.setDate(currentDate.getDate() - 1);
             yesterday.setHours(0, 0, 0, 0);
-            
-            // Set the end date for today
             const endOfToday = new Date(currentDate);
-            endOfToday.setHours(23, 59, 59, 999);
-            
-            const orders = await Order.find({createdate: {$exists: true,  $gte: yesterday,  $lt: endOfToday }}).lean();
-            
-    
-           
+             endOfToday.setHours(23, 59, 59, 999);
 
-      
-
-            const productIds = [];
-            const quantity = [];
-            const date = [];
-            orders.forEach(order => {
-            order.carts.forEach(cart => {
-                productIds.push(cart.productId,);
-            })});
-
-       
-          
-
-            const qty = await Order.aggregate([{$match:{ createdate: { $gte: yesterday, $lte: endOfToday} }},
-            { $unwind: "$carts" }, 
-            { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, 
-            { $project: { _id: 0, count: 1 } } ]);
-
-
+            const order = await Order.aggregate([{$match:{ createdate: { $gte: yesterday, $lte: endOfToday} }}, { $unwind: "$carts" }, { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, { $project: { _id: 1, count: 1 } } ]);
+            const productIds = order.map(item => item._id)
+            const qty = order.map(item => item.count)
+            const orders = await Product.find({ _id:{$in: productIds} }).lean();
             orders.forEach((order, index) => {
-                const count = qty[index].count;
-                order.count = count;
-              });
-
-              console.log('The ordre : ',orders)
-              
-
-        //   const products = await Product.find({ _id: {$in : productIds}});
-
-        
-    //    products.forEach(pro => {
+                const count = qty[index]; 
+                order.count = count; 
+            });
        
-    //     qty.forEach(q => {
-    //         pro.quantity = q
-    //     })
-    //    })
-   
-
-          res.render('salesReport', {orders : orders})
-
-
-
+          res.render('salesReport', {orders : orders});
         }else if(format == "monthly"){
             
             const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1, 0, 0, 0);
             const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
-
-            const orders = await Order.find({ createdate: { $gte: startOfMonth, $lte: endOfMonth } }).lean();
-
-            console.log('The orders : ',orders)
-            const productIds = [];
-            orders.forEach(order => {
-                order.products.forEach(product => {
-                    productIds.push(product._id);
-                });
-           }); 
-           const products = await Product.find({ _id: {$in : productIds}})
-
+            
+            const order = await Order.aggregate([{$match:{ createdate: { $gte: startOfMonth, $lte: endOfMonth} }}, { $unwind: "$carts" }, { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, { $project: { _id: 1, count: 1 } } ]);
+            const productIds = order.map(item => item._id)
+            const qty = order.map(item => item.count)
+            const orders = await Product.find({ _id:{$in: productIds} }).lean();
+            await orders.forEach((order, index) => {
+                const count = qty[index]; 
+                order.count = count; 
+            });
        
-            res.render('salesReport', {product: products})
+          res.render('salesReport', {orders : orders});
         }else if(format == "yearly"){
 
-            const startOfYear = new Date(currentDate.getFullYear(), 0, 1, 0, 0, 0); 
+            const startOfYear = new Date(currentDate.getFullYear(), 0, 1, 0, 0, 0);
             const endOfYear = new Date(currentDate.getFullYear(), 11, 31, 23, 59, 59);
             
-
-            const orders = await Order.find({
-                createdate: { $gte: startOfYear, $lte: endOfYear }
-            }).lean();
-
-            const productIds = [];
-            orders.forEach(order => {
-                order.products.forEach(product => {
-                    productIds.push(product._id);
-                });
-           }); 
-           const products = await Product.find({ _id: {$in : productIds}})
-
-           console.log('The date : ',products)
-            res.render('salesReport', {product: products})
+            const order = await Order.aggregate([{$match:{ createdate: { $gte: startOfYear, $lte: endOfYear} }}, { $unwind: "$carts" }, { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, { $project: { _id: 1, count: 1 } } ]);
+            const productIds = order.map(item => item._id)
+            const qty = order.map(item => item.count)
+            const orders = await Product.find({ _id:{$in: productIds} }).lean();
+           await orders.forEach((order, index) => {
+                const count = qty[index]; 
+                order.count = count; 
+            });
+       
+          res.render('salesReport', {orders : orders});
         }
-
     }catch(err){
         res.render('error',{ message: err.message });
     }
@@ -497,7 +423,6 @@ module.exports = {
     orderDetailsAdmin,
     getSalesReport,
     orderStatusChng,
-    sortSalesReport,
     returnAccept,
     returnReject,
     orderDaily,
