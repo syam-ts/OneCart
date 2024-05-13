@@ -29,7 +29,7 @@
                       
                     </div>
                     <div class="flex group relative">
-                        <img onclick="removeCart()" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" class="h-5 w-5" alt="Remove">
+                        <img onclick="removeCart('<%= x.id %>')" src="https://cdn-icons-png.flaticon.com/128/10147/10147931.png" class="h-5 w-5" alt="Remove">
     
                         <button type="button" onclick="addToCartWithQuantity('<%= x.id %>','<%= user.id %>')" class="inline-flex ml-40 items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none  text-center text-base font-thin text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800 h-5 w-24">
                             <span class="text-xs">Add to cart</span>
@@ -37,7 +37,6 @@
                       </div>
                 </div>
                 
-    
                 <% }) %>
                
                
@@ -87,8 +86,19 @@ const addToCartWithQuantity = (productId, userId) => {
     
 };
 
-const removeCart = () => {
-    alert('Remodve button')
+const removeCart = (productId) => {
+   fetch('/removeWishlist',{
+    method: "POST",
+    headers:{
+        "Content-Type" : "application/json"
+    },
+    body:JSON.stringify({
+
+        productId : productId
+    })
+   }).then(() => {
+    window.location.href = '/wishlist?message=Removed successfully&type=success'
+   })
 }
 
 </script>

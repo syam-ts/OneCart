@@ -48,9 +48,23 @@ const addToWishlist = async (req, res) => {
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ error: 'Internal server error' });
-    } }
+    } };
+
+
+    const removeWishlist = async (req, res) => {
+        try {
+            const userId = req.session.user;
+            const productId = req.body.productId;
+            
+            const wishlist = await Wishlist.findOneAndDelete({ userId: userId, productId: productId });
+            res.redirect('/wishlist')
+        } catch (err) {
+            res.render('error',{ message : err.message}); 
+        }
+    };
 
 module.exports = {
     getwishlist,
-    addToWishlist
+    addToWishlist,
+    removeWishlist
 };

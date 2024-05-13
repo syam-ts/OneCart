@@ -2,8 +2,6 @@
 
 <main>
 
-  
-
         <!---------------- Sorting orders ---------------->
 <section class="flex flex-col justify-end items-end">
   
@@ -79,6 +77,8 @@
            </tr>
          </thead>
          <tbody>
+          <% let total =0; %>
+          <% let totalOffer =0; %>
           <% orders.forEach((order ,index ) => { %>
           <tr>
           <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
@@ -96,6 +96,9 @@
           <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
           <i class=" text-emerald-500 mr-4"></i>
           <%= order.offer[0].offerPrice %>
+          <% let offerPrice = order.offer[0] ? parseFloat(order.offer[0].offerPrice) : null; %>
+            <% totalOffer += offerPrice ? offerPrice : 0; %>
+
           </td>
           <% }else{ %>
             <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
@@ -113,38 +116,28 @@
           </td>
           
           </tr>
-          
+          <% const count = parseInt(order.count), price = parseFloat(order.price); if (!isNaN(count) && !isNaN(price)) {  total += count * price;  } %>
           <% }) %>
           </tbody>
         
       </table>
+      <input id="total" class="hidden" value="<%= total %>"/>
     </div>
   </div>
 </div>
 <button id="downloadPDF" class="mb-6 mt-8 text-white bg-red-700 hover:bg-blue-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download PDF</button>
-
-
 </section>
-<section class="mb-12">
+
+<section class="mb-20">
   <div class="flex flex-col items-end mt-12 mr-5">
-    <span class="font-bold">Total Offer : 21100₹</span>
-    <span class="font-bold">Total Discount : 6000₹</span>
-    <span class="font-bold">Total Payment : 178220₹</span>
+    <span class="font-bold">Total Offer :<%= totalOffer %> ₹</span>
+    <!-- <span class="font-bold">Total Discount : 6000₹</span> -->
+    <span class="font-bold">Total Payment : <%= total %></span>
   </div>
 
 </section>
 
 </main>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const downloadPDFBtn = document.getElementById('downloadPDF');
-    downloadPDFBtn.addEventListener('click', function() {
-      toastr.success('Have fun storming the castle!', 'Miracle Max Says');
-    });
-  });
-</script>
-
 
     <!---------------- sort dropdown ------------------->
     <script>
@@ -193,5 +186,13 @@
       });
 
     }
+
+    const total = document.getElementById('total').value;
+    const tota = document.getElementById('total')
+tota.addEventListener('click',() => {
+  alert(total)
+})
+    
+
   </script>
 <%- include('../partials/adminFooter') %>

@@ -85,6 +85,7 @@ Router.get('/deleteAddress/:id',isLoggedIn,addressCtrl.deleteAddress);
    //<------------ wishlist routes -------------->
 Router.get('/wishlist',wishlistCtrl.getwishlist);
 Router.post('/addToWishlist',wishlistCtrl.addToWishlist);
+Router.post('/removeWishlist',wishlistCtrl.removeWishlist);
 
 
    //<------------ cart routes -------------->
