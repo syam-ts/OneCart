@@ -279,7 +279,7 @@ const addTowishlistWithQuantity = (productId, userId) => {
                     title: 'Success!',
                     text: data.message
                 }).then(() => {
-                    window.location.href = `/wishlist`;
+                    window.location.href = `/product/${productId}`;
                 });
             }
         })
