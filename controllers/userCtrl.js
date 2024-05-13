@@ -201,6 +201,7 @@ const verifyOtpLoad = async(req, res) => {
 //<------------ logout -------------->
  const getLogout = async (req, res) => {
       try {
+    
     req.session.destroy(err => {
         if (err) {
         console.log(err.message);
@@ -213,6 +214,17 @@ const verifyOtpLoad = async(req, res) => {
           console.log(error.message);
        }
 };
+
+// const getLogout = (req, res) => {
+//   req.logout(function(err) {
+//       if (err) {
+//           console.error("Error during logout:", err);
+//           return res.status(500).send("Error during logout");
+//       }
+//       res.redirect('https://accounts.google.com/logout');
+//   });
+// };
+
 
 const getForgotPassword = async (req, res) => {
   try {
@@ -271,7 +283,6 @@ const userProfileSidebar = async (req, res) => {
   
           const userId = req.session.user; 
           const user = await User.findByIdAndUpdate( userId, updatedFields, { new: true });
-       
           res.redirect('/userProfile')
         } catch (error) {
           console.log(error.message);

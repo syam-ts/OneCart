@@ -54,20 +54,43 @@
            </tr>
          </thead>
          <tbody>
-          <% product.forEach((product, index) => { %>  
-            <tr>
-              <td>
-                <%= product[index].productName %> 
+          <% orders.forEach((order ,index ) => { %>
+          <tr>
+          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+         <%= index + 1 %>
+          </td>
+          <td class="border border-gray-400 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+          <%= order.products[0].productName %>
+          </td>
+          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+          <i class=" text-emerald-500 mr-4"></i>
+          <%= order.products[0].price %>
+          </td>
+          <% if(order.products[0].offer[0]){ %>
+          
+          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+          <i class=" text-emerald-500 mr-4"></i>
+          <%= order.products[0].offer[0].offerPrice %>
+          </td>
+          <% }else{ %>
+            <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class=" text-emerald-500 mr-4"></i>
+             null
               </td>
-              <td>
-                <%= product[1].quantity %>
-              </td>
-              <td>
-                <%= product[index].date %>
-              </td>
-            </tr>
+              <% } %>
+          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+          <i class=" text-emerald-500 mr-4"></i>
+          <%= order.count %>
+          </td>
+          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+          <i class=" text-emerald-500 mr-4"></i>
+          <%= order.count * order.products[0].price %>
+          </td>
+          
+          </tr>
+          
           <% }) %>
-        </tbody>
+          </tbody>
         
       </table>
     </div>

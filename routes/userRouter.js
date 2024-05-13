@@ -22,17 +22,16 @@ const Order = require('../models/orderModel');
 Router.use(passport.initialize());
 Router.use(passport.session());
 
-Router.get('/auth/google',passport.authenticate('google',{scope: 
-[ 'email', 'profile' ]
-}));
 
+
+Router.get('/auth/google',passport.authenticate('google',{scope: [ 'email', 'profile' ]}));
 Router.get('/auth/google/callback',
-passport.authenticate( 'google',{
-   successRedirect: '/home',
-   failureRedirect: '/login'
-}))
+passport.authenticate( 'google',{ successRedirect: '/home', failureRedirect: '/login'}))
 
 // successRedirect: '/home?message=Succesfully LoggedIn&type=success',
+
+
+
 
 //<------------ multer config -------------->
 const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'./public/product_images')  },

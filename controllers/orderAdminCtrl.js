@@ -2,7 +2,8 @@ const Order = require('../models/orderModel');
 const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const Wallet = require('../models/walletModel');
-const Category = require('../models/categoryModel');
+const moment = require('moment');
+
 
   /**
          * ! For admin order Management 
@@ -386,12 +387,23 @@ const sortSalesReport = async (req, res) => {
         const format = req.params.format;
         const currentDate = new Date();
         if(format == "daily"){
-            const day = currentDate.getDate();
-            const startOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day, 0, 0, 0);
-            const endOfDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1, 23, 59, 59);
-            
-            const orders = await Order.find({ createdate: { $gte: startOfDay, $lte: endOfDay }}).lean();
+            const currentDate = new Date();
 
+            // Set the start date for yesterday
+            const yesterday = new Date(currentDate);
+            yesterday.setDate(currentDate.getDate() - 1);
+            yesterday.setHours(0, 0, 0, 0);
+            
+            // Set the end date for today
+            const endOfToday = new Date(currentDate);
+            endOfToday.setHours(23, 59, 59, 999);
+            
+            const orders = await Order.find({createdate: {$exists: true,  $gte: yesterday,  $lt: endOfToday }}).lean();
+            
+    
+           
+
+      
 
             const productIds = [];
             const quantity = [];
@@ -399,19 +411,37 @@ const sortSalesReport = async (req, res) => {
             orders.forEach(order => {
             order.carts.forEach(cart => {
                 productIds.push(cart.productId,);
-                quantity.push(cart.quantity);
-                date.push(order.createdate);
             })});
 
        
-    
-          const products = await Product.find({ _id: {$in : productIds}});
+          
 
-          console.log("The pro : ",productIds)
+            const qty = await Order.aggregate([{$match:{ createdate: { $gte: yesterday, $lte: endOfToday} }},
+            { $unwind: "$carts" }, 
+            { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, 
+            { $project: { _id: 0, count: 1 } } ]);
+
+
+            orders.forEach((order, index) => {
+                const count = qty[index].count;
+                order.count = count;
+              });
+
+              console.log('The ordre : ',orders)
+              
+
+        //   const products = await Product.find({ _id: {$in : productIds}});
+
+        
+    //    products.forEach(pro => {
        
-            
+    //     qty.forEach(q => {
+    //         pro.quantity = q
+    //     })
+    //    })
+   
 
-          res.render('salesReport', {product : [products, quantity ,date]})
+          res.render('salesReport', {orders : orders})
 
 
 
@@ -420,10 +450,9 @@ const sortSalesReport = async (req, res) => {
             const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1, 0, 0, 0);
             const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59);
 
-            const orders = await Order.find({
-                createdate: { $gte: startOfMonth, $lte: endOfMonth }
-            }).lean();
+            const orders = await Order.find({ createdate: { $gte: startOfMonth, $lte: endOfMonth } }).lean();
 
+            console.log('The orders : ',orders)
             const productIds = [];
             orders.forEach(order => {
                 order.products.forEach(product => {
@@ -432,7 +461,7 @@ const sortSalesReport = async (req, res) => {
            }); 
            const products = await Product.find({ _id: {$in : productIds}})
 
-           console.log('The date : ',products)
+       
             res.render('salesReport', {product: products})
         }else if(format == "yearly"){
 
