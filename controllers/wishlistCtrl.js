@@ -38,9 +38,10 @@ const addToWishlist = async (req, res) => {
 //<--------------------- removing product --------------------->
     const removeWishlist = async (req, res) => {
         try {
-            const {userId , productId} = req.session;
+            const userId = req.session.user;
+            const productId = req.body.productId;
             await Wishlist.findOneAndDelete({ userId: userId, productId: productId });
-            res.redirect('/userAddress?message=New Address added&type=success')
+            res.redirect('/userAddress')
         } catch (err) {
             res.render('error',{ message : err.message}); 
         }
