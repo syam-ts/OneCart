@@ -13,13 +13,25 @@
               </div>
 
               <div class="sm:col-span-3">
-                <label for="productImage" class="block text-sm font-medium leading-6 text-gray-900">Product Image</label>
                 <div class="mt-2">
-                  <input type="file" name="productImage" id="productImage" accept="image/*" multiple class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                  <div id="imagePreview" class="mt-2"></div>
-              </div>
-              
-              </div>
+                    <label for="productImage" class="block text-sm font-medium leading-6 text-gray-900">Product Image</label>
+                    <div class="mt-2">
+                        <input type="file" name="productImage" id="productImage" accept="image/*" multiple class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        <div id="imagePreview" class="mt-2">
+                            <% if (products[0].productImage) { %>
+                                <% products[0].productImage.forEach(img => { %>
+                                    <div class="existing-image">
+                                        <img src="/product_images/<%= img %>" alt="Existing Image" class="w-20 h-20 object-cover rounded-md mr-2 mb-2">
+                                        <button class="remove-existing-image text-red-500 hover:text-red-700 cursor-pointer ml-2" onclick="removeExistingImage('<%= img %>')">Remove</button>
+                                      </div>
+                                <% }) %>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
       
               <div class="sm:col-span-3">
                 <label for="category" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
@@ -95,18 +107,8 @@
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
-<div class="sm:col-span-3">
-    <label for="productImage" class="block text-sm font-medium leading-6 text-gray-900">Product Image</label>
-    <div class="mt-2">
-      <input type="file" name="productImage" id="productImage" accept="image/*" multiple autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onchange="previewImages(event)">
-      <div id="imagePreview" class="mt-2"></div>
-    </div>
-  </div>
   
   <script>
-
-
 
 document.getElementById('productImage').addEventListener('change', function(event) {
     const previewContainer = document.getElementById('imagePreview');
@@ -140,20 +142,87 @@ document.getElementById('productImage').addEventListener('change', function(even
     }
 });
 
-// Display existing image preview
+// Display existing images
 window.onload = function() {
-    const existingImageSrc = "<%= products[0].productImage[0] %>";
-    if (existingImageSrc) {
+    const existingImages = "<%- JSON.stringify(products[0].productImage) %>";
+    if (existingImages) {
         const previewContainer = document.getElementById('imagePreview');
-        const existingImage = document.createElement('img');
-        existingImage.src = existingImageSrc;
-        existingImage.classList.add('w-20', 'h-20', 'object-cover', 'rounded-md', 'mr-2', 'mb-2');
-        previewContainer.appendChild(existingImage);
+        const images = JSON.parse(existingImages);
+        images.forEach(function(imageSrc) {
+            const existingImageContainer = document.createElement('div');
+            existingImageContainer.classList.add('existing-image');
+
+            const image = document.createElement('img');
+            image.src = '/product_images/' + imageSrc;
+            image.alt = 'Existing Image';
+            image.classList.add('w-20', 'h-20', 'object-cover', 'rounded-md', 'mr-2', 'mb-2');
+
+            const removeButton = document.createElement('button');
+            removeButton.innerHTML = 'Remove';
+            removeButton.classList.add('text-red-500', 'hover:text-red-700', 'cursor-pointer', 'ml-2');
+            removeButton.addEventListener('click', function() {
+                previewContainer.removeChild(existingImageContainer);
+            });
+
+            existingImageContainer.appendChild(image);
+            existingImageContainer.appendChild(removeButton);
+            previewContainer.appendChild(existingImageContainer);
+        });
     }
+
+
 };
 
 
-
   </script>
+
+  <script>
+
+    
+function removeExistingImage(imageFilename) {
+        // Find the image element with the corresponding filename
+        const imageToRemove = document.querySelector(`img[src$="${imageFilename}"]`);
+        
+        // Remove the image element if found
+        if (imageToRemove) {
+            imageToRemove.parentNode.remove(); // Remove the parent element containing both the image and the button
+        }
+    }
+    </script>
+
+
+
+<script>
+  function parseQueryParams() {
+      var queryParams = {};
+      var queryString = window.location.search.substring(1);
+      var params = queryString.split("&");
+      for (var i = 0; i < params.length; i++) {
+          var pair = params[i].split("=");
+          queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      }
+      return queryParams;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var queryParams = parseQueryParams();
+      var message = queryParams['message'];
+      var type = queryParams['type'];
+      if (message) {
+          if (type === 'success') {
+              toastr.success(message);
+          } else if (type === 'error') {
+              toastr.error(message);
+          }
+      }
+  });
+</script>
+<script>
+  function toggleDropdown() {
+      var dropdown = document.getElementById('dropdown');
+      dropdown.classList.toggle('hidden');
+    }
+</script>
+
   
 <%- include('../partials/adminFooter') %>

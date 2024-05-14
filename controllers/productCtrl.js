@@ -375,19 +375,19 @@ const postProductEdit = async (req, res) => {
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
 
         const productImages = req.files.map(file => file.filename);
-        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const allowedExtensions = ['jpg', 'jpeg', 'png','webp'];
         const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
         const allExtensionsAllowed = extensions.every(ext => allowedExtensions.includes(ext));
            if (!allExtensionsAllowed) {
-                        res.redirect('/admin/product-add?message=The image format not support&type=error')
+                        res.redirect(`/admin/product-edit/${req.params.id}?message=The image format not support&type=error`);
                     }else if(description.length < 20){
-                        res.redirect('/admin/product-add?message=Description should have atleast 20 words&type=error');
+                        res.redirect(`/admin/product-edit/${req.params.id}?message=Description should have atleast 20 words&type=error`);
                     }else if(price < 300 || price > 40000){
-                        res.redirect('/admin/product-add?message=The price should be between 300 and 40000&type=error');
+                        res.redirect(`/admin/product-edit/${req.params.id}?message=The price should be between 300 and 40000&type=error`);
                     }else if(size < 4 || size > 42){
-                        res.redirect('/admin/product-add?message=The size should be between 4 and 42&type=error');
+                        res.redirect(`/admin/product-edit/${req.params.id}?message=The size should be between 4 and 42&type=error`);
                     }else if(stock < 1 || stock > 1000){
-                        res.redirect('/admin/product-add?message=The stock should be between 1 and 1000&type=error');
+                        res.redirect(`/admin/product-edit/${req.params.id}?message=The stock should be between 1 and 1000&type=error`);
                     }else{
                         const productId = req.params.id; 
 
