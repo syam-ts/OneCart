@@ -119,27 +119,25 @@
           <% const count = parseInt(order.count), price = parseFloat(order.price); if (!isNaN(count) && !isNaN(price)) {  total += count * price;  } %>
           <% }) %>
           </tbody>
-        
       </table>
-      <input id="total" class="hidden" value="<%= total %>"/>
     </div>
   </div>
 </div>
-<div>
+
+<div class="flex flex-col items-end mt-12 mr-5">
+  <span class="font-bold text-gray-950">Total Offer :<%= totalOffer %>₹</span>
+  <!-- <span class="font-bold">Total Discount : 6000₹</span> -->
+  <span class="font-bold text-gray-950">Total Payment : <%= total %>₹</span>
+</div>
+
+<!----------------- downloading pdf & excel -------------------->
+<div class="mb-12">
   <button onclick="exportToPDF()" class="mb-6 mt-8 text-white bg-red-700 hover:bg-blue-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download PDF</button>
-  <button onclick="export_data()" class="mb-6 mt-8 text-white bg-blue-700 hover:bg-red-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download Exel</button>
+  <button onclick="exportToExcel()" class="mb-6 mt-8 text-white bg-blue-700 hover:bg-red-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download Exel</button>
 
 </div>
 </section>
 
-<section class="mb-20">
-  <div class="flex flex-col items-end mt-12 mr-5">
-    <span class="font-bold">Total Offer :<%= totalOffer %> ₹</span>
-    <!-- <span class="font-bold">Total Discount : 6000₹</span> -->
-    <span class="font-bold">Total Payment : <%= total %></span>
-  </div>
-
-</section>
 
 </main>
 
@@ -200,10 +198,11 @@ tota.addEventListener('click',() => {
   </script>
 
 <script>
+  //<------------------- pdf exporting -------------------->
 function exportToPDF() {
     const element = document.getElementById('mail');
     const opt = {
-      margin: 10,
+      margin: 4,
       filename: 'sales_report.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2 },
@@ -214,8 +213,8 @@ function exportToPDF() {
   }
 
 
-
-  function export_data() {
+  //<------------------- excel exporting -------------------->
+  function exportToExcel() {
     let data = document.getElementById('mail');
     var fp = XLSX.utils.table_to_book(data, { sheet: 'SalesReport' });
     XLSX.write(fp, {

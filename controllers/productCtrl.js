@@ -316,7 +316,7 @@ const insertProduct = async (req, res) => {
     try {
         const {price, description, size, stock, } = req.body;
         const productImages = req.files.map(file => file.filename);
-        const allowedExtensions = ['jpg', 'jpeg', 'png'];
+        const allowedExtensions = ['jpg', 'jpeg', 'png','webp'];
         const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
         const allExtensionsAllowed = extensions.every(ext => allowedExtensions.includes(ext));
            if (!allExtensionsAllowed) {

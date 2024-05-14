@@ -1,5 +1,32 @@
 <%- include('../partials/adminHeader') %>
 
+<style>
+  input[type="file"] {
+    display: block;
+  }
+  .imageThumb {
+    max-height: 75px;
+    border: 2px solid;
+    padding: 1px;
+    cursor: pointer;
+  }
+  .pip {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+  }
+  .remove {
+    display: block;
+    background: #444;
+    border: 1px solid black;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+  }
+  .remove:hover {
+    background: white;
+    color: black;
+  }
+</style>
 <main>
 
       <section>
@@ -22,8 +49,9 @@
                             </div>
                             <div class="md:col-span-5">
                               <label for="productImage" class="font-bold"> Product Image </label>
-                              <input type="file" name="productImage" id="productImage" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
-                              <div id="imagePreview" class="mt-2"></div>
+                           
+                              <input type="file" id="files" multiple name="productImage"  accept="image/*" multiple autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"">
+
                             </div>
 
                             <div class="md:col-span-5">
@@ -34,7 +62,7 @@
                                   <option class="text-gray-900"><%= category.categoryName %></option>
                                   <% }) %>
                                 </select>
-                              </div>                            </div>
+                              </div>
 
                             <div class="md:col-span-5">
                               <label for="description" class="font-bold">Description </label>
@@ -107,5 +135,41 @@
           }
       }
   });
+
+  
+$(document).ready(function() {
+  if (window.File && window.FileList && window.FileReader) {
+    $("#files").on("change", function(e) {
+      var files = e.target.files,
+        filesLength = files.length;
+      for (var i = 0; i < filesLength; i++) {
+        var f = files[i]
+        var fileReader = new FileReader();
+        fileReader.onload = (function(e) {
+          var file = e.target;
+          $("<span class=\"pip\">" +
+            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+            "<br/><span class=\"remove\">Remove image</span>" +
+            "</span>").insertAfter("#files");
+          $(".remove").click(function(){
+            $(this).parent(".pip").remove();
+          });
+          
+          // Old code here
+          /*$("<img></img>", {
+            class: "imageThumb",
+            src: e.target.result,
+            title: file.name + " | Click to remove"
+          }).insertAfter("#files").click(function(){$(this).remove();});*/
+          
+        });
+        fileReader.readAsDataURL(f);
+      }
+      console.log(files);
+    });
+  } else {
+    alert("Your browser doesn't support to File API")
+  }
+});
 </script>
 <%- include('../partials/adminFooter') %>
