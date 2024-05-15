@@ -57,9 +57,11 @@
 
 
   <section>
-
-    <div class="w-full mt-5">
-      <table class="items-center bg-transparent w-full border-collapse" id="mail">
+    <div class="w-full mt-5" id="mail">
+      <div class="text-center pb-5">
+        <span class="text-3xl text-gray-950 font-extrabold">Sales Report</span>
+      </div>   
+       <table class="items-center bg-transparent w-full border-gray-400 border ">
         <thead>
           <tr>
            <th class="bg-stone-700 text-white align-middle border-t border-gray-500 py-3 text-xs uppercase whitespace-nowrap font-semibold text-left">
@@ -120,21 +122,21 @@
           <% }) %>
           </tbody>
       </table>
+      
+      <div class="flex flex-col text-end pr-5 pt-6">
+        <span class="text-gray-950 font-thin ">Total Offer : <%= totalOffer %>₹</span>
+        <span class="text-gray-950 font-thin ">Sales Tax : 00.00</span>
+        <div class="text-end flex flex-row justify-end"> 
+       <span class="border border-gray-400 w-1/6 "></span>
+        </div>
+        <span class="text-gray-950 font-thin">Sales Total : <%= total %>₹</span>
+      </div>
     </div>
-  </div>
-</div>
-
-<div class="flex flex-col items-end mt-12 mr-5">
-  <span class="font-bold text-gray-950">Total Offer :<%= totalOffer %>₹</span>
-  <!-- <span class="font-bold">Total Discount : 6000₹</span> -->
-  <span class="font-bold text-gray-950">Total Payment : <%= total %>₹</span>
-</div>
 
 <!----------------- downloading pdf & excel -------------------->
 <div class="mb-12">
   <button onclick="exportToPDF()" class="mb-6 mt-8 text-white bg-red-700 hover:bg-blue-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download PDF</button>
   <button onclick="exportToExcel()" class="mb-6 mt-8 text-white bg-blue-700 hover:bg-red-800  focus:ring-blue-300 font-thin text-sm sm:w-auto px-3 py-1 text-center">Download Exel</button>
-
 </div>
 </section>
 
@@ -183,10 +185,8 @@
               window.location.href = '/admin/salesReport'
           })
           .catch(error => {
-            
               console.error('Error:', error);
       });
-
     }
 
     const total = document.getElementById('total').value;
@@ -199,18 +199,18 @@ tota.addEventListener('click',() => {
 
 <script>
   //<------------------- pdf exporting -------------------->
-function exportToPDF() {
-    const element = document.getElementById('mail');
-    const opt = {
-      margin: 4,
-      filename: 'sales_report.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'Landscape' },
-    };
+  function exportToPDF() {
+  const element = document.getElementById('mail');
+  const opt = {
+    margin: [20, 30, 0, 30],
+    filename: 'sales_report.pdf',
+    image: { type: 'jpeg', quality: 1.0 }, 
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'Landscape' },
+  };
 
-    html2pdf().from(element).set(opt).save();
-  }
+  html2pdf().from(element).set(opt).save();
+}
 
 
   //<------------------- excel exporting -------------------->

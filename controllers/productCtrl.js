@@ -154,7 +154,7 @@ const searchProduct = async(req, res) => {
     try {
        const limit = 4;
        const input = req.query.searchTerm;
-       const product = await Product.find({ productName: input }).limit(limit);
+       const product = await Product.find({ productName: { $regex: `^${input}$`, $options: 'i' } }).limit(limit);
        const total = await Product.find().count();
        const totalProduct = total / 4;
        res.render('search', { product  , totalProduct});
