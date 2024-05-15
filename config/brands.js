@@ -1,13 +1,7 @@
-const Product = require('../models/productModel');
+const Product = require('../models/productMdl');
 
 (async () => {
-  console.log('Starts');
-
   const brandArray = [];
-  console.log('Brand Array: ', Product.price);
   const res = await Product.find();
-
   brandArray.push(res);
-
-  
 })();

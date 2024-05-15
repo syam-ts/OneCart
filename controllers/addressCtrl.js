@@ -1,6 +1,6 @@
-const Address = require('../models/addressModel');
+const Address = require('../models/addressMdl');
 const countries = require('../public/countries');
-const User = require('../models/userModel');
+const User = require('../models/userMdl');
 
 //<------------ user address page  -------------->
 const getUserAddress = async(req, res) => {

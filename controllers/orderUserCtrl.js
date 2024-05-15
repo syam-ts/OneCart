@@ -1,10 +1,10 @@
 
-const Product = require('../models/productModel');
-const Address = require('../models/addressModel');
-const Order = require('../models/orderModel');
-const Cart = require('../models/cartModel');
-const User = require('../models/userModel');
-const Wallet = require('../models/walletModel');
+const Product = require('../models/productMdl');
+const Address = require('../models/addressMdl');
+const Order = require('../models/orderMdl');
+const Cart = require('../models/cartMdl');
+const User = require('../models/userMdl');
+const Wallet = require('../models/walletMdl');
 const Razorpay = require('razorpay');
 const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 

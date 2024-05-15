@@ -1,6 +1,6 @@
-const Product = require('../models/productModel');
-const User = require('../models/userModel');
-const Wishlist = require('../models/wishlistModel');
+const Product = require('../models/productMdl');
+const User = require('../models/userMdl');
+const Wishlist = require('../models/wishlistMdl');
 
 //<------------ wishlist page -------------->
 const getwishlist = async (req, res) => {

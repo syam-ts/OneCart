@@ -1,10 +1,10 @@
 
-const User = require('../models/userModel');
+const User = require('../models/userMdl');
 const express = require('express');
 const bcrypt = require('bcrypt');
-const Product = require('../models/productModel');
-const Address = require('../models/addressModel');
-const Wallet = require('../models/walletModel');
+const Product = require('../models/productMdl');
+const Address = require('../models/addressMdl');
+const Wallet = require('../models/walletMdl');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const app = express();

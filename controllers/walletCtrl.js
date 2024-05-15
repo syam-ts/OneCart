@@ -1,6 +1,6 @@
-const Wallet = require('../models/walletModel');
-const User = require('../models/userModel');
-const Order = require('../models/orderModel');
+const Wallet = require('../models/walletMdl');
+const User = require('../models/userMdl');
+const Order = require('../models/orderMdl');
 
 //<------------ wallet page -------------->
 const getWalletPage = async (req, res) => {

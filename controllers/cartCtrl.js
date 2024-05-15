@@ -1,10 +1,10 @@
-const Product = require('../models/productModel');
-const Cart = require('../models/cartModel');
-const Address = require('../models/addressModel');
-const User = require('../models/userModel');
-const Order = require('../models/orderModel');
-const Coupon = require('../models/couponModel');
-const Wallet = require('../models/walletModel');
+const Product = require('../models/productMdl');
+const Cart = require('../models/cartMdl');
+const Address = require('../models/addressMdl');
+const User = require('../models/userMdl');
+const Order = require('../models/orderMdl');
+const Coupon = require('../models/couponMdl');
+const Wallet = require('../models/walletMdl');
 
   //<------------ load cart page --------------> 
 const getCart = async (req, res) => {

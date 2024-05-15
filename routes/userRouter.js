@@ -17,12 +17,8 @@ const {isLoggedIn} = require('../config/auth');
 const passport = require('passport');
 require('../config/passport');
 
-const Order = require('../models/orderModel');
-
 Router.use(passport.initialize());
 Router.use(passport.session());
-
-
 
 Router.get('/auth/google',passport.authenticate('google',{scope: [ 'email', 'profile' ]}));
 Router.get('/auth/google/callback',

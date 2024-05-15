@@ -1,7 +1,7 @@
-const Order = require('../models/orderModel');
-const Product = require('../models/productModel');
-const User = require('../models/userModel');
-const Wallet = require('../models/walletModel');
+const Order = require('../models/orderMdl');
+const Product = require('../models/productMdl');
+const User = require('../models/userMdl');
+const Wallet = require('../models/walletMdl');
 const moment = require('moment');
 
 
@@ -353,7 +353,7 @@ const orderStatusChng = async (req, res) => {
        console.error('Error fetching orders:', err);
        res.status(500).json({ error: 'Internal server error' });
      }
- }
+ };
 
 
   //<--------------------- sales report ----------------------->

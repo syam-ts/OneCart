@@ -1,4 +1,4 @@
-const Product = require('../models/productModel');
+const Product = require('../models/productMdl');
 const router = require('express').Router();
 
 router.get('/shoppingPgtn',async (req , res) => {
@@ -22,9 +22,8 @@ router.get('/shoppingPgtn',async (req , res) => {
         .skip(page*limit)
         .limit(limit)
 
-        const total = await Product.countDocuments({})
+        const total = await Product.countDocuments({});
 
-        
     } catch (err) {
         console.log(err);
        res.status(500).json({error : true, message: "Internal Server Error"});

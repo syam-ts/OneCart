@@ -1,5 +1,5 @@
-const Product = require('../models/productModel');
-const Category = require('../models/categoryModel');
+const Product = require('../models/productMdl');
+const Category = require('../models/categoryMdl');
 const multer = require('multer');
 const express = require('express');
 const app = express();
