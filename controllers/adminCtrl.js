@@ -42,6 +42,7 @@ const adminCredentials  = {
 //<------------ verify admin -------------->
 const verifyAdmin = async (req, res) => {
     try {
+        const limit = 10;
         if (req.body.userName == adminCredentials.UserName) {
 
             if(req.body.password == adminCredentials.Password){
@@ -55,24 +56,24 @@ const verifyAdmin = async (req, res) => {
                 ]); 
 
                 const topTenPrdts = await Order.aggregate([ { $unwind: "$products" }, 
-                { $group: { _id: "$products._id",
-                 productName: { $first: "$products.productName" },
-                  totalOrders: { $sum: 1 } } }, 
-                  { $sort: { totalOrders: -1 } }] )
-        
-               
-        
-                  const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
-                  { $group: { _id: "$products._id",
-                   category: { $first: "$products.category" },
-                    totalOrders: { $sum: 1 } } }, 
-                    { $sort: { totalOrders: -1 } }] )
-        
-                    const topTenBrnd = await Order.aggregate([ { $unwind: "$products" }, 
-                    { $group: { _id: "$products._id",
-                     brand: { $first: "$products.brand" },
-                      totalOrders: { $sum: 1 } } }, 
-                      { $sort: { totalOrders: -1 } }] )
+        { $group: { _id: "$products._id",
+         productName: { $first: "$products.productName" },
+          totalOrders: { $sum: 1 } } }, 
+          { $sort: { totalOrders: -1 } }, {$limit : limit}] );
+
+          console.log('The products : ',topTenPrdts)
+
+          const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
+          { $group: { _id: "$products._id",
+           category: { $first: "$products.category" },
+            totalOrders: { $sum: 1 } } }, 
+            { $sort: { totalOrders: -1 }}, {$limit : limit}] )
+
+            const topTenBrnd = await Order.aggregate([ { $unwind: "$products" }, 
+            { $group: { _id: "$products._id",
+             brand: { $first: "$products.brand" },
+              totalOrders: { $sum: 1 } } }, 
+              { $sort: { totalOrders: -1 }}, {$limit : limit}] )
 
 
                 res.render('dashboard', { 
@@ -96,6 +97,7 @@ const verifyAdmin = async (req, res) => {
 const getDashboard =  async (req, res) => {
     try {
         const admin = req.session.admin;
+        const limit = 10;
         const users = await User.find({ isBlock: false }).count();
         const brand = await Product.find({ deleted: false }).count();
         const category = await Category.find({ deleted: false }).count();
@@ -104,20 +106,21 @@ const getDashboard =  async (req, res) => {
         { $group: { _id: "$products._id",
          productName: { $first: "$products.productName" },
           totalOrders: { $sum: 1 } } }, 
-          { $sort: { totalOrders: -1 } }] )
+          { $sort: { totalOrders: -1 } }, {$limit : limit}] );
 
           const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
-          { $group: { _id: "$products._id",
-           category: { $first: "$products.category" },
+          { $group: { _id: "$products.category",
             totalOrders: { $sum: 1 } } }, 
-            { $sort: { totalOrders: -1 } }] )
+            { $sort: { totalOrders: -1 }}, {$limit : 3}] );
+
 
             const topTenBrnd = await Order.aggregate([ { $unwind: "$products" }, 
             { $group: { _id: "$products._id",
              brand: { $first: "$products.brand" },
               totalOrders: { $sum: 1 } } }, 
-              { $sort: { totalOrders: -1 } }] )
+              { $sort: { totalOrders: -1 }}, {$limit : limit}] );
   
+              console.log('The products : ',topTenCtgry)
         if(!admin){
             req.session.destroy();
             res.redirect('./admin-login')
