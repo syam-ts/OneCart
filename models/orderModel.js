@@ -11,6 +11,7 @@ const orderSchema = mongoose.Schema({
         createdate:{type:Date,default:Date.now},
         carts: {type: Object,required:true,default: true},
         discountPrice: {type: Number,required:true},
+        tax: { type : Number, defalut: 1},
         return:{type:{return:Boolean, reason:String}},
         ordId: { type: String, default: uuid.v4, unique: true },
         payment:{type: Boolean},

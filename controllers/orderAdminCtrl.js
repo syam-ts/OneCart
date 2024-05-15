@@ -78,10 +78,8 @@ const sortOrderAdmin = async (req, res) => {
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
+        }
         
-       }
-
-
             var page = 1;
             const limit = 5;
             if (req.query.page) {

@@ -49,7 +49,6 @@ const createOrder = async (req, res) => {
 //<------------ for COD and wallet -------------->
 const insertOrder = async (req, res) => {
     try {
-    
             const userId = req.session.user;
             const total = req.body.totalPrice;
             const discountPrice = req.body.subTotal - total;
@@ -57,6 +56,7 @@ const insertOrder = async (req, res) => {
             const addressId = req.body.addressId;
             const address = await Address.findById(addressId);
             const status = 'Processing';
+            const tax = 0.00;
             const cart = await Cart.find({ userId });
             const productIds = cart.map(item => item.productId);
             const products = await Product.find({ _id: { $in: productIds } });
@@ -69,6 +69,7 @@ const insertOrder = async (req, res) => {
                      status: status,
                      carts: cart,
                      discountPrice : discountPrice,
+                     tax: tax,
                      payment : true
                  });
                  await order.save();

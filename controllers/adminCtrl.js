@@ -99,13 +99,12 @@ const getDashboard =  async (req, res) => {
         const users = await User.find({ isBlock: false }).count();
         const brand = await Product.find({ deleted: false }).count();
         const category = await Category.find({ deleted: false }).count();
+
         const topTenPrdts = await Order.aggregate([ { $unwind: "$products" }, 
         { $group: { _id: "$products._id",
          productName: { $first: "$products.productName" },
           totalOrders: { $sum: 1 } } }, 
           { $sort: { totalOrders: -1 } }] )
-
-       
 
           const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
           { $group: { _id: "$products._id",
