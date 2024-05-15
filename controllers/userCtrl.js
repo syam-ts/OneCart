@@ -289,6 +289,44 @@ const userProfileSidebar = async (req, res) => {
         }
       };
 
+      
+//<------------ load user management || admin -------------->
+const getUsers = async(req, res) => {
+  try {
+     const users = await User.find();
+     res.render('userManagement',{users ,
+         toastMessage: { type: 'success', text: '' }
+         })
+  } catch (err) {
+     res.redner('error',{ message : err.message });
+  }   
+ };
+ 
+ 
+ //<------------ block user || admin -------------->
+ const blockUser = async (req, res) => {
+    try {
+        const id = req.params.id;
+        console.log('THe id : ',id)
+        const user = await User.findById(id);
+ 
+ if (user.isBlock == false) {
+     user.isBlock = true;
+     await user.save();
+     res.redirect('/admin/userManagement?message=User Blocked&type=success');
+ 
+ } else if(user.isBlock == true){
+     user.isBlock = false;
+     await user.save();
+     return res.redirect('/admin/userManagement?message=User Unblocked&type=success')
+ }else{
+     return res.status(404).send('user not found');
+ }
+    } catch (err) {
+     res.redner('error',{ message : err.message });
+    }
+ };
+
 module.exports = {
     insertUser,
     verifyLogin,
@@ -302,5 +340,7 @@ module.exports = {
     userProfile,
     userProfileSidebar,
     getUserEdit,
-    insertUserDetails
+    insertUserDetails,
+    getUsers, 
+    blockUser
 };

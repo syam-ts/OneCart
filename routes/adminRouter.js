@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const Router = express.Router();
 const multer = require('multer');
-const userManagementCtrl = require('../controllers/UserMangementCtrl');
+const userCtrl = require('../controllers/userCtrl');
 const productCtrl = require('../controllers/productCtrl');
 const adminCtrl = require('../controllers/adminCtrl');
 const categoryCtrl = require('../controllers/categoryCtrl');
@@ -13,7 +13,6 @@ const bodyParser = require('body-parser');
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
    //<------------ multer config -------------->
 const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'./public/product_images') },
       filename:(req, file, cb) => { const name = Date.now()+''+file.originalname;  cb(null, name)}});
@@ -26,9 +25,8 @@ Router.get('/admin-logout',adminCtrl.logoutAdmin);
 Router.get('/dashboard',adminCtrl.getDashboard);
 
    //<------------ userManagement routes -------------->
-Router.get('/userManagement',userManagementCtrl.getUsers);
-Router.get('/user-block/:id',userManagementCtrl.blcokUser);
-// Router.get('/user-unblock/:id',userManagementCtrl.unBlcokUser);
+Router.get('/userManagement',userCtrl.getUsers);
+Router.get('/user-block/:id',userCtrl.blockUser);
 
 
    //<------------ proudutManagement routes -------------->
@@ -62,10 +60,10 @@ Router.get('/orders/Monthly',orderAdminCtrl.orderMonthly)
 Router.get('/orders/Yearly',orderAdminCtrl.orderYearly);
 
    //<------------ salse routes -------------->
-Router.get('/orderDetailsAdmin/:id',orderAdminCtrl.orderDetailsAdmin);
+Router.get('/orderDetailsAdmin/:id', orderAdminCtrl.orderDetailsAdmin);
 Router.get('/salesReport',orderAdminCtrl.getSalesReport);
-Router.get('/sortSalesReport/:format', orderAdminCtrl.salesReport);
-Router.post('/customSales', orderAdminCtrl.customSales);
+Router.get('/sortSalesReport/:format',orderAdminCtrl.salesReport);
+Router.post('/customSales',orderAdminCtrl.customSales);
 
    //<------------ couponManagement routes -------------->
 Router.get('/coupon-list',couponCtrl.couponList);
