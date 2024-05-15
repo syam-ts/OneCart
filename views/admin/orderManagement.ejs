@@ -88,11 +88,10 @@
                       <% } %>
                 </td>
                 <td class="px-6 py-4">
-                  <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"> <%
-                    var createDate = new Date(order.createdate);
+                  <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"> 
+                    <% var createDate = new Date(order.createdate);
                     var date = createDate.toLocaleDateString();
-                    var time = createDate.toLocaleTimeString();
-                    %>
+                    var time = createDate.toLocaleTimeString(); %>
                     <p><%= date %> &nbsp;<%= time %></p>
                   </a>
                 </td>
