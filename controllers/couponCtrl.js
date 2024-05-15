@@ -96,13 +96,10 @@ const { ObjectId } = require('mongoose').Types;
            const deleteCoupon = async (req, res) => {
             try {
                 const couponId = req.params.id;
-                console.log('The id: ', couponId);
-                const deletedCoupon = await Coupon.findById(couponId);
-                console.log('The coupon: ', deletedCoupon); // Corrected line
-                res.redirect('/admin/coupon-list');
+                await Coupon.findByIdAndDelete(couponId);
+                res.redirect('/admin/coupon-list?message=Coupon deleted&type=success');
             } catch (err) {
-                console.error(err.message);
-                res.status(500).send("Internal Server Error");
+                res.render('error',{ message : err.message });
             }
         };
         
