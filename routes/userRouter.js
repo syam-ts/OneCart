@@ -114,6 +114,9 @@ Router.get('/wallet',walletCtrl.getWalletPage);
 Router.get('/faq',(req, res ) => {
    res.render('faq')
 })
+Router.get('/aboutUs',(req, res ) => {
+   res.render('aboutUs')
+})
 
 
 module.exports = Router;
