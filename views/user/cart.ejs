@@ -8,28 +8,18 @@
     </section>
 
     <div class="mt-6 space-y-6">
-        <!-- Product Cards -->
         <% items.products.forEach(product => { %>
         <div class="bg-white rounded-lg shadow-md flex items-center justify-between">
             <div class="flex items-center space-x-4 p-4">
                 <div class="aspect-w-1 aspect-h-1 w-20 h-20 overflow-hidden">
                     <a href="/product/<%= product._id %>">
                         <img src="./product_images/<%= product.productImage[0] %>" alt="<%= product.productName %>" class="object-cover w-full h-full">
-               
                     </a>
                 </div>
-                <div>
-                    <h3 class="text-sm text-gray-700">
-                        <a href="#">
-                            <%= product.productName %>
-                        </a>
-                    </h3>
-                   
+                    <h3 class="text-sm text-gray-700"> <a href="#"> <%= product.productName %> </a> </h3>
                     <p class="text-sm text-gray-500"><%= product.color %></p>
-                <p class="text-sm font-medium text-gray-900"><%= product.size %></p>
-                </div>
-            </div>
-
+                    <p class="text-sm font-medium text-gray-900"><%= product.size %></p>
+              </div>
             <div class="flex items-center space-x-4 p-4">
                 <p class="text-sm font-medium text-gray-900"><%= product.price %></p>
                 <% const cartItem = items.cart.find(item => item.productId.toString() === product._id.toString()) %>
@@ -61,15 +51,14 @@
         <% totalPrice += product.price * cartItem.quantity; %>
         <% } %>
         <% }); %>
-        
         <% if(totalPrice){ %>
         <!------------ checkout -------------->
         <span class="font-bold"> Total: <%= totalPrice %></span><br><br>
         <a href="/checkout/<%= totalPrice %>" class="h-8 ml-4 w-44 bg-cyan-400 text-gray-100 font-semibold text-xs py-2 px-4 rounded-lg hover:bg-cyan-500">
             Checkout
-        </a>
-        <% }else{ %>
-            <span></span>
+           </a>
+       <% }else{ %>
+         <span> </span>
             <% } %>
     </section>
 
@@ -87,7 +76,7 @@
             }
         }
         return queryParams;
-    }
+      }
     document.addEventListener('DOMContentLoaded', function() {
         var queryParams = parseQueryParams();
         var message = queryParams['message'];
@@ -132,7 +121,6 @@ cartDecList.forEach(cartDec => {
         const cartId = productIdElement.value;
         const cartElement = productContainer.querySelector('.cartQty');
         const currentQty = cartElement.innerText;
-
         fetch('/cartDec',{
               method:"POST",
               headers:{
@@ -142,19 +130,19 @@ cartDecList.forEach(cartDec => {
                   cartId : cartId,
                   currentQty : currentQty
               })
-              }).then(async (response) => {
-                const res = response.toastMessage
-                    console.log('This : ',res);
-    // const url = `/cart?message=${data.toastMessage.text}&type=${data.toastMessage.type}`;
-    window.location.href = `/cart`
-
-}).catch((error) => {
-  console.error('Error:', error);
-});
+              }).then(response => response.json())
+                 .then(data => {
+                    if(data.typeOfError == "lessZero"){
+                        window.location.href = `/cart?message=Minimum quntity is 1&type=error`
+                    }else if(data.typeOfError == "redirect"){
+                         window.location.href = `/cart?`
+                    }  
+                }).catch((error) => {
+             console.error('Error:', error);
+          })});
     });
-});
 
-
+ //------------ cart quantity increment --------------
     const cartIncList = document.querySelectorAll('.cartInc');
     cartIncList.forEach(cartInc => {
     cartInc.addEventListener('click', () => {
@@ -163,7 +151,6 @@ cartDecList.forEach(cartDec => {
         const cartId = productIdElement.value;
         const cartElement = productContainer.querySelector('.cartQty');
         const currentQty = cartElement.innerText;
-
         fetch('/cartInc',{
                 method:"POST",
                 headers:{
@@ -173,17 +160,19 @@ cartDecList.forEach(cartDec => {
                     cartId : cartId,
                     currentQty : currentQty
                 })
-                }).then(async (response) => {
-                    const res = response.toastMessage
-                    console.log('This : ',res);
-    window.location.href = `/cart`
-
-}).catch((error) => {
-  console.error('Error:', error);
-});
-      })
-});
-
+                }).then(response => response.json())
+                 .then(data => {
+                    if(data.typeOfError == "exeedQty"){
+                        window.location.href = `/cart?message=Cannot add more than 3 quantity to cart&type=error`
+                    }else if(data.typeOfError == "maxStock"){
+                        window.location.href = `/cart?message=You reached maximum stock&type=error`
+                    }else if(data.typeOfError == "redirect"){
+                         window.location.href = `/cart?`
+                    }  
+                }).catch((error) => {
+              console.error('Error:', error);
+            })})
+        });
 
 </script>
 

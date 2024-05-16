@@ -71,14 +71,14 @@ const getCart = async (req, res) => {
             const currentQty = req.body.currentQty;
             const cart = await Cart.findById(cartId);
             const productId = cart.productId;
-            const product = await Product.findById(productId)
+            const product = await Product.findById(productId);
             if(currentQty <= 1){
-                res.json({ toastMessage: { type: 'error', text: 'Cannot make the quantity to zero' }});
+                res.json({ typeOfError: 'lessZero' });
             }else{
                 product.stock += 1;
                 cart.quantity -= 1;
                 await Promise.all([product.save(), cart.save()]);
-                res.redirect('/cart')
+                res.json({ typeOfError: 'redirect' });
             }} catch (err) {
             console.log(err.message);
         }
@@ -91,18 +91,16 @@ const getCart = async (req, res) => {
             const currentQty = req.body.currentQty;
             const cart = await Cart.findById(cartId);
             const productId = cart.productId;
-            const product = await Product.findById(productId)
+            const product = await Product.findById(productId);
            if(currentQty >= product.stock){
-            res.redirect('/cart?message=sfjs&type=error')
-            res.json({ toastMessage: { type: 'error', text: 'Cannot add more than available stock' }});
+              res.json({ typeOfError: 'maxStock' });
            }else if(currentQty >= 3){
-            res.redirect('/cart?message=sfjs&type=error')
-            res.json({ toastMessage: { type: 'error', text: 'Cannot add more than 3 quantity to cart' }});
+              res.json({ typeOfError: 'exeedQty' });
            }else{
             product.stock -= 1;
             cart.quantity += 1;
             await Promise.all([product.save(), cart.save()]);
-            res.redirect('/cart')
+            res.json({ typeOfError: 'redirect' });
               }} 
               catch (err) {
                 console.log(err.message);
