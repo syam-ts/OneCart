@@ -277,17 +277,17 @@ removeCouponButton.addEventListener('click', () => {
                 // alert(response.razorpay_order_id);
                 // alert(response.razorpay_signature)
             },
-        "prefill": { 
-            "name": "Gaurav Kumar", //customer's name
-            "email": "gaurav.kumar@example.com", 
-            "contact": "9000090000"  //customer's phone number 
-        },
-        "notes": {
-            "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-            "color": "#3399cc"
-        }};
+            "prefill": { 
+                "name": "Gaurav Kumar", //customer's name
+                "email": "gaurav.kumar@example.com", 
+                "contact": "9000090000"  //customer's phone number 
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#1115f7"
+            }};
         var rzp1 = new Razorpay(options);
         rzp1.on('payment.failed', function (response){
             const paymentMethod = selectedValue;

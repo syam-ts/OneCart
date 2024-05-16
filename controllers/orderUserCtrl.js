@@ -123,8 +123,6 @@ const insertOrder = async (req, res) => {
 
 
 
-
-
 //<------------ order history -------------->
 const getOrderHistory = async (req, res) => {
     const userId = req.session.user;
@@ -168,10 +166,10 @@ const sortOrdersUser = async (req , res) => {
         const sortMethod = req.params.method;
         var sortQuery = {}; 
         switch (sortMethod) {
-           case "recentOrders":
+           case "olderOrders":
                sortQuery = { createdate: 1 };
                break;
-           case "olderOrders":
+           case "recentOrders":
                sortQuery = { createdate: -1 };
                break;
            default:
