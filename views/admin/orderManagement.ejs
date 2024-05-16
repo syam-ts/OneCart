@@ -20,6 +20,9 @@
           <li>
             <a href="/admin/sortOrderAdmin/deleveredOrders" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Delivered</a>
           </li>
+          <li>
+            <a href="/admin/sortOrderAdmin/cancelledOrders" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Cancelled</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -36,6 +39,7 @@
                <th scope="col" class="px-6 py-3">Total</th>
                <th scope="col" class="px-6 py-3">Payment Method</th>
                <th scope="col" class="px-6 py-3">Status</th>
+               <th scope="col" class="px-6 py-3">Tax</th>
                <th scope="col" class="px-6 py-3">Create date</th>
                <th scope="col" class="px-6 py-3">Details</th>
             </tr>
@@ -88,11 +92,13 @@
                       <% } %>
                 </td>
                 <td class="px-6 py-4">
+                  <a class="font-medium font-sans text-xs text-gray-950  hover:underline">00.00₹</a>
+                </td>
+                <td class="px-6 py-4">
                   <a  class="font-medium font-sans text-xs text-gray-950  hover:underline"> 
                     <% var createDate = new Date(order.createdate);
-                    var date = createDate.toLocaleDateString();
-                    var time = createDate.toLocaleTimeString(); %>
-                    <p><%= date %> &nbsp;<%= time %></p>
+                    var date = createDate.toLocaleDateString(); %>
+                    <p><%= date %></p>
                   </a>
                 </td>
                   <td>

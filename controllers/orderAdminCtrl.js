@@ -78,6 +78,27 @@ const sortOrderAdmin = async (req, res) => {
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
+        }else if(sortMethod == "cancelledOrders"){
+            var page = 1;
+            const limit = 5;
+            if (req.query.page) {
+                page = parseInt(req.query.page);
+            }
+          
+            const orders = await Order.find({status : "Cancelled"})
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .exec();
+          
+            const count = await Order.find({status : "Cancelled"}).countDocuments();
+            
+            res.render('orderManagement', {
+                orders: orders,
+                totalPage: Math.ceil(count / limit),
+                currentPage: page,
+                previousPage: page > 1 ? page - 1 : 1,
+                nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
+            });
         }
         
             var page = 1;

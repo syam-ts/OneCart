@@ -1,11 +1,11 @@
 <%- include('../partials/header') %>
 
-<main class="flex justify-start" id="main">
+<main class="flex justify-start">
 <section class="justify-start">
     <%- include('../partials/userProfileSidebar') %>
 </section>
 
-    <section class="py-24 relative">
+   <section class="py-24 relative" id="main">
         <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
             <div class="flex items-start flex-col gap-6 xl:flex-row ">
                 <div class="w-full max-w-sm md:max-w-3xl xl:max-w-sm flex items-start flex-col gap-8 max-xl:mx-auto">
@@ -38,6 +38,11 @@
                             </div>
                             <div class="flex items-center justify-between gap-4 mb-5">
                                 <p class="font-normal text-lg leading-8 text-gray-400 transition-all duration-500 group-hover:text-gray-700">
+                                    Sales Tax</p>
+                                <p class="font-medium text-xs leading-8 text-gray-600"> 00.00   ₹ </p>
+                            </div>
+                            <div class="flex items-center justify-between gap-4 mb-5">
+                                <p class="font-normal text-lg leading-8 text-gray-400 transition-all duration-500 group-hover:text-gray-700">
                                     Order Status</p>
                                 <p class="font-medium text-xs leading-8 text-gray-600"> <%= order.status %> </p>
                             </div>
@@ -58,6 +63,9 @@
                             <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModal()">
                                 Return
                                 </button>
+                                <button onclick="exportToPDF()" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+                                    Dowload Invoice
+                                   </button>
                         <% } %>
                         <% if(order.status == "PaymentFailed") {%>  
                             <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button"
@@ -65,10 +73,7 @@
                                 Complete Payment
                                 </button>
                         <% } %>
-                        <!-- <section> -->
-                            <button onclick="exportToPDF()" class="mt-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
-                                Dowload Invoice
-                               </button>
+
                         </section>
                     </div>
                     
@@ -208,8 +213,149 @@
             </div>
             
         </div>
-    </section>                              
+    </section>   
 
+    <!----- invoice section ----->
+
+ <section class="w-full hidden" >
+<div class="w-full px-4 sm:px-6 lg:px-8 my-4 sm:my-10" id="invoiceContent">
+    <div class="mb-5 pb-5 flex justify-between items-center border-b border-gray-200">
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-800">Invoice</h2>
+      </div>
+    
+    </div>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div>
+        <div class="grid space-y-3">
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Billed to:
+            </dt>
+            <dd class="text-gray-800">
+              <a class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium" href="#">
+                <%= user.email %>
+              </a>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Billing details:
+            </dt>
+            <dd class="font-medium text-gray-800">
+              <span class="block font-semibold"><%= address.name %></span>
+              <address class="not-italic font-normal">
+               <%= address.address %>,<br>
+               <%= address.city %>, OR <%= address.pincode %>,<br>
+               <%= address.state %><br>
+               <%= address.country %><br>
+              </address>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Shipping details:
+            </dt>
+            <dd class="font-medium text-gray-800">
+              <span class="block font-semibold"><%= address.name %></span>
+              <address class="not-italic font-normal">
+                <%= address.address %>,<br>
+                <%= address.city %>, OR <%= address.pincode %>,<br>
+                <%= address.state %><br>
+                <%= address.country %><br>
+              </address>
+            </dd>
+          </dl>
+        </div>
+      </div>
+  
+      <div>
+        <div class="grid space-y-3">
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Invovie number:
+            </dt>
+            <dd class="font-medium text-gray-800">
+             <span id="randomNumber"></span>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Due date:
+            </dt>
+            <dd class="font-medium text-gray-800">
+                <%= order.createdate %>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Payment method:
+            </dt>
+            <dd class="font-medium text-gray-800">
+                <%= order.paymentMethod %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Table --->
+    
+    <div class="mt-6 border border-gray-200 p-4 rounded-lg space-y-4">
+
+      <div class="hidden sm:grid sm:grid-cols-5">
+        <div class="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">Item</div>
+        <div class="text-start text-xs font-medium text-gray-500 uppercase">Price</div>
+        <div class="text-start text-xs font-medium text-gray-500 uppercase">Discount</div>
+        <div class="text-end text-xs font-medium text-gray-500 uppercase">size</div>
+      </div>
+      <% product.forEach(pro => { %>
+      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        <div class="col-span-full sm:col-span-2">
+          <p class="font-medium text-gray-800"><%= pro.productName %></p>
+        </div>
+        <div>
+          <p class="text-gray-800"><%= pro.price %></p>
+        </div>
+        <div>
+          <p class="text-gray-800">200<%= pro.discountPrice %></p>
+        </div>
+        <div>
+          <p class="sm:text-end text-gray-800"><%= pro.size  %></p>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+    <!-- End Table  --->
+  
+    <div class="mt-8 flex sm:justify-end">
+      <div class="w-full max-w-2xl sm:text-end space-y-2">
+        <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
+          
+          <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dt class="col-span-3 text-gray-500">Discount:</dt>
+            <dd class="col-span-2 font-medium text-gray-800"><%= order.discountPrice %></dd>
+          </dl>
+  
+          <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dt class="col-span-3 text-gray-500">Tax:</dt>
+            <dd class="col-span-2 font-medium text-gray-800">00.00</dd>
+          </dl>
+  
+          <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dt class="col-span-3 text-gray-500">Total Amount paid:</dt>
+            <dd class="col-span-2 font-medium text-gray-800"><%= order.total %></dd>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+  </div>
+    </section> 
 
 </main>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -288,21 +434,26 @@
       };
 
 
-    //------------ downlaod Invoice ---------------//
-    function exportToPDF() {
-    const element = document.getElementById('main');
+  //------------ downlaod Invoice ---------------//
+function exportToPDF() {
     const opt = {
-      margin: 4,
-      filename: 'sales_report.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'Landscape' },
+        margin: 4,
+        filename: 'invoice.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     };
 
-    html2pdf().from(element).set(opt).save();
-  }
+    // Select and download only the hidden content
+    const invoiceContent = document.getElementById('main');
+
+    // Convert to PDF
+    html2pdf().from(invoiceContent).set(opt).save();
+}
 
 
+
+    //------------ repayment ---------------//
 
   function rePayment(orderId, totalPrice) {
   var order;
@@ -383,6 +534,10 @@
   });
 }
 
+
+const random = Math.random();
+const nu = document.getElementById('randomNumber');
+nu.textContent = random;
 </script>
 
 <%- include('../partials/footer') %>

@@ -216,7 +216,8 @@ const sortOrdersUser = async (req , res) => {
 //<------------ order details user -------------->
 const orderDetailsUser = async (req, res) => {
     try {
-        const user = req.session.user;
+        const userId = req.session.user;
+        const user = await User.findById(userId);
         const orderId = req.params.id;
         const order = await Order.findById(orderId);
         const productId = order.products.map(product => product._id);
@@ -330,7 +331,6 @@ const generateInvoice = async (req, res) => {
 
 const repaymentOrder = async (req, res) => {
     try {
-        
         const orderId = req.body.orderId.trim();
         const order = await Order.findById(orderId);
         console.log('The order before : ',order)
