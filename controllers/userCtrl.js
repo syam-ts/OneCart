@@ -327,6 +327,27 @@ const getUsers = async(req, res) => {
     }
  };
 
+ 
+ //<------------ faq page -------------->
+ const getFaq = async (req, res) => {
+  try {
+    res.render('faq')
+  } catch (err) {
+    res.redner('error',{ message : err.message});
+  }
+ };
+
+
+ //<------------ about us page -------------->
+ const getAboutUs = async (req, res) => {
+  try {
+    res.render('aboutUs')
+  } catch (err) {
+    res.redner('error',{ message : err.message});
+  }
+ };
+
+
 module.exports = {
     insertUser,
     verifyLogin,
@@ -342,5 +363,7 @@ module.exports = {
     getUserEdit,
     insertUserDetails,
     getUsers, 
-    blockUser
+    blockUser,
+    getFaq,
+    getAboutUs
 };

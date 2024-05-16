@@ -23,6 +23,7 @@ const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 //<------------ for razorpay -------------->
 const createOrder = async (req, res) => {
     try {
+        
         const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
         const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
         const totalPrice = req.body.totalPrice;
@@ -329,11 +330,12 @@ const generateInvoice = async (req, res) => {
 
 const repaymentOrder = async (req, res) => {
     try {
-        console.log('The ')
-        const orderId = req.body.orderId;
+        
+        const orderId = req.body.orderId.trim();
         const order = await Order.findById(orderId);
-        console.log('The order before : ',order.payment)
+        console.log('The order before : ',order)
 
+        order.status = "processing";
          order.payment = true;
          await order.save();
 

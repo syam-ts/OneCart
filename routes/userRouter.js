@@ -111,12 +111,9 @@ Router.post('/repaymentOrder',isLoggedIn, orderCtrl.repaymentOrder);
 //<------------ wallet routes -------------->
 Router.get('/wallet',walletCtrl.getWalletPage);
 
-Router.get('/faq',(req, res ) => {
-   res.render('faq')
-})
-Router.get('/aboutUs',(req, res ) => {
-   res.render('aboutUs')
-})
+Router.get('/faq',isLoggedIn, userCtrl.getFaq);
+Router.get('/aboutUs',isLoggedIn, userCtrl.getAboutUs);
+
 
 
 module.exports = Router;
