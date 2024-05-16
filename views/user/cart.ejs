@@ -163,7 +163,7 @@ cartDecList.forEach(cartDec => {
                 }).then(response => response.json())
                  .then(data => {
                     if(data.typeOfError == "exeedQty"){
-                        window.location.href = `/cart?message=Cannot add more than 3 quantity to cart&type=error`
+                        window.location.href = `/cart?message=Cannot add more than 5 quantity to cart&type=error`
                     }else if(data.typeOfError == "maxStock"){
                         window.location.href = `/cart?message=You reached maximum stock&type=error`
                     }else if(data.typeOfError == "redirect"){

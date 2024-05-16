@@ -181,7 +181,7 @@ removeCouponButton.addEventListener('click', () => {
   );
 
 
-    //<------------ order creating -------------->
+    //<------------ order placing -------------->
     document.addEventListener("DOMContentLoaded", function() {
     const discountAmount = document.getElementById('discountAmount').innerText;
     const subTotal = parseFloat(document.getElementById('subTotal').innerText)
@@ -190,12 +190,6 @@ removeCouponButton.addEventListener('click', () => {
     placeOrderButton.addEventListener('click', function() {
         
         var selectedRadios = document.querySelectorAll('input[name="selectedAddress"]:checked');
-        
-        if (selectedRadios.length > 0) {
-            var selectedId = selectedRadios[0].value;
-        } else {
-            toastr.error('Please select an address');
-        }
 
         const paymentMethod = document.getElementsByName('paymentMethod');
         let selectedValue = "";
@@ -209,7 +203,11 @@ removeCouponButton.addEventListener('click', () => {
         if(!selectedValue){
               toastr.error('Please select a payment method');
         }     
-        
+        if (selectedRadios.length > 0) {
+            var selectedId = selectedRadios[0].value;
+        } else {
+            toastr.error('Please select an address');
+        }
         
    //<------------ for cash on delevery -------------->
       if(selectedValue == "Cash on Delivery"){

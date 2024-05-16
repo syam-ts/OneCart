@@ -185,23 +185,17 @@
 
    <script>
 
-const bigImg = document.getElementById('img-container');
-
-const imgs1 = document.getElementById('img-1');
-const image1 = document.getElementById('img-1').src;
-const imgs2 = document.getElementById('img-2');
-const image2 = document.getElementById('img-2').src;
-const imgs3 = document.getElementById('img-3');
-const image3 = document.getElementById('img-3').src;
-imgs1.addEventListener('click',() => {
-  bigImg.src = image1
-})
-imgs2.addEventListener('click',() => {
-  bigImg.src = image2
-})
-imgs3.addEventListener('click',() => {
-  bigImg.src = image3
-})
+//<------------ image selecting to main -------------->
+  const bigImg = document.getElementById('img-container');
+  const imgs1 = document.getElementById('img-1');
+  const image1 = document.getElementById('img-1').src;
+  const imgs2 = document.getElementById('img-2');
+  const image2 = document.getElementById('img-2').src;
+  const imgs3 = document.getElementById('img-3');
+  const image3 = document.getElementById('img-3').src;
+    imgs1.addEventListener('click',() => { bigImg.src = image1 });
+    imgs2.addEventListener('click',() => { bigImg.src = image2 });
+    imgs3.addEventListener('click',() => { bigImg.src = image3 });
 
       //<------------ to cart page -------------->
 const addToCartWithQuantity = (productId, userId) => {

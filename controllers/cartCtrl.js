@@ -31,9 +31,8 @@ const getCart = async (req, res) => {
         const userId = req.session.user;
         const existingItem = await Cart.findOne({ productId: productId, userId: userId });
         if (!existingItem) {
-            if(req.body.quantity > 3){
-                console.error('Cannot add more than 3 quantity');
-                res.status(400).json({ error: 'Cannot add more than 3 quantity' });
+            if(req.body.quantity > 5){
+                res.status(400).json({ error: 'Cannot add more than 5 quantity' });
             } else {
                 const cart = new Cart({ userId, productId: req.body.productId, quantity: req.body.quantity });
                 await cart.save();
@@ -42,13 +41,11 @@ const getCart = async (req, res) => {
                 await product.save();
                 res.status(200).json({ message: 'Product added to cart successfully' })}
             } else {
-            if(req.body.quantity > 3){
-                console.log('Cannot add more than 3 quantity');
+            if(req.body.quantity > 5){
                 res.status(400).json({ error: 'Cannot add more than 5 quantity' });
             } else {
-                if(existingItem.quantity + req.body.quantity > 3){
-                    console.log('Cannot add more than 3 quantity from the existing item');
-                    res.status(400).json({ error: 'Cannot add more than 3 quantity from the existing item' });
+                if(existingItem.quantity + req.body.quantity > 5){
+                    res.status(400).json({ error: 'Cannot add more than 5 quantity from the existing item' });
                 } else {
                     existingItem.quantity += req.body.quantity;
                     await existingItem.save();
@@ -94,7 +91,7 @@ const getCart = async (req, res) => {
             const product = await Product.findById(productId);
            if(currentQty >= product.stock){
               res.json({ typeOfError: 'maxStock' });
-           }else if(currentQty >= 3){
+           }else if(currentQty >= 5){
               res.json({ typeOfError: 'exeedQty' });
            }else{
             product.stock -= 1;
