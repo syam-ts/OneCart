@@ -1,6 +1,5 @@
 <%- include('../partials/header') %>
 
-<main>
   <!-- flash configuration -->
     <% if (msg.length > 0)  { %>
         <div id="flashMessage" style="background-color: #d4edda; text-align: center; padding: 10px; font-family: 'Courier New', Courier, monospace;">
@@ -14,21 +13,23 @@
       </script>
     <% } %>
     
+    
+<main>
 <section class=" h-14 text-center mt-3 p-4">
     <span class="michroma-regular">LATEST ARRIVALS</span>
 </section>
 
 <!-- carousel -->
-<section class="mt-3">
-  <div class="carousel w-full h-600">
+<section class="mt-1 md:w-full sm:w-full">
+  <div class="carousel w-full md:h-600">
       <div id="item1" class="carousel-item w-full">
-        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slider-01.jpg?v=1652056793" class="w-full h-600 object-cover" style="height: 600px;" />
+        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slider-01.jpg?v=1652056793" class="w-full h-96 md:h-auto object-cover" style="max-width: 100%; height: auto;" />
       </div> 
       <div id="item2" class="hidden carousel-item w-full">
-        <img src="/images/image-tourist-checking-out-something-cool-takeoff-sunglasses-say-wow-looking-aside-impressed.jpg" class="w-full h-600 object-cover" style="height: 600px;" />
+        <img src="/images/image-tourist-checking-out-something-cool-takeoff-sunglasses-say-wow-looking-aside-impressed.jpg" class="w-full h-96 md:h-auto object-cover" style="max-width: 100%; height: auto;" />
       </div> 
       <div id="item3" class="hidden carousel-item w-full">
-        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide2.jpg?v=1682405064&width=2200" class="w-full h-600 object-cover" style="height: 600px;" />
+        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/slide2.jpg?v=1682405064&width=2200" class="w-full h-96 md:h-auto object-cover" style="max-width: 100%; height: auto;" />
       </div> 
   </div> 
   <div class="flex justify-center w-full py-2 gap-2 mt-4">
@@ -38,23 +39,31 @@
   </div>
 </section>
 
+
 <section class=" h-14 text-center mt-3 p-4">
     <span class="text-gray-900 michroma-regular">CATEGORIES</span>
 </section>
 
-<section class="w-full mt-3 flex p-16" style="height: 745px;">
-  <a href="/category/Dress" class="relative inline-block overflow-hidden">
-    <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/1_2a9471ff-024d-40f7-a4b3-a15a058ff334_2022-03-24.jpg?v=1652056987&width=700" alt="" class="object-cover ml-36 transition-transform duration-300 transform hover:scale-110" style="width: 510px; height:630px">
-  </a>
-  <div class="grid">
-    <a href="/category/Footware" class="relative inline-block overflow-hidden">
-      <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/04_720x_e9fa28ca-2048-4d27-82bf-695916dc2c8b.jpg?v=1652661868&width=600" alt="" class="object-cover ml-36 transition-transform duration-300 transform hover:scale-110" style="height: 250px;width: 554px;">
+<section class="w-full mt-3 flex flex-col p-6 lg:p-16">
+  <div class="lg:flex lg:items-start lg:justify-start">
+    <a href="/category/Dress" class="relative inline-block overflow-hidden lg:w-1/3 lg:mr-6">
+      <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/1_2a9471ff-024d-40f7-a4b3-a15a058ff334_2022-03-24.jpg?v=1652056987&width=700" alt="" class="object-cover w-full lg:h-auto lg:rounded-lg transform hover:scale-110">
     </a>
-    <a href="/category/Watch" class="relative inline-block overflow-hidden">
-      <img src="https://www.lip.fr/c/22-category_default/panoramic.jpg" alt="" class="object-cover ml-36 mt-32 transition-transform duration-300 transform hover:scale-110" style="height: 250px;width: 554px;">
-    </a>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols lg:w-full gap-6 mt-6 lg:mt-0">
+      <a href="/category/Footware" class="relative inline-block overflow-hidden">
+        <img src="https://demo-kalles-4-1.myshopify.com/cdn/shop/files/04_720x_e9fa28ca-2048-4d27-82bf-695916dc2c8b.jpg?v=1652661868&width=600" alt="" class="object-cover w-full h-56 md:h-250px transform hover:scale-110">
+      </a>
+      <a href="/category/Watch" class="relative inline-block overflow-hidden">
+        <img src="https://www.lip.fr/c/22-category_default/panoramic.jpg" alt="" class="object-cover w-full h-56 md:h-250px transform hover:scale-110">
+      </a>
+
+    </div>
   </div>
 </section>
+
+
+
 
   <section class=" h-14 text-center mt-16 p-4 justify-center flex">
     <hr class="w-96">
@@ -76,9 +85,6 @@
                     <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 group-hover:opacity-0"/>
                     <img src="/product_images/<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 group-hover:opacity-100"/>
                     </div>
-
-
-                    
                     <div class=" flex justify-between">
                         <div>
                             <h3 class="text-sm text-gray-700">
@@ -117,36 +123,38 @@
        <hr class="border-gray-600 border-1 w-8/12">
     </div>
 
-    <section class="w-full h-80  flex justify-center items-center mt-48">
-
-      <div class="relative flex bg-clip-border  bg-white text-gray-700 shadow-md w-full max-w-[48rem] flex-row">
-        <div
-          class="relative w-2/5 m-0 overflow-hidden text-gray-700 bg-white  bg-clip-border  shrink-0">
-          <img src="/images/mathilde-langevin-LdPzzJcrPLM-unsplash.jpg" alt="card-image" class="object-cover w-full h-96" />
+    <section class="w-full h-auto md:h-80 flex justify-center items-center mt-8 md:mt-48">
+      <div class="relative flex flex-col md:flex-row bg-white text-gray-700 shadow-md w-full max-w-[48rem]">
+        <div class="relative w-full md:w-2/5 m-0 overflow-hidden bg-white">
+          <img src="/images/mathilde-langevin-LdPzzJcrPLM-unsplash.jpg" alt="card-image" class="object-cover w-full h-48 md:h-96" />
         </div>
         <div class="p-6">
-          <h6 class="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-gray-700 uppercase">
+          <h6 class="block mb-4 font-semibold text-xs uppercase md:text-base">
             *
           </h6>
-          <h4 class="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+          <h4 class="block mb-2 font-semibold text-xl md:text-2xl leading-snug text-blue-gray-900">
             Brands
           </h4>
         
-          <p class="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-gray-700">
+          <p class="block mb-8 font-normal text-sm md:text-base leading-relaxed text-gray-700">
             The immersive collection of different brands, which are:
             <% products.slice(0, 7).forEach((product) => { %>
               <%= product.brand %> <br>
             <% }); %>
           </p>
           
-          
-          <a href="#" class="inline-block"><button class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-gray-900/10 active:bg-gray-900/20" type="button">
-              Learn More<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4">
+          <a href="#" class="inline-block">
+            <button class="flex items-center gap-2 px-6 py-3 text-xs font-bold text-gray-900 uppercase transition-all rounded-lg select-none hover:bg-gray-900/10 active:bg-gray-900/20" type="button">
+              Learn More
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-              </svg></button></a>
+              </svg>
+            </button>
+          </a>
         </div>
       </div>  
     </section>
+    
 
     <section class=" h-14 text-center mt-16 p-4 justify-center flex">
       <hr class="w-96">
@@ -241,6 +249,7 @@
       </div>
   </div>
 </section>
+</main>
 
 <script>
   function showItem(itemId) {
@@ -263,7 +272,6 @@
   }
   setInterval(autoSlide, 2500);
 </script>
-</main>
 
 
 <%- include('../partials/footer') %>

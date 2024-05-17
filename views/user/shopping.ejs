@@ -7,30 +7,31 @@
         <hr class="w-96">
       </section>  
 <!---------------- sort items ---------------->
-  <section class="flex justify-end items-end">
-    <div class="relative">
-      <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-32 mr-44 border border-gray-950 bg-gray-50  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
-        <span class="flex items-center font-thin">Sort By</span>
-        <svg class="w-2.5 h-2.5 mt-2 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
-      </button>
-      <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-100 text-gray-950">
-        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-          <li>
-            <a href="/sortShopping/lowToHigh" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price: low to high</a>
-          </li>
-          <li>
-            <a href="/sortShopping/highToLow" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" >Price: high to low</a>
-          </li>
-          <li>
-            <a href="/sortShopping/aToZ" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetically, A-Z</a>
-          </li>
-          <li>
-            <a href="/sortShopping/zToA" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetically, Z-A</a>
-          </li>
-        </ul>
-      </div>
+<!-- Dropdown Section -->
+<section class="flex justify-end items-end p-4">
+  <div class="relative">
+    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-gray-950 h-9 w-32 border border-gray-950 bg-gray-50 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-5 py-2.5 inline-flex dark:bg-gray-50 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-blue-800 justify-center" type="button" onclick="toggleDropdown()">
+      <span class="flex items-center font-thin">Sort By</span>
+      <svg class="w-2.5 h-2.5 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+    </button>
+    <div id="dropdown" class="absolute right-0 z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-100 text-gray-950">
+      <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        <li>
+          <a href="/sortShopping/lowToHigh" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price: low to high</a>
+        </li>
+        <li>
+          <a href="/sortShopping/highToLow" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Price: high to low</a>
+        </li>
+        <li>
+          <a href="/sortShopping/aToZ" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetically, A-Z</a>
+        </li>
+        <li>
+          <a href="/sortShopping/zToA" class="block px-4 py-2 text-gray-950 font-thin hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Alphabetically, Z-A</a>
+        </li>
+      </ul>
     </div>
-  </section>
+  </div>
+</section>  
 
 <!-- Products -->
 <section class="ml-20">
@@ -80,37 +81,35 @@
 </section>
 
       <!------------------- category -------------------->
-      <section class=" h-14 text-center mt-16 p-4 justify-center flex">
-        <hr class="w-96">
-        <span class="text-gray-900 michroma-regular">CATEGORIES</span>
-        <hr class="w-96">
-      </section> 
-
-      <section class="flex flex-row justify-center mb-40">
+      <section class="h-14 text-center mt-16 p-4 flex flex-col items-center">
+        <div class="flex items-center w-full max-w-3xl">
+          <hr class="flex-1">
+          <span class="text-gray-900 michroma-regular mx-4">CATEGORIES</span>
+          <hr class="flex-1">
+        </div>
+      </section>
+      
+      <section class="flex flex-wrap justify-center mb-40">
         <% categories.forEach(cate => { %>
-          <a href="/category/<%= cate.categoryName %>">
-            <div class=" bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12">
-              <div class="max-w-7xl mx-auto">
-                <div class="relative group p-5 w-72">
-                  <div class="absolute -inset-1  rounded-lg blur  group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+          <a href="/category/<%= cate.categoryName %>" class="m-4">
+            <div class="bg-gray-50 flex flex-col justify-center relative overflow-hidden sm:py-12">
+              <div class="max-w-xs mx-auto sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+                <div class="relative group p-5 w-full">
+                  <div class="absolute -inset-1 rounded-lg blur group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
                   <div class="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6 border-gray-400 border hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90%">
                     <div class="space-y-2">
-                      <p class="text-slate-800 font-semibold"> <%= cate.categoryName %> </p>
+                      <p class="text-slate-800 font-semibold"><%= cate.categoryName %></p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </a>
-       
         <% }) %>
       </section>
       
-    
-    
-
-
 </main>
+
 <script>
 
     const selectElement = document.getElementById('countries');
@@ -144,7 +143,6 @@ categoryDetail.addEventListener('click', () => {
 });
 
 </script>
-
 
 
 <%- include('../partials/footer') %>
