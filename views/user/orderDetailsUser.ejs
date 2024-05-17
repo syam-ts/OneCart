@@ -323,10 +323,10 @@
           <p class="font-medium text-gray-800"><%= pro.productName %></p>
         </div>
         <div>
-          <p class="text-gray-800"><%= pro.price %></p>
+          <p class="text-gray-800"><%= pro.price %>₹</p>
         </div>
         <div>
-          <p class="text-gray-800">200<%= pro.discountPrice %></p>
+          <p class="text-gray-800">200<%= pro.discountPrice %>₹</p>
         </div>
         <div>
           <p class="sm:text-end text-gray-800"><%= pro.size  %></p>
@@ -343,17 +343,17 @@
           
           <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
             <dt class="col-span-3 text-gray-900">Discount:</dt>
-            <dd class="col-span-2 font-medium text-gray-800"><%= order.discountPrice %></dd>
+            <dd class="col-span-2 font-medium text-gray-800"><%= order.discountPrice %>₹</dd>
           </dl>
   
           <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
             <dt class="col-span-3 text-gray-900">Tax:</dt>
-            <dd class="col-span-2 font-medium text-gray-800">00.00</dd>
+            <dd class="col-span-2 font-medium text-gray-800">00.00₹</dd>
           </dl>
   
           <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
             <dt class="col-span-3 text-gray-900">Total Amount paid:</dt>
-            <dd class="col-span-2 font-medium text-gray-800"><%= order.total %></dd>
+            <dd class="col-span-2 font-medium text-gray-800"><%= order.total %>₹</dd>
           </dl>
 
         </div>
@@ -372,12 +372,12 @@
         </div>
         <% }else{ %>
 
-        <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-12 bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModalCancel()">
+        <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-10 bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModalCancel()">
         Cancel
        </button>
         <% } %>
         <% if(order.status == "Delivered" || order.status == "returnRejected") {%>  
-            <button class="align-middle ml-12 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-12 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModal()">
+            <button class="align-middle ml-12 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-10 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModal()">
                 Return
                 </button>
                 <button onclick="exportToPDF()" class="ml-12 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
