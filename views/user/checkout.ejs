@@ -29,62 +29,66 @@
                         </div>
                     </div>
                 </section>
-                <section  id="shippingAddressSection">
+                
         <!--------------- Shipping Address Section --------------->
-        <% if(address.length == 0){ %>
-            <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
-            <div class="flex-row items-center mb-4 pl-96 bg-white mx-12 mt-5">
-            <a href="/addAddress" class="bg-stone-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded mr-2">Add Address</a>
-            </div>
-            <% }else{ %>
-                    <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
-                    <div class="flex-row items-center mb-4 pl-96 bg-white  mx-12">
-                        <% for (let i = 0; i < address.length; i++) { %>
-                            <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="<%= address[i].id %>">
+        <section id="shippingAddressSection" class="p-4">
+            <% if(address.length == 0){ %>
+                <h2 class="mb-4 mt-6 font-bold text-xl text-heading text-center">Shipping Address</h2>
+                <div class="flex justify-center mb-4 bg-white mt-5">
+                    <a href="/addAddress" class="bg-stone-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded">Add Address</a>
+                </div>
+            <% } else { %>
+                <h2 class="mb-4 mt-6 font-bold text-xl text-heading text-center">Shipping Address</h2>
+                <div class="flex flex-col items-center mb-4 bg-white mx-2 md:mx-12 lg:mx-72">
+                    <% for (let i = 0; i < address.length; i++) { %>
+                        <div class="flex items-start mb-4 w-full md:w-2/3">
+                            <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 mr-2" value="<%= address[i].id %>">
                             <ul class="text-sm text-gray-900 list-none list-inside font-mono dark:text-gray-900">
-                                <li>
-                                    <%= address[i].name %></li>
-                                <li>
-                                    <%= address[i].address %>, <%= address[i].city %></li>
-                                <li>
-                                    <%= address[i].pincode %>, <%= address[i].state %>, <%= address[i].country %></li>
+                                <li><%= address[i].name %></li>
+                                <li><%= address[i].address %>, <%= address[i].city %></li>
+                                <li><%= address[i].pincode %>, <%= address[i].state %>, <%= address[i].country %></li>
                             </ul>
-                        <% } %>
-                    </div>
+                        </div>
                     <% } %>
-              </section>
-                <section class="mt-12 ml-96 bg-white">
+                </div>
+            <% } %>
+        </section>
                     <!-- Coupons Section -->
-                    <h3 class="text-lg font-bold text-[#333] mb-6  border-b border-gray-900">Coupons</h3>
-                    <select id="couponValues" class="bg-gray-50 h-9 w-56 mt-5 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-1.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        <option selected disabled selected>Available Coupons</option>
-                        <% coupon.forEach(coup => { %>
-                            <option value="<%= coup.discount %>"><%= coup.couponCode %></option>
+                    <section class="mt-12 bg-white p-4 md:p-6 lg:ml-96">
+                        <!-- Coupons Section -->
+                        <h3 class="text-lg font-bold text-[#333] mb-6 border-b border-gray-900">Coupons</h3>
+                        <select id="couponValues" class="bg-gray-50 h-9 w-full md:w-56 mt-5 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block p-1.5 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option selected disabled>Available Coupons</option>
+                            <% coupon.forEach(coup => { %>
+                                <option value="<%= coup.discount %>"><%= coup.couponCode %></option>
                             <% }) %>
-                    </select>
-                    <div class="flex gap-6 max-sm:flex-col mt-5">
-                        <button id="addCoupon" type="button" class="px-6 py-1.5 w-36 text-sm font-serif bg-cyan-500 text-gray-900 hover:bg-[#222] hover:text-white">
-                        Add Coupon</button>
-                  
-                        <button id="removeCoupon" type="button" class="px-6 py-1 w-32 text-sm font-serif bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
-                        Remove </button>
-                    </div>
-                </section>
-                <section class="mt-12 ml-96 bg-white">
+                        </select>
+                        <div class="flex flex-col md:flex-row gap-4 mt-5">
+                            <button id="addCoupon" type="button" class="px-6 py-1.5 w-full md:w-36 text-sm font-serif bg-cyan-500 text-gray-900 hover:bg-[#222] hover:text-white">
+                            Add Coupon</button>
+                    
+                            <button id="removeCoupon" type="button" class="px-6 py-1 w-full md:w-32 text-sm font-serif bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
+                            Remove</button>
+                        </div>
+                    </section>
+                    
                     <!-- Payment Method Section -->
-                    <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
-                    <div class="flex-col mb-4">
-                        <input id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                        <label for="paymentMethod" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Cash on Delivery</label>
+                    <section class="mt-12 bg-white p-4 md:p-6 lg:ml-96">
+                        <h3 class="text-lg font-bold text-[#333] mb-6">Payment Method</h3>
+                        <div class="flex flex-row mb-4">
+                            <input id="default-radio-1" type="radio" value="Cash on Delivery" name="paymentMethod" class="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 mb-2">
+                            <label for="default-radio-1" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Cash on Delivery</label>
+                    
+                            <input id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 mb-2">
+                            <label for="default-radio-2" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Razor Pay</label>
+                    
+                            <input id="default-radio-3" type="radio" value="Wallet" name="paymentMethod" class="w-4 h-4 ml-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600 mb-2">
+                            <label for="default-radio-3" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Wallet</label>
+                            <!-- <span id="walletAmount"></span> -->
+                        </div>
+                    </section>
+                    
 
-                        <input id="default-radio-2" type="radio" value="Razor Pay" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                        <label for="paymentMethod" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900">Razor Pay</label>
-
-                        <input id="default-radio-2" type="radio" value="Wallet" name="paymentMethod" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  dark:bg-gray-700 dark:border-gray-600">
-                        <label for="paymentMethod" class="ms-2 text-sm font-extrabold text-gray-900 dark:text-gray-900"> Wallet </label>
-                        <!-- <span id="walletAmount"></span> -->
-                    </div>
-                </section>
                 <section>
                <% if(Array.isArray(wallet) && wallet.length == 0) { %>
                     <div class="flex gap-6 max-sm:flex-col mt-10">
@@ -104,10 +108,10 @@
                 </section>
             </div>
             <!-- Right Section -->
-            <section class=" border border-gray-900 flex flex-col" id="rightSection" >
-            <div class="lg:w-3/3 lg:pl-4 mt-4 lg:mt-0">
-                    <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-4/5 mt-5">
-                        <div class="pt-12 md:pt-0 2xl:ps-4 bg-white border border-gray-900">
+            <section class="flex flex-col" id="rightSection">
+            <div class="lg:w-3/3 lg:pl-4 mt-4 lg:mt-0 ">
+                    <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-4/5 mt-5 border border-gray-900">
+                        <div class="pt-12 md:pt-0 2xl:ps-4 bg-white">
                             <h2 class="text-xl font-bold">Order Summary</h2>
                             <div class="mt-8">
                              <div class="container">
