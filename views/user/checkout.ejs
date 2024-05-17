@@ -5,11 +5,11 @@
     <main class="container mx-auto">
         <div class="flex flex-col lg:flex-row">
             <!-- Left Section -->
-            <div id="leftSection" class="lg:w-2/3 lg:pr-4">
+            <div id="leftSection" class="lg:w-2/3 lg:pr-4 border border-gray-900">
                 <section>
                     <div class="container p-12 mx-auto justify-start">
-                        <div class="flex flex-col w-full px-0 mx-auto md:flex-row">
-                            <div class="flex flex-col md:w-full bg-white shadow-xl border-t mx-12">
+                        <div class="flex flex-col w-full px-0 mx-auto md:flex-row border border-gray-900">
+                            <div class="flex flex-col md:w-full bg-white mx-12">
 
                                 <h2 class="mb-4 font-bold md:text-xl text-heading text-center mt-5">Personal Details</h2>
                                 <div class="flex-row items-center mb-4">
@@ -33,12 +33,12 @@
         <!--------------- Shipping Address Section --------------->
         <% if(address.length == 0){ %>
             <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
-            <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12 mt-5">
+            <div class="flex-row items-center mb-4 pl-96 bg-white mx-12 mt-5">
             <a href="/addAddress" class="bg-stone-500 hover:bg-blue-600 text-white font-bold py-1 px-4 rounded mr-2">Add Address</a>
             </div>
             <% }else{ %>
                     <h2 class="mb-4 mt-6 font-bold md:text-xl text-heading text-center">Shipping Address</h2>
-                    <div class="flex-row items-center mb-4 pl-96 bg-white shadow-xl border-t mx-12">
+                    <div class="flex-row items-center mb-4 pl-96 bg-white  mx-12">
                         <% for (let i = 0; i < address.length; i++) { %>
                             <input type="radio" name="selectedAddress" class="address-radio w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 dark:bg-gray-700 dark:border-gray-600" value="<%= address[i].id %>">
                             <ul class="text-sm text-gray-900 list-none list-inside font-mono dark:text-gray-900">
@@ -55,7 +55,7 @@
               </section>
                 <section class="mt-12 ml-96 bg-white">
                     <!-- Coupons Section -->
-                    <h3 class="text-lg font-bold text-[#333] mb-6">Coupons</h3>
+                    <h3 class="text-lg font-bold text-[#333] mb-6  border-b border-gray-900">Coupons</h3>
                     <select id="couponValues" class="bg-gray-50 h-9 w-56 mt-5 border border-gray-300 text-gray-900 text-sm  focus:ring-blue-500 focus:border-blue-500 block p-1.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option selected disabled selected>Available Coupons</option>
                         <% coupon.forEach(coup => { %>
@@ -63,10 +63,10 @@
                             <% }) %>
                     </select>
                     <div class="flex gap-6 max-sm:flex-col mt-5">
-                        <button id="addCoupon" type="button" class="rounded-md px-6 py-1.5 w-36 text-sm font-bold bg-cyan-400 text-gray-900 hover:bg-[#222] hover:text-white">
+                        <button id="addCoupon" type="button" class="px-6 py-1.5 w-36 text-sm font-serif bg-cyan-500 text-gray-900 hover:bg-[#222] hover:text-white">
                         Add Coupon</button>
                   
-                        <button id="removeCoupon" type="button" class="rounded-md px-6 py-1 w-32 text-sm font-bold bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
+                        <button id="removeCoupon" type="button" class="px-6 py-1 w-32 text-sm font-serif bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
                         Remove </button>
                     </div>
                 </section>
@@ -88,15 +88,15 @@
                 <section>
                <% if(Array.isArray(wallet) && wallet.length == 0) { %>
                     <div class="flex gap-6 max-sm:flex-col mt-10">
-                            <a href="/cart" type="button" class="rounded-md px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</a>
-                            <button id="placeOrder" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#23f353] text-white hover:bg-[#222]" >
+                            <a href="/cart" type="button" class="px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</a>
+                            <button id="placeOrder" type="button" class="h-12 px-6 py-1 w-full text-sm font-semibold bg-indigo-700 text-white hover:bg-[#222]" >
                                 Complete Purchase
                            </button>
                       </div>
                 <% }else{ %>
                 <div class="flex gap-6 max-sm:flex-col mt-10">
-                    <a href="/cart" type="button" class="rounded-md pl-36 px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</a>
-                    <button id="placeOrder" value="<%= wallet[0].amount %>" type="button" class="rounded-md h-12 px-6 py-1 w-full text-sm font-semibold bg-[#50b367] text-white hover:bg-[#222]" >
+                    <a href="/cart" type="button" class="pl-36 px-6 h-12 py-3 w-full text-sm font-semibold bg-stone-300 hover:bg-gray-100 border-2 text-[#333]">Cancel</a>
+                    <button id="placeOrder" value="<%= wallet[0].amount %>" type="button" class="h-12 px-6 py-2 w-full text-sm font-semibold bg-indigo-700 text-white hover:bg-[#222]" >
                         Complete Purchase
                          </button>
                       </div>
@@ -105,9 +105,9 @@
             </div>
             <!-- Right Section -->
             <div id="rightSection" class="lg:w-1/3 lg:pl-4 mt-4 lg:mt-0">
-                <section>
+                <section class=" border border-gray-900">
                     <div class="flex flex-col w-full ml-0 lg:ml-12 lg:w-2/5 mt-5">
-                        <div class="pt-12 md:pt-0 2xl:ps-4 bg-white shadow-md rounded-md">
+                        <div class="pt-12 md:pt-0 2xl:ps-4 bg-white border border-gray-900">
                             <h2 class="text-xl font-bold">Order Summary</h2>
                             <div class="mt-8">
                   <div class="container">
