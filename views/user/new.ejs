@@ -1,0 +1,33 @@
+<div class="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10">
+    <table class="w-full table-fixed">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Order Id</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Email</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Tottal</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Discount</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Payment Type</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Order Status</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Details</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            <% for(let i = 0; i < orders.length; i++){ %>
+
+            <tr>
+                <td class="py-4 px-6 border-b border-gray-200">
+                    <% const ORDID = parseInt(Math.random() * 2342332320); %>
+                    <%= ORDID %></td>
+                <td class="py-4 px-6 border-b border-gray-200 truncate"><%= user.email %></td>
+                <td class="py-4 px-6 border-b border-gray-200">  <%= total[i] %></td>
+                <td class="py-4 px-6 border-b border-gray-200"><%= orders[i].discountPrice %> %</td>
+                <td class="py-4 px-6 border-b border-gray-200"><%= orders[i].paymentMethod %> %</td>
+                <td class="py-4 px-6 border-b border-gray-200"><%= orders[i].status %> %</td>
+                <td class="py-4 px-6 border-b border-gray-200"><div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">
+                    Details
+                </a></div></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>

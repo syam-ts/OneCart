@@ -5,7 +5,7 @@
     <%- include('../partials/userProfileSidebar') %>
 </section>
 
-<section class="antialiased bg-gray-50 text-gray-600 h-screen mr-auto mx-auto mt-12">
+<section class="antialiased bg-gray-50 text-gray-600 h-screen mr-auto mx-auto mt-12 xl:mb-1 mb-96">
   <div class="flex flex-col h-full">
       <!------------------- Table -------------------->
       <div class="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
@@ -36,67 +36,43 @@
 
           <div class="p-3">
               <div class="overflow-x-auto">
-                  <table class="table-auto w-full">
-                      <thead class="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                          <tr>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-left">OrderId</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-left">Email</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-center">Total</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-center">Discount</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-center">Payment Type</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-center">Order Status</div>
-                              </th>
-                              <th class="pl-24 whitespace-nowrap">
-                                  <div class="font-semibold text-center">Details</div>
-                              </th>
-                              
-                          </tr>
-                      </thead>
-                      <tbody class="text-sm divide-y divide-gray-100">
-                        <% for(let i = 0; i < orders.length; i++){ %>
-                          <tr>
-                            <td class="pl-24 pt-5 whitespace-nowrap">
-                                <% const ORDID = parseInt(Math.random() * 2342332320); %>
-                                <div class="text-left"> <%= ORDID %> </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <%= user.email %> </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <%= total[i] %> </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <%= orders[i].discountPrice %> % </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <%= orders[i].paymentMethod %> </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <%= orders[i].status %> </div>
-                              </td>
-                              <td class="pl-24 pt-5 whitespace-nowrap">
-                                  <div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">
-                                    Details
-                                </a></div>
-                              </td>
-                          </tr>
-                          <% } %>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
+
+
+
+                 <div class="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10">
+    <table class="w-full table-fixed">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="w-1/4 py-4 px-6 text-left text-xs text-gray-600 font-bold uppercase">Order Id</th>
+                <th class="w-1/4 py-4 px-6 text-left text-xs text-gray-600 font-bold uppercase">Total</th>
+                <th class="w-1/4 py-4 px-6 text-left text-xs text-gray-600 font-bold uppercase">Discount</th>
+                <th class="w-1/4 py-4 px-6 text-left text-xs text-gray-600 font-bold uppercase">Payment Type</th>
+                <th class="w-1/4 py-4 px-6 text-left text-xs text-gray-600 font-bold uppercase">Order Status</th>
+                <th class="w-1/4 py-4 px-6 text-left text-xs text-gray-600 font-bold uppercase">Details</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            <% for(let i = 0; i < orders.length; i++){ %>
+
+            <tr>
+                <td class="py-4 px-6 text-xs border-b border-gray-200">
+                    <% const ORDID = parseInt(Math.random() * 2342332320); %>
+                    <%= ORDID %></td>
+                <td class="py-4 px-6 border-b text-xs border-gray-200">  <%= total[i] %></td>
+                <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].discountPrice %> %</td>
+                <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].paymentMethod %> %</td>
+                <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].status %> %</td>
+                <td class="py-4 px-6 border-b text-xs border-gray-200"><div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">
+                    Details
+                </a></div></td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+   </div>
+   </div>
+   </div>
+    </div>
   </div>
 </section>
 </main>
