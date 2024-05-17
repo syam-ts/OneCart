@@ -1,10 +1,11 @@
 <%- include('../partials/header') %>
 
-<main class="flex justify-start">
-<section class="justify-start">
+<main class="flex flex-wrap w-full">
+  <section>
     <%- include('../partials/userProfileSidebar') %>
-</section>
+  </section>
 
+<!-- 
    <section class="py-24 relative" id="main">
         <div class="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto">
             <div class="flex items-start flex-col gap-6 xl:flex-row ">
@@ -78,7 +79,8 @@
                     </div>
                     
                 </div>
-
+<div>   <button onclick="printInvoice()">Invoice</button></div>
+             
                 
                 <dialog id="my_modal_1" class="modal w-3/6 h-4/6  bg-stone-400 rounded-lg">
                     <div class="modal-box rounded-md">
@@ -213,12 +215,12 @@
             </div>
             
         </div>
-    </section>   
+    </section>    -->
 
     <!----- invoice section ----->
 
- <section class="w-full hidden" >
-<div class="w-full px-4 sm:px-6 lg:px-8 my-4 sm:my-10" id="invoiceContent">
+    <section class="w-full lg:w-3/4 flex justify-center" id="invoice">
+<div class="w-full px-4 sm:px-6 lg:px-8 my-4 sm:my-10" >
     <div class="mb-5 pb-5 flex justify-between items-center border-b border-gray-200">
       <div>
         <h2 class="text-2xl font-semibold text-gray-800">Invoice</h2>
@@ -284,10 +286,12 @@
   
           <dl class="grid sm:flex gap-x-3 text-sm">
             <dt class="min-w-36 max-w-[200px] text-gray-500">
-              Due date:
+              Purchased date:
             </dt>
             <dd class="font-medium text-gray-800">
-                <%= order.createdate %>
+              <% var createDate = new Date(order.createdate);
+                    var date = createDate.toLocaleDateString(); %>
+                    <p><%= date %></p>
             </dd>
           </dl>
   
@@ -305,16 +309,16 @@
   
     <!-- Table --->
     
-    <div class="mt-6 border border-gray-200 p-4 rounded-lg space-y-4">
+    <div class="mt-6 border p-4 space-y-4  border-b border-gray-900">
 
       <div class="hidden sm:grid sm:grid-cols-5">
-        <div class="sm:col-span-2 text-xs font-medium text-gray-500 uppercase">Item</div>
-        <div class="text-start text-xs font-medium text-gray-500 uppercase">Price</div>
-        <div class="text-start text-xs font-medium text-gray-500 uppercase">Discount</div>
-        <div class="text-end text-xs font-medium text-gray-500 uppercase">size</div>
+        <div class="sm:col-span-2 text-xs font-bold text-gray-950 uppercase">Item</div>
+        <div class="text-start text-xs font-bold text-gray-950 uppercase">Price</div>
+        <div class="text-start text-xs font-bold text-gray-950 uppercase">Discount</div>
+        <div class="text-end text-xs font-bold text-gray-950 uppercase">size</div>
       </div>
       <% product.forEach(pro => { %>
-      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2  border-b border-gray-900">
         <div class="col-span-full sm:col-span-2">
           <p class="font-medium text-gray-800"><%= pro.productName %></p>
         </div>
@@ -328,8 +332,9 @@
           <p class="sm:text-end text-gray-800"><%= pro.size  %></p>
         </div>
       </div>
-    </div>
+      
     <% }) %>
+    </div>
     <!-- End Table  --->
   
     <div class="mt-8 flex sm:justify-end">
@@ -337,17 +342,17 @@
         <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
           
           <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
-            <dt class="col-span-3 text-gray-500">Discount:</dt>
+            <dt class="col-span-3 text-gray-900">Discount:</dt>
             <dd class="col-span-2 font-medium text-gray-800"><%= order.discountPrice %></dd>
           </dl>
   
           <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
-            <dt class="col-span-3 text-gray-500">Tax:</dt>
+            <dt class="col-span-3 text-gray-900">Tax:</dt>
             <dd class="col-span-2 font-medium text-gray-800">00.00</dd>
           </dl>
   
           <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
-            <dt class="col-span-3 text-gray-500">Total Amount paid:</dt>
+            <dt class="col-span-3 text-gray-900">Total Amount paid:</dt>
             <dd class="col-span-2 font-medium text-gray-800"><%= order.total %></dd>
           </dl>
 
@@ -357,6 +362,69 @@
   </div>
     </section> 
 
+
+    <section class="flex flex-row pl-72">
+      <% if(order.status == "Cancelled") {%>
+        <div class="total flex items-center justify-between pt-6">
+            <span class="text-xl">Reason:&nbsp;&nbsp;&nbsp;&nbsp;<span class="bg-yellow-400"> <%= order.cancelReason %> </span></span>
+            <button class="font-normal text-xl leading-8 text-red-600 pl-5">Cancelled</button>
+
+        </div>
+        <% }else{ %>
+
+        <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-12 bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModalCancel()">
+        Cancel
+       </button>
+        <% } %>
+        <% if(order.status == "Delivered" || order.status == "returnRejected") {%>  
+            <button class="align-middle ml-12 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-12 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModal()">
+                Return
+                </button>
+                <button onclick="exportToPDF()" class="ml-12 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+                    Dowload Invoice
+                   </button>
+        <% } %>
+        <% if(order.status == "PaymentFailed") {%>  
+            <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button"
+             onclick="rePayment('<%= order.id %> ','<%= order.total %>')">
+                Complete Payment
+                </button>
+                
+        <% } %>
+    </section>
+    <dialog id="my_modal_1" class="modal w-3/6 h-4/6  bg-stone-400 rounded-lg">
+      <div class="modal-box rounded-md">
+          <h3 class="font-bold text-lg mt-12">Return</h3>
+          <div class="modal-action">
+              <form method="dialog">
+              <span>Reason For Return</span>
+                  <textarea id="reason" class="w-full mt-12 h-40 bg-gray-200 p-2 mb-4"></textarea>
+                  <div class="mt-12 ml-80">
+                      <button onclick="returnOrder('<%= order.id %>')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Submit</button>
+                      <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModal()">Close</button>
+                 
+                  </div>
+             </form>
+          </div>
+      </div>
+  </dialog>
+  
+
+  <dialog id="my_modal_2" class="modal w-3/6 h-4/6  bg-stone-400 rounded-lg">
+      <div class="modal-box rounded-md">
+          <h3 class="font-bold text-lg mt-12">Cancel</h3>
+          <div class="modal-action">
+              <form method="dialog">
+              <span>Reason For Cancel</span>
+                  <textarea id="reasonCancel" class="w-full mt-12 h-40 bg-gray-200 p-2 mb-4"></textarea>
+                  <div class="mt-12 ml-80">
+                      <button onclick="orderCancel('<%= order.id %>')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Submit</button>
+                      <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModalCancel()">Close</button>
+                  </div>
+             </form>
+          </div>
+      </div>
+  </dialog>
 </main>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -436,16 +504,15 @@
 
   //------------ downlaod Invoice ---------------//
 function exportToPDF() {
+    const invoiceContent = document.getElementById('invoice');
+
     const opt = {
         margin: 4,
         filename: 'invoice.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'Landscape' },
     };
-
-    // Select and download only the hidden content
-    const invoiceContent = document.getElementById('main');
 
     // Convert to PDF
     html2pdf().from(invoiceContent).set(opt).save();
