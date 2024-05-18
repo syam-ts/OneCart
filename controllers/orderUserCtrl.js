@@ -7,6 +7,7 @@ const User = require('../models/userMdl');
 const Wallet = require('../models/walletMdl');
 const Razorpay = require('razorpay');
 
+
   /**
          * ! For User order 
                                        **/
@@ -27,7 +28,7 @@ const createOrder = async (req, res) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Basic ${Buffer.from(`${RAZORPAY_ID_KEY}:${RAZORPAY_SECRET_KEY}`).toString('base64')}`
+                'Authorization': `Basic ${Buffer.from(`${process.env.RAZORPAY_ID_KEY}:${process.env.RAZORPAY_SECRET_KEY}`).toString('base64')}`
             },
             body: JSON.stringify({
                 "amount": totalPrice,
