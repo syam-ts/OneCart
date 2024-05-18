@@ -3,14 +3,13 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
+require('dotenv').config(); 
 const dotenv = require('dotenv');
 const nocache = require("nocache");
 const app = express();
 const connectDB = require('./DB/db');
 const flash = require('connect-flash');
-const swal = require('sweetalert');
 const cors = require('cors');
-const toastr = require('toastr')
 
 
 app.use(cors());
@@ -26,9 +25,9 @@ const secretKey = process.env.SESSION_SECRET;
 app.use(session({
     secret: secretKey,
     resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 36000000 }, 
+    saveUninitialized: true
 }));
+
 
 
 
