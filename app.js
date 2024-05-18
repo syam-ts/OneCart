@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({extended:true}));
 //dotdev
 dotenv.config({path:'./.env'})
 
-const secretKey = process.env.SESSION_SECRET;
 app.use(session({
-    secret: secretKey,
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true
-}));
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }));
 
 
 
