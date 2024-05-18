@@ -6,7 +6,6 @@ const Cart = require('../models/cartMdl');
 const User = require('../models/userMdl');
 const Wallet = require('../models/walletMdl');
 const Razorpay = require('razorpay');
-const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
   /**
          * ! For User order 
@@ -15,8 +14,8 @@ const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
  //<------------ razorpay config -------------->
  const razorpay  = new Razorpay({
-    key_id: RAZORPAY_ID_KEY,
-    key_secret: RAZORPAY_SECRET_KEY
+    key_id: process.env.RAZORPAY_ID_KEY,
+    key_secret: process.env.RAZORPAY_SECRET_KEY
 });
 
 
