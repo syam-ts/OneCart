@@ -28,7 +28,7 @@ const createOrder = async (req, res) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Basic ${Buffer.from(`${razorpayApiKey}:${razorpaySecretKey}`).toString('base64')}`
+                'Authorization': `Basic ${Buffer.from(`${RAZORPAY_ID_KEY}:${RAZORPAY_SECRET_KEY}`).toString('base64')}`
             },
             body: JSON.stringify({
                 "amount": totalPrice,
