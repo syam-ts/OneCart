@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
 const morgan = require('morgan');
-require('dotenv').config(); 
 const dotenv = require('dotenv');
 const nocache = require("nocache");
 const app = express();

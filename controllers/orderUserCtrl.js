@@ -1,4 +1,4 @@
-
+require('dotenv').config(); 
 const Product = require('../models/productMdl');
 const Address = require('../models/addressMdl');
 const Order = require('../models/orderMdl');
@@ -43,6 +43,8 @@ const createOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+
 
 //<------------ for COD and wallet -------------->
 const insertOrder = async (req, res) => {
