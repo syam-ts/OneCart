@@ -18,15 +18,11 @@ const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
     key_id: RAZORPAY_ID_KEY,
     key_secret: RAZORPAY_SECRET_KEY
 });
-console.log('The id :', RAZORPAY_ID_KEY)
 
 
 //<------------ for razorpay -------------->
 const createOrder = async (req, res) => {
     try {
-        
-        const razorpayApiKey = process.env.RAZORPAY_ID_KEY;
-        const razorpaySecretKey = process.env.RAZORPAY_SECRET_KEY;
         const totalPrice = req.body.totalPrice;
         const response = await fetch('https://api.razorpay.com/v1/orders', {
             method: 'POST',
