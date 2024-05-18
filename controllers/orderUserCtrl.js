@@ -14,10 +14,11 @@ const { RAZORPAY_ID_KEY, RAZORPAY_SECRET_KEY } = process.env;
 
 
  //<------------ razorpay config -------------->
- const razorpayInstance = new Razorpay({
+ const razorpay  = new Razorpay({
     key_id: RAZORPAY_ID_KEY,
     key_secret: RAZORPAY_SECRET_KEY
 });
+console.log('The id :', RAZORPAY_ID_KEY)
 
 
 //<------------ for razorpay -------------->
