@@ -1,4 +1,5 @@
-require('dotenv').config(); 
+require('dotenv').config(); // Ensure this is at the very top
+
 const Product = require('../models/productMdl');
 const Address = require('../models/addressMdl');
 const Order = require('../models/orderMdl');
@@ -8,19 +9,15 @@ const Wallet = require('../models/walletMdl');
 const Razorpay = require('razorpay');
 
 
-  /**
-         * ! For User order 
-                                       **/
+console.log("RAZORPAY_ID_KEY:", process.env.RAZORPAY_ID_KEY);
+console.log("RAZORPAY_SECRET_KEY:", process.env.RAZORPAY_SECRET_KEY);
 
-
- //<------------ razorpay config -------------->
- const razorpay  = new Razorpay({
+// Initialize Razorpay instance
+const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_ID_KEY,
     key_secret: process.env.RAZORPAY_SECRET_KEY
 });
 
-
-//<------------ for razorpay -------------->
 const createOrder = async (req, res) => {
     try {
         const totalPrice = req.body.totalPrice;
@@ -31,7 +28,7 @@ const createOrder = async (req, res) => {
                 'Authorization': `Basic ${Buffer.from(`${process.env.RAZORPAY_ID_KEY}:${process.env.RAZORPAY_SECRET_KEY}`).toString('base64')}`
             },
             body: JSON.stringify({
-                "amount": totalPrice,
+                "amount": totalPrice * 100, 
                 "currency": "INR",
                 "receipt": "receipt-001"
             })
@@ -43,7 +40,6 @@ const createOrder = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 
 //<------------ for COD and wallet -------------->

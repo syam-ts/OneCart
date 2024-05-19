@@ -70,11 +70,22 @@ app.use('/admin', adminRouter);
 const PORT = process.env.PORT || 4000;
 
 // Start the server
-const server = app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-    connectDB().then(() => {
+const startServer = async () => {
+    try {
+        await connectDB();
         console.log('Database connected');
-    }).catch((error) => {
-        console.log('cant connet to the sever');
-    });
-});
+
+        const server = app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+
+        // Handle server errors
+        server.on('error', (error) => {
+            console.error('Server error:', error.message);
+        });
+    } catch (error) {
+        console.error('Error starting server:', error.message);
+    }
+};
+
+startServer();

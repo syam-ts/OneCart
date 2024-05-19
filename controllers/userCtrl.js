@@ -72,8 +72,8 @@ const securePassword = async(password) => {
       req.flash('msg', 'Email not matching')
       res.redirect('/login');
     }
-    } catch (error) {
-      res.send(error.message)
+    } catch (err) {
+      res.render('error',{message : err.message});
     }
    };
 
