@@ -247,7 +247,9 @@
                   orderId : orderId,
                   reason: reason
               })
-          }) 
+          }).then(() => {
+            window.location =   `/orderDetailsUser/${orderId}`;
+          })
       };
 
 
