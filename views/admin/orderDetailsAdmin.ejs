@@ -90,7 +90,7 @@
 </section>
                                         
 <section class="ml-96 pb-32">
-    <% if(orders.status != "returnAccepted"){ %>
+    <% if(orders.status != "returnAccepted" && orders.status != "returnRejected"){ %>
    
     <% if(orders.return){ %>
         <% if(orders.return.return === true){ %>
@@ -116,21 +116,20 @@
     const acceptReturn = (orderId) => {
         alert(orderId)
         fetch('/admin/returnAccept',{
-                        method:"POST",
-                        headers:{
-                            "Content-Type" : "application/json"
-                        },
-                        body:JSON.stringify({
-                            orderId : orderId
-                          })
-                            }).then(() => {
-                                    window.location.href = '/admin/orderManagement'
-                            })
-    }
+            method:"POST",
+            headers:{
+                "Content-Type" : "application/json"
+            },
+            body:JSON.stringify({
+                orderId : orderId
+              })
+                }).then(() => {
+                  window.location.href = '/admin/orderManagement'
+           })
+     }
 
     // -------------- order return reject -----------------
     const rejectReturn = (orderId) => {
-        alert(orderId)
         fetch('/admin/returnReject',{
             method:"POST",
             headers:{
@@ -140,7 +139,8 @@
                 orderId : orderId
               })
                 }).then(() => {
-      })}
+                    window.location.href = `/admin/orderDetailsAdmin/${orderId}`;
+         })}
 
 
 
