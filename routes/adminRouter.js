@@ -58,9 +58,9 @@ Router.post('/returnReject',orderAdminCtrl.returnReject);
 Router.get('/orders/Daily',orderAdminCtrl.orderDaily) 
 Router.get('/orders/Monthly',orderAdminCtrl.orderMonthly) 
 Router.get('/orders/Yearly',orderAdminCtrl.orderYearly);
+Router.get('/orderDetailsAdmin/:id', orderAdminCtrl.orderDetailsAdmin);
 
    //<------------ salse routes -------------->
-Router.get('/orderDetailsAdmin/:id', orderAdminCtrl.orderDetailsAdmin);
 Router.get('/salesReport',orderAdminCtrl.getSalesReport);
 Router.get('/sortSalesReport/:format',orderAdminCtrl.salesReport);
 Router.post('/customSales',orderAdminCtrl.customSales);

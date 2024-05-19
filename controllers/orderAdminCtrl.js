@@ -43,7 +43,6 @@ const getOrderManagement = async (req, res ) => {
 const sortOrderAdmin = async (req, res) => {
     try {
         const sortMethod = req.params.method;
-        console.log('THE METHOD : ',sortMethod)
         var sortQuery = {}; 
    
         switch (sortMethod) {
@@ -114,10 +113,6 @@ const sortOrderAdmin = async (req, res) => {
                 .exec();
           
             const count = await Order.find().countDocuments();
-
-            console.log('The order : ',orders)
-          
-
             res.render('orderManagement', {
                 orders: orders,
                 totalPage: Math.ceil(count / limit),
@@ -126,10 +121,9 @@ const sortOrderAdmin = async (req, res) => {
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
         
-    } catch (error) {
-        console.log(error.message);
-    }
-}
+    } catch (err) {
+        res.render('error', { message : err.message });
+}};
 
 
 //<------------ order details for admin -------------->
@@ -143,8 +137,8 @@ const orderDetailsAdmin = async (req, res) => {
         const products = orders.products.map(product => product._id);
         const product = await Product.find({ _id: { $in: products } });
         res.render('orderDetailsAdmin', {  address , product , orders , user })
-    } catch (error) {
-        console.log(error.message);
+    } catch (err) {
+        res.render('error', { message : err.message });
     }
 };
 
@@ -169,8 +163,8 @@ const getSalesReport = async (req, res) => {
    
       res.render('salesReport', {orders : orders});
       
-    } catch (error) {
-        console.log(error.message);
+    } catch (err) {
+        res.render('error', { message : err.message });
     }
 };
 
@@ -191,7 +185,6 @@ const orderStatusChng = async (req, res) => {
                     const userId = order.userId;
                     const total = order.total;
                     const wallet = await Wallet.find({userId : userId});
-                    console.log('Enter this',wallet)   
                     if(wallet == undefined){   
                        
                         wallet.amount =+ total;
@@ -232,7 +225,6 @@ const orderStatusChng = async (req, res) => {
                         const userId = order.userId;
                         const total = order.total;
                         const wallet = await Wallet.find({userId : userId});
-                        console.log('Enter this',wallet)   
                         if(wallet == undefined){   
                        
                         wallet.amount =+ total;
@@ -263,18 +255,14 @@ const orderStatusChng = async (req, res) => {
                    res.redirect('/admin/orderManagement');
                 }
         }else if(order.status == "returnAccepted"){
-
- 
                      order.status = "Returned";
                      await order.save();
                      res.redirect('/admin/orderManagement');
-
 
                      if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
                         const userId = order.userId;
                         const total = order.total;
                         const wallet = await Wallet.find({userId : userId});
-                        console.log('Enter this',wallet)   
                         if(wallet == undefined){   
                        
                         wallet.amount =+ total;
@@ -303,11 +291,9 @@ const orderStatusChng = async (req, res) => {
                    }
                    
                    res.redirect('/admin/orderManagement');
-
             }
-        
-    } catch (error) {
-        console.log(error.message);
+    } catch (err) {
+        res.render('error', { message : err.message });
     }
 }
 
@@ -316,7 +302,6 @@ const orderStatusChng = async (req, res) => {
 //<------------ return accept by admin -------------->
  const returnAccept = async (req, res) => {
     try{
-        console.log('REACHED HERE')
         const orderId = req.body.orderId;
         const order = await Order.findById(orderId);
         order.status = "returnAccepted";
@@ -347,8 +332,7 @@ const orderStatusChng = async (req, res) => {
        const orders = await Order.find({}, 'createdate total').lean();
        res.json(orders);
      } catch (err) {
-       console.error('Error fetching orders:', err);
-       res.status(500).json({ error: 'Internal server error' });
+        res.render('error', { message : err.message });
      }
  }
 
@@ -359,8 +343,7 @@ const orderStatusChng = async (req, res) => {
        const orders = await Order.find({}, 'createdate total').lean();
        res.json(orders);
      } catch (err) {
-       console.error('Error fetching orders:', err);
-       res.status(500).json({ error: 'Internal server error' });
+        res.render('error', { message : err.message });
      }
  }
 
@@ -371,8 +354,7 @@ const orderStatusChng = async (req, res) => {
        const orders = await Order.find({}, 'createdate total').lean();
        res.json(orders);
      } catch (err) {
-       console.error('Error fetching orders:', err);
-       res.status(500).json({ error: 'Internal server error' });
+        res.render('error', { message : err.message });
      }
  };
 
@@ -450,7 +432,6 @@ const orderStatusChng = async (req, res) => {
             const count = qty[index]; 
             order.count = count; 
         });
-        console.log('The order : ',orders)
    
       res.json({orders: orders})
     }catch(err){

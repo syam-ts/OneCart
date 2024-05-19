@@ -90,6 +90,7 @@
 </section>
                                         
 <section class="ml-96 pb-32">
+    <% if(orders.status != "returnAccepted"){ %>
    
     <% if(orders.return){ %>
         <% if(orders.return.return === true){ %>
@@ -105,6 +106,7 @@
         <% } %>
         <% } %>
     </div>
+    <% } %>
 </section>
 
 
