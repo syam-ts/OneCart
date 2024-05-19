@@ -11,6 +11,7 @@ const connectDB = require('./DB/db');
 const flash = require('connect-flash');
 const cors = require('cors');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 app.use(cors());
 app.use(nocache());
@@ -24,10 +25,8 @@ dotenv.config({path:'./.env'})
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: true
   }));
-
 
 
 

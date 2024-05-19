@@ -90,8 +90,9 @@ const securePassword = async(password) => {
 
 //<------------ insert user || signup -------------->
 const insertUser = async(req, res) => {
-  const {name ,email ,phone, password, confirmPassword}  = req.body;
   try { 
+    
+  const {name ,email ,phone, password, confirmPassword}  = req.body;
     if(password !== confirmPassword){
       return res.status(404).send({error: "Password doesn't match , Please enter again"})
     }
@@ -113,6 +114,7 @@ const insertUser = async(req, res) => {
           text: `Your OTP is: ${OTP}`
       };
       await transporter.sendMail(mailOptions);
+      console.log('THE OTP : ',OTP)
 
       req.session.userData = {
           name: req.body.name,
@@ -131,15 +133,16 @@ const insertUser = async(req, res) => {
 //<------------ verify otp -------------->
 const verifyOTP = async(req, res) => {
   try {
-      const { otp } = req.body;
-      console.log('THE FIRST OTP : ',otp)
-      const userData = req.session.userData;
-      console.log('THE SECOND OTP : ',userData)
+    const { otp } = req.body;
+    console.log('THE FIRST OTP : ', otp);
+    const userData = req.session.userData; 
 
-      if ( userData.otp !== otp) {
-          console.log('Invalid data or OTP',otp);
-          return res.render('verify-otp?message=invalid OTP&type=error')
-      }
+    console.log('THE SECOND OTP : ', userData);
+
+    if (!userData || userData.otp !== otp) {
+        console.log('Invalid data or OTP', otp);
+        return res.render('verify-otp', { message: 'Invalid OTP', type: 'error' }); 
+    }
     
       const secPassword = await securePassword(userData.password);
       const user = new User({
@@ -162,7 +165,12 @@ const verifyOTP = async(req, res) => {
 };
 
 const verifyOtpLoad = async(req, res) => {
-  res.render('verify-otp');
+  try {
+    res.render('verify-otp');
+    
+  } catch (err) {
+    res.render('error', { message : err.messgae});
+  }
 };
 
 
