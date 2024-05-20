@@ -330,6 +330,7 @@ const insertProduct = async (req, res) => {
                     }else if(stock < 1 || stock > 1000){
                         res.redirect('/admin/product-add?message=The stock should be between 1 and 1000&type=error');
                     }else{
+                        console.log('The images : ',productImages)
                        const {productName, category, brand, color, size, stock } = req.body;
                          const product = new Product({
                              productName: productName,
@@ -369,11 +370,10 @@ const getProductEdit = async (req, res) => {
 };
 
 
-//<------------ update product edit -------------->
+//<------------ update product || edit product -------------->
 const postProductEdit = async (req, res) => {
     try {
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
-
         const productImages = req.files.map(file => file.filename);
         const allowedExtensions = ['jpg', 'jpeg', 'png','webp'];
         const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
@@ -391,15 +391,13 @@ const postProductEdit = async (req, res) => {
                     }else{
                         const productId = req.params.id; 
 
-                        // Retrieve existing product details
                         let product = await Product.findById(productId);
                         if (!product) {
                             return res.render('product-list?message=New Address added&type=success');
                         }
-                
-                        // Update fields other than product images
+                        product.productImage = productImages.length ? productImages : product.productImage;
+
                         product.productName = productName;
-                        product.productImage = productImages;
                         product.category = category;
                         product.description = description;
                         product.brand = brand;
@@ -408,8 +406,6 @@ const postProductEdit = async (req, res) => {
                         product.price = price;
                         product.size = size;
                         product.extras = extras;
-                
-                        // Save the updated product
                         product = await product.save();
                         return res.redirect('/admin/sortProductAdmin/recentProducts?message=Product Updated&type=success');
                     }
