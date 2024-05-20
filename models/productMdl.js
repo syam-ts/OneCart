@@ -13,7 +13,7 @@ const productSchema = mongoose.Schema({
         extras:{type:String},
         deleted: {type: Boolean,default: false}, 
         cartSchema:[{productId: String}],
-        offer:{type:Number},
+        offer: [{ originalPrice: { type: Number}}],
         createdate:{type:Date,default:Date.now}
   });
 

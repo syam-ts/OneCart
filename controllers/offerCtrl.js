@@ -18,17 +18,16 @@ const Product = require('../models/productMdl');
   
   const insetOffer = async (req, res) => {
     try {
-        const productName = req.body.productName;
-        const offerPrice = req.body.offerPrice;
+        const {productName , offerPrice } = req.body;
         const product = await Product.findOne({ productName: productName });
-
-        if (product.offer && product.offer.length > 0 && product.offer[0].offerPrice !== undefined) {
-            console.log('Selected product already has an offer.');
+        if(product.offer.length != 0 ){
             res.redirect('/admin/offerManagement?message=Selected Product already has an offer&type=error');
-        } else {
-            product.offer = offerPrice;
+        }else{
+            const originalPrice = product.price;
+            product.offer.push({ originalPrice: originalPrice });
+            product.price = offerPrice; 
             await product.save();
-            res.redirect('/admin/offerManagement?message=New Offer added&type=success');
+         res.redirect('/admin/offerManagement?message=New Offer added&type=success');
         }
     } catch (error) {
         console.log(error.message);

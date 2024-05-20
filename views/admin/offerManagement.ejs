@@ -91,12 +91,11 @@
           <tr>
                 <td class="border-t-0align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <span> <%= pro.productName %> </span>
+                <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
+                    <span>  <%= pro.offer[0].originalPrice %> </span>
                 </td>
                 <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
-                    <span>  <%= pro.price %> </span>
-                </td>
-                <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
-                    <span> <%= pro.offer %> </span>
+                    <span> <%= pro.price %> </span>
                 </td>
                 <td class="border-t-0  align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <button class="deleteOffer" value="<%= pro.id %>"> del/ </button>
