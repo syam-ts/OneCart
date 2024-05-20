@@ -41,7 +41,8 @@ const deleteOffer = async (req, res) => {
     try {
       const productId = req.body.productId;
       const product = await Product.findById(productId);
-     product.offer.pop();
+      product.set('offer', undefined);
+  
      await product.save();
      return res.redirect('/admin/offerManagement?message=Offer deleted&type=success');
     } catch (error) {
