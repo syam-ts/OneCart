@@ -54,7 +54,9 @@ Router.get('/forgotPassword', userCtrl.getForgotPassword);
 Router.get('/userProfile',userCtrl.userProfile);
 Router.get('/userEdit',userCtrl.getUserEdit);
 Router.post('/userEdit',upload.single('userImage'),userCtrl.insertUserDetails);
-Router.get('/userProfileSidebar',userCtrl.userProfileSidebar);    
+Router.get('/userProfileSidebar',userCtrl.userProfileSidebar);
+Router.post('/resend-otp',userCtrl.resendOtp);
+    
 
    //<------------ product routes -------------->
 Router.get('/product/:id', isLoggedIn, productCtrl.productDetails);

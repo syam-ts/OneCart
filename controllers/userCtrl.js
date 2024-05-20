@@ -36,8 +36,8 @@ const securePassword = async(password) => {
   try {
         const passwordHash = await bcrypt.hash(password, 10);
           return passwordHash;
-      } catch (error) {
-        console.log(error.message);
+      } catch (err) {
+        res.render('error',{message : err.message });
       }
   };
 
@@ -82,8 +82,8 @@ const securePassword = async(password) => {
   const getSignup = async (req,res ) => {
     try {
       res.render('signup');
-    } catch (error) {
-      console.log(error.message);
+    } catch (err) {
+      res.render('error',{message : err.message });
     }
   };
 
@@ -96,17 +96,13 @@ const insertUser = async(req, res) => {
     if(password !== confirmPassword){
       return res.status(404).send({error: "Password doesn't match , Please enter again"})
     }
- 
     const existingUser = await User.findOne({email});
     if(existingUser){
       req.flash('msg','User already exist');
       console.log('User already exist');
       return res.redirect('/login');
     }
-
-
       const OTP = generateOTP();
-      //Nodemailer configuration
       const mailOptions = {
           from: 'syamnandhu3@gmail.com',
           to: req.body.email,
@@ -114,8 +110,6 @@ const insertUser = async(req, res) => {
           text: `Your OTP is: ${OTP}`
       };
       await transporter.sendMail(mailOptions);
-      console.log('THE OTP : ',OTP)
-
       req.session.userData = {
           name: req.body.name,
           email: req.body.email,
@@ -124,8 +118,8 @@ const insertUser = async(req, res) => {
           otp: OTP
       };
       res.redirect('/verify-otp');
-  } catch (error) {
-      console.error('Error:', error.message);
+  } catch (err) {
+    res.render('error',{message : err.message });
   }
 };
 
@@ -134,11 +128,7 @@ const insertUser = async(req, res) => {
 const verifyOTP = async(req, res) => {
   try {
     const { otp } = req.body;
-    console.log('THE FIRST OTP : ', otp);
     const userData = req.session.userData; 
-
-    console.log('THE SECOND OTP : ', userData);
-
     if (!userData || userData.otp !== otp) {
         console.log('Invalid data or OTP', otp);
         return res.render('verify-otp', { message: 'Invalid OTP', type: 'error' }); 
@@ -155,23 +145,54 @@ const verifyOTP = async(req, res) => {
       });
       await user.save();
       console.log('User registered successfully:', user);
-            // Clear the session data
       req.session.userData = null;
       res.redirect('/home');
-  } catch (error) {
-      console.error('Error during OTP verification:', error.message);
-      res.send('An error occurred');
+  } catch (err) {
+    res.render('error',{message : err.message });
   }
 };
+
 
 const verifyOtpLoad = async(req, res) => {
   try {
     res.render('verify-otp');
-    
   } catch (err) {
     res.render('error', { message : err.messgae});
   }
 };
+
+
+const resendOtp = async (req, res) => {
+  try {
+    const userData = req.session.userData;
+    if (!userData) {
+      return res.status(400).json({ success: false, message: 'No user session found' });
+    }
+
+    const OTP = generateOTP();
+    userData.otp = OTP;
+    req.session.userData = userData;
+
+    const mailOptions = {
+      from: 'syamnandhu3@gmail.com',
+      to: userData.email, // Fetch email from session data
+      subject: 'Your One-Time Password (OTP)',
+      text: `Your OTP is: ${OTP}`
+    };
+
+    console.log("Sending OTP:", OTP); // Log the OTP for debugging
+
+    await transporter.sendMail(mailOptions);
+    console.log('OTP sent successfully to:', userData.email);
+
+    res.json({ success: true, message: 'OTP has been resent' });
+  } catch (err) {
+    console.error('Error resending OTP:', err); // Log the error
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+
 
 
 //<------------ load home -------------->
@@ -218,8 +239,8 @@ const verifyOtpLoad = async(req, res) => {
             console.log('session destroyed');
               }
             });
-         } catch (error) {
-          console.log(error.message);
+         } catch (err) {
+          res.render('error',{message : err.message });
        }
 };
 
@@ -247,8 +268,8 @@ const userProfileSidebar = async (req, res) => {
     const userId = req.session.user;
     const user = await User.find(userId);
     res.render('userProfileSidebar',{user})
-  } catch (error) {
-    console.log(error.message);
+  } catch (err) {
+    res.render('error',{message : err.message });
   }
 };
 
@@ -263,8 +284,8 @@ const userProfileSidebar = async (req, res) => {
           const address = await Address.find({userId : userId});
             res.render('userProfile',{ user, address , wallet});
             
-        } catch (error) {
-          console.log(error.message);
+        } catch (err) {
+          res.render('error',{message : err.message });
         }
       };
 
@@ -274,8 +295,8 @@ const userProfileSidebar = async (req, res) => {
           const userId = req.session.user;
           const user = await User.findById(userId);
           res.render('userEdit', {user});
-        } catch (error) {
-          console.log(error.message);
+        } catch (err) {
+          res.render('error',{message : err.message });
         }
       };
 
@@ -292,8 +313,8 @@ const userProfileSidebar = async (req, res) => {
           const userId = req.session.user; 
           const user = await User.findByIdAndUpdate( userId, updatedFields, { new: true });
           res.redirect('/userProfile')
-        } catch (error) {
-          console.log(error.message);
+        } catch (err) {
+          res.render('error',{message : err.message });
         }
       };
 
@@ -331,7 +352,7 @@ const getUsers = async(req, res) => {
      return res.status(404).send('user not found');
  }
     } catch (err) {
-     res.redner('error',{ message : err.message });
+     res.render('error',{ message : err.message });
     }
  };
 
@@ -341,7 +362,7 @@ const getUsers = async(req, res) => {
   try {
     res.render('faq')
   } catch (err) {
-    res.redner('error',{ message : err.message});
+    res.render('error',{ message : err.message});
   }
  };
 
@@ -351,7 +372,7 @@ const getUsers = async(req, res) => {
   try {
     res.render('aboutUs')
   } catch (err) {
-    res.redner('error',{ message : err.message});
+    res.render('error',{ message : err.message});
   }
  };
 
@@ -365,6 +386,7 @@ module.exports = {
     getLogout,
     verifyOtpLoad,
     verifyOTP,
+    resendOtp,
     getForgotPassword,
     userProfile,
     userProfileSidebar,
