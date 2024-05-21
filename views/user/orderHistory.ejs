@@ -53,16 +53,15 @@
         </thead>
         <tbody class="bg-white">
             <% for(let i = 0; i < orders.length; i++){ %>
-
             <tr>
                 <td class="py-4 px-6 text-xs border-b border-gray-200">
                     <% const ORDID = parseInt(Math.random() * 2342332320); %>
                     <%= ORDID %></td>
                 <td class="py-4 px-6 border-b text-xs border-gray-200">  <%= total[i] %></td>
                 <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].discountPrice %> %</td>
-                <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].paymentMethod %> %</td>
+                <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].paymentMethod %> </td>
                 <td class="py-4 px-6 border-b text-xs border-gray-200"><%= orders[i].status %> </td>
-                <td class="py-4 px-6 border-b text-xs border-gray-200"><div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">
+                <td class="py-4 px-6 border-b text-xs border-gray-200 text-blue-600"><div class="text-left"> <a href="/orderDetailsUser/<%= orders[i].id %>" value="<%= orders[i].id %>">
                     Details
                 </a></div></td>
             </tr>

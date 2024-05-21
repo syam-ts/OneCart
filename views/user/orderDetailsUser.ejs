@@ -163,8 +163,9 @@
             <button class="font-normal text-xl leading-8 text-red-600 pl-5">Cancelled</button>
 
         </div>
-        <% }else{ %>
-
+        <% }else if(order.status == "PaymentFailed" || order.status == "Delivered" || order.status == "returnRejected" || order.status == "Returned"){ %>
+          <span></span>
+          <% }else{ %>
         <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-10 bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModalCancel()">
         Cancel
        </button>
@@ -176,14 +177,14 @@
                 <button onclick="exportToPDF()" class="ml-12 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
                     Dowload Invoice
                    </button>
-        <% } %>
-        <% if(order.status == "PaymentFailed") {%>  
-            <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button"
+        <% }else if(order.status == "PaymentFailed"){ %>
+            <button class="ml-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button"
              onclick="rePayment('<%= order.id %> ','<%= order.total %>')">
                 Complete Payment
                 </button>
              <% } %>
        </section>
+       
  <!------------- return modal ------------>
                 <dialog id="my_modal_1" class="modal w-2/6 h-4/6 bg-white shadow-lg shadow-gray-950">
                   <div class="modal-box rounded-md text-center">

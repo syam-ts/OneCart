@@ -49,7 +49,7 @@
 <script>
           //<------------ to cart page -------------->
 const addToCartWithQuantity = (productId, userId) => {
-        fetch(`/addTocart`, {
+        fetch(`/addTocartByWishlist`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

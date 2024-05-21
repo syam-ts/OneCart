@@ -129,13 +129,16 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <% if(products[i].offer){ %>
+                                    <% if(products[i].offer.length == 1){ %>
                                         <div class=" mt-4 mb-4">
                                             <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Original Price<span class="ml-2"> <%= totalPrice %>₹ </span>
+                                                Subtotal<span id="subTotal" class="ml-2"> <%= totalPrice %>₹ </span>
                                             </div>
                                             <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Offer Price<span id="subTotal" class="ml-2 text-xs"> <%= products[i].offer %>₹ </span>
+                                                Original Price<span class="ml-2"> <%= products[i].offer[0].originalPrice %>₹ </span>
+                                            </div>
+                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
+                                                Offer Price<span id="subTotal" class="ml-2 text-xs"> <%= products[i].price %>₹ </span>
                                             </div>
                                             <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
                                                 Shipping Tax<span class="ml-2">00.00₹</span>
@@ -144,7 +147,7 @@
                                                 Discount Amount<span id="discountAmount" class="ml-2">00.00₹</span>
                                             </div>
                                             <div class="flex flex-col items-start w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Total<span id="totalPrice" class="ml-2"> <%= products[i].offer %>₹ </span>
+                                                Total<span id="totalPrice" class="ml-2"> <%= totalPrice %>₹ </span>
                                             </div>
                                         </div>
                                         <% } else { %>
@@ -185,8 +188,8 @@ addCouponButton.addEventListener('click', () => {
                 toastr.warning('Please Select a coupon');
             }else{
                 const discountAmount = (subTotal * discount) / 100;
-            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount;
-            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount);
+            const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount+ '₹';
+            const discountDisplay = document.getElementById('discountAmount').innerText = Math.round(discountAmount)+ '₹';
             toastr.success('Coupon added');
          }
    });
@@ -196,9 +199,11 @@ const removeCouponButton = document.getElementById('removeCoupon');
 
 removeCouponButton.addEventListener('click', () => {
     var selectElement = document.getElementById("couponValues");
+    const subTotal = parseFloat(document.getElementById('subTotal').innerText);
         if(selectElement.selectedIndex > 0){
             selectElement.selectedIndex = 0;
         const discountDisplay = document.getElementById('discountAmount').innerText = 0+'₹';
+        const total = document.getElementById('totalPrice').innerText = subTotal + '₹';
         toastr.success('Coupon removed');
         }else{
             toastr.warning('Please select a coupon');

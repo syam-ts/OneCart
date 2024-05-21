@@ -88,6 +88,7 @@
           </thead>
         <tbody>
             <% product.forEach(pro => { %>
+              <% if(pro.offer.length == 1 ){ %>
           <tr>
                 <td class="border-t-0align-middle px-24 border-l-0 border-r-0 text-xs whitespace-nowrap py-3">
                     <span> <%= pro.productName %> </span>
@@ -101,6 +102,9 @@
                     <button class="deleteOffer" value="<%= pro.id %>"> del/ </button>
                 </td>
           </tr>
+          <% }else{ %>
+            <span></span>
+            <% } %>
           <% }); %>
         </tbody>
       </table>

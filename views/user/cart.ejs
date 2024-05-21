@@ -93,12 +93,12 @@
 
 <script>
     const removeCart = (itemId) => {
-        const url = `http://localhost:4000/removeCart/${itemId}`;
+        const url = `/removeCart/${itemId}`;
         fetch(url, {
                 method: 'GET'
             })
             .then(response => {
-                window.location.href = '/cart'
+                window.location.href = '/cart?message=Product removed successfully&type=success'
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -133,7 +133,7 @@ cartDecList.forEach(cartDec => {
               }).then(response => response.json())
                  .then(data => {
                     if(data.typeOfError == "lessZero"){
-                        window.location.href = `/cart?message=Minimum quntity is 1&type=error`
+                        window.location.href = `/cart?message=Minimum quantity is 1&type=error`
                     }else if(data.typeOfError == "redirect"){
                          window.location.href = `/cart?`
                     }  

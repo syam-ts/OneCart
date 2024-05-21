@@ -1,6 +1,7 @@
 const Product = require('../models/productMdl');
 const User = require('../models/userMdl');
 const Wishlist = require('../models/wishlistMdl');
+const Cart = require('../models/cartMdl');
 
 //<------------ wishlist page -------------->
 const getwishlist = async (req, res) => {
@@ -27,6 +28,7 @@ const addToWishlist = async (req, res) => {
             } else {
                 const wishlist = new Wishlist({ userId, productId: req.body.productId});
                 await wishlist.save();
+                console.log('This worked')
                 res.status(200).json({ message: 'Product added to wishlist successfully' });
             }
         }
@@ -48,8 +50,47 @@ const addToWishlist = async (req, res) => {
     };
 
 
+//<--------------------- adding to cart --------------------->
+    const addTocartByWishlist = async (req, res) => {
+        try {
+            console.log('It reached this far')
+            const productId = req.body.productId;
+            const userId = req.session.user;
+            const existingItem = await Cart.findOne({ productId: productId, userId: userId });
+            if (!existingItem) {
+                if(req.body.quantity > 5){
+                    res.status(400).json({ error: 'Cannot add more than 5 quantity' });
+                } else {
+                    const cart = new Cart({ userId, productId: req.body.productId, quantity: req.body.quantity });
+                    await cart.save();
+                    const product = await Product.findById(productId); 
+                    await Wishlist.findOneAndDelete({ userId: userId, productId: productId });
+                    product.stock -= req.body.quantity;
+                    await product.save();
+                    res.status(200).json({ message: 'Product added to cart successfully' })};
+                } else {
+                if(req.body.quantity > 5){
+                    res.status(400).json({ error: 'Cannot add more than 5 quantity' });
+                } else {
+                    if(existingItem.quantity + req.body.quantity > 5){
+                        res.status(400).json({ error: 'Cannot add more than 42342 quantity from the existing item' });
+                    } else {
+                        existingItem.quantity += req.body.quantity;
+                        await existingItem.save();
+                        const product = await Product.findById(productId); 
+                        product.stock -= req.body.quantity;
+                        await product.save();
+                        res.status(200).json({ message: 'Product added to cart successfully' });
+                      }
+                  }
+              }
+            } catch (error) {
+                console.log(error.message);
+                res.status(500).json({ error: 'Internal server error' })}
+        };
 module.exports = {
     getwishlist,
     addToWishlist,
-    removeWishlist
+    removeWishlist,
+    addTocartByWishlist
 };
