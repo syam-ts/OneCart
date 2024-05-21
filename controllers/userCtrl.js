@@ -130,9 +130,9 @@ const verifyOTP = async(req, res) => {
     const { otp } = req.body;
     const userData = req.session.userData; 
     if (!userData || userData.otp !== otp) {
-        console.log('Invalid data or OTP', otp);
-        return res.render('verify-otp', { message: 'Invalid OTP', type: 'error' }); 
-    }
+        console.log('Invalid OTP', otp);
+        return res.redirect('/verify-otp?message=Invalid OTP&type=error'); 
+      }
     
       const secPassword = await securePassword(userData.password);
       const user = new User({
@@ -162,6 +162,7 @@ const verifyOtpLoad = async(req, res) => {
 };
 
 
+//<------------ otp resending -------------->
 const resendOtp = async (req, res) => {
   try {
     const userData = req.session.userData;
@@ -175,19 +176,18 @@ const resendOtp = async (req, res) => {
 
     const mailOptions = {
       from: 'syamnandhu3@gmail.com',
-      to: userData.email, // Fetch email from session data
+      to: userData.email, 
       subject: 'Your One-Time Password (OTP)',
       text: `Your OTP is: ${OTP}`
     };
 
-    console.log("Sending OTP:", OTP); // Log the OTP for debugging
+    console.log("Sending OTP:", OTP); 
 
     await transporter.sendMail(mailOptions);
     console.log('OTP sent successfully to:', userData.email);
 
-    res.json({ success: true, message: 'OTP has been resent' });
+    res.status(200).json({ success: true, message:"OTP sent successfully"  });
   } catch (err) {
-    console.error('Error resending OTP:', err); // Log the error
     res.status(500).json({ success: false, message: err.message });
   }
 };

@@ -63,7 +63,6 @@ Router.get('/product/:id', isLoggedIn, productCtrl.productDetails);
 Router.get('/shopping?', isLoggedIn,  productCtrl.getShopping);
 Router.get('/sortShopping/:method', isLoggedIn, productCtrl.sortShoppingPage); 
 Router.get('/category/:id', isLoggedIn, categoryCtrl.categoryShopping);
-//Need cross check
 Router.post('/sortProduct',productCtrl.sortShoppingPage);
 
    //<------------ search routes -------------->

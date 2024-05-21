@@ -10,7 +10,67 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&display=swap">
         <!------------- toastr -------------->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-    <script src="toastr.js"></script>
+          <!----------- toaster css ------------->
+  <style>
+    #toast-container > .toast-error {
+      background: linear-gradient(to right, #e92d0ce3, #22242F 50% ) !important;
+      width: 350px;
+      height: 70px;
+      position: relative;
+      color: white; 
+      text-align: center;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    
+    #toast-container > .toast-error::after {
+      content: ""; 
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px; 
+      background-color: rgb(255, 0, 0); 
+      transform: scaleX(0); 
+      transform-origin: right; 
+      animation: expandLine 5s linear forwards; 
+    }
+  
+    @keyframes expandLine {
+      to {
+        transform: scaleX(1); 
+      }
+    }
+  </style>
+  <style>
+    #toast-container > .toast-success {
+      background: linear-gradient(to right, #15ff00, #4c4e5b 50% ) !important;
+      width: 350px;
+      height: 70px;
+      position: relative;
+      color: white; 
+      text-align: center;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    
+    #toast-container > .toast-success::after {
+      content: ""; 
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px; 
+      background-color: rgb(0, 255, 55); 
+      transform: scaleX(0); 
+      transform-origin: right; 
+      animation: expandLine 5s linear forwards; 
+    }
+  
+    @keyframes expandLine {
+      to {
+        transform: scaleX(1); 
+      }
+    }
+  </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>otp Verification</title>
 </head>
@@ -32,9 +92,13 @@
             </div>
         </form>
     </div>
+    
+</body>
 </main>
 
-    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+ <!--------------- toastr config ---------------->
 <script>
     function parseQueryParams() {
         var queryParams = {};
@@ -59,39 +123,11 @@
             }
         }
     });
+    </script>
 
 
-
-    document.getElementById('resendOTP').addEventListener('click', function(event) {
-                event.preventDefault();
-                fetch('/resend-otp', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        toastr.success(data.message);
-                    } else {
-                        toastr.error(data.message);
-                    }
-                })
-                .catch(error => {
-                    toastr.error('Error resending OTP');
-                });
-            });
-  </script>
-</body>
-
-
-<!------------- toastr jquery ---------------->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script>
-// Set the OTP timer duration in seconds
+    <!-- <script>
+        
 const otpTimerDuration = 60;
 let otpTimer = otpTimerDuration;
 
@@ -112,33 +148,25 @@ function updateOTPTimer() {
 
 // Start the OTP timer countdown
 const timerInterval = setInterval(updateOTPTimer, 1000);
-</script>
+</script> -->
 <script>
     document.getElementById('resendOTP').addEventListener('click', function(event) {
         event.preventDefault();
         
-        // Send an AJAX request to resend OTP
         fetch('/resend-otp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            // You can include any additional data if needed
         })
         .then(response => {
-            if (response.ok) {
-                // If OTP is resent successfully, display a success message to the user
-                alert('New OTP sent successfully');
-            } else {
-                // If there's an error, display an error message to the user
-                alert('Error resending OTP');
-            }
+          window.location.href = '/verify-otp?message=OTP send successfully&type=success'
         })
         .catch(error => {
             console.error('Error:', error);
             alert('An error occurred');
         });
     });
-    </script>
+     </script>
 
 </html>
