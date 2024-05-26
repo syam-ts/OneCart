@@ -18,8 +18,8 @@ const getCart = async (req, res) => {
             res.render('cart',{ items:{products, cart , total}, toastMessage: { type: 'success', text: '' } }); 
                }else{
             res.render('cart',{ items:{products, cart , total}})}
-            }catch(error){
-                console.log(error.message);
+            }catch(err){
+                res.render('error',{ message : err.message });
             }
         };
 
@@ -56,11 +56,10 @@ const getCart = async (req, res) => {
                   }
               }
           }
-        } catch (error) {
-            console.log(error.message);
-            res.status(500).json({ error: 'Internal server error' })}
+        } catch (err) {
+            res.render('error',{ message : err.message });
     };
-
+   }
       //<------------ decreasing the cart qunatity -------------->
       const cartDec = async (req, res) => {
         try {
@@ -77,7 +76,7 @@ const getCart = async (req, res) => {
                 await Promise.all([product.save(), cart.save()]);
                 res.json({ typeOfError: 'redirect' });
             }} catch (err) {
-            console.log(err.message);
+                res.render('error',{ message : err.message });
         }
        };
 
@@ -100,7 +99,7 @@ const getCart = async (req, res) => {
             res.json({ typeOfError: 'redirect' });
               }} 
               catch (err) {
-                console.log(err.message);
+                res.render('error',{ message : err.message });
             }
        };
 
@@ -117,8 +116,8 @@ const getCart = async (req, res) => {
                 await Cart.findByIdAndDelete(cartId);
                 res.redirect('/cart');
                 console.log('Successfully Removed from cart');
-                } catch (error) {
-                console.log(error.message);
+                } catch (err) {
+                    res.render('error',{ message : err.message });
             }
         };
 
@@ -142,8 +141,8 @@ const getCart = async (req, res) => {
                 }else{
                     res.render('checkout',{address, getUser,products,totalPrice, quantity ,coupon, wallet});
                 }
-            }catch(error){
-            console.log(error.message);
+            }catch(err){
+                res.render('error',{ message : err.message });
             }
         };
 

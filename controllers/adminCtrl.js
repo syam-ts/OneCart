@@ -27,9 +27,8 @@ const getAdmin = (req, res) => {
             console.log('SESSION; ',req.session.admin);
             res.render('admin-login');
         }
-    } catch (error) {
-        console.log(error.message);
-        res.send('An error occurred');
+    } catch (err) {
+        res.render('error',{ message : err.message });
     }
 };
 
@@ -87,8 +86,8 @@ const verifyAdmin = async (req, res) => {
             res.redirect('/admin/admin-login?message=INVALID USERNAME&type=error');
         }
 
-    } catch (error) {
-        res.send(error.message);
+    } catch (err) {
+        res.render('error',{ message : err.message });
     }
 };
 
@@ -129,9 +128,8 @@ const getDashboard =  async (req, res) => {
             res.render('dashboard', { list:[ users, brand, category, topTenPrdts, topTenCtgry, topTenBrnd] });
         }
        
-    } catch (error) {
-        console.error('Error fetching dashboard data:', error);
-        res.status(500).send('Internal Server Error');
+    } catch (err) {
+        res.render('error',{ message : err.message });
     }
 };
 
@@ -148,9 +146,8 @@ const logoutAdmin = (req, res) => {
                 console.log('Admin logged out successfully');
             }
         });
-    } catch (error) {
-        console.error('Error logging out admin:', error);
-        res.send('An error occurred');
+    } catch (err) {
+        res.render('error',{ message : err.message });
     }
 };
 
@@ -166,9 +163,8 @@ const topTenPrdt = async (req, res) => {
         
         console.log('The pro : ',result)
         res.json(result);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: 'Server error' });
+    } catch (err) {
+        res.render('error',{ message : err.message });
     }
 }
 
