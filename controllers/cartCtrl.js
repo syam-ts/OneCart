@@ -125,21 +125,26 @@ const getCart = async (req, res) => {
         const getCheckout = async (req, res) => {
             try {
                 const userId = req.session.user;
-                const getUser = await User.findById(userId)
-                const wallet = await Wallet.find({userId : userId});
-                const cart = await Cart.find({userId : userId});
+                const getUser = await User.findById(userId);
+                const wallet = await Wallet.find({ userId: userId });
+                const cart = await Cart.find({ userId: userId });
                 const productIds = cart.map(item => item.productId);
-                const quantity = cart.map(item => item.quantity);
                 const products = await Product.find({ _id: { $in: productIds } });
-                const address = await Address.find({ userId:{ $in : userId } }).limit(2);
-                const totalPrice = req.params.id;
-                const coupon = await Coupon.find({ minimumAmount :{$lte : totalPrice} });
-               
-                if(!address) {
-                    const message = 'No address found'; 
-                    res.render('error',{ message : message})
-                }else{
-                    res.render('checkout',{address, getUser,products,totalPrice, quantity ,coupon, wallet});
+                const address = await Address.find({ userId: userId }).limit(2);
+                const totalPrice = parseFloat(req.params.id); 
+                const coupon = await Coupon.find({ minimumAmount: { $lte: totalPrice } });
+                const productsWithQuantities = products.map(product => {
+                    const cartItem = cart.find(item => item.productId.toString() === product._id.toString());
+                    return {
+                        ...product._doc, 
+                        quantity: cartItem ? cartItem.quantity : 0 
+                    };
+                });
+                if (!address.length) {
+                    const message = 'No address found';
+                    res.render('error', { message: message });
+                } else {
+                    res.render('checkout', { address, getUser, products: productsWithQuantities, totalPrice, coupon, wallet });
                 }
             }catch(err){
                 res.render('error',{ message : err.message });

@@ -65,10 +65,10 @@
                         </select>
                         <div class="flex flex-col md:flex-row gap-4 mt-5">
                             <button id="addCoupon" type="button" class="px-6 py-1.5 w-full md:w-36 text-sm font-serif bg-cyan-500 text-gray-900 hover:bg-[#222] hover:text-white">
-                            Add Coupon</button>
+                            Apply Coupon</button>
                     
                             <button id="removeCoupon" type="button" class="px-6 py-1 w-full md:w-32 text-sm font-serif bg-red-600 text-gray-900 hover:bg-[#222] hover:text-white">
-                            Remove</button>
+                            Remove Coupon</button>
                         </div>
                     </section>
                     
@@ -125,49 +125,26 @@
                                             <ul>
                                                 <li class="text-xs"><p>Size: <span class="text-end"><%= products[i].size %></span></p></li>
                                                 <li class="text-xs"><p>Total Price: <span class="text-end"><%= products[i].price %></span></p></li>
-                                                <li class="text-xs"><p>Quantity: <span class="text-end"><%= quantity[i] %></span></p></li>
+                                                <li class="text-xs"><p>Quantity: <span class="text-end"><%= products[i].quantity %></span></p></li>
                                             </ul>
                                         </div>
                                     </div>
-                                    <% if(products[i].offer.length == 1){ %>
-                                        <div class=" mt-4 mb-4">
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Subtotal<span id="subTotal" class="ml-2"> <%= totalPrice %>₹ </span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Original Price<span class="ml-2"> <%= products[i].offer[0].originalPrice %>₹ </span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Offer Price<span id="subTotal" class="ml-2 text-xs"> <%= products[i].price %>₹ </span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Shipping Tax<span class="ml-2">00.00₹</span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Discount Amount<span id="discountAmount" class="ml-2">00.00₹</span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Total<span id="totalPrice" class="ml-2"> <%= totalPrice %>₹ </span>
-                                            </div>
-                                        </div>
-                                        <% } else { %>
-                                        <div class="flex flex-col mt-4 mb-4">
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Subtotal<span id="subTotal" class="ml-2"> <%= totalPrice %>₹ </span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Shipping Tax<span class="ml-2">00.00₹</span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Discount Amount<span id="discountAmount" class="ml-2">00.00₹</span>
-                                            </div>
-                                            <div class="flex flex-col items-start w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
-                                                Total<span id="totalPrice" class="ml-2"> <%= totalPrice %>₹ </span>
-                                            </div>
-                                        </div>
-                                         <% } %>
                                        <% } %>
                                   </div>
+                                  <div class="flex flex-col mt-4 mb-4">
+                                    <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
+                                        Subtotal<span id="subTotal" class="ml-2"> <%= totalPrice %>₹ </span>
+                                    </div>
+                                    <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
+                                        Shipping Tax<span class="ml-2">00.00₹</span>
+                                    </div>
+                                    <div class="flex flex-col items-start w-full py-4 text-xs font-thin border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
+                                        Discount Amount<span id="discountAmount" class="ml-2">00.00₹</span>
+                                    </div>
+                                    <div class="flex flex-col items-start w-full py-4 text-sm font-semibold border-b border-gray-300 lg:py-5 lg:px-28 text-heading last:border-b-0 last:text-base last:pb-0">
+                                        Total<span id="totalPrice" class="ml-2"> <%= totalPrice %>₹ </span>
+                                    </div>
+                                </div>
                                 </div>
                               </div>
                             </div>
