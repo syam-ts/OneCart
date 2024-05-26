@@ -150,20 +150,19 @@ const getShopping= async (req, res) => {
 
 
 //<------------ search products -------------->
-const searchProduct = async(req, res) => {
+const searchProduct = async (req, res) => {
     try {
-       const limit = 4;
-       const input = req.query.searchTerm;
-       const product = await Product.find({ productName: { $regex: `^${input}$`, $options: 'i' } }).limit(limit);
-       const total = await Product.find().count();
-       const totalProduct = total / 4;
-       res.render('search', { product  , totalProduct});
-     } catch (error) {
-       console.log(error);
-       res.render('error', {message : "Product Not Found"})
-   
-    }   
- };
+        const limit = 4;
+        const input = req.query.searchTerm;
+        const product = await Product.find({ productName: { $regex: `.*${input}.*`, $options: 'i' } }).limit(limit);
+        const total = await Product.countDocuments({ productName: { $regex: `.*${input}.*`, $options: 'i' } }); 
+        const totalProduct = Math.ceil(total / limit); 
+        res.render('search', { product, totalProduct });
+    } catch (error) {
+        res.render('error', { message: "Product Not Found" });
+    }
+};
+
 
 
 //<------------ advanced search  -------------->
@@ -456,8 +455,6 @@ module.exports = {
     getProductEdit,
     postProductEdit,
     deleteProduct,
-
     searchProduct,
     getLowToHigh
-
 };
