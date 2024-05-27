@@ -210,8 +210,7 @@ const productList = async(req, res) => {
   //<------------ proudct sort with pagination -------------->
    const sortProductAdmin = async (req, res) => {
     try {
-        const originalUrl = req.query.returnUrl;
-        const sortMethod = req.params.method;
+        const originalUrl = req.query.returnUrl, sortMethod = req.params.method;
         var sortQuery = {}; 
         switch (sortMethod) {
            case "recentProducts":
@@ -342,8 +341,7 @@ const insertProduct = async (req, res) => {
 //<------------ load product edit -------------->
 const getProductEdit = async (req, res) => {
     try {
-    const originalUrl = req.query.returnUrl;
-    const id = req.params.id;
+    const id = req.params.id, originalUrl = req.query.returnUrl;
     const categories = await Category.find({deleted: false});
     const products = await Product.findById(id)
     if (!products) {
@@ -362,7 +360,6 @@ const postProductEdit = async (req, res) => {
     try {
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
         const returnUrl = req.query.returnUrl;
-        console.log('The query url is : ',returnUrl);
         const productImages = req.files.map(file => file.filename);
         const allowedExtensions = ['jpg', 'jpeg', 'png','webp'];
         const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
@@ -394,7 +391,6 @@ const postProductEdit = async (req, res) => {
                         product.size = size;
                         product.extras = extras;
                         product = await product.save();
-                        console.log('The URL : ',returnUrl)
                         return res.redirect(`${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Product Updated&type=success`);
                     }
     } catch (error) {
@@ -407,7 +403,7 @@ const postProductEdit = async (req, res) => {
 //<------------ product soft delete -------------->
 const deleteProduct = async (req, res) => {
     try {
-        const id = req.params.id, returnUrl = req.query.returnUrl || '/admin/product-list';
+        const id = req.params.id, returnUrl = req.query.returnUrl;
         console.log('The url is : ',returnUrl)
         const product = await Product.findById(id);
      if(product.deleted == false){
