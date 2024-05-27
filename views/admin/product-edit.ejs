@@ -1,7 +1,7 @@
 <%- include('../partials/adminHeader') %>
 
 <main> 
-    <form method="POST" enctype="multipart/form-data" action="/admin/product-edit/<%= products[0] ? products[0]._id : '' %>">
+    <form method="POST" enctype="multipart/form-data" action="/admin/product-edit/<%= products[0] ? products[0]._id : '' %>?returnUrl=<%= encodeURIComponent(originalUrl) %>">
         <div class="space-y-12 p-20 flex">
           <div class="border-b border-gray-900/10 pb-12">
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">

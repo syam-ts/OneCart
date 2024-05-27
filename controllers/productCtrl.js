@@ -182,7 +182,6 @@ const getLowToHigh = async (req, res) => {
 const productList = async(req, res) => {
     try {
        const originalUrl = req.originalUrl;
-       console.log('THe url : ',originalUrl)
         var page = 1;
             const limit = 8;
             if (req.query.page) {
@@ -211,6 +210,7 @@ const productList = async(req, res) => {
   //<------------ proudct sort with pagination -------------->
    const sortProductAdmin = async (req, res) => {
     try {
+        const originalUrl = req.query.returnUrl;
         const sortMethod = req.params.method;
         var sortQuery = {}; 
         switch (sortMethod) {
@@ -236,6 +236,7 @@ const productList = async(req, res) => {
             const count = await Product.find({deleted : true}).countDocuments();
             res.render('product-list', {
                 products: products,
+                originalUrl,
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
@@ -254,6 +255,7 @@ const productList = async(req, res) => {
         const count = await Product.find({deleted : false}).countDocuments();
         res.render('product-list', {
             products: products,
+            originalUrl,
             totalPage: Math.ceil(count / limit),
             currentPage: page,
             previousPage: page > 1 ? page - 1 : 1,
@@ -274,6 +276,7 @@ const productList = async(req, res) => {
             const count = await Product.find().countDocuments();
             res.render('product-list', {
                 products: products,
+                originalUrl,
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
@@ -339,15 +342,14 @@ const insertProduct = async (req, res) => {
 //<------------ load product edit -------------->
 const getProductEdit = async (req, res) => {
     try {
+    const originalUrl = req.query.returnUrl;
     const id = req.params.id;
     const categories = await Category.find({deleted: false});
     const products = await Product.findById(id)
     if (!products) {
        return res.status(404).send("Product not found");
-    }
-        res.render('product-edit',{products: [products,
-       categories]
-    })
+        }
+        res.render('product-edit',{products: [products, categories], originalUrl});
     } catch (error) {
         console.log(error.message);
         res.status(500).send("Internal Server Error");
@@ -359,6 +361,8 @@ const getProductEdit = async (req, res) => {
 const postProductEdit = async (req, res) => {
     try {
         const { productName, category, description, brand, color, price, size, stock, extras } = req.body;
+        const returnUrl = req.query.returnUrl;
+        console.log('The query url is : ',returnUrl);
         const productImages = req.files.map(file => file.filename);
         const allowedExtensions = ['jpg', 'jpeg', 'png','webp'];
         const extensions = productImages.map(img => img.split('.').pop().toLowerCase());
@@ -390,7 +394,8 @@ const postProductEdit = async (req, res) => {
                         product.size = size;
                         product.extras = extras;
                         product = await product.save();
-                        return res.redirect('/admin/sortProductAdmin/recentProducts?message=Product Updated&type=success');
+                        console.log('The URL : ',returnUrl)
+                        return res.redirect(`${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Product Updated&type=success`);
                     }
     } catch (error) {
         console.log('Error:', error);
@@ -403,6 +408,7 @@ const postProductEdit = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const id = req.params.id, returnUrl = req.query.returnUrl || '/admin/product-list';
+        console.log('The url is : ',returnUrl)
         const product = await Product.findById(id);
      if(product.deleted == false){
         product.deleted = true;
