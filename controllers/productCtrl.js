@@ -341,7 +341,7 @@ const insertProduct = async (req, res) => {
 //<------------ load product edit -------------->
 const getProductEdit = async (req, res) => {
     try {
-    const id = req.params.id, originalUrl = req.query.returnUrl;
+    const id = req.params.id, originalUrl = req.query.returnUrl;    
     const categories = await Category.find({deleted: false});
     const products = await Product.findById(id)
     if (!products) {
@@ -404,7 +404,6 @@ const postProductEdit = async (req, res) => {
 const deleteProduct = async (req, res) => {
     try {
         const id = req.params.id, returnUrl = req.query.returnUrl;
-        console.log('The url is : ',returnUrl)
         const product = await Product.findById(id);
      if(product.deleted == false){
         product.deleted = true;

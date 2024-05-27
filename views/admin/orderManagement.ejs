@@ -58,6 +58,7 @@
                   <a class="font-medium font-sans text-xs text-gray-950  hover:underline"><%= order.paymentMethod %> </a>
                 </td>
                  <td class="flex">
+                  <input class="hidden" id="returnUrl" value="<%= originalUrl %>"/>
                     <p id="orderId"  value="<%= order.id %>"></p>
                            <% if(order.status == "Cancelled"){ %>
                               <span class="text-gray-400">Cancelled</span>
@@ -153,6 +154,7 @@
 
 <script>
     const orderStatusChangeButtons = document.querySelectorAll('.orderStatusChangeButton');
+    const returnUrl = document.getElementById('returnUrl').value;
     orderStatusChangeButtons.forEach(button => {
         button.addEventListener('click', (e) => {
         
@@ -167,24 +169,52 @@
           },
           body:JSON.stringify({
               orderStatus : orderStatus,
-              orderId : orderId
+              orderId : orderId,
+              returnUrl : returnUrl
             })
        }).then(response => {
-        window.location.href = '/admin/orderManagement'
-    if (response.ok) {
-        return response.json()}
-            throw new Error('Network response was not ok.');
-        })
-    //     .then(data => {
-    //         let discount = parseFloat(data.discountPrice);
-    //         const subTotal = parseFloat(document.getElementById('subTotal').innerText);
-    //         const discountAmount = (subTotal * discount) / 100;
-    //         const total = document.getElementById('totalPrice').innerText = subTotal - discountAmount ;
-    //         const discountDisplay = document.getElementById('discountAmount').innerText = discountAmount;
-    //         console.log('Selected coupon:', selectedCoupon);
-    //     });
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    if (data.redirectUrl) {
+        window.location.href = data.redirectUrl;
+    } else {
+        console.error('Redirection URL not found in response');
+    }
+})
+.catch(error => {
+    console.error('Error:', error);
+});
      } );
 
+  });
+</script>
+<script>
+  function parseQueryParams() {
+      var queryParams = {};
+      var queryString = window.location.search.substring(1);
+      var params = queryString.split("&");
+      for (var i = 0; i < params.length; i++) {
+          var pair = params[i].split("=");
+          queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      }
+      return queryParams;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var queryParams = parseQueryParams();
+      var message = queryParams['message'];
+      var type = queryParams['type'];
+      if (message) {
+          if (type === 'success') {
+              toastr.success(message);
+          } else if (type === 'error') {
+              toastr.error(message);
+          }
+      }
   });
 </script>
 

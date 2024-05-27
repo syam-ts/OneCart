@@ -2,16 +2,12 @@ const Order = require('../models/orderMdl');
 const Product = require('../models/productMdl');
 const User = require('../models/userMdl');
 const Wallet = require('../models/walletMdl');
-const moment = require('moment');
 
-
-  /**
-         * ! For admin order Management 
-                                       **/
 
 //<------------ order management -------------->
 const getOrderManagement = async (req, res ) => {
             try {
+                const originalUrl = req.originalUrl;
                 var page = 1;
                     const limit = 5;
                     if (req.query.page) {
@@ -27,6 +23,7 @@ const getOrderManagement = async (req, res ) => {
                   
                     res.render('orderManagement',{
                         orders: orders,
+                        originalUrl : originalUrl,
                         totalPage: Math.ceil(count / limit),
                         currentPage: page,
                         previousPage: page > 1 ? page - 1 : 1,
@@ -42,6 +39,7 @@ const getOrderManagement = async (req, res ) => {
 
 const sortOrderAdmin = async (req, res) => {
     try {
+        const originalUrl = req.originalUrl ;
         const sortMethod = req.params.method;
         var sortQuery = {}; 
    
@@ -72,6 +70,7 @@ const sortOrderAdmin = async (req, res) => {
             
             res.render('orderManagement', {
                 orders: orders,
+                originalUrl : originalUrl,
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
@@ -93,6 +92,7 @@ const sortOrderAdmin = async (req, res) => {
             
             res.render('orderManagement', {
                 orders: orders,
+                originalUrl : originalUrl,
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
@@ -115,6 +115,7 @@ const sortOrderAdmin = async (req, res) => {
             const count = await Order.find().countDocuments();
             res.render('orderManagement', {
                 orders: orders,
+                originalUrl : originalUrl,
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
@@ -171,16 +172,16 @@ const getSalesReport = async (req, res) => {
 //<------------ order status changing -------------->
 const orderStatusChng = async (req, res) => {
     try {
-    
-        const {orderStatus , orderId } = req.body;
+        const {orderStatus , orderId ,returnUrl } = req.body;
         const order = await Order.findById(orderId);
 
         if(order.status == "Processing"){
             if(orderStatus == "Shipped"){
                 order.status = "Shipped";
                 await order.save();
-                res.redirect('/admin/orderManagement');
-            }else{
+                const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+                return res.json({ redirectUrl });     
+                 }else{
                 if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
                     const userId = order.userId;
                     const total = order.total;
@@ -193,14 +194,22 @@ const orderStatusChng = async (req, res) => {
                             amount : wallet.amount
                         });
                         await newWallet.save();
+                        order.status = "Cancelled";
+                        await order.save();
                         console.log('new wallet created')
+               const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+               return res.json({ redirectUrl }); 
                         }else{       
                         await Wallet.findOneAndUpdate(
                             { userId },
                             { $inc: { amount: total } },
                             { new: true }
                         );
-                     console.log('amount added to the cart')
+                        order.status = "Cancelled";
+                        await order.save();
+                     console.log('amount added to the cart');
+               const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+               return res.json({ redirectUrl }); 
                  }}
                    const productIds = order.products.map(item => item);
                    const products = await Product.find({ _id: { $in: productIds }});
@@ -211,16 +220,16 @@ const orderStatusChng = async (req, res) => {
                        products[i].stock += quantity[i]   
                        await products[i].save();
                    }
-                   
-                   res.redirect('/admin/orderManagement');
+                   const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+                   return res.json({ redirectUrl }); 
             }
         }else if(order.status == "Shipped"){
                  if(orderStatus == "Delivered"){
                     order.status = "Delivered";
                     await order.save();
-                    res.redirect('/admin/orderManagement');
+                    const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+                    return res.json({ redirectUrl }); 
                    } else{
-               
                  if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
                         const userId = order.userId;
                         const total = order.total;
@@ -233,14 +242,22 @@ const orderStatusChng = async (req, res) => {
                             amount : wallet.amount
                         });
                         await newWallet.save();
+                        order.status = "Cancelled";
+                        await order.save();
                         console.log('new wallet created')
+               const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+               return res.json({ redirectUrl }); 
                         }else{       
                         await Wallet.findOneAndUpdate(
                             { userId },
                             { $inc: { amount: total } },
                             { new: true }
                         );
+                        order.status = "Cancelled";
+                        await order.save();
                      console.log('amount added to the cart')
+               const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+               return res.json({ redirectUrl }); 
                  }}
                    const productIds = order.products.map(item => item);
                    const products = await Product.find({ _id: { $in: productIds }});
@@ -251,15 +268,16 @@ const orderStatusChng = async (req, res) => {
                        products[i].stock += quantity[i]   
                        await products[i].save();
                    }
-                   
-                   res.redirect('/admin/orderManagement');
+                   const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+                   return res.json({ redirectUrl }); 
+               
                 }
         }else if(order.status == "returnAccepted"){
                      order.status = "Returned";
                      await order.save();
-                     res.redirect('/admin/orderManagement');
-
-                     if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
+                     const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+                     return res.json({ redirectUrl }); 
+                    if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
                         const userId = order.userId;
                         const total = order.total;
                         const wallet = await Wallet.find({userId : userId});
@@ -272,6 +290,10 @@ const orderStatusChng = async (req, res) => {
                         });
                         await newWallet.save();
                         console.log('new wallet created')
+                                       
+               console.log('THIS REACHED HERE FINAL')
+               const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+               return res.json({ redirectUrl }); 
                         }else{       
                         await Wallet.findOneAndUpdate(
                             { userId },
@@ -279,6 +301,10 @@ const orderStatusChng = async (req, res) => {
                             { new: true }
                         );
                      console.log('amount added to the cart')
+                                    
+               console.log('THIS REACHED HERE FINAL')
+               const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
+               return res.json({ redirectUrl }); 
                  }}
                    const productIds = order.products.map(item => item);
                    const products = await Product.find({ _id: { $in: productIds }});
@@ -290,7 +316,7 @@ const orderStatusChng = async (req, res) => {
                        await products[i].save();
                    }
                    
-                   res.redirect('/admin/orderManagement');
+                   return res.json({ redirectUrl }); 
             }
     } catch (err) {
         res.render('error', { message : err.message });
