@@ -30,7 +30,7 @@ const upload = multer({ storage }).array('productImage');
 
 const getShopping= async (req, res) => {
     try {
-            const sortMethod = req.body.sortOption;
+        const sortMethod = req.body.sortOption;
             let sortQuery = {};
             switch (sortMethod) {
                 case "lowToHigh":
@@ -58,7 +58,6 @@ const getShopping= async (req, res) => {
              .limit(limit * 1)
              .skip((page - 1) * limit)
              .exec();
-            
              const count = await Product.find({deleted : false })
              .countDocuments();
              const categories = await Category.find({deleted : false })
@@ -84,7 +83,6 @@ const getShopping= async (req, res) => {
             try {
                 const sortMethod = req.params.method;
                 var sortQuery = {}; 
-           
                 switch (sortMethod) {
                    case "lowToHigh":
                        sortQuery = { price: 1 };
@@ -101,13 +99,11 @@ const getShopping= async (req, res) => {
                    default:
                        sortQuery = {};
                       }
-
                     var page = 1;
                     const limit = 8;
                     if (req.query.page) {
                         page = parseInt(req.query.page);
                      }
-                  
                     const products = await Product.find({ deleted: false })
                         .limit(limit * 1)
                         .skip((page - 1) * limit)
@@ -116,7 +112,6 @@ const getShopping= async (req, res) => {
                   
                     const count = await Product.find({ deleted: false }).countDocuments();
                     const categories = await Category.find({deleted : false })
-                  
                     res.render('shopping', {
                         products: products,
                         categories : categories,
@@ -125,7 +120,6 @@ const getShopping= async (req, res) => {
                         previousPage: page > 1 ? page - 1 : 1,
                         nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
                     });
-                
             } catch (error) {
                 console.log(error.message);
             }
@@ -135,7 +129,7 @@ const getShopping= async (req, res) => {
 //<------------ product details -------------->
   const productDetails = async(req, res) => {
     try {
-    const productId = req.params.id;
+       const productId = req.params.id;
        const products = await Product.findById(productId);
        const user = req.session.user;
        const category = products.category;
@@ -152,8 +146,7 @@ const getShopping= async (req, res) => {
 //<------------ search products -------------->
 const searchProduct = async (req, res) => {
     try {
-        const limit = 4;
-        const input = req.query.searchTerm;
+        const limit = 4, input = req.query.searchTerm;
         const product = await Product.find({ productName: { $regex: `.*${input}.*`, $options: 'i' } }).limit(limit);
         const total = await Product.countDocuments({ productName: { $regex: `.*${input}.*`, $options: 'i' } }); 
         const totalProduct = Math.ceil(total / limit); 
@@ -188,12 +181,13 @@ const getLowToHigh = async (req, res) => {
 //<------------ product listing -------------->
 const productList = async(req, res) => {
     try {
+       const originalUrl = req.originalUrl;
+       console.log('THe url : ',originalUrl)
         var page = 1;
             const limit = 8;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }
-          
             const products = await Product.find()
                 .limit(limit * 1)
                 .skip((page - 1) * limit)
@@ -202,13 +196,13 @@ const productList = async(req, res) => {
             const count = await Product.find().countDocuments();
             res.render('product-list', {
                 products: products,
+                originalUrl : originalUrl,
                 totalPage: Math.ceil(count / limit),
                 currentPage: page,
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit),
                 toastMessage: { type: 'success', text: '' }
             });
-        
     } catch (error) {
        console.log(error);
        res.status(500).send('Server internal Error');
@@ -219,7 +213,6 @@ const productList = async(req, res) => {
     try {
         const sortMethod = req.params.method;
         var sortQuery = {}; 
-   
         switch (sortMethod) {
            case "recentProducts":
                sortQuery = { createdate: -1 };
@@ -230,19 +223,16 @@ const productList = async(req, res) => {
            default:
                sortQuery = {};
               }
-
        if(sortMethod == "blockedProducts"){
         var page = 1;
             const limit = 8;
             if (req.query.page) {
                 page = parseInt(req.query.page);
             }
-          
             const products = await Product.find({deleted : true})
                 .limit(limit * 1)
                 .skip((page - 1) * limit)
                 .exec();
-          
             const count = await Product.find({deleted : true}).countDocuments();
             res.render('product-list', {
                 products: products,
@@ -251,20 +241,17 @@ const productList = async(req, res) => {
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
-        
        }else if(sortMethod == "unBlockedProducts"){
         var page = 1;
         const limit = 8;
         if (req.query.page) {
             page = parseInt(req.query.page);
           }
-      
         const products = await Product.find({deleted : false})
             .limit(limit * 1)
             .skip((page - 1) * limit)
             .exec();
         const count = await Product.find({deleted : false}).countDocuments();
-      
         res.render('product-list', {
             products: products,
             totalPage: Math.ceil(count / limit),
@@ -292,7 +279,6 @@ const productList = async(req, res) => {
                 previousPage: page > 1 ? page - 1 : 1,
                 nextPage: page < Math.ceil(count / limit) ? page + 1 : Math.ceil(count / limit)
             });
-        
     } catch (error) {
         console.log(error.message);
     }
@@ -389,13 +375,11 @@ const postProductEdit = async (req, res) => {
                         res.redirect(`/admin/product-edit/${req.params.id}?message=The stock should be between 1 and 1000&type=error`);
                     }else{
                         const productId = req.params.id; 
-
                         let product = await Product.findById(productId);
                         if (!product) {
                             return res.render('product-list?message=New Address added&type=success');
                         }
                         product.productImage = productImages.length ? productImages : product.productImage;
-
                         product.productName = productName;
                         product.category = category;
                         product.description = description;
@@ -408,30 +392,26 @@ const postProductEdit = async (req, res) => {
                         product = await product.save();
                         return res.redirect('/admin/sortProductAdmin/recentProducts?message=Product Updated&type=success');
                     }
-
     } catch (error) {
         console.log('Error:', error);
         return res.status(500).send('Internal Server Error');
     }
 };
 
+
 //<------------ product soft delete -------------->
 const deleteProduct = async (req, res) => {
     try {
-        const id = req.params.id;
-        const url = req.url;
-        console.log('The url : ',url)
+        const id = req.params.id, returnUrl = req.query.returnUrl || '/admin/product-list';
         const product = await Product.findById(id);
      if(product.deleted == false){
         product.deleted = true;
         await product.save();
-        return res.redirect(`/admin/product-list${req.url.includes('?') ? '&' : '?'}message=Product%20Unlisted&type=success`);
-
-     }
-     else if(product.deleted == true) {
+        res.redirect(`${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Product%20Unlisted&type=success`);
+         }else if(product.deleted == true) {
         product.deleted = false;
         await product.save();
-        return res.redirect(`/admin/product-list${req.url.includes('?') ? '&' : '?'}message=Product Listed&type=success`);
+        return res.redirect(`${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Product Listed&type=success`);
      }else{
         return res.status(404).send('prouduct not found');
      }
