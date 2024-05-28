@@ -22,6 +22,8 @@ const Product = require('../models/productMdl');
         const product = await Product.findOne({ productName: productName });
         if(product.offer.length != 0 ){
             res.redirect('/admin/offerManagement?message=Selected Product already has an offer&type=error');
+        }else if(offerPrice > product.price){
+            res.redirect('/admin/offerManagement?message=Offer price need to be less than Original Price&type=error');
         }else{
             const originalPrice = product.price;
             product.offer.push({ originalPrice: originalPrice });
