@@ -73,7 +73,7 @@ const addToWishlist = async (req, res) => {
                     res.status(400).json({ error: 'Cannot add more than 5 quantity' });
                 } else {
                     if(existingItem.quantity + req.body.quantity > 5){
-                        res.status(400).json({ error: 'Cannot add more than 42342 quantity from the existing item' });
+                        res.status(400).json({ error: 'Cannot add more than 5 quantity from the existing item' });
                     } else {
                         existingItem.quantity += req.body.quantity;
                         await existingItem.save();

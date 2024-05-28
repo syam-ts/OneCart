@@ -8,7 +8,7 @@ const getWalletPage = async (req, res) => {
             const userId = req.session.user;
             const user = await User.findById(userId);
             const wallet = await Wallet.findOne({userId : userId});
-            const orders = await Order.find({ userId : userId , paymentMethod : "Wallet"});
+            const orders = await Order.find({ userId : userId , $or:[{paymentMethod : "Wallet"},{paymentMethod : "Razor Pay",}], $or:[{status : "Cancelled"}, {status : "Returned"}]});
         
             res.render('wallet',{ wallet ,user ,orders});
         } catch (err) {
@@ -19,5 +19,4 @@ const getWalletPage = async (req, res) => {
 
 module.exports ={
     getWalletPage
-
 }
