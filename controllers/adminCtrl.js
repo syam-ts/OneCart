@@ -47,7 +47,7 @@ const verifyAdmin = async (req, res) => {
             if(req.body.password == adminCredentials.Password){
                 req.session.admin = true;
                 req.session.adminUserName = adminCredentials.UserName;
-                res.redirect('/admin/dashboard')
+                res.redirect('/admin/dashboard?message=Login Successfully&type=success')
             }else{
                 res.redirect('/admin/admin-login?message=INVALID PASSWORD&type=error');
             }
@@ -67,9 +67,9 @@ const getDashboard =  async (req, res) => {
         const admin = req.session.admin;
         const limit = 10;
         const [users, brand, category] = await Promise.all([
-            User.countDocuments({ isBlock: false }),
-            Product.countDocuments({ deleted: false }),
-            Category.countDocuments({ deleted: false })
+            User.countDocuments(),
+            Product.countDocuments(),
+            Category.countDocuments()
         ]);
         
 
