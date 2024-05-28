@@ -47,38 +47,7 @@ const verifyAdmin = async (req, res) => {
             if(req.body.password == adminCredentials.Password){
                 req.session.admin = true;
                 req.session.adminUserName = adminCredentials.UserName;
-    
-                const [users, brand, category] = await Promise.all([
-                    User.find({ isBlock: false }).count(),
-                    Product.find({ deleted: false }).count(),
-                    Category.find({ deleted: false }).count()
-                ]); 
-
-                const topTenPrdts = await Order.aggregate([ { $unwind: "$products" }, 
-        { $group: { _id: "$products._id",
-         productName: { $first: "$products.productName" },
-          totalOrders: { $sum: 1 } } }, 
-          { $sort: { totalOrders: -1 } }, {$limit : limit}] );
-
-          console.log('The products : ',topTenPrdts)
-
-          const topTenCtgry = await Order.aggregate([ { $unwind: "$products" }, 
-          { $group: { _id: "$products._id",
-           category: { $first: "$products.category" },
-            totalOrders: { $sum: 1 } } }, 
-            { $sort: { totalOrders: -1 }}, {$limit : limit}] )
-
-            const topTenBrnd = await Order.aggregate([ { $unwind: "$products" }, 
-            { $group: { _id: "$products._id",
-             brand: { $first: "$products.brand" },
-              totalOrders: { $sum: 1 } } }, 
-              { $sort: { totalOrders: -1 }}, {$limit : limit}] )
-
-
-                res.render('dashboard', { 
-                    list: [users, brand, category, topTenPrdts, topTenCtgry, topTenBrnd],
-                    toastMessage: { type: 'success', text: 'Successfully LoggedIn' }
-                });
+                res.redirect('/admin/dashboard')
             }else{
                 res.redirect('/admin/admin-login?message=INVALID PASSWORD&type=error');
             }
@@ -97,9 +66,12 @@ const getDashboard =  async (req, res) => {
     try {
         const admin = req.session.admin;
         const limit = 10;
-        const users = await User.find({ isBlock: false }).count();
-        const brand = await Product.find({ deleted: false }).count();
-        const category = await Category.find({ deleted: false }).count();
+        const [users, brand, category] = await Promise.all([
+            User.countDocuments({ isBlock: false }),
+            Product.countDocuments({ deleted: false }),
+            Category.countDocuments({ deleted: false })
+        ]);
+        
 
         const topTenPrdts = await Order.aggregate([ { $unwind: "$products" }, 
         { $group: { _id: "$products._id",
