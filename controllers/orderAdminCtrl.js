@@ -405,7 +405,6 @@ const orderStatusChng = async (req, res) => {
                 const count = qty[index]; 
                 order.count = count; 
             });
-       
           res.render('salesReport', {orders : orders});
         }else if(format == "monthly"){
             
@@ -450,6 +449,8 @@ const orderStatusChng = async (req, res) => {
         const startingDate = req.body.startingDate;
         const endingDate = req.body.endingDate;
         
+        console.log('THE STARTING DATE : ',startingDate);
+        console.log('THE ENDING DATE : ',endingDate);
         const order = await Order.aggregate([{$match:{ createdate: { $gte: startingDate, $lte: endingDate} }}, { $unwind: "$carts" }, { $group: { _id: "$carts.productId", count: { $sum: "$carts.quantity" } } }, { $project: { _id: 1, count: 1 } } ]);
         const productIds = order.map(item => item._id)
         const qty = order.map(item => item.count)

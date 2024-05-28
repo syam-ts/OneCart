@@ -27,15 +27,13 @@
       </ul>
     </div>
   </div>
-
 </section>
 
-<div class="flex gap-3 mb-3">
 
+<div class="flex gap-3 mb-3">
   <div data-dialog-backdrop="dialog-xs" data-dialog-backdrop-close="true" class="pointer-events-none fixed inset-0 z-[999] grid h-screen w-screen place-items-center bg-black bg-opacity-60 opacity-0 backdrop-blur-sm transition-opacity duration-300">
       <div data-dialog="dialog-xs" class="relative m-4 w-1/4 min-w-[25%] max-w-[25%] rounded-lg bg-white font-sans text-base font-light leading-relaxed text-blue-gray-500 antialiased shadow-2xl">
         <div class="relative p-4 font-sans text-base antialiased font-light leading-relaxed border-t border-b border-t-blue-gray-100 border-b-blue-gray-100 text-blue-gray-500">
-
             <span>Starting Date</span>
             <input id="startingDate" type="date"/>
           </div>
@@ -89,18 +87,20 @@
           <td class="border border-gray-400 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
           <%= order.productName %>
           </td>
-          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-          <i class=" text-emerald-500 mr-4"></i>
-          <%= order.price %>
-          </td>
           <% if(order.offer[0]){ %>
-          
           <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
           <i class=" text-emerald-500 mr-4"></i>
-          <%= order.offer[0].offerPrice %>
-          <% let offerPrice = order.offer[0] ? parseFloat(order.offer[0].offerPrice) : null; %>
-            <% totalOffer += offerPrice ? offerPrice : 0; %>
-
+          <%= order.offer[0].originalPrice %>
+          </td>
+          <% }else{ %>
+            <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+              <i class=" text-emerald-500 mr-4"></i>
+              <%= order.price %>
+              </td>
+              <% } %>
+          <% if(order.offer[0]){ %>
+          <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+          <%= order.price %>
           </td>
           <% }else{ %>
             <td class="border border-gray-400 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
@@ -116,7 +116,6 @@
           <i class=" text-emerald-500 mr-4"></i>
           <%= order.count * order.price %>
           </td>
-          
           </tr>
           <% const count = parseInt(order.count), price = parseFloat(order.price); if (!isNaN(count) && !isNaN(price)) {  total += count * price;  } %>
           <% }) %>
