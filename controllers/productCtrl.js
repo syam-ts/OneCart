@@ -428,7 +428,6 @@ module.exports = {
     getShopping,
     sortShoppingPage,
     productDetails,
-
     productList,
     sortProductAdmin,
     ProductAdd,

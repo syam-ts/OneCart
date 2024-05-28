@@ -133,7 +133,7 @@
                           <label for="couponCode">Product</label>
                           <select id="productName" name="productName" autocomplete="productName" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                             <% allProducts.forEach(product => { %>
-                              <option class="text-gray-900"><%= product.productName %></option>
+                              <option value="<%= product.productName %>" class="text-gray-900"><%= product.productName %> - <%= product.price %></option>
                              <% }) %>
                             </select>
                         </div>
@@ -178,14 +178,12 @@ deleteOfferBtns.forEach(button => {
             });
 
             if (response.ok) {
-                window.location.href = response.url; // Redirect if response status is OK
+                window.location.href = response.url; 
             } else {
                 console.error('Failed to delete offer.');
-                // Handle error here, e.g., show error message to the user
             }
         } catch (error) {
             console.error('An error occurred:', error);
-            // Handle error here, e.g., show error message to the user
         }
     });
 });
