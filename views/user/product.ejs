@@ -87,9 +87,9 @@
           </div>
          </div>   
        </div>
-       <% if(datas[0].offer && datas[0].offer[0] && datas[0].offer[0].offerPrice) { %>
-         <h1 class="text-1xl font-medium line-through text-red-400">₹<%- datas[0].price %>.00</h1>
-         <h1 class="text-1xl font-medium">₹<%- datas[0].offer[0].offerPrice %>.00</h1>
+       <% if(datas[0].offer.length > 0){ %>
+         <h1 class="text-1xl font-medium line-through text-red-400">₹<%- datas[0].offer[0].originalPrice %>.00</h1>
+         <h1 class="text-1xl font-medium">₹<%- datas[0].price %>.00</h1>
        <% } else { %>
          <h1 class="text-1xl font-medium">₹<%- datas[0].price %>.00</h1>
        <% } %>

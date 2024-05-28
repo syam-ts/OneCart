@@ -273,10 +273,6 @@ const orderStatusChng = async (req, res) => {
                
                 }
         }else if(order.status == "returnAccepted"){
-                     order.status = "Returned";
-                     await order.save();
-                     const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
-                     return res.json({ redirectUrl }); 
                     if(order.paymentMethod == "Razor Pay" || order.paymentMethod == "Wallet"){
                         const userId = order.userId;
                         const total = order.total;
@@ -289,9 +285,9 @@ const orderStatusChng = async (req, res) => {
                             amount : wallet.amount
                         });
                         await newWallet.save();
+                        order.status = "Returned";
+                        order.save();
                         console.log('new wallet created')
-                                       
-               console.log('THIS REACHED HERE FINAL')
                const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
                return res.json({ redirectUrl }); 
                         }else{       
@@ -301,8 +297,8 @@ const orderStatusChng = async (req, res) => {
                             { new: true }
                         );
                      console.log('amount added to the cart')
-                                    
-               console.log('THIS REACHED HERE FINAL')
+                     order.status = "Returned";
+                        order.save();
                const redirectUrl = `${returnUrl}${returnUrl.includes('?') ? '&' : '?'}message=Order status updated&type=success`;
                return res.json({ redirectUrl }); 
                  }}

@@ -278,9 +278,15 @@ const orderCancel = async (req, res) => {
                 await wallet.save();
             }
             order.status = "Cancelled";
+            order.cancelReason = reason;
             await order.save();
             res.redirect('/orderDetailsUser');
             console.log("Money added to the wallet");
+        }else{
+            order.status = "Cancelled";
+            order.cancelReason = reason;
+            await order.save();
+            res.redirect('/orderDetailsUser');
         }
     } catch (error) {
         console.log(error.message);
@@ -290,15 +296,13 @@ const orderCancel = async (req, res) => {
 
 
 
-
 const returnOrder = async (req, res) => {
     try {
       const { orderId, reason } = req.body;
       const order = await Order.findById(orderId);
-
-
       order.return = { return: true, reason: reason };
       await order.save();
+      res.redirect(`/orderDetailsUser/${orderId}`);
     } catch (err) {
         console.log(err.message);
     }
