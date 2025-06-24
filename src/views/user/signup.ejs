@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>     
 </head>
 <body>
-<div class="flex min-h-full flex-col justify-center px-6 lg:px-8 ">
+<div class="flex min-h-full flex-col pt-16 justify-center px-6 lg:px-8 ">
   <div class="sm:mx-auto sm:w-full sm:max-w-sm">
     <!-- Logo for later -->
     <!-- <div class="text-center font-mono text-3xl font-bold">
@@ -28,13 +28,13 @@
   </script>
 <div id="errossr"></div>
 
-  <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-200 shadow-md shadow-gray-700">
+  <div class="px-16 py-10 mt-5 sm:mx-auto sm:w-full sm:max-w-sm bg-gray-200 border border-[#9febf8]">
     <form id="form" class="space-y-6" method="post" action="/signup" >
 
       <div>
         <label for="name" class="block text-sm font-medium leading-6 text-gray-900">Name</label>
         <div class="mt-2">
-          <input minlength="4" maxlength="16" id="name" name="name" type="name" autocomplete="name" required class=" h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input minlength="4" maxlength="16" id="name" name="name" type="name" autocomplete="name" required class="border border-black h-8  w-full py-1.5 text-gray-900">
         </div>
       </div>
 
@@ -44,7 +44,9 @@
 
         </div>
         <div class="mt-2">
-          <input minlength="8" id="email" name="email" type="email" autocomplete="current-email" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input minlength="8" id="email" name="email" type="email" autocomplete="current-email" required class="
+         border border-black h-8  w-full py-1.5 text-gray-900 
+          ">
         </div>
       </div>
       <div>
@@ -53,7 +55,7 @@
 
         </div>
         <div class="mt-2">
-          <input minlength="10" id="phone" name="phone" type="tel"  autocomplete="current-phone" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input minlength="10" id="phone" name="phone" type="tel"  autocomplete="current-phone" required class="border border-black h-8  w-full py-1.5 text-gray-900">
         </div>
       </div>
       <div>
@@ -62,7 +64,7 @@
           <label minlength="8" for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
         </div>
         <div class="mt-2">
-          <input id="password" name="password" type="password" autocomplete="current-password" required class="h-7 block w-full  border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="password" name="password" type="password" autocomplete="current-password" required class="border border-black h-8  w-full py-1.5 text-gray-900">
         </div>
       </div>
       <div>
@@ -71,7 +73,7 @@
 
         </div>
         <div class="mt-2">
-          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="current-confirmPassword" required class="h-7 block w-full border border-gray-500 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="current-confirmPassword" required class="border border-black h-8  w-full py-1.5 text-gray-900">
         </div>
       </div>
 
