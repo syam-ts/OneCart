@@ -29,6 +29,8 @@ app.use(
     })
 );
 
+console.log('MONGO_URI', process.env.MONGO_URI)
+
 app.use(flash());
 app.use((req, res, next) => {
     const _flash = res.flash;
