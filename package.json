@@ -4,7 +4,7 @@
   "description": "You only need one",
   "main": " OneCart/app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon app.js node --trace-warnings ..",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

@@ -1,0 +1,190 @@
+<%- include('../partials/adminHeader') %>
+
+<style>
+  input[type="file"] {
+    display: block;
+  }
+  .imageThumb {
+    max-height: 75px;
+    border: 2px solid;
+    padding: 1px;
+    cursor: pointer;
+  }
+  .pip {
+    display: inline-block;
+    margin: 10px 10px 0 0;
+  }
+  .remove {
+    display: block;
+    background: #444;
+    border: 1px solid black;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+  }
+  .remove:hover {
+    background: white;
+    color: black;
+  }
+</style>
+<main>
+
+      <section>
+        <form method="POST" action="/admin/product-add" enctype="multipart/form-data"> 
+            <div class="min-h-screen bg-gray-100 flex items-start justify-start pl-24 pt-20">
+                <div class="w-auto">
+                  <div>
+                    <h2 class="font-semibold text-xl text-gray-600 hover:text-sky-400"></h2>
+                    <div class="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+                      <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+                        <div class="text-gray-600">
+                          <p class="font-bold text-xl text-gray-900 hover:text-sky-500">Product</p>
+                        </div>
+                        <div class="lg:col-span-2">
+                          <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+
+                            <div class="md:col-span-5">
+                              <label for="productName" class="font-bold" > Product Name </label>
+                              <input type="text" name="productName" id="productName" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                            </div>
+                            <div class="md:col-span-5">
+                              <label for="productImage" class="font-bold"> Product Image </label>
+                              <input type="file" id="productImage" accept="image/*" multiple name="productImage" class="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"">
+ 
+                            </div>
+
+                            <div class="md:col-span-5">
+                              <label for="categoryName" class="font-bold"> Category Name </label>
+                              <div class="mt-2">
+                                <select id="category" name="category" autocomplete="category-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                <% categories.forEach(category => { %>
+                                  <option class="text-gray-900"><%= category.categoryName %></option>
+                                  <% }) %>
+                                </select>
+                              </div>
+
+                            <div class="md:col-span-5">
+                              <label for="description" class="font-bold">Description </label>
+                              <textarea type="text" name="description" id="description" autocomplete="given-name" class="block w-56 h-28 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                            </div>
+
+                            <div class="md:col-span-5">
+                                <label for="brand" class="font-bold" > Brand Name </label>
+                                <input type="text" name="brand" id="brand" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                              </div>
+                            <div class="md:col-span-5">
+                                <label for="color" class="font-bold" > Product Color </label>
+                                <input type="text" name="color" id="color" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                              </div>
+                            <div class="md:col-span-5">
+                                <label for="price" class="font-bold" > Product Price </label>
+                                <input type="number" name="price" id="price" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                              </div>
+                            <div class="md:col-span-5">
+                                <label for="size" class="font-bold" > Product Size </label>
+                                <input type="number" name="size" id="size" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                              </div>
+                            <div class="md:col-span-5">
+                                <label for="stock" class="font-bold" > Product Stock </label>
+                                <input type="number" name="stock" id="size" class="h-8 border mt-1 rounded px-4 w-full  border-gray-400"/>
+                              </div>
+                            <div class="md:col-span-5 text-right mt-5">
+                              <div class="inline-flex items-end">
+                                <button type="submit" class="bg-sky-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Submit</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+    
+    </section>
+  </main>
+
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  function parseQueryParams() {
+      var queryParams = {};
+      var queryString = window.location.search.substring(1);
+      var params = queryString.split("&");
+      for (var i = 0; i < params.length; i++) {
+          var pair = params[i].split("=");
+          queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      }
+      return queryParams;
+  }
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+      var queryParams = parseQueryParams();
+      var message = queryParams['message'];
+      var type = queryParams['type'];
+      if (message) {
+          if (type === 'success') {
+              toastr.success(message);
+          } else if (type === 'error') {
+              toastr.error(message);
+          }else if(type === 'warning'){
+            toastr.warning(message)
+          }
+      }
+  });
+ 
+</script> 
+
+<script>
+
+document.getElementById('files').addEventListener('change', (e) => {
+  console.log('IMAGES: ', e.target.value)
+})
+
+
+  </script>
+
+<script>
+  
+$(document).ready(function() {
+  if (window.File && window.FileList && window.FileReader) {
+    $("#files").on("change", function(e) {
+      var files = e.target.files,
+        filesLength = files.length;
+      for (var i = 0; i < filesLength; i++) {
+        var f = files[i]
+        var fileReader = new FileReader();
+        fileReader.onload = (function(e) {
+          var file = e.target;
+          $("<span class=\"pip\">" +
+            "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+            "<br/><span class=\"remove\">Remove image</span>" +
+            "</span>").insertAfter("#files");
+          $(".remove").click(function(){
+            $(this).parent(".pip").remove();
+          });
+          
+          // Old code here
+          /*$("<img></img>", {
+            class: "imageThumb",
+            src: e.target.result,
+            title: file.name + " | Click to remove"
+          }).insertAfter("#files").click(function(){$(this).remove();});*/
+          
+        });
+        fileReader.readAsDataURL(f);
+      }
+      console.log('files: ', files);
+    });
+  } else {
+    alert("Your browser doesn't support to File API")
+  }
+});
+
+</script>
+  
+ 
+<%- include('../partials/adminFooter') %>

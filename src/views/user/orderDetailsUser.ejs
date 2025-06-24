@@ -1,0 +1,383 @@
+<%- include('../partials/header') %>
+<style>
+  .blur-background {
+    filter: blur(5px);
+    transition: filter 0.3s;
+}
+</style>
+<main class="flex flex-wrap w-full">
+  <section>
+    <%- include('../partials/userProfileSidebar') %>
+  </section>
+
+    <!----- invoice section ----->
+
+    <section class="w-full lg:w-3/4 flex justify-center" id="invoice">
+<div class="w-full px-4 sm:px-6 lg:px-8 my-4 sm:my-10" >
+    <div class="mb-5 pb-5 flex justify-between items-center border-b border-gray-200">
+      <div>
+        <h2 class="text-2xl font-semibold text-gray-800">Invoice</h2>
+      </div>
+    
+    </div>
+    <div class="grid md:grid-cols-2 gap-3">
+      <div>
+        <div class="grid space-y-3">
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Billed to:
+            </dt>
+            <dd class="text-gray-800">
+              <a class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium" href="#">
+                <%= user.email %>
+              </a>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Billing details:
+            </dt>
+            <dd class="font-medium text-gray-800">
+              <span class="block font-semibold"><%= address.name %></span>
+              <address class="not-italic font-normal">
+               <%= address.address %>,<br>
+               <%= address.city %>, OR <%= address.pincode %>,<br>
+               <%= address.state %><br>
+               <%= address.country %><br>
+              </address>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Shipping details:
+            </dt>
+            <dd class="font-medium text-gray-800">
+              <span class="block font-semibold"><%= address.name %></span>
+              <address class="not-italic font-normal">
+                <%= address.address %>,<br>
+                <%= address.city %>, OR <%= address.pincode %>,<br>
+                <%= address.state %><br>
+                <%= address.country %><br>
+              </address>
+            </dd>
+          </dl>
+        </div>
+      </div>
+  
+      <div>
+        <div class="grid space-y-3">
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Invovie number:
+            </dt>
+            <dd class="font-medium text-gray-800">
+             <span id="randomNumber"></span>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Purchased date:
+            </dt>
+            <dd class="font-medium text-gray-800">
+              <% var createDate = new Date(order.createdate);
+                    var date = createDate.toLocaleDateString(); %>
+                    <p><%= date %></p>
+            </dd>
+          </dl>
+  
+          <dl class="grid sm:flex gap-x-3 text-sm">
+            <dt class="min-w-36 max-w-[200px] text-gray-500">
+              Payment method:
+            </dt>
+            <dd class="font-medium text-gray-800">
+                <%= order.paymentMethod %>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Table --->
+    
+    <div class="mt-6 border p-4 space-y-4  border-b border-gray-900">
+
+      <div class="hidden sm:grid sm:grid-cols-5">
+        <div class="sm:col-span-2 text-xs font-bold text-gray-950 uppercase">Item</div>
+        <div class="text-start text-xs font-bold text-gray-950 uppercase">Price</div>
+        <div class="text-start text-xs font-bold text-gray-950 uppercase">Discount</div>
+        <div class="text-end text-xs font-bold text-gray-950 uppercase">size</div>
+      </div>
+      <% product.forEach(pro => { %>
+      <div class="grid grid-cols-3 sm:grid-cols-5 gap-2  border-b border-gray-900">
+        <div class="col-span-full sm:col-span-2">
+          <p class="font-medium text-gray-800"><%= pro.productName %></p>
+        </div>
+        <div>
+          <p class="text-gray-800"><%= pro.price %>₹</p>
+        </div>
+        <div>
+          <p class="text-gray-800">200<%= pro.discountPrice %>₹</p>
+        </div>
+        <div>
+          <p class="sm:text-end text-gray-800"><%= pro.size  %></p>
+        </div>
+      </div>
+      
+    <% }) %>
+    </div>
+    <!-- End Table  --->
+  
+    <div class="mt-8 flex sm:justify-end">
+      <div class="w-full max-w-2xl sm:text-end space-y-2">
+        <div class="grid grid-cols-2 sm:grid-cols-1 gap-3 sm:gap-2">
+          
+          <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dt class="col-span-3 text-gray-900">Discount:</dt>
+            <dd class="col-span-2 font-medium text-gray-800"><%= order.discountPrice %>₹</dd>
+          </dl>
+  
+          <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dt class="col-span-3 text-gray-900">Tax:</dt>
+            <dd class="col-span-2 font-medium text-gray-800">00.00₹</dd>
+          </dl>
+  
+          <dl class="grid sm:grid-cols-5 gap-x-3 text-sm">
+            <dt class="col-span-3 text-gray-900">Total Amount paid:</dt>
+            <dd class="col-span-2 font-medium text-gray-800"><%= order.total %>₹</dd>
+          </dl>
+
+        </div>
+      </div>
+    </div>
+  </div>
+    </section> 
+
+
+    <section class="flex flex-row pl-72">
+      <% if(order.status == "Cancelled") {%>
+        <div class="total flex items-center justify-between pt-6">
+            <span class="text-xl">Reason:&nbsp;&nbsp;&nbsp;&nbsp;<span class="bg-yellow-400"> <%= order.cancelReason %> </span></span>
+            <button class="font-normal text-xl leading-8 text-red-600 pl-5">Cancelled</button>
+
+        </div>
+        <% }else if(order.status == "PaymentFailed" || order.status == "Delivered" || order.status == "returnRejected" || order.status == "Returned"){ %>
+          <span></span>
+          <% }else{ %>
+        <button class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-10 bg-red-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModalCancel()">
+        Cancel
+       </button>
+        <% } %>
+        <% if(order.status == "Delivered" || order.status == "returnRejected") {%>  
+            <button class="align-middle ml-12 select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs px-12 h-10 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button" onclick="openModal()">
+                Return
+                </button>
+                <button onclick="exportToPDF()" class="ml-12 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-white border-gray-800 border text-yellow-700 shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button">
+                    Dowload Invoice
+                   </button>
+        <% }else if(order.status == "PaymentFailed"){ %>
+            <button class="ml-5 align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 bg-sky-500 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none" type="button"
+             onclick="rePayment('<%= order.id %> ','<%= order.total %>')">
+                Complete Payment
+                </button>
+             <% } %>
+       </section>
+       
+ <!------------- return modal ------------>
+                <dialog id="my_modal_1" class="modal w-2/6 h-4/6 bg-white shadow-lg shadow-gray-950">
+                  <div class="modal-box rounded-md text-center">
+                      <h3 class="font-bold text-lg mt-12 text-gray-950">Return</h3>
+                      <div class="modal-action">
+                          <form method="dialog">
+                          <span class="font-mono text-gray-950">Reason For Return</span>
+                              <textarea id="reason" class="w-full mt-12 h-64 bg-gray-800 text-white p-2 mb-4"></textarea>
+                              <div class="mt-5 ml-80">
+                                  <button onclick="returnOrder('<%= order.id %>')" class="bg-sky-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Submit</button>
+                                  <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModal()">Close</button>
+                            
+                              </div>
+                        </form>
+                      </div>
+                  </div>
+              </dialog>
+  
+
+ <!------------- cancel modal ------------>
+            <dialog id="my_modal_2" class="modal w-2/6 h-4/6 bg-white shadow-lg shadow-gray-950">
+                <div class="modal-box rounded-md text-center">
+                    <h3 class="font-bold text-lg mt-12 text-gray-950">Cancel</h3>
+                    <div class="modal-action">
+                        <form method="dialog">
+                        <span class=" font-mono text-gray-950">Reason For Cancel</span>
+                            <textarea id="reasonCancel" class="w-full mt-12 h-64 bg-gray-800 text-white p-2 mb-4"></textarea>
+                            <div class="mt-5 ml-80">
+                                <button onclick="orderCancel('<%= order.id %>')" class="bg-sky-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-2">Submit</button>
+                                <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded" onclick="closeModalCancel()">Close</button>
+                            </div>
+                      </form>
+                    </div>
+                </div>
+            </dialog>
+     </main>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+    //<----------------------- Cancel Section ------------------------>
+    function openModalCancel() {
+            var modal = document.getElementById("my_modal_2").showModal();
+            document.body.classList.add('blur-background');
+           }
+                
+        function closeModalCancel() {
+           var modal = document.getElementById("my_modal_2").close();
+           document.body.classList.remove('blur-background');
+               };
+
+               const orderCancel = (orderId) => {
+           const reason = document.getElementById('reasonCancel').value;
+           document.body.classList.remove('blur-background');
+              fetch('/orderCancel',{
+              method:"POST",
+              headers:{
+                  "Content-Type" : "application/json"
+              },
+              body:JSON.stringify({
+                  orderId : orderId,
+                  reason: reason
+              })
+          }).then(() => {
+            window.location = `/orderDetailsUser/${orderId}`;
+          })
+      };
+
+
+        //<---------------Return section ----------------->
+
+        function openModal() {
+            var modal = document.getElementById("my_modal_1").showModal();
+            document.body.classList.add('blur-background');
+           }
+                
+        function closeModal() {
+           var modal = document.getElementById("my_modal_1").close();
+           document.body.classList.remove('blur-background');
+               };
+
+           const returnOrder = (orderId) => {
+           const reason = document.getElementById('reason').value;
+           document.body.classList.remove('blur-background');
+              fetch('/returnOrder',{
+              method:"POST",
+              headers:{
+                  "Content-Type" : "application/json"
+              },
+              body:JSON.stringify({
+                  orderId : orderId,
+                  reason: reason
+              })
+          })
+      };
+
+
+  //------------ downlaod Invoice ---------------//
+function exportToPDF() {
+    const invoiceContent = document.getElementById('invoice');
+    const opt = {
+        margin: 4,
+        filename: 'invoice.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'Landscape' },
+     };
+    html2pdf().from(invoiceContent).set(opt).save();
+  };
+
+
+    //------------ repayment ---------------//
+  function rePayment(orderId, totalPrice) {
+  var order;
+  fetch('/create-order', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      "totalPrice": totalPrice,
+      orderId : orderId
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    order = data.id;
+    var options = {
+      "key": "rzp_test_3aIOQlQc4egRLE", 
+      "amount": 3333 * 100,
+      "currency": "INR",
+      "name": "OneCart",
+      "description": "Test Transaction",
+      "image": "/images/onecart-log.avif",
+      "order_id": order,
+      "handler": function (response) {
+        fetch('/repaymentOrder', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            orderId: orderId
+          })
+        })
+        .then(() => {
+          window.location.href = '/orderSuccess'
+        })
+      },
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    rzp1.on('payment.failed', function (response) {
+      fetch('/paymentFailed', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          totalPrice: totalPrice,
+          paymentMethod: paymentMethod,
+          subTotal: subTotal,
+          addressId: selectedId
+        })
+      })
+      .then(() => {
+        window.location.href = '/orderFailed'
+      })
+    });
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
+
+// <------------ random order id --------------> 
+const random = Math.random();
+const nu = document.getElementById('randomNumber');
+nu.textContent = random;
+</script>
+
+<%- include('../partials/footer') %>
+
+
