@@ -18,7 +18,7 @@
     imgs3.addEventListener('click',() => { bigImg.src = image3 });
 
       //<------------ to cart page -------------->
- windowaddToCartWithQuantity = (productId, userId) => {
+ window.addToCartWithQuantity = (productId, userId) => {
     const quantitySelect = document.getElementById('quantitySelect');
     const selectedQuantity = parseInt(quantitySelect.value);
     if (!isNaN(selectedQuantity)) { 
