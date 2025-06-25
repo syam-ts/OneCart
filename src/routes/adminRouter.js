@@ -15,10 +15,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //<------------ multer config -------------->
 const storage = multer.diskStorage({
    destination: (req, file, cb) => {
-      cb(null, "./public/product_images");
+      const uploadPath = path.resolve(__dirname, "../public/product_images");
+      cb(null, uploadPath);
    },
    filename: (req, file, cb) => {
-      console.log("file; ", file, "req", req.files);
       const name = Date.now() + "" + file.originalname;
       cb(null, name);
    },

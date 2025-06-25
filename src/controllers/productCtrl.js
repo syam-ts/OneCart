@@ -10,14 +10,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 //<------------ imgage rendering -------------->
+
 const storage = multer.diskStorage({
-    destination:(req, file, cb) => {
-        cb(null,'./public/product_images')
-    },
-    filename:(req, file, cb) => {
-        const name = Date.now()+''+file.originalname;
-        cb(null, name);
-    }
+   destination: (req, file, cb) => {
+      const uploadPath = path.resolve(__dirname, "../public/product_images");
+      cb(null, uploadPath);
+   },
+   filename: (req, file, cb) => {
+      const name = Date.now() + "" + file.originalname;
+      cb(null, name);
+   },
 });
 const upload = multer({ storage }).array('productImage');
 
