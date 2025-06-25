@@ -60,7 +60,7 @@ app.set("views", [
 ]);
 
 // Serving static files
-app.use("/public", express.static(path.join(__dirname, "./public")));
+app.use(express.static(path.join(__dirname, "./src/public")));
 
 if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
