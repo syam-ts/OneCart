@@ -1,7 +1,130 @@
 <%- include('../partials/header') %>
 
-  <!-- flash comfiguration -->
+  
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+   <script>
+
+//<------------ image selecting to main -------------->
+  const bigImg = document.getElementById('img-container');
+  const imgs1 = document.getElementById('img-1');
+  const image1 = document.getElementById('img-1').src;
+  const imgs2 = document.getElementById('img-2');
+  const image2 = document.getElementById('img-2').src;
+  const imgs3 = document.getElementById('img-3');
+  const image3 = document.getElementById('img-3').src;
+    imgs1.addEventListener('click',() => { bigImg.src = image1 });
+    imgs2.addEventListener('click',() => { bigImg.src = image2 });
+    imgs3.addEventListener('click',() => { bigImg.src = image3 });
+
+      //<------------ to cart page -------------->
+ windowaddToCartWithQuantity = (productId, userId) => {
+    const quantitySelect = document.getElementById('quantitySelect');
+    const selectedQuantity = parseInt(quantitySelect.value);
+    if (!isNaN(selectedQuantity)) { 
+        fetch(`/addTocart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                userId: userId,
+                quantity: selectedQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Display error SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.error
+                });
+            } else {
+                // Display success SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message
+                }).then(() => {
+                    window.location.href = `/cart`;
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        console.log('Invalid quantity selected');
+    }
+};
+
+   //<------------ to wishlist page -------------->
+const addTowishlistWithQuantity = (productId, userId) => {
+    const quantitySelect = document.getElementById('quantitySelect');
+    const selectedQuantity = parseInt(quantitySelect.value);
+    if (!isNaN(selectedQuantity)) { 
+        fetch(`/addToWishlist`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                productId: productId,
+                userId: userId,
+                quantity: selectedQuantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                // Display error SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.error
+                });
+            } else {
+                // Display success SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: data.message
+                }).then(() => {
+                    window.location.href = `/product/${productId}`;
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    } else {
+        console.log('Invalid quantity selected');
+    }
+};
+
+
+//<------------ image zoom script -------------->
+const container = document.getElementById("container");
+const img = document.getElementById("img-container");
+
+container.addEventListener('mousemove', (e) => {
+  const x = e.clientX - e.target.offsetLeft;
+  const y = e.clientY - e.target.offsetTop;
+  img.style.transition = 'transform 0.2s';
+  img.style.transformOrigin = `${x}px ${y}px`;
+  img.style.transform = "scale(2)";
+});
+
+container.addEventListener('mouseleave', () => {
+  img.style.transition = 'transform 0.2s';
+  img.style.transformOrigin = "center";
+  img.style.transform = "scale(1)";
+});
+
+</script>  
 
 <main class="justify-center">
     <section class="py-12 sm:py-16 p-32"> 
@@ -183,133 +306,6 @@
           </div>
 </section>
 
-   <script>
-
-//<------------ image selecting to main -------------->
-  const bigImg = document.getElementById('img-container');
-  const imgs1 = document.getElementById('img-1');
-  const image1 = document.getElementById('img-1').src;
-  const imgs2 = document.getElementById('img-2');
-  const image2 = document.getElementById('img-2').src;
-  const imgs3 = document.getElementById('img-3');
-  const image3 = document.getElementById('img-3').src;
-    imgs1.addEventListener('click',() => { bigImg.src = image1 });
-    imgs2.addEventListener('click',() => { bigImg.src = image2 });
-    imgs3.addEventListener('click',() => { bigImg.src = image3 });
-
-      //<------------ to cart page -------------->
- windowaddToCartWithQuantity = (productId, userId) => {
-    const quantitySelect = document.getElementById('quantitySelect');
-    const selectedQuantity = parseInt(quantitySelect.value);
-    if (!isNaN(selectedQuantity)) { 
-        fetch(`/addTocart`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productId: productId,
-                userId: userId,
-                quantity: selectedQuantity
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                // Display error SweetAlert
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: data.error
-                });
-            } else {
-                // Display success SweetAlert
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: data.message
-                }).then(() => {
-                    window.location.href = `/cart`;
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    } else {
-        console.log('Invalid quantity selected');
-    }
-};
-
-   //<------------ to wishlist page -------------->
-const addTowishlistWithQuantity = (productId, userId) => {
-    const quantitySelect = document.getElementById('quantitySelect');
-    const selectedQuantity = parseInt(quantitySelect.value);
-    if (!isNaN(selectedQuantity)) { 
-        fetch(`/addToWishlist`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                productId: productId,
-                userId: userId,
-                quantity: selectedQuantity
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                // Display error SweetAlert
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: data.error
-                });
-            } else {
-                // Display success SweetAlert
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: data.message
-                }).then(() => {
-                    window.location.href = `/product/${productId}`;
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    } else {
-        console.log('Invalid quantity selected');
-    }
-};
-
-
-//<------------ image zoom script -------------->
-const container = document.getElementById("container");
-const img = document.getElementById("img-container");
-
-container.addEventListener('mousemove', (e) => {
-  const x = e.clientX - e.target.offsetLeft;
-  const y = e.clientY - e.target.offsetTop;
-  img.style.transition = 'transform 0.2s';
-  img.style.transformOrigin = `${x}px ${y}px`;
-  img.style.transform = "scale(2)";
-});
-
-container.addEventListener('mouseleave', () => {
-  img.style.transition = 'transform 0.2s';
-  img.style.transformOrigin = "center";
-  img.style.transform = "scale(1)";
-});
-
-</script>      
-
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-
 
 <%- include('../partials/footer') %>
