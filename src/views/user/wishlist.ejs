@@ -48,7 +48,7 @@
 
 <script>
           //<------------ to cart page -------------->
-const addToCartWithQuantity = (productId, userId) => {
+window.addToCartWithQuantity = (productId, userId) => {
         fetch(`/addTocartByWishlist`, {
             method: 'POST',
             headers: {
