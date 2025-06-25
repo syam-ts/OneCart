@@ -186,12 +186,9 @@
 
 <%- include('../partials/footer') %>
 
- 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-   <script>
-
-//<------------ image selecting to main -------------->
+   <script>  
+  //<------------ image selecting to main -------------->
   const bigImg = document.getElementById('img-container');
   const imgs1 = document.getElementById('img-1');
   const image1 = document.getElementById('img-1').src;
@@ -202,7 +199,11 @@
     imgs1.addEventListener('click',() => { bigImg.src = image1 });
     imgs2.addEventListener('click',() => { bigImg.src = image2 });
     imgs3.addEventListener('click',() => { bigImg.src = image3 });
+  </script> 
 
+
+<script>
+  console.log('addToCartWithQuantity HERE: ', window.addToCartWithQuantity);
       //<------------ to cart page -------------->
  window.addToCartWithQuantity = (productId, userId) => {
     const quantitySelect = document.getElementById('quantitySelect');
@@ -311,3 +312,6 @@ container.addEventListener('mouseleave', () => {
 });
 
 </script>
+
+ 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
