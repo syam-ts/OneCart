@@ -42,8 +42,8 @@
                 <div class="group relative ">
                     <div class=" aspect-h-1 h-[350px] sm:h-[400px] overflow-hidden group">
                        <a href="/product/<%= product._id %>">
-                      <img src="/product_images/<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 transition-opacity duration-500 group-hover:opacity-0" />
-                        <img src="/product_images/<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <img src="<%= product.productImage[0] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-100 transition-opacity duration-500 group-hover:opacity-0" />
+                        <img src="<%= product.productImage[1] %>" alt="" class="absolute inset-0 w-full object-fill rounded-md h-88 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       </a>
                       </div>
                        <div>
