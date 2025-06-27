@@ -16,10 +16,11 @@
                 <div class="mt-2">
                     <label for="productImage" class="block text-sm font-medium leading-6 text-gray-900">Product Image</label>
                     <div class="mt-2">
-                        <input type="file" name="productImage" id="productImage" accept="image/*" multiple class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                      <input type="hidden" name="existingImage" value="<%= products[0].productImage[0] %>">
+                        <input type="file" name="productImage" id="productImage" value="<%= products[0].productImage[0] %>" accept="image/*" multiple class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         <div id="imagePreview" class="mt-2"> 
                                     <div class="existing-image">
-                                        <img src="<%= products[0].productImage[0] %>" class="remove-existing-image w-28 h-28 rounded-lg object-fit text-red-500 hover:text-red-700 cursor-pointer ml-2" onclick="removeExistingImage('<%= products[0].productImage[0] %>')">Remove
+                                        <img src="<%= products[0].productImage[0] %>" value="<%= products[0].productImage[0] %>" class="remove-existing-image w-28 h-28 rounded-lg object-fit text-red-500 hover:text-red-700 cursor-pointer ml-2" onclick="removeExistingImage('<%= products[0].productImage[0] %>')">Remove
                                       </div> 
                         </div>
                     </div>

@@ -373,6 +373,7 @@ const getProductEdit = async (req, res) => {
 //<------------ update product || edit product -------------->
 const postProductEdit = async (req, res) => {
     try {
+     
         const {
             productName,
             category,
@@ -385,7 +386,15 @@ const postProductEdit = async (req, res) => {
             extras,
         } = req.body;
         const returnUrl = req.query.returnUrl;
-         const productImage = req.file.path;
+ 
+
+    let productImage;
+
+        if (req.file && req.file.filename) {
+            productImage = req.file.path;
+        } else { 
+            productImage = req.body.existingImage;
+        }
 
         const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
         const extension = productImage.split(".").pop().toLowerCase();
@@ -393,7 +402,7 @@ const postProductEdit = async (req, res) => {
 
         if (!allExtensionsAllowed) {
             return res.redirect(
-                "/admin/product-add?message=Invalid image format&type=error"
+                "/admin/product-edit/${req.params.id}?message=Invalid image format&type=error"
             );
         } else if (description.length < 20) {
             res.redirect(
@@ -419,7 +428,7 @@ const postProductEdit = async (req, res) => {
                     "product-list?message=New Address added&type=success"
                 );
             }
-            product.productImage = productImage
+            product.productImage = productImage;
             product.productName = productName;
             product.category = category;
             product.description = description;
@@ -430,9 +439,8 @@ const postProductEdit = async (req, res) => {
             product.size = size;
             product.extras = extras;
             product = await product.save();
-return res.redirect(`/admin/sortProductAdmin/recentProducts?page=1`);
+            return res.redirect(`/admin/sortProductAdmin/recentProducts?page=1`);
 
-            
             // return res.redirect(
             //     `${returnUrl}${returnUrl.includes("?") ? "&" : "?"
             //     }message=Product Updated&type=success`
@@ -440,7 +448,7 @@ return res.redirect(`/admin/sortProductAdmin/recentProducts?page=1`);
         }
     } catch (error) {
         console.log("Error:", error);
-        return res.status(500).send("Internal Server Error", error);
+        return res.status(500).send(`Internal Server Error  ${error}`);
     }
 };
 
