@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
 const Router = express.Router();
+var cors = require('cors');
+require('../config/passport');
+const dotenv = require('dotenv');  
+const passport = require('passport');
 const bodyParser = require('body-parser');
+const {isLoggedIn} = require('../config/auth');
+const upload = require('../config/cloudinary_config/cloudinary');
 const userCtrl = require('../controllers/userCtrl');
 const cartCtrl = require('../controllers/cartCtrl');
 const wishlistCtrl = require('../controllers/wishlistCtrl');
@@ -10,12 +16,6 @@ const orderCtrl = require('../controllers/orderUserCtrl');
 const productCtrl = require('../controllers/productCtrl');
 const categoryCtrl = require('../controllers/categoryCtrl');
 const walletCtrl = require('../controllers/walletCtrl');
-var cors = require('cors');
-const dotenv = require('dotenv');
-const multer = require('multer');
-const {isLoggedIn} = require('../config/auth');
-const passport = require('passport');
-require('../config/passport');
 
 Router.use(passport.initialize());
 Router.use(passport.session());
@@ -28,9 +28,9 @@ passport.authenticate( 'google',{ successRedirect: '/home', failureRedirect: '/l
 
   
 //<------------ multer config -------------->
-const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'./public/images')  },
-    filename:(req, file, cb) => { const name = Date.now()+''+file.originalname; cb(null, name) }});
-const upload = multer({ storage });
+// const storage = multer.diskStorage({ destination:(req, file, cb) => { cb(null,'./public/images')  },
+//     filename:(req, file, cb) => { const name = Date.now()+''+file.originalname; cb(null, name) }});
+// const upload = multer({ storage });
 
 //<------------ requiring tools -------------->
 dotenv.config({path:'./.env'})

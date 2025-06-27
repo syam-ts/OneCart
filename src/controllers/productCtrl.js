@@ -385,17 +385,15 @@ const postProductEdit = async (req, res) => {
             extras,
         } = req.body;
         const returnUrl = req.query.returnUrl;
-        const productImages = req.files.map((file) => file.filename);
+         const productImage = req.file.path;
+
         const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
-        const extensions = productImages.map((img) =>
-            img.split(".").pop().toLowerCase()
-        );
-        const allExtensionsAllowed = extensions.every((ext) =>
-            allowedExtensions.includes(ext)
-        );
+        const extension = productImage.split(".").pop().toLowerCase();
+        const allExtensionsAllowed = allowedExtensions.includes(extension);
+
         if (!allExtensionsAllowed) {
-            res.redirect(
-                `/admin/product-edit/${req.params.id}?message=The image format not support&type=error`
+            return res.redirect(
+                "/admin/product-add?message=Invalid image format&type=error"
             );
         } else if (description.length < 20) {
             res.redirect(
@@ -421,9 +419,7 @@ const postProductEdit = async (req, res) => {
                     "product-list?message=New Address added&type=success"
                 );
             }
-            product.productImage = productImages.length
-                ? productImages
-                : product.productImage;
+            product.productImage = productImage
             product.productName = productName;
             product.category = category;
             product.description = description;
@@ -434,14 +430,17 @@ const postProductEdit = async (req, res) => {
             product.size = size;
             product.extras = extras;
             product = await product.save();
-            return res.redirect(
-                `${returnUrl}${returnUrl.includes("?") ? "&" : "?"
-                }message=Product Updated&type=success`
-            );
+return res.redirect(`/admin/sortProductAdmin/recentProducts?page=1`);
+
+            
+            // return res.redirect(
+            //     `${returnUrl}${returnUrl.includes("?") ? "&" : "?"
+            //     }message=Product Updated&type=success`
+            // );
         }
     } catch (error) {
         console.log("Error:", error);
-        return res.status(500).send("Internal Server Error");
+        return res.status(500).send("Internal Server Error", error);
     }
 };
 

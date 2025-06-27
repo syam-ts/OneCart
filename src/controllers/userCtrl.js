@@ -303,7 +303,8 @@ const userProfileSidebar = async (req, res) => {
 //<------------ insert use details || user profile -------------->
       const insertUserDetails = async (req, res) => {
         try {
-          const userImage = req.file.filename;
+          console.log('USER IMAGE; ',req.file.path)
+          const userImage = req.file.path;
           const { gender ,phone } = req.body
           const updatedFields = {};
           if (userImage) updatedFields.userImage = userImage;
