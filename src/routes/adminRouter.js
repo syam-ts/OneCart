@@ -1,30 +1,29 @@
 const express = require("express");
 const app = express();
-const Router = express.Router();
-const path = require('node:path');
-const multer = require("multer");
+const Router = express.Router();  
+const bodyParser = require("body-parser");
 const userCtrl = require("../controllers/userCtrl");
-const productCtrl = require("../controllers/productCtrl");
+const offerCtrl = require("../controllers/offerCtrl");
 const adminCtrl = require("../controllers/adminCtrl");
+const couponCtrl = require("../controllers/couponCtrl");
+const productCtrl = require("../controllers/productCtrl");
+const upload = require('../config/cloudinary_config/cloudinary');
 const categoryCtrl = require("../controllers/categoryCtrl");
 const orderAdminCtrl = require("../controllers/orderAdminCtrl");
-const couponCtrl = require("../controllers/couponCtrl");
-const offerCtrl = require("../controllers/offerCtrl");
-const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 //<------------ multer config -------------->
-const storage = multer.diskStorage({
-   destination: (req, file, cb) => {
-      const uploadPath = path.resolve(__dirname, "../public/product_images");
-      cb(null, uploadPath);
-   },
-   filename: (req, file, cb) => {
-      const name = Date.now() + "" + file.originalname;
-      cb(null, name);
-   },
-});
-const upload = multer({ storage });
+// const storage = multer.diskStorage({
+//    destination: (req, file, cb) => {
+//       const uploadPath = path.resolve(__dirname, "../public/product_images");
+//       cb(null, uploadPath);
+//    },
+//    filename: (req, file, cb) => {
+//       const name = Date.now() + "" + file.originalname;
+//       cb(null, name);
+//    },
+// });
+// const upload = multer({ storage });
 
 //<------------ admin-login -------------->
 Router.get("/admin-login", adminCtrl.getAdmin);
@@ -41,14 +40,14 @@ Router.get("/product-list", productCtrl.productList);
 Router.get("/product-add", productCtrl.ProductAdd);
 Router.post(
    "/product-add",
-   upload.array("productImage"),
+   upload.single("productImage"),
    productCtrl.insertProduct
 );
 Router.get("/product-block/:id", productCtrl.deleteProduct);
 Router.get("/product-edit/:id", productCtrl.getProductEdit);
 Router.post(
    "/product-edit/:id",
-   upload.array("productImage"),
+   upload.single("productImage"),
    productCtrl.postProductEdit
 );
 Router.get("/sortProductAdmin/:method", productCtrl.sortProductAdmin);
