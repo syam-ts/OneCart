@@ -1,6 +1,6 @@
 const Product = require("../models/productMdl");
 const Category = require("../models/categoryMdl");
-const express = require('express');
+const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 require("dotenv").config(".env");
@@ -294,20 +294,21 @@ const ProductAdd = async (req, res) => {
 //<------------ adding new product -------------->
 const insertProduct = async (req, res) => {
     try {
+        if (!req.file) {
+            return res.redirect(
+                "/admin/product-add?message=No image uploaded&type=error"
+            );
+        }
         const { price, description, size, stock } = req.body;
-        // const productImages = req.files.map((file) => file.filename);
-        console.log('THE CLOUD FILE: ', req.files)
-         const productImages = req.file;
+        const productImage = req.file.path;
+
         const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
-        const extensions = productImages.map((img) =>
-            img.split(".").pop().toLowerCase()
-        );
-        const allExtensionsAllowed = extensions.every((ext) =>
-            allowedExtensions.includes(ext)
-        );
+        const extension = productImage.split(".").pop().toLowerCase();
+        const allExtensionsAllowed = allowedExtensions.includes(extension);
+
         if (!allExtensionsAllowed) {
-            res.redirect(
-                "/admin/product-add?message=The image format not support&type=error"
+            return res.redirect(
+                "/admin/product-add?message=Invalid image format&type=error"
             );
         } else if (description.length < 20) {
             res.redirect(
@@ -329,7 +330,7 @@ const insertProduct = async (req, res) => {
             const { productName, category, brand, color, size, stock } = req.body;
             const product = new Product({
                 productName: productName,
-                productImage: productImages,
+                productImage: productImage,
                 category: category,
                 description: description,
                 brand: brand,
@@ -344,6 +345,7 @@ const insertProduct = async (req, res) => {
             );
         }
     } catch (err) {
+        console.log("ERROR: ", err);
         res.render("error", { message: err });
     }
 };

@@ -38,11 +38,15 @@ Router.get("/user-block/:id", userCtrl.blockUser);
 //<------------ proudutManagement routes -------------->
 Router.get("/product-list", productCtrl.productList);
 Router.get("/product-add", productCtrl.ProductAdd);
-Router.post(
-   "/product-add",
-   upload.single("productImage"),
-   productCtrl.insertProduct
-);
+Router.post("/product-add", (req, res, next) => {
+  upload.single("productImage")(req, res, function (err) {
+    if (err) {
+      console.error("❌ Multer Upload Error:", err);
+      return res.status(500).render("error", { message: err.message });
+    }
+    next();
+  });
+}, productCtrl.insertProduct);
 Router.get("/product-block/:id", productCtrl.deleteProduct);
 Router.get("/product-edit/:id", productCtrl.getProductEdit);
 Router.post(
